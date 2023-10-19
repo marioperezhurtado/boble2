@@ -3,8 +3,8 @@ import { createSignal, onCleanup } from "solid-js";
 
 const socket = io("http://localhost:8000");
 
-export function sendMessage(message: string) {
-  socket.emit("message", message);
+export function sendMessage(text: string) {
+  socket.emit("message", text);
 }
 
 export function useMessages() {

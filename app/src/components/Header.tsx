@@ -13,13 +13,13 @@ export function Header() {
             <li>
               <ButtonLink>
                 <span class="sr-only sm:not-sr-only">example_user</span>
-                <img src="/icons/account.svg" alt="Account" class="w-[18px] h-[18px] sm:w-4 sm:h-4" />
+                <img src="/icons/account.svg" alt="Account" class="sm:w-4 sm:h-4 w-[18px] h-[18px]" />
               </ButtonLink>
             </li>
             <li>
               <ButtonLink>
-                <span class="sr-only sm:not-sr-only">Log out</span>
-                <img src="/icons/logout.svg" alt="Logout" class="w-[18px] h-[18px] sm:w-4 sm:h-4" />
+                <span class="sr-only sm:not-sr-only">Logout</span>
+                <img src="/icons/logout.svg" alt="Logout" class="sm:w-4 sm:h-4 w-[18px] h-[18px]" />
               </ButtonLink>
             </li>
           </ul>
