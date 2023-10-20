@@ -1,6 +1,8 @@
 import express from "express"
 import { createServer } from "http";
 import { Server as WebSocketServer } from "socket.io";
+import { db } from "~/db/db";
+import { user as userTable } from "~/db/schema";
 
 const app = express();
 const server = createServer(app);
@@ -10,6 +12,10 @@ const io = new WebSocketServer(server, {
     origin: "http://localhost:3000",
   },
 });
+
+const users = await db.select().from(userTable);
+
+console.log(users);
 
 io.on("connection", (socket) => {
   console.log("> Client connected");
