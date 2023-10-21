@@ -9,5 +9,5 @@ const migrationClient = postgres(CONNECTION_STRING, { max: 1 });
 migrate(drizzle(migrationClient), { migrationsFolder: "./drizzle" });
 
 // for queries
-const queryClient = postgres(CONNECTION_STRING);
+export const queryClient = postgres(CONNECTION_STRING);
 export const db: PostgresJsDatabase = drizzle(queryClient);

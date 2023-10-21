@@ -1,0 +1,1 @@
+ALTER TABLE "user_session" ALTER COLUMN "user_id" SET DATA TYPE varchar;

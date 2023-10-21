@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "37aca615-8e02-43c2-9109-7c2a7b6e5ab3",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "e45dedf6-84f6-4736-b6f9-338459a74b69",
+  "prevId": "d3deaab8-85f1-4a0e-979f-9acddb8d0df9",
   "tables": {
     "chat": {
       "name": "chat",
@@ -190,7 +190,7 @@
         },
         "user_id": {
           "name": "user_id",
-          "type": "varchar(15)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
@@ -236,8 +236,8 @@
           "primaryKey": true,
           "notNull": true
         },
-        "name": {
-          "name": "name",
+        "username": {
+          "name": "username",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -247,12 +247,25 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
         }
       },
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
+        "user_username_unique": {
+          "name": "user_username_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "username"
+          ]
+        },
         "user_email_unique": {
           "name": "user_email_unique",
           "nullsNotDistinct": false,

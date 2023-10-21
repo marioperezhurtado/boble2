@@ -5,7 +5,7 @@ import { MessageList } from "~/components/MessageList";
 import { SendMessage } from "~/components/SendMessage";
 import { Show } from "solid-js";
 
-export default function ChatHome() {
+export default function ChatPage() {
   const params = useParams<{ chatId: string }>();
 
   return (

@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "37aca615-8e02-43c2-9109-7c2a7b6e5ab3",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "d3deaab8-85f1-4a0e-979f-9acddb8d0df9",
+  "prevId": "37aca615-8e02-43c2-9109-7c2a7b6e5ab3",
   "tables": {
     "chat": {
       "name": "chat",
@@ -190,7 +190,7 @@
         },
         "user_id": {
           "name": "user_id",
-          "type": "varchar(15)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },

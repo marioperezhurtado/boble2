@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "37aca615-8e02-43c2-9109-7c2a7b6e5ab3",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "c9ae87e1-9171-4944-bb77-6b43db042d5a",
+  "prevId": "e45dedf6-84f6-4736-b6f9-338459a74b69",
   "tables": {
     "chat": {
       "name": "chat",
@@ -190,7 +190,7 @@
         },
         "user_id": {
           "name": "user_id",
-          "type": "varchar(15)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
@@ -236,14 +236,14 @@
           "primaryKey": true,
           "notNull": true
         },
-        "name": {
-          "name": "name",
+        "email": {
+          "name": "email",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "email": {
-          "name": "email",
+        "name": {
+          "name": "name",
           "type": "text",
           "primaryKey": false,
           "notNull": true
