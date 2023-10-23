@@ -1,40 +1,12 @@
 {
   "version": "5",
-  "dialect": "pg",
+  "dialect": "sqlite",
   "entries": [
     {
       "idx": 0,
       "version": "5",
-      "when": 1697903629215,
-      "tag": "0000_freezing_sally_floyd",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1697903742257,
-      "tag": "0001_windy_cargill",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1697905023277,
-      "tag": "0002_flaky_major_mapleleaf",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1697905315444,
-      "tag": "0003_gorgeous_hawkeye",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "5",
-      "when": 1697907191441,
-      "tag": "0004_neat_captain_britain",
+      "when": 1698076504599,
+      "tag": "0000_fluffy_scarlet_witch",
       "breakpoints": true
     }
   ]

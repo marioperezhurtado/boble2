@@ -1,31 +1,34 @@
-import { text, varchar, integer, timestamp, pgTable, primaryKey, uuid } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
+import { integer, text, sqliteTable, primaryKey } from "drizzle-orm/sqlite-core";
 import type { AdapterAccount } from "@auth/core/adapters"
 
-export const chat = pgTable("chat", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  user1Id: varchar("user1_id").references(() => user.id).notNull(),
-  user2Id: varchar("user2_id").references(() => user.id).notNull(),
-  createdAt: timestamp("created_at").defaultNow(),
+export const chat = sqliteTable("chat", {
+  id: integer("id").primaryKey(),
+  user1Id: text("user1_id").references(() => user.id).notNull(),
+  user2Id: text("user2_id").references(() => user.id).notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" })
+    .default(sql`CURRENT_TIMESTAMP`),
 });
 
-export const message = pgTable("message", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  chatId: uuid("chat_id").references(() => chat.id).notNull(),
-  senderId: varchar("sender_id").references(() => user.id).notNull(),
+export const message = sqliteTable("message", {
+  id: text("id").primaryKey(),
+  chatId: integer("chat_id").references(() => chat.id).notNull(),
+  senderId: text("sender_id").references(() => user.id).notNull(),
   text: text("text"),
-  createdAt: timestamp("created_at").defaultNow(),
+  createdAt: integer("created_at", { mode: "timestamp" })
+    .default(sql`CURRENT_TIMESTAMP`),
 });
 
 // auth tables
-export const user = pgTable("user", {
+export const user = sqliteTable("user", {
   id: text("id").notNull().primaryKey(),
   name: text("name"),
   email: text("email").notNull(),
-  emailVerified: timestamp("emailVerified", { mode: "date" }),
+  emailVerified: integer("emailVerified", { mode: "timestamp_ms" }),
   image: text("image")
 })
 
-export const account = pgTable(
+export const account = sqliteTable(
   "account",
   {
     userId: text("userId")
@@ -47,22 +50,22 @@ export const account = pgTable(
   })
 )
 
-export const session = pgTable("session", {
+export const session = sqliteTable("session", {
   sessionToken: text("sessionToken").notNull().primaryKey(),
   userId: text("userId")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
-  expires: timestamp("expires", { mode: "date" }).notNull()
+  expires: integer("expires", { mode: "timestamp_ms" }).notNull()
 })
 
-export const verificationToken = pgTable(
+export const verificationToken = sqliteTable(
   "verificationToken",
   {
     identifier: text("identifier").notNull(),
     token: text("token").notNull(),
-    expires: timestamp("expires", { mode: "date" }).notNull()
+    expires: integer("expires", { mode: "timestamp_ms" }).notNull()
   },
   (vt) => ({
     compoundKey: primaryKey(vt.identifier, vt.token)
   })
-)
+);
