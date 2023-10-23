@@ -4,8 +4,9 @@ import { ChatList } from "~/components/ChatList";
 import { MessageList } from "~/components/MessageList";
 import { SendMessage } from "~/components/SendMessage";
 import { Show } from "solid-js";
+import { Protected } from "~/auth/Protected";
 
-export default function ChatPage() {
+export const { routeData, Page } = Protected(() => {
   const params = useParams<{ chatId: string }>();
 
   return (
@@ -23,7 +24,7 @@ export default function ChatPage() {
       </main>
     </div>
   );
-}
+});
 
 function WelcomeScreen() {
   return (
@@ -33,3 +34,5 @@ function WelcomeScreen() {
     </section>
   );
 }
+
+export default Page;
