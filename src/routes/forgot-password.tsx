@@ -18,7 +18,7 @@ function ResetPasswordPage() {
           <Input id="email" name="email" type="email" />
         </Label>
 
-        <span class="text-right text-xs font-medium text-zinc-500">
+        <span class="text-xs font-medium text-right text-zinc-500">
           <Link href="/support">Need help?</Link>
         </span>
 

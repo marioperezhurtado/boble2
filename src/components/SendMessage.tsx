@@ -32,10 +32,7 @@ export function SendMessage(props: { chatId: string }) {
   });
 
   return (
-    <Form
-      onSubmission={() => console.log("sending message")}
-      class="flex gap-3 items-center p-2 px-3 border-t bg-zinc-50"
-    >
+    <Form class="flex gap-3 items-center p-2 px-3 border-t bg-zinc-50">
       <button
         type="button"
         title="Open emoji picker"

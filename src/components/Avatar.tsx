@@ -12,7 +12,7 @@ export function Avatar(props: AvatarProps) {
       <img
         src={props.image ?? ""}
         alt={props.name}
-        class="object-cover w-12 h-12 rounded-full shadow-inner border"
+        class="object-cover w-12 h-12 rounded-full border shadow-inner"
       />
     </Show>
   );
@@ -22,7 +22,7 @@ function DefaultAvatar(props: { name: string }) {
 
   return (
     <div
-      class="w-12 h-12 rounded-full shadow-inner flex items-center justify-center bg-white border"
+      class="flex justify-center items-center w-12 h-12 bg-white rounded-full border shadow-inner"
     >
       <img src={generateIdenticon(props.name)} alt={props.name} />
     </div>
