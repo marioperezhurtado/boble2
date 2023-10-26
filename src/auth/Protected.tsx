@@ -15,7 +15,7 @@ export function Protected(Comp: ProtectedComponent) {
         const fromUrl = new URL(event.request.url);
 
         if (!session || !session.user) {
-          throw redirect(handleLoginRedirect(fromUrl));
+          throw redirect(`/login?redirectTo=${fromUrl.pathname + fromUrl.search}`);
         }
         return session;
       },
@@ -34,10 +34,6 @@ export function Protected(Comp: ProtectedComponent) {
     },
   };
 };
-
-function handleLoginRedirect(url: URL) {
-  return `/login?redirectTo=${url.pathname + url.search}`;
-}
 
 // Redirect if user IS logged in
 export function AuthProtected(Comp: Component) {
