@@ -1,21 +1,39 @@
-import { createSignal, Show } from "solid-js";
+import { createEffect, createSignal, Show } from "solid-js";
+import { createServerAction$ } from "solid-start/server";
 import { sendMessage } from "~/utils/chat";
+import { getServerSession } from "~/auth/auth";
+import { addMessage } from "~/db/addMessage";
 
-
-export function SendMessage() {
+export function SendMessage(props: { chatId: string }) {
   const [text, setText] = createSignal("");
 
-  function handleSubmit(e: Event) {
-    e.preventDefault();
-    if (!text()) return;
+  const [sending, { Form }] = createServerAction$(async (formData: FormData, { request }) => {
+    const session = await getServerSession(request);
+    if (!session) return;
 
-    sendMessage(text());
-    setText("");
-  }
+    const text = formData.get("message") as string;
+    if (!text) return;
+    const chatId = formData.get("chatId") as string;
+    if (!chatId) return;
+
+    const newMessage = await addMessage({
+      chatId,
+      text,
+      senderId: session.id,
+    });
+
+    sendMessage(newMessage[0]);
+  });
+
+  createEffect(() => {
+    if (!sending.pending) {
+      setText("");
+    }
+  });
 
   return (
-    <form
-      onSubmit={handleSubmit}
+    <Form
+      onSubmission={() => console.log("sending message")}
       class="flex gap-3 items-center p-2 px-3 border-t bg-zinc-50"
     >
       <button
@@ -46,6 +64,7 @@ export function SendMessage() {
         class="block py-1.5 px-2 w-full rounded-md border shadow-sm placeholder:text-zinc-400 focus:outline-cyan-600"
         autocomplete="off"
       />
+      <input type="hidden" id="chatId" name="chatId" value={props.chatId} />
       <Show when={text()}>
         <button
           type="submit"
@@ -66,5 +85,5 @@ export function SendMessage() {
           <img src="/icons/microphone.svg" alt="Record audio" class="w-7 h-7" />
         </button>
       </Show>
-    </form>);
+    </Form>);
 }

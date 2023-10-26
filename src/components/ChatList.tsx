@@ -1,49 +1,9 @@
-import { For, Show } from "solid-js";
+import { For } from "solid-js";
 import { A, useParams } from "@solidjs/router";
+import type { Chats } from "~/db/getChats";
+import { Avatar } from "./Avatar";
 
-const DUMMY_CHATS = [
-  {
-    id: "c1",
-    user: {
-      id: "u1",
-      name: "John Doe",
-      image: "https://fakeimg.pl/600x400",
-    },
-    lastMessage: {
-      text: "Did you see the new episode?",
-      createdAt: new Date(),
-    },
-    unreadMessages: 1,
-  },
-  {
-    id: "c2",
-    user: {
-      id: "u2",
-      name: "Arthur Morgan",
-      image: "https://fakeimg.pl/600x400",
-    },
-    lastMessage: {
-      text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
-      createdAt: new Date(),
-    },
-    unreadMessages: 0,
-  },
-  {
-    id: "c3",
-    user: {
-      id: "u3",
-      name: "Mary Jane",
-      image: "https://fakeimg.pl/600x400",
-    },
-    lastMessage: {
-      text: "Thank you, see you soon! 👍",
-      createdAt: new Date(),
-    },
-    unreadMessages: 999,
-  },
-];
-
-export function ChatList() {
+export function ChatList(props: { chats: Chats }) {
   const params = useParams<{ chatId: string }>();
 
   return (
@@ -67,25 +27,27 @@ export function ChatList() {
         </button>
       </div>
       <ul class="border-t">
-        <For each={DUMMY_CHATS}>
+        <For each={props.chats}>
           {(chat) => (
             <li>
-              <A href={`/${chat.id}`}
+              <A href={`/chat/${chat.id}`}
                 class="flex gap-3 p-2 border-b border-r-[3px] border-r-transparent"
                 classList={{
                   "bg-zinc-100 !border-r-cyan-600": params.chatId === chat.id,
                 }}
               >
-                <img src={chat.user.image} alt={chat.user.name} class="object-cover w-12 h-12 rounded-full shadow-inner" />
+                <Avatar image={chat.user.image} name={chat.user.name ?? ""} />
                 <div class="flex flex-col flex-1 gap-0.5">
                   <p class="font-medium">{chat.user.name}</p>
+                  {/*
                   <p
                     class="w-64 text-sm text-zinc-600 truncate"
                     title={chat.lastMessage.text}>
                     {chat.lastMessage.text}
                   </p>
+                  */}
                 </div>
-
+                {/*
                 <div class="flex flex-col justify-between items-end py-1">
                   <time class="text-xs text-zinc-600">
                     {chat.lastMessage.createdAt.toLocaleTimeString("es-ES", {
@@ -99,6 +61,8 @@ export function ChatList() {
                     </p>
                   </Show>
                 </div>
+
+                  */}
               </A>
             </li>
           )}

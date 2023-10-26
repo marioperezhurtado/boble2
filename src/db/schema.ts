@@ -1,9 +1,10 @@
 import { sql } from "drizzle-orm";
 import { integer, text, sqliteTable, primaryKey } from "drizzle-orm/sqlite-core";
+import { v4 as uuidv4 } from "uuid";
 import type { AdapterAccount } from "@auth/core/adapters"
 
 export const chat = sqliteTable("chat", {
-  id: integer("id").primaryKey(),
+  id: text("id").primaryKey().$defaultFn(() => uuidv4()),
   user1Id: text("user1_id").references(() => user.id).notNull(),
   user2Id: text("user2_id").references(() => user.id).notNull(),
   createdAt: integer("created_at", { mode: "timestamp" })
@@ -11,15 +12,15 @@ export const chat = sqliteTable("chat", {
 });
 
 export const message = sqliteTable("message", {
-  id: text("id").primaryKey(),
-  chatId: integer("chat_id").references(() => chat.id).notNull(),
+  id: text("id").primaryKey().$defaultFn(() => uuidv4()),
+  chatId: text("chat_id").references(() => chat.id).notNull(),
   senderId: text("sender_id").references(() => user.id).notNull(),
   text: text("text"),
   createdAt: integer("created_at", { mode: "timestamp" })
     .default(sql`CURRENT_TIMESTAMP`),
 });
 
-// auth tables
+// auth tables (auth.js)
 export const user = sqliteTable("user", {
   id: text("id").notNull().primaryKey(),
   name: text("name"),

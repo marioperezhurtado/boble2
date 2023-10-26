@@ -1,9 +1,9 @@
 import { Show, For } from "solid-js";
 import { useMessages } from "~/utils/chat";
+import type { Messages } from "~/db/getMessages";
 
-
-export function MessageList() {
-  const messages = useMessages();
+export function MessageList(props: { initialMessages: Messages , chatId: string }) {
+  const messages = useMessages(props.initialMessages, props.chatId);
 
   return (
     <section class="flex-grow px-4 pt-5 bg-zinc-100">
@@ -17,7 +17,7 @@ export function MessageList() {
         <For each={messages()}>
           {(message) => (
             <li class="self-start py-1 px-2.5 bg-white rounded-md border shadow-sm">
-              {message}
+              {message.text}
             </li>
           )}
         </For>

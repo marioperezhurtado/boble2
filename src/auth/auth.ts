@@ -11,6 +11,14 @@ export const authOptions: SolidAuthConfig = {
       clientSecret: process.env.GITHUB_SECRET,
     }),
   ],
+  callbacks: {
+    session({ session, user }) {
+      return {
+        ...session,
+        id: user.id,
+      }
+    },
+  },
   debug: false,
 }
 

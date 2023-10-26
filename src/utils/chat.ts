@@ -1,16 +1,23 @@
 import { io } from "socket.io-client";
-import { createSignal, onCleanup } from "solid-js";
+import { createEffect, createSignal, onCleanup } from "solid-js";
+import type { Messages } from "~/db/getMessages";
+import type { ServerToClientEvents, ClientToServerEvents } from "~/server";
+import type { Socket } from "socket.io-client";
 
-const socket = io("http://localhost:8000");
+const socket: Socket<
+  ServerToClientEvents, ClientToServerEvents
+> = io("http://localhost:8000");
 
-export function sendMessage(text: string) {
-  socket.emit("message", text);
+export function sendMessage(message: Messages[number]) {
+  socket.emit("message", message);
 }
 
-export function useMessages() {
-  const [messages, setMessages] = createSignal<string[]>([]);
+export function useMessages(initialMessages: Messages, chatId: string) {
+  const [messages, setMessages] = createSignal(initialMessages);
 
-  socket.on("message", (message: string) => {
+  createEffect(() => socket.emit("join", chatId));
+
+  socket.on("message", (message) => {
     setMessages((messages) => [...messages, message]);
   });
 
