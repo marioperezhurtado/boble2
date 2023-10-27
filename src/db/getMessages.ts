@@ -1,8 +1,8 @@
-import { eq } from "drizzle-orm";
+import { asc, eq } from "drizzle-orm";
 import { db } from "./db";
 import { message } from "./schema";
 
-export async function getMessages(chatId: string) {
+export function getMessages(chatId: string) {
   return db
     .select({
       id: message.id,
@@ -13,6 +13,7 @@ export async function getMessages(chatId: string) {
     })
     .from(message)
     .where(eq(message.chatId, chatId))
+    .orderBy(asc(message.createdAt));
 }
 
 export type Messages = typeof getMessages extends (...args: any) => Promise<infer T> ? T : never

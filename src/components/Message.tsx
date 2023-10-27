@@ -3,8 +3,8 @@ import type { Message } from "~/db/getMessages";
 
 type MessageProps = {
   message: Message,
-  isOwn: boolean,
   prevMessage: Message
+  isOwn: boolean,
 }
 
 export function Message(props: MessageProps) {

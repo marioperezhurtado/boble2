@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "3e58d4ed-997e-4bc7-93c9-630b0d3123a8",
+  "id": "e0a40c25-fadd-414b-9c2e-d80606075249",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "account": {
@@ -116,22 +116,8 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "user1_id": {
-          "name": "user1_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "user2_id": {
-          "name": "user2_id",
-          "type": "text",
-          "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
@@ -145,34 +131,7 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "chat_user1_id_user_id_fk": {
-          "name": "chat_user1_id_user_id_fk",
-          "tableFrom": "chat",
-          "tableTo": "user",
-          "columnsFrom": [
-            "user1_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "chat_user2_id_user_id_fk": {
-          "name": "chat_user2_id_user_id_fk",
-          "tableFrom": "chat",
-          "tableTo": "user",
-          "columnsFrom": [
-            "user2_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
@@ -188,7 +147,7 @@
         },
         "chat_id": {
           "name": "chat_id",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -228,7 +187,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         },
         "message_sender_id_user_id_fk": {
@@ -246,6 +205,79 @@
         }
       },
       "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "participant": {
+      "name": "participant",
+      "columns": {
+        "chat_id": {
+          "name": "chat_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "joined_at": {
+          "name": "joined_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "last_read_at": {
+          "name": "last_read_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "CURRENT_TIMESTAMP"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "participant_chat_id_chat_id_fk": {
+          "name": "participant_chat_id_chat_id_fk",
+          "tableFrom": "participant",
+          "tableTo": "chat",
+          "columnsFrom": [
+            "chat_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "participant_user_id_user_id_fk": {
+          "name": "participant_user_id_user_id_fk",
+          "tableFrom": "participant",
+          "tableTo": "user",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "participant_chat_id_user_id_pk": {
+          "columns": [
+            "chat_id",
+            "user_id"
+          ]
+        }
+      },
       "uniqueConstraints": {}
     },
     "session": {

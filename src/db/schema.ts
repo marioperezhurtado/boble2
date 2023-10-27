@@ -3,21 +3,34 @@ import { integer, text, sqliteTable, primaryKey } from "drizzle-orm/sqlite-core"
 import { v4 as uuidv4 } from "uuid";
 import type { AdapterAccount } from "@auth/core/adapters"
 
+function currentTimestamp() {
+  return sql`CURRENT_TIMESTAMP`;
+}
+
 export const chat = sqliteTable("chat", {
   id: text("id").primaryKey().$defaultFn(() => uuidv4()),
-  user1Id: text("user1_id").references(() => user.id).notNull(),
-  user2Id: text("user2_id").references(() => user.id).notNull(),
   createdAt: integer("created_at", { mode: "timestamp" })
-    .default(sql`CURRENT_TIMESTAMP`),
+    .default(currentTimestamp()),
 });
+
+export const participant = sqliteTable("participant", {
+  chatId: text("chat_id").references(() => chat.id, { onDelete: "cascade" }).notNull(),
+  userId: text("user_id").references(() => user.id).notNull(),
+  joinedAt: integer("joined_at", { mode: "timestamp" })
+    .default(currentTimestamp()),
+  lastReadAt: integer("last_read_at", { mode: "timestamp" })
+    .default(currentTimestamp()),
+}, (p) => ({
+  compoundKey: primaryKey(p.chatId, p.userId),
+}));
 
 export const message = sqliteTable("message", {
   id: text("id").primaryKey().$defaultFn(() => uuidv4()),
-  chatId: text("chat_id").references(() => chat.id).notNull(),
+  chatId: text("chat_id").references(() => chat.id, { onDelete: "cascade" }).notNull(),
   senderId: text("sender_id").references(() => user.id).notNull(),
   text: text("text"),
   createdAt: integer("created_at", { mode: "timestamp" })
-    .default(sql`CURRENT_TIMESTAMP`),
+    .default(currentTimestamp()),
 });
 
 // auth tables (auth.js)

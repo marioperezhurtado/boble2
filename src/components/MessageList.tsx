@@ -25,8 +25,8 @@ export function MessageList(props: MessageListProps) {
           {(message, i) => (
             <Message
               message={message}
-              isOwn={message.senderId === props.userId}
               prevMessage={messages()[i() - 1]}
+              isOwn={message.senderId === props.userId}
             />
           )}
         </For>

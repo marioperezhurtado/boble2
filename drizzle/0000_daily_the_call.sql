@@ -15,22 +15,28 @@ CREATE TABLE `account` (
 );
 --> statement-breakpoint
 CREATE TABLE `chat` (
-	`id` integer PRIMARY KEY NOT NULL,
-	`user1_id` text NOT NULL,
-	`user2_id` text NOT NULL,
-	`created_at` integer DEFAULT CURRENT_TIMESTAMP,
-	FOREIGN KEY (`user1_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action,
-	FOREIGN KEY (`user2_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action
+	`id` text PRIMARY KEY NOT NULL,
+	`created_at` integer DEFAULT CURRENT_TIMESTAMP
 );
 --> statement-breakpoint
 CREATE TABLE `message` (
 	`id` text PRIMARY KEY NOT NULL,
-	`chat_id` integer NOT NULL,
+	`chat_id` text NOT NULL,
 	`sender_id` text NOT NULL,
 	`text` text,
 	`created_at` integer DEFAULT CURRENT_TIMESTAMP,
-	FOREIGN KEY (`chat_id`) REFERENCES `chat`(`id`) ON UPDATE no action ON DELETE no action,
+	FOREIGN KEY (`chat_id`) REFERENCES `chat`(`id`) ON UPDATE no action ON DELETE cascade,
 	FOREIGN KEY (`sender_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action
+);
+--> statement-breakpoint
+CREATE TABLE `participant` (
+	`chat_id` text NOT NULL,
+	`user_id` text NOT NULL,
+	`joined_at` integer DEFAULT CURRENT_TIMESTAMP,
+	`last_read_at` integer DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY(`chat_id`, `user_id`),
+	FOREIGN KEY (`chat_id`) REFERENCES `chat`(`id`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
 CREATE TABLE `session` (
