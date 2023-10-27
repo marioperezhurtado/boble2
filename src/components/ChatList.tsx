@@ -1,10 +1,30 @@
-import { For, Show } from "solid-js";
+import { For, Show, createSignal, createEffect } from "solid-js";
 import { A, useParams } from "@solidjs/router";
-import type { Chats } from "~/db/getChats";
 import { Avatar } from "./Avatar";
+import { capitalize } from "~/utils/text";
+import type { Chats } from "~/db/getChats";
 
 export function ChatList(props: { chats: Chats }) {
   const params = useParams<{ chatId: string }>();
+  const [search, setSearch] = createSignal("");
+  const [filteredChats, setFilteredChats] = createSignal<Chats>(props.chats);
+
+  function filterChats(search: string) {
+    setFilteredChats(
+      props.chats.filter((chat) =>
+        chat.user.name?.toLowerCase().includes(search.toLowerCase())
+      )
+    );
+  }
+
+  createEffect(() => {
+    const trimedSearch = search().trim();
+    if (trimedSearch === "") {
+      setFilteredChats(props.chats);
+      return;
+    }
+    filterChats(trimedSearch);
+  });
 
   return (
     <section class="w-full max-w-sm bg-zinc-50">
@@ -14,6 +34,8 @@ export function ChatList(props: { chats: Chats }) {
           name="message"
           type="search"
           placeholder="Search chats..."
+          value={search()}
+          onInput={(e) => setSearch(capitalize(e.currentTarget.value))}
           class="py-1.5 px-2 w-full text-sm rounded-md border shadow-sm placeholder:text-zinc-400 focus:outline-cyan-600"
           autocomplete="off"
         />
@@ -27,7 +49,7 @@ export function ChatList(props: { chats: Chats }) {
         </button>
       </div>
       <ul class="border-t">
-        <For each={props.chats}>
+        <For each={filteredChats()}>
           {(chat) => (
             <li>
               <A href={`/chat/${chat.id}`}
@@ -81,4 +103,3 @@ export function ChatList(props: { chats: Chats }) {
     </section>
   );
 }
-

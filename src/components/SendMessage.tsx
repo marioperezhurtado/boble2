@@ -3,6 +3,7 @@ import { createServerAction$ } from "solid-start/server";
 import { sendMessage } from "~/utils/chat";
 import { getServerSession } from "~/auth/auth";
 import { addMessage } from "~/db/addMessage";
+import { capitalize } from "~/utils/text";
 
 export function SendMessage(props: { chatId: string }) {
   const [text, setText] = createSignal("");
@@ -56,7 +57,7 @@ export function SendMessage(props: { chatId: string }) {
         name="message"
         type="text"
         value={text()}
-        onInput={(e) => setText(e.target.value)}
+        onInput={(e) => setText(capitalize(e.currentTarget.value))}
         placeholder="Type a message..."
         class="block py-1.5 px-2 w-full rounded-md border shadow-sm placeholder:text-zinc-400 focus:outline-cyan-600"
         autocomplete="off"
