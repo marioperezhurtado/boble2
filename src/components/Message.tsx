@@ -3,7 +3,8 @@ import type { Message } from "~/db/getMessages";
 
 type MessageProps = {
   message: Message,
-  prevMessage: Message
+  prevMessage: Message,
+  lastReadAt: Date,
   isOwn: boolean,
 }
 
@@ -12,6 +13,7 @@ export function Message(props: MessageProps) {
   const currentDate = new Date(props.message.createdAt!);
   const firstOfDate = prevDate.getDate() !== currentDate.getDate();
   const isFirst = props.prevMessage?.senderId !== props.message.senderId || firstOfDate;
+  const isRead = props.lastReadAt >= props.message.createdAt!;
 
   return (
     <>
@@ -25,8 +27,29 @@ export function Message(props: MessageProps) {
       ${isFirst ? "mt-2" : "mt-1"}`}
       >
         <p class="w-full">{props.message.text}</p>
-        <p class="leading-3 text-right text-[10px]">
+        <p
+          class={`leading-3 text-right text-[10px] flex min-w-fit gap-0.5 items-end
+        ${props.isOwn ? "text-cyan-100" : "text-zinc-600"}`}
+        >
           {formatMessageTime(props.message.createdAt!)}
+          <Show when={props.isOwn}>
+            <Show when={isRead}>
+              <img 
+                src="/icons/double-check.svg"
+                alt="Read" 
+                title="Read"
+                class="w-4 h-4 -mb-0.5" 
+              />
+            </Show>
+            <Show when={!isRead}>
+              <img
+                src="/icons/check.svg"
+                alt="Sent"
+                title="Sent"
+                class="w-4 h-4 -mb-0.5"
+              />
+            </Show>
+          </Show>
         </p>
 
         <Show when={isFirst}>

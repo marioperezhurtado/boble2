@@ -22,6 +22,7 @@ export async function getChats(userId: string) {
         createdAt: message.createdAt,
         senderId: message.senderId,
       },
+      lastReadAt: otherParticipant.lastReadAt,
       unreadCount: sql<number>`cast(count(${unreadMessage.id}) as integer)`,
     })
     .from(participant)

@@ -5,6 +5,7 @@ import type { Messages } from "~/db/getMessages";
 
 type MessageListProps = {
   initialMessages: Messages,
+  lastReadAt: Date,
   chatId: string
   userId: string
 }
@@ -26,6 +27,7 @@ export function MessageList(props: MessageListProps) {
             <Message
               message={message}
               prevMessage={messages()[i() - 1]}
+              lastReadAt={props.lastReadAt}
               isOwn={message.senderId === props.userId}
             />
           )}
