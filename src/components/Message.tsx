@@ -38,7 +38,7 @@ export function Message(props: MessageProps) {
                 src="/icons/double-check.svg"
                 alt="Read" 
                 title="Read"
-                class="w-4 h-4 -mb-0.5" 
+                class="-mb-0.5 w-4 h-4" 
               />
             </Show>
             <Show when={!isRead}>
@@ -46,7 +46,7 @@ export function Message(props: MessageProps) {
                 src="/icons/check.svg"
                 alt="Sent"
                 title="Sent"
-                class="w-4 h-4 -mb-0.5"
+                class="-mb-0.5 w-4 h-4"
               />
             </Show>
           </Show>
@@ -72,7 +72,7 @@ function formatMessageTime(date: Date) {
 
 function DateIndicator(props: { date: Date }) {
   return (
-    <span class="bg-white rounded-md shadow-sm text-xs px-1.5 py-1 mx-auto mt-2">
+    <span class="py-1 px-1.5 mx-auto mt-2 text-xs bg-white rounded-md shadow-sm">
       {formatDate(new Date(props.date))}
     </span>
   );

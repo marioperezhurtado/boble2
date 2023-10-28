@@ -1,53 +1,16 @@
-import { For, Show, createSignal, createEffect } from "solid-js";
+import { For, Show, createSignal } from "solid-js";
 import { A, useParams } from "@solidjs/router";
 import { Avatar } from "./Avatar";
-import { capitalize } from "~/utils/text";
 import type { Chats } from "~/db/getChats";
+import { FilterChats } from "./FilterChats";
 
 export function ChatList(props: { chats: Chats }) {
   const params = useParams<{ chatId: string }>();
-  const [search, setSearch] = createSignal("");
   const [filteredChats, setFilteredChats] = createSignal<Chats>(props.chats);
-
-  function filterChats(search: string) {
-    setFilteredChats(
-      props.chats.filter((chat) =>
-        chat.user.name?.toLowerCase().includes(search.toLowerCase())
-      )
-    );
-  }
-
-  createEffect(() => {
-    const trimedSearch = search().trim();
-    if (trimedSearch === "") {
-      setFilteredChats(props.chats);
-      return;
-    }
-    filterChats(trimedSearch);
-  });
 
   return (
     <section class="w-full max-w-sm bg-zinc-50">
-      <div class="flex gap-2 p-2">
-        <input
-          id="message"
-          name="message"
-          type="search"
-          placeholder="Search chats..."
-          value={search()}
-          onInput={(e) => setSearch(capitalize(e.currentTarget.value))}
-          class="py-1.5 px-2 w-full text-sm rounded-md border shadow-sm placeholder:text-zinc-400 focus:outline-cyan-600"
-          autocomplete="off"
-        />
-        <button
-          type="button"
-          title="Sort chats"
-          aria-label="Sort chats"
-          class="rounded-md focus:outline-cyan-600"
-        >
-          <img src="/icons/sort.svg" alt="Sort chats" class="w-6 h-6" />
-        </button>
-      </div>
+      <FilterChats initialChats={props.chats} setChats={setFilteredChats} />
       <ul class="border-t">
         <For each={filteredChats()}>
           {(chat) => (

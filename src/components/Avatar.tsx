@@ -22,7 +22,7 @@ function DefaultAvatar(props: { name: string }) {
 
   return (
     <div
-      class="flex justify-center items-center w-12 h-12 bg-white rounded-full border shadow-inner"
+      class="flex justify-center items-center w-12 h-12 bg-white rounded-full border shadow-sm"
     >
       <img src={generateIdenticon(props.name)} alt={props.name} />
     </div>

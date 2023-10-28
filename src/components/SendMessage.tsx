@@ -4,6 +4,7 @@ import { sendMessage } from "~/utils/chat";
 import { getServerSession } from "~/auth/auth";
 import { addMessage } from "~/db/addMessage";
 import { capitalize } from "~/utils/text";
+import { EmojiPicker } from "./EmojiPicker/EmojiPicker";
 
 export function SendMessage(props: { chatId: string }) {
   const [text, setText] = createSignal("");
@@ -34,23 +35,7 @@ export function SendMessage(props: { chatId: string }) {
 
   return (
     <Form class="flex gap-3 items-center p-2 px-3 border-t bg-zinc-50">
-      <button
-        type="button"
-        title="Open emoji picker"
-        aria-label="Open emoji picker"
-        class="rounded-md focus:outline-cyan-600"
-      >
-        <img src="/icons/emoji.svg" alt="Open emoji picker" class="w-7 h-7" />
-      </button>
-      <button
-        type="button"
-        title="Attach media"
-        aria-label="Attach media"
-        class="rounded-md focus:outline-cyan-600"
-      >
-        <img src="/icons/attach.svg" alt="Attach media" class="w-7 h-7" />
-      </button>
-
+      <EmojiPicker onPick={(emoji) => setText((t) => t + emoji)} />
       <label for="message" class="sr-only">Message</label>
       <input
         id="message"
@@ -58,7 +43,7 @@ export function SendMessage(props: { chatId: string }) {
         type="text"
         value={text()}
         onInput={(e) => setText(capitalize(e.currentTarget.value))}
-        placeholder="Type a message..."
+        placeholder="Type a message"
         class="block py-1.5 px-2 w-full rounded-md border shadow-sm placeholder:text-zinc-400 focus:outline-cyan-600"
         autocomplete="off"
       />
