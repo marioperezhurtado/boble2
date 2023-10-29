@@ -1,4 +1,4 @@
-import { createSignal, createEffect, For, Show } from "solid-js";
+import { For, Show } from "solid-js";
 import { setHoveredEmoji, parseUnicodeEmoji } from "./Picker";
 import emojis from "./emojis.json";
 import type { Category } from "./categories";
@@ -9,29 +9,7 @@ type CategoryProps = {
   onPick: (emoji: string) => void;
 };
 
-export const [currentCategory, setCurrentCategory]
-  = createSignal<Category["slug"]>("recent");
-
 export function Category(props: CategoryProps) {
-  createEffect(() => {
-    // Update currentCategory when the category slug id is in view
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setCurrentCategory(props.category.slug);
-        }
-      });
-    });
-
-    const categoryElement = document.getElementById(props.category.slug);
-    if (categoryElement) {
-      observer.observe(categoryElement);
-    }
-  }, {
-    root: document.getElementById("emoji-list"),
-    threshold: 1,
-  });
-
   return (
     <>
       <h2 class="sticky top-0 py-2 px-2 text-xs font-bold tracking-wider uppercase bg-white border-b text-zinc-400">

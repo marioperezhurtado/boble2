@@ -2,7 +2,7 @@ import { createSignal, For, Show } from "solid-js";
 import { capitalize } from "~/utils/text";
 import { EMOJI_CATEGORIES } from "./categories";
 import emojis from "./emojis.json";
-import { Category, currentCategory } from "./Category";
+import { Category } from "./Category";
 import { FilterEmojis } from "./FilterEmojis";
 
 export type Emoji = typeof emojis["smileys-and-people"][0];
@@ -38,9 +38,6 @@ export function Picker(props: { onPick: (emoji: string) => void }) {
               title={category.title}
               type="button"
               class="p-1.5 border-b-2 border-transparent"
-              classList={{
-                "border-cyan-600": currentCategory() === category.slug,
-              }}
             >
               <img src={category.icon} alt={category.title} class="w-4 h-4" />
             </button>

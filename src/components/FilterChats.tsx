@@ -23,7 +23,7 @@ export function FilterChats(props: { initialChats: Chats, setChats: (chats: Chat
   });
 
   return (
-    <div class="flex gap-2 p-2">
+    <div class="p-2">
       <input
         value={search()}
         onInput={(e) => setSearch(capitalize(e.currentTarget.value))}
@@ -34,14 +34,6 @@ export function FilterChats(props: { initialChats: Chats, setChats: (chats: Chat
         class="py-1.5 px-2 w-full text-sm rounded-md border shadow-sm placeholder:text-zinc-400 focus:outline-cyan-600"
         autocomplete="off"
       />
-      <button
-        type="button"
-        title="Sort chats"
-        aria-label="Sort chats"
-        class="rounded-md focus:outline-cyan-600"
-      >
-        <img src="/icons/sort.svg" alt="Sort chats" class="w-6 h-6" />
-      </button>
-    </div>
+   </div>
   );
 }

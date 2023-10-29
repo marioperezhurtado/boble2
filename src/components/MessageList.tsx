@@ -1,6 +1,7 @@
-import { Show, For } from "solid-js";
-import { useMessages } from "~/utils/chat";
+import { Show, For, createEffect, createSignal, onCleanup } from "solid-js";
+import { joinChat, subscribeToMessages, unsubscribeFromMessages } from "~/utils/chat";
 import { Message } from "./Message";
+import { addNotification } from "./Notifications";
 import type { Messages } from "~/db/getMessages";
 
 type MessageListProps = {
@@ -11,7 +12,24 @@ type MessageListProps = {
 }
 
 export function MessageList(props: MessageListProps) {
-  const messages = useMessages(props.initialMessages, props.chatId);
+  const [messages, setMessages] = createSignal(props.initialMessages);
+
+  createEffect(() => joinChat(props.chatId));
+
+  subscribeToMessages((message) => {
+    if (message.chatId !== props.chatId) {
+      addNotification({
+        title: "New message",
+        description: message.text ?? "",
+        createdAt: new Date(),
+      });
+      return;
+    }
+
+    setMessages((messages) => [...messages, message]);
+  });
+
+  onCleanup(() => unsubscribeFromMessages());
 
   return (
     <section class="flex-grow px-4 pt-2 bg-zinc-100">

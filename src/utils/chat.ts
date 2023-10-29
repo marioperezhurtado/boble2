@@ -1,6 +1,5 @@
 import { io } from "socket.io-client";
-import { createEffect, createSignal, onCleanup } from "solid-js";
-import type { Messages } from "~/db/getMessages";
+import type { Messages, Message } from "~/db/getMessages";
 import type { ServerToClientEvents, ClientToServerEvents } from "~/server";
 import type { Socket } from "socket.io-client";
 
@@ -12,16 +11,14 @@ export function sendMessage(message: Messages[number]) {
   socket.emit("message", message);
 }
 
-export function useMessages(initialMessages: Messages, chatId: string) {
-  const [messages, setMessages] = createSignal(initialMessages);
+export function joinChat(chatId: string) {
+  socket.emit("join", chatId);
+}
 
-  createEffect(() => socket.emit("join", chatId));
+export function subscribeToMessages(callback: (message: Message) => void) {
+  socket.on("message", callback);
+}
 
-  socket.on("message", (message) => {
-    setMessages((messages) => [...messages, message]);
-  });
-
-  onCleanup(() => socket.off("message"));
-
-  return messages;
+export function unsubscribeFromMessages() {
+  socket.off("message");
 }

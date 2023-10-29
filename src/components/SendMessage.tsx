@@ -8,24 +8,31 @@ import { EmojiPicker } from "./EmojiPicker/EmojiPicker";
 
 export function SendMessage(props: { chatId: string }) {
   const [text, setText] = createSignal("");
+  let textInput: HTMLInputElement | undefined = undefined;
 
-  const [sending, { Form }] = createServerAction$(async (formData: FormData, { request }) => {
-    const session = await getServerSession(request);
-    if (!session) return;
+  const [sending, { Form }] = createServerAction$(
+    async (formData: FormData, { request }) => {
+      const session = await getServerSession(request);
+      if (!session) return;
 
-    const text = formData.get("message") as string;
-    if (!text) return;
-    const chatId = formData.get("chatId") as string;
-    if (!chatId) return;
+      const text = formData.get("message") as string;
+      if (!text) return;
+      const chatId = formData.get("chatId") as string;
+      if (!chatId) return;
 
-    const newMessage = await addMessage({
-      chatId,
-      text,
-      senderId: session.id,
+      const newMessage = await addMessage({
+        chatId,
+        text,
+        senderId: session.id,
+      });
+
+      sendMessage(newMessage[0]);
     });
 
-    sendMessage(newMessage[0]);
-  });
+  function handlePickEmoji(emoji: string) {
+    setText((t) => t + emoji);
+    textInput?.focus();
+  }
 
   createEffect(() => {
     if (!sending.pending) {
@@ -35,14 +42,15 @@ export function SendMessage(props: { chatId: string }) {
 
   return (
     <Form class="flex gap-3 items-center p-2 px-3 border-t bg-zinc-50">
-      <EmojiPicker onPick={(emoji) => setText((t) => t + emoji)} />
+      <EmojiPicker onPick={handlePickEmoji} />
       <label for="message" class="sr-only">Message</label>
       <input
+        value={text()}
+        onInput={(e) => setText(capitalize(e.currentTarget.value))}
+        ref={textInput}
         id="message"
         name="message"
         type="text"
-        value={text()}
-        onInput={(e) => setText(capitalize(e.currentTarget.value))}
         placeholder="Type a message"
         class="block py-1.5 px-2 w-full rounded-md border shadow-sm placeholder:text-zinc-400 focus:outline-cyan-600"
         autocomplete="off"

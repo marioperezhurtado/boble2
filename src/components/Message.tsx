@@ -64,7 +64,7 @@ export function Message(props: MessageProps) {
 }
 
 function formatMessageTime(date: Date) {
-  return new Date(date).toLocaleTimeString("es-ES", {
+  return new Date(date).toLocaleTimeString("en-US", {
     hour: "numeric",
     minute: "numeric",
   });
@@ -83,7 +83,7 @@ function formatDate(date: Date) {
 
   if (date.getFullYear() !== today.getFullYear() ||
     date.getMonth() !== today.getMonth()) {
-    return date.toLocaleDateString("es-ES", {
+    return date.toLocaleDateString("en-US", {
       day: "numeric",
       month: "numeric",
       year: "numeric",
@@ -91,7 +91,7 @@ function formatDate(date: Date) {
   }
 
   if (today.getDate() - date.getDate() > 6) {
-    return date.toLocaleDateString("es-ES", {
+    return date.toLocaleDateString("en-US", {
       day: "numeric",
       month: "numeric",
       year: "numeric",
@@ -106,7 +106,7 @@ function formatDate(date: Date) {
     return "Yesterday";
   }
 
-  return date.toLocaleDateString("es-ES", {
+  return date.toLocaleDateString("en-US", {
     weekday: "long",
   });
 }

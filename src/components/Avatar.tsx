@@ -13,6 +13,8 @@ export function Avatar(props: AvatarProps) {
         src={props.image ?? ""}
         alt={props.name}
         class="object-cover w-12 h-12 rounded-full border shadow-inner"
+        width={48}
+        height={48}
       />
     </Show>
   );
