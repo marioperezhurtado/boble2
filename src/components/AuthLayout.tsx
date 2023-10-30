@@ -5,7 +5,7 @@ export function AuthLayout(props: { children: JSX.Element }) {
   return (
     <>
       <Header />
-      <main class="flex flex-col gap-14 justify-center items-center pt-20 lg:flex-row lg:gap-10 lg:items-start">
+      <main class="flex flex-col gap-14 justify-center items-center px-4 pt-10 sm:pt-20 lg:flex-row lg:gap-10 lg:items-start">
         <section class="flex flex-col justify-center p-6 w-full max-w-md bg-white rounded-md border shadow-md">
           {props.children}
         </section>

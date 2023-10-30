@@ -21,7 +21,7 @@ export function Chat(props: { chat: Chats[number], isSelected: boolean }) {
           <p class="font-medium">{props.chat.user.name}</p>
           <Show when={props.chat.lastMessage}>
             <p
-              class="text-sm text-zinc-600 flex gap-0.5 items-center"
+              class="flex gap-0.5 items-center text-sm text-zinc-600"
               title={props.chat.lastMessage!.text ?? ""}
             >
               <Show when={isLastMessageOwn}>

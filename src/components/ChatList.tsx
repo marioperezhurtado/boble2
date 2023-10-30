@@ -1,4 +1,4 @@
-import { For, createSignal } from "solid-js";
+import { For, createSignal, Show } from "solid-js";
 import { useParams } from "@solidjs/router";
 import { FilterChats } from "./FilterChats";
 import { Chat } from "./Chat";
@@ -9,13 +9,18 @@ export function ChatList(props: { chats: Chats }) {
   const [filteredChats, setFilteredChats] = createSignal<Chats>(props.chats);
 
   return (
-    <section class="w-full max-w-sm bg-zinc-50">
+    <section>
       <FilterChats initialChats={props.chats} setChats={setFilteredChats} />
-      <ul class="border-t">
-        <For each={filteredChats()}>
-          {(chat) => <Chat chat={chat} isSelected={chat.id === params.chatId} />}
-        </For>
-      </ul>
+      <Show 
+        when={filteredChats()?.length > 0}
+        fallback={<p class="pl-3 font-medium border-t">No chats found.</p>}
+      >
+        <ul class="border-t">
+          <For each={filteredChats()}>
+            {(chat) => <Chat chat={chat} isSelected={chat.id === params.chatId} />}
+          </For>
+        </ul>
+      </Show>
     </section>
   );
 }

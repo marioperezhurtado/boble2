@@ -1,4 +1,4 @@
-import { useRouteData, useParams, RouteDataArgs } from "solid-start";
+import { useRouteData, useParams, RouteDataArgs, RouteDataFuncArgs } from "solid-start";
 import { MessageList } from "~/components/MessageList";
 import { SendMessage } from "~/components/SendMessage";
 import { createServerData$, createServerAction$ } from "solid-start/server";
@@ -6,18 +6,16 @@ import { getMessages } from "~/db/getMessages";
 import { readChat } from "~/db/readChat";
 import { getServerSession } from "~/auth/auth";
 import { createEffect } from "solid-js";
-import type { routeData as parentRouteData } from "../chat";
+import { routeData as parentRouteData } from "../chat";
 
-export function routeData({ params }: RouteDataArgs) {
+export function routeData({ data, params }: RouteDataFuncArgs<typeof parentRouteData>) {
   const messages = createServerData$(
     ([, chatId]) => getMessages(chatId),
     { key: () => ["chatId", params.chatId] });
 
   const session = createServerData$(async (_, event) => getServerSession(event.request));
 
-  const chats = useRouteData<typeof parentRouteData>();
-
-  return { messages, session, chats };
+  return { messages, session, chats: data };
 }
 
 export default function ChatPage() {
