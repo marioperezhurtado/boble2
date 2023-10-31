@@ -1,0 +1,1 @@
+ALTER TABLE `user` DROP COLUMN `created_at`;
