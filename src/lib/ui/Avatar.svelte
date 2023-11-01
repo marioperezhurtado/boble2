@@ -3,9 +3,16 @@
 
 	export let image: string | null = null;
 	export let name: string;
+  export let size: keyof typeof SIZES = "medium";
 
 	const SATURATION = 60;
 	const LIGHTNESS = 50;
+
+  const SIZES = {
+    small: "w-10 h-10",
+    medium: "w-12 h-12",
+    large: "w-20 h-20",
+  }
 
 	function generateIdenticon(str: string) {
 		return (
@@ -18,12 +25,11 @@
 	<img
 		src={image ?? ''}
 		alt={name}
-		class="object-cover w-12 h-12 rounded-full border shadow-inner"
-		width={48}
-		height={48}
+		class="object-cover rounded-full border shadow-inner {SIZES[size]}"
 	/>
 {:else}
-	<div class="flex justify-center items-center w-12 h-12 bg-white rounded-full border shadow-sm">
+	<div class="flex justify-center items-center bg-white rounded-full
+  border shadow-sm {SIZES[size]}">
 		<img src={generateIdenticon(name)} alt={name} />
 	</div>
 {/if}

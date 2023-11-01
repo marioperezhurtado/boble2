@@ -39,6 +39,7 @@ export const user = sqliteTable("user", {
   email: text("email").notNull().unique(),
   name: text("name").notNull(),
   image: text("image"),
+  status: text("status"),
 });
 
 export const session = sqliteTable("user_session", {

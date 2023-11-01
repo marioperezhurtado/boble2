@@ -15,6 +15,7 @@ declare global {
       name: string;
       email: string;
       image: string | null;
+      status: string | null;
     };
     type DatabaseSessionAttributes = {};
   }

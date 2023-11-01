@@ -15,6 +15,8 @@ export async function getChats(userId: string) {
         id: user.id,
         name: user.name,
         image: user.image,
+        email: user.email,
+        status: user.status,
       },
       lastMessage: {
         id: message.id,
