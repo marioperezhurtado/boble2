@@ -4,7 +4,7 @@
 </script>
 
 <button
-  class="flex items-center justify-center w-8 h-8 rounded-full bg-zinc-100 hover:bg-zinc-200 transition"
+  class="flex justify-center items-center w-8 h-8 rounded-full transition bg-zinc-100 hover:bg-zinc-200"
   {title}
   {...$$restProps}
   on:click

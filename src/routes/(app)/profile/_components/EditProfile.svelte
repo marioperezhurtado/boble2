@@ -1,0 +1,75 @@
+<script lang="ts">
+    import { page } from "$app/stores";
+    import Label from "$lib/ui/Label.svelte";
+    import Input from "$lib/ui/Input.svelte";
+    import Textarea from "$lib/ui/Textarea.svelte";
+    import ProfilePreview from "./ProfilePreview.svelte";
+    import Button from "$lib/ui/Button.svelte";
+    import type { PageData } from "../$types";
+
+    $: data = $page.data as PageData;
+    $: name = data.user.name;
+    $: status = data.user.status ?? "";
+</script>
+
+<section
+  class="flex flex-col justify-center p-6 w-full max-w-lg bg-white rounded-md border shadow-md"
+>
+  <h1 class="pb-3 text-xl font-bold">Your profile</h1>
+  <div class="flex flex-col gap-1 text-sm text-zinc-500">
+    <p>
+      You are logged in as
+      <span class="font-bold text-zinc-700">{data.user.email}</span>.
+    </p>
+    <p>Change your account settings and how other users see you.</p>
+  </div>
+
+  <form class="flex flex-col gap-3 py-8">
+    <div>
+      <Label for="name">
+        Name
+        <Input
+          value={name}
+          on:input={(input) => (name = input.detail)}
+          id="name"
+          name="name"
+          type="text"
+        />
+      </Label>
+      <p class="pt-2 text-xs font-normal text-zinc-500">
+        This is not your username or PIN. This name will be visible to other
+        users.
+      </p>
+    </div>
+    <div>
+      <Label for="status">
+        Status
+        <Textarea
+          value={status}
+          on:input={(input) => (status = input.detail)}
+          maxLength={150}
+          id="status"
+          name="status"
+          rows="3"
+          placeholder="What are you up to?"
+        />
+      </Label>
+      <p class="pt-2 text-xs font-normal text-zinc-500">
+        Let other users know what you are up to.
+      </p>
+    </div>
+  </form>
+
+  {#if name}
+    <ProfilePreview
+      {name}
+      {status}
+      email={data.user.email}
+      image={data.user.image}
+    />
+  {/if}
+
+  {#if name !== data.user.name || status !== data.user.status}
+    <Button type="submit" class="ml-auto mt-8">Save changes</Button>
+  {/if}
+</section>

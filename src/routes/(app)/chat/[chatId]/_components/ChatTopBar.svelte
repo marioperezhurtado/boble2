@@ -8,12 +8,18 @@
   export let status: string | null;
 </script>
 
-<div class="p-2 border-b bg-zinc-50 flex justify-between items-center">
+<div class="flex justify-between items-center p-2 border-b bg-zinc-50">
   <div class="flex gap-3 items-center">
     <Avatar {name} {image} size="small" />
-    <div class="flex flex-col">
+    <div>
       <h2 class="text-sm font-semibold">{name}</h2>
-      <p class="text-xs text-gray-500">{status ?? email}</p>
+      <p class="text-xs text-zinc-500">
+        {#if status?.length}
+          ~{status}
+        {:else}
+          {email}
+        {/if}
+      </p>
     </div>
   </div>
 

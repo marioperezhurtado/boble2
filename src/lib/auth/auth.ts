@@ -19,6 +19,7 @@ export const auth = lucia({
     name: user.name,
     email: user.email,
     image: user.image,
+    status: user.status,
   }),
 });
 

@@ -25,7 +25,7 @@
 	<img
 		src={image ?? ''}
 		alt={name}
-		class="object-cover rounded-full border shadow-inner {SIZES[size]}"
+		class="object-cover rounded-full border shadow-sm {SIZES[size]}"
 	/>
 {:else}
 	<div class="flex justify-center items-center bg-white rounded-full

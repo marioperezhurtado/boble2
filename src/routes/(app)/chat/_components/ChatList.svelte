@@ -15,7 +15,7 @@
 </script>
 
 <section>
-  <div class="p-2 border-b flex justify-between items-center">
+  <div class="flex justify-between items-center p-2 border-b">
     <a href="/profile">
       <Avatar image={data.user.image} name={data.user.name} size="small" />
     </a>

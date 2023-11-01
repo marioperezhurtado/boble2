@@ -26,7 +26,10 @@
 	onDestroy(() => unsubscribeFromMessages());
 </script>
 
-<section bind:this={messageList} class="overflow-y-auto px-4 h-full bg-zinc-100">
+<section 
+  bind:this={messageList} 
+  class="overflow-y-auto px-4 h-full bg-zinc-100 bg-repeat bg-[url('/pattern.png')]"
+>
 	{#if messages.length === 0}
 		<div class="pt-10 text-center">
 			<p class="mb-4 text-lg font-bold">No messages yet</p>
