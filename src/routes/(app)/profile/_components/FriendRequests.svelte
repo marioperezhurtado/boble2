@@ -5,8 +5,7 @@
 </script>
 
 <section
-  class="flex flex-col justify-center p-6 w-full max-w-lg bg-white
-  rounded-md border shadow-md"
+  class="flex flex-col justify-center p-6 w-full max-w-lg bg-white rounded-md border shadow-md"
 >
   <h1 class="pb-3 text-xl font-bold">Connect with your friends</h1>
   <div class="flex flex-col gap-1 text-sm text-zinc-500">
@@ -24,7 +23,7 @@
           type="email"
           placeholder="your-friend@email.com"
         />
-        <Button type="submit" size="small" class="flex-grow min-w-fit w-full">
+        <Button type="submit" size="small" class="flex-grow w-full min-w-fit">
           Send friend request
         </Button>
       </div>

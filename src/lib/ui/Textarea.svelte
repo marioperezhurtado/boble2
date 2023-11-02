@@ -21,7 +21,7 @@
     {...$$restProps}
   />
   <span
-    class="absolute bottom-0.5 right-2 text-xs pointer-events-none"
+    class="absolute bottom-0.5 right-3 p-0.5 text-xs bg-white bg-opacity-50 rounded-md pointer-events-none backdrop-blur-sm"
     class:text-red-500={value.length > maxLength}
     class:text-zinc-500={value.length <= maxLength}
   >
