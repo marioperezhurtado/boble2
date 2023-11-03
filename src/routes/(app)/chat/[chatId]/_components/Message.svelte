@@ -17,15 +17,16 @@
 </script>
 
 {#if firstOfDate && message.createdAt}
-  <span class="py-1 px-1.5 mx-auto mt-2 text-xs bg-white rounded-md shadow-sm">
+  <span class="sticky top-3 w-20 text-center z-10 py-1 mx-auto mt-2 text-xs bg-white rounded-md shadow-sm">
     {formatDate(createdAt)}
   </span>
 {/if}
 <li
-  class={`relative flex items-end gap-x-2 pt-1.5 pb-1 pl-2.5 pr-1 bg-cyan-700 rounded-md shadow-sm 
+  class={`relative flex items-end gap-x-2 pt-1.5 pb-1 pl-2.5 pr-1 bg-cyan-700
+  rounded-md shadow-sm sm:max-w-[80%] md:max-w-full lg:max-w-[80%] 
       ${isOwn ? "self-end bg-cyan-700 text-white" : "self-start bg-white"}
       ${isFirst ? (isOwn ? "rounded-tr-none" : "rounded-tl-none") : ""}
-      ${isFirst ? "mt-2" : "mt-1"}`}
+      ${isFirst ? "mt-3" : "mt-1"}`}
 >
   <p class="w-full">{message.text}</p>
   <p

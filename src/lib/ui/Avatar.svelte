@@ -25,11 +25,11 @@
 	<img
 		src={image ?? ''}
 		alt={name}
-		class="object-cover rounded-full border shadow-sm {SIZES[size]}"
+		class="object-cover rounded-full border shadow-sm {SIZES[size]} aspect-square"
 	/>
 {:else}
 	<div class="flex justify-center items-center bg-white rounded-full
-  border shadow-sm {SIZES[size]}">
+  border shadow-sm {SIZES[size]} aspect-square">
 		<img src={generateIdenticon(name)} alt={name} />
 	</div>
 {/if}

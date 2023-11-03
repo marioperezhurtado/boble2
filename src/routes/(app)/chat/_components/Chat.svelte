@@ -42,16 +42,18 @@
               />
             {/if}
           {/if}
-          {chat.lastMessage.text?.slice(0, 35)}
-          {#if chat.lastMessage.text && chat.lastMessage.text?.length > 35}
-            ...
-          {/if}
+          <span class="line-clamp-1">{chat.lastMessage.text}</span>
         </p>
       {/if}
     </div>
 
     <div class="flex flex-col justify-between items-end py-1">
-      <time class="text-xs text-zinc-600">
+      <time
+        class="text-xs" 
+        class:text-zinc-700={chat.unreadCount === 0}
+        class:text-cyan-700={chat.unreadCount > 0}
+        class:font-medium={chat.unreadCount > 0}
+      >
         {#if chat.lastMessage?.createdAt}
           {formatLastMessageAt(new Date(chat.lastMessage.createdAt))}
         {:else if chat.createdAt}

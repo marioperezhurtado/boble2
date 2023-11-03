@@ -1,5 +1,9 @@
 function diffInDays(date1: Date, date2: Date) {
-  return Math.abs(date1.getTime() - date2.getTime()) / (1000 * 3600 * 24);
+  return Math.floor(
+    (Date.UTC(date1.getFullYear(), date1.getMonth(), date1.getDate()) -
+      Date.UTC(date2.getFullYear(), date2.getMonth(), date2.getDate())) /
+      (1000 * 60 * 60 * 24)
+  );
 }
 
 function areDatesInSameWeek(date1: Date, date2: Date) {
@@ -7,7 +11,7 @@ function areDatesInSameWeek(date1: Date, date2: Date) {
 }
 
 function isYesterday(date: Date) {
-  return diffInDays(new Date(), date) <= 1;
+  return diffInDays(new Date(), date) === 1;
 }
 
 function isToday(date: Date) {

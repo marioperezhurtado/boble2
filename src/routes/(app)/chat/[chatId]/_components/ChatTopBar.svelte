@@ -17,7 +17,7 @@
     <Avatar {name} {image} size="small" />
     <div>
       <h2 class="text-sm font-semibold">{name}</h2>
-      <p class="text-xs text-zinc-500">
+      <p class="text-xs text-zinc-500 line-clamp-1">
         {#if status?.length}
           ~{status}
         {:else}

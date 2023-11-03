@@ -27,7 +27,7 @@
     use:clickOutside={() => ($chatInfoOpen = false)}
     in:fly={{ x: 200, duration: 300 }}
     out:fly={{ x: 200, duration: 200 }}
-    class="flex absolute right-0 z-20 flex-col py-3 px-5 w-screen xs:w-80 h-full border-l bg-zinc-50"
+    class="flex absolute right-0 z-20 flex-col py-3 px-5 w-screen h-full border-l xs:w-80 bg-zinc-50"
   >
     <ActionIconButton
       on:click={() => ($chatInfoOpen = false)}

@@ -36,7 +36,7 @@
 			<p>Start the conversation to see your messages here.</p>
 		</div>
 	{:else}
-		<ul class="flex flex-col py-2 h-full text-sm">
+		<ul class="flex flex-col h-full text-sm">
 			{#each messages as message, i}
 				<Message
 					{message}
