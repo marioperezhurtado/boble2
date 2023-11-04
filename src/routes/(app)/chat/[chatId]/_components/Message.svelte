@@ -17,7 +17,7 @@
 </script>
 
 {#if firstOfDate && message.createdAt}
-  <span class="sticky top-3 w-20 text-center z-10 py-1 mx-auto mt-2 text-xs bg-white rounded-md shadow-sm">
+  <span class="sticky top-3 z-10 py-1 mx-auto mt-3 w-20 text-xs text-center bg-white rounded-md shadow-sm">
     {formatDate(createdAt)}
   </span>
 {/if}

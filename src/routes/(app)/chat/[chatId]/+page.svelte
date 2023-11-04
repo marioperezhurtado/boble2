@@ -18,7 +18,7 @@
   />
   <MessageList
     initialMessages={data.messages ?? []}
-    lastReadAt={data.chat?.lastReadAt ?? new Date(0)}
+    lastReadAt={data.chat?.user.lastReadAt ?? new Date(0)}
     chatId={$page.params.chatId}
     userId={data.user.id}
   />

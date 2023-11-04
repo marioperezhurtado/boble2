@@ -16,7 +16,7 @@ dependencies:
     version: 9.0.0
   drizzle-orm:
     specifier: ^0.28.6
-    version: 0.28.6(better-sqlite3@9.0.0)
+    version: 0.28.6(@types/better-sqlite3@7.6.6)(better-sqlite3@9.0.0)
   express:
     specifier: ^4.18.2
     version: 4.18.2
@@ -46,6 +46,9 @@ devDependencies:
   '@sveltejs/kit':
     specifier: ^1.20.4
     version: 1.27.2(svelte@4.2.2)(vite@4.5.0)
+  '@types/better-sqlite3':
+    specifier: ^7.6.6
+    version: 7.6.6
   '@types/express':
     specifier: ^4.17.20
     version: 4.17.20
@@ -579,6 +582,11 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@types/better-sqlite3@7.6.6:
+    resolution: {integrity: sha512-nuFAptzt0hZYBvyLzKQCbuCCK+RN9PHH4ezar5EJLIg2qpVhwQ/uLvLO/K8A9O7N8DafawgFupiyXQSs0U48Ng==}
+    dependencies:
+      '@types/node': 20.8.9
 
   /@types/body-parser@1.19.4:
     resolution: {integrity: sha512-N7UDG0/xiPQa2D/XrVJXjkWbpqHCd2sBaB32ggRF2l83RhPfamgKGF8gwwqyksS95qUS5ZYF9aF+lLPRlwI2UA==}
@@ -1433,7 +1441,7 @@ packages:
       - supports-color
     dev: true
 
-  /drizzle-orm@0.28.6(better-sqlite3@9.0.0):
+  /drizzle-orm@0.28.6(@types/better-sqlite3@7.6.6)(better-sqlite3@9.0.0):
     resolution: {integrity: sha512-yBe+F9htrlYER7uXgDJUQsTHFoIrI5yMm5A0bg0GiZ/kY5jNXTWoEy4KQtg35cE27sw1VbgzoMWHAgCckUUUww==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
@@ -1495,6 +1503,7 @@ packages:
       sqlite3:
         optional: true
     dependencies:
+      '@types/better-sqlite3': 7.6.6
       better-sqlite3: 9.0.0
     dev: false
 

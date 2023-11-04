@@ -32,10 +32,22 @@ export const message = sqliteTable("message", {
     .default(currentTimestamp()),
 });
 
+export const contact = sqliteTable("contact", { 
+  userId: text("user_id").references(() => user.id, { onDelete: "cascade" }).notNull(),
+  contactId: text("contact_id")
+    .references(() => user.id, { onDelete: "cascade" }).notNull(),
+  alias: text("alias").notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" })
+    .default(currentTimestamp()),
+}, (p) => ({
+  compoundKey: primaryKey(p.userId, p.contactId),
+}));
+
 // auth tables (lucia)
+
 export const user = sqliteTable("user", {
-	id: text("id").primaryKey(),
-	// other user attributes
+  id: text("id").primaryKey(),
+  // other user attributes
   email: text("email").notNull().unique(),
   name: text("name").notNull(),
   image: text("image"),
@@ -43,22 +55,22 @@ export const user = sqliteTable("user", {
 });
 
 export const session = sqliteTable("user_session", {
-	id: text("id").primaryKey(),
-	userId: text("user_id")
-		.notNull()
-		.references(() => user.id),
-	activeExpires: blob("active_expires", {
-		mode: "bigint"
-	}).notNull(),
-	idleExpires: blob("idle_expires", {
-		mode: "bigint"
-	}).notNull()
+  id: text("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id),
+  activeExpires: blob("active_expires", {
+    mode: "bigint"
+  }).notNull(),
+  idleExpires: blob("idle_expires", {
+    mode: "bigint"
+  }).notNull()
 });
 
 export const key = sqliteTable("user_key", {
-	id: text("id").primaryKey(),
-	userId: text("user_id")
-		.notNull()
-		.references(() => user.id),
-	hashedPassword: text("hashed_password")
+  id: text("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id),
+  hashedPassword: text("hashed_password")
 });

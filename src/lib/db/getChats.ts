@@ -17,6 +17,8 @@ export async function getChats(userId: string) {
         image: user.image,
         email: user.email,
         status: user.status,
+        joinedAt: otherParticipant.joinedAt,
+        lastReadAt: otherParticipant.lastReadAt,
       },
       lastMessage: {
         id: message.id,
@@ -24,7 +26,6 @@ export async function getChats(userId: string) {
         createdAt: message.createdAt,
         senderId: message.senderId,
       },
-      lastReadAt: otherParticipant.lastReadAt,
       unreadCount: sql<number>`cast(count(${unreadMessage.id}) as integer)`,
     })
     .from(participant)

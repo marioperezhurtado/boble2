@@ -1,11 +1,11 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import AppHeader from "../_components/AppHeader.svelte";
-  import ChatList from "./_components/ChatList.svelte";
-  import Sidebar from "./_components/Sidebar.svelte";
-  import type { LayoutData } from "./$types";
+  import ContactList from "./_components/ContactList.svelte";
+  import Sidebar from "../chat/_components/Sidebar.svelte";
+  import type { LayoutServerData } from "./$types";
 
-  $: data = $page.data as LayoutData;
+  $: data = $page.data as LayoutServerData;
 </script>
 
 <svelte:head>
@@ -18,11 +18,11 @@
     class="flex flex-grow mx-auto w-full max-w-screen-xl md:overflow-hidden bg-zinc-200 border-x border-zinc-300"
   >
     <Sidebar>
-      <ChatList chats={data.chats} />
+      <ContactList contacts={data.contacts} />
     </Sidebar>
     <div
       class="flex-col w-full h-full border-l md:flex"
-      class:hidden={!$page.params.chatId}
+      class:hidden={!$page.params.contactId}
     >
       <slot />
     </div>

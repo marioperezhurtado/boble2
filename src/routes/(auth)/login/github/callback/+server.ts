@@ -49,6 +49,7 @@ export const GET: RequestHandler = async ({ url, cookies, locals }) => {
           name: githubUser.login,
           email: githubUser.email,
           image: githubUser.avatar_url,
+          status: null,
         }
       });
       return user;

@@ -7,22 +7,22 @@
   export let isSelected: boolean;
 
   const isLastMessageOwn = chat.lastMessage?.senderId !== chat.user.id;
-  const lastReadAt = chat.lastReadAt ?? chat.createdAt;
+  const lastReadAt = chat.user.lastReadAt ?? chat.createdAt;
   const isLastMessageRead = chat.lastMessage?.createdAt! <= lastReadAt!;
 </script>
 
 <li>
   <a
     href={`/chat/${chat.id}`}
-    class="flex gap-3 p-2 border-b border-r-[3px] border-r-transparent
+    class="flex items-center gap-3 p-2 border-b border-r-[3px] border-r-transparent
     {isSelected ? 'bg-zinc-100 !border-r-cyan-600' : ''}"
   >
     <Avatar image={chat.user.image} name={chat.user.name ?? ""} />
-    <div class="flex flex-col flex-1 gap-0.5">
+    <div class="flex flex-col flex-1">
       <p class="font-medium">{chat.user.name}</p>
       {#if chat.lastMessage}
         <p
-          class="flex gap-0.5 items-center text-sm text-zinc-600"
+          class="flex gap-0.5 items-center text-sm text-zinc-500"
           title={chat.lastMessage.text ?? ""}
         >
           {#if isLastMessageOwn}
@@ -47,7 +47,7 @@
       {/if}
     </div>
 
-    <div class="flex flex-col justify-between items-end py-1">
+    <div class="flex flex-col justify-between items-end py-1 gap-1.5">
       <time
         class="text-xs" 
         class:text-zinc-700={chat.unreadCount === 0}

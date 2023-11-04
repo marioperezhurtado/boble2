@@ -27,7 +27,7 @@
     </div>
   </button>
 
-  <div class="flex gap-2">
+  <div class="flex gap-1.5">
     <ActionIconButton title="Search messages" icon="/icons/search.svg" />
     <ActionIconButton title="More options" icon="/icons/actions.svg" />
   </div>

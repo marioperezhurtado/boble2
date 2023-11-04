@@ -4,7 +4,7 @@
 
 <Header />
 <main
-	class="flex flex-col gap-14 justify-center items-center px-4 pt-10 sm:pt-20 lg:flex-row lg:gap-10 lg:items-start"
+	class="flex flex-col gap-14 justify-center items-center px-4 pt-10 lg:flex-row lg:gap-10 lg:items-start lg:pt-20"
 >
 	<section
 		class="flex flex-col justify-center p-6 w-full max-w-md bg-white rounded-md border shadow-md"

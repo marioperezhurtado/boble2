@@ -3,6 +3,7 @@
   import { fly } from "svelte/transition";
   import { chatInfoOpen } from "./stores";
   import { clickOutside } from "$lib/utils/clickOutside";
+  import { formatDateTime } from "$lib/utils/date";
   import ActionIconButton from "$lib/ui/ActionIconButton.svelte";
   import Avatar from "$lib/ui/Avatar.svelte";
   import Button from "$lib/ui/Button.svelte";
@@ -10,16 +11,6 @@
 
   $: data = $page.data as PageData;
   $: user = data.chat.user;
-
-  function formatDateTime(date: Date) {
-    return new Date(date).toLocaleDateString("en-US", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  }
 </script>
 
 {#if $chatInfoOpen}
@@ -53,11 +44,18 @@
         </div>
       {/if}
 
+      {#if user.joinedAt}
+        <div>
+          <p class="text-xs text-zinc-500">Joined at</p>
+          <p class="text-sm font-medium">{formatDateTime(user.joinedAt)}</p>
+        </div>
+      {/if}
+
       <div>
         <p class="text-xs text-zinc-500">Last read</p>
         <p class="text-sm font-medium">
-          {#if data.chat.lastReadAt}
-            {formatDateTime(data.chat.lastReadAt)}
+          {#if data.chat.user.lastReadAt}
+            {formatDateTime(data.chat.user.lastReadAt)}
           {:else if data.chat.createdAt}
             {formatDateTime(data.chat.createdAt)}
           {/if}

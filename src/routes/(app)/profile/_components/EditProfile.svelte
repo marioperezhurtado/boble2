@@ -22,7 +22,7 @@
 <section
   class="flex flex-col justify-center p-6 w-full max-w-lg bg-white rounded-md border shadow-md"
 >
-  <h1 class="pb-3 text-xl font-bold">Your profile</h1>
+  <h1 class="pb-3 text-xl font-bold">Profile</h1>
   <div class="flex flex-col gap-1 pb-8 text-sm text-zinc-500">
     <p>
       You are logged in as
