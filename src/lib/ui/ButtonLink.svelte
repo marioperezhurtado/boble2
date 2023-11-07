@@ -1,10 +1,7 @@
 <script lang="ts">
-  import Spinner from "./Spinner.svelte";
-
   export let size: keyof typeof SIZES = "medium";
   export let intent: keyof typeof INTENTS = "primary";
   export let fullWidth = false;
-  export let isLoading = false;
 
   const SIZES = {
     small: "py-1.5 px-2.5 text-xs",
@@ -19,14 +16,11 @@
   };
 </script>
 
-<button
+<a
+  href={$$restProps.href}
   {...$$restProps}
   class="w-fit border font-semibold rounded-md shadow-sm transition flex gap-2 items-center justify-center {$$restProps.class} {SIZES[size]} {INTENTS[intent]}"
   class:w-full={fullWidth}
-  disabled={isLoading}
 >
   <slot />
-  {#if isLoading}
-    <Spinner class="w-3.5 h-3.5" />
-  {/if}
-</button>
+</a>

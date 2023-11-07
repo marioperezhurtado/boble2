@@ -14,8 +14,8 @@
   >
     <Avatar name={contact.name} image={contact.image} />
     <div class="flex flex-col flex-1">
-      <p class="flex items-center gap-2">
-        <span class="font-medium flex-1">
+      <p class="flex gap-2 items-center">
+        <span class="flex-1 font-medium">
           {contact.alias}
         </span>
         <span class="text-xs text-zinc-500">({contact.name})</span>

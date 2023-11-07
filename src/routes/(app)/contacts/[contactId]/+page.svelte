@@ -9,9 +9,9 @@
   $: contact = data.contact;
 </script>
 
-<section class="h-full bg-zinc-50 p-6">
-  <div class="max-w-md mx-auto h-full flex-col flex-grow flex">
-    <div class="flex items-center gap-4">
+<section class="p-6 h-full bg-zinc-50">
+  <div class="flex flex-col flex-grow mx-auto max-w-md h-full">
+    <div class="flex gap-4 items-center">
       <Avatar name={contact.name} image={contact.image} size="large" />
       <div>
         <h2 class="pt-2 font-medium">{contact.alias}</h2>
@@ -21,7 +21,7 @@
 
     <hr class="my-8 h-px bg-zinc-100" />
 
-    <div class="flex flex-col sm:flex-row gap-2 pb-8">
+    <div class="flex flex-col gap-2 pb-8 sm:flex-row">
       <Button intent="secondary" size="small">
         <img src="/icons/edit.svg" alt="Edit contact" class="w-4 h-4" />
         Edit contact
@@ -68,7 +68,7 @@
       {/if}
     </div>
 
-    <div class="flex flex-col sm:flex-row gap-2 mt-auto">
+    <div class="flex flex-col gap-2 mt-auto sm:flex-row">
       <Button intent="dangerSecondary" fullWidth>
         <img src="/icons/block.svg" alt="Block user" class="w-4 h-4" />
         Block user

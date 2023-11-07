@@ -47,7 +47,7 @@
       {/if}
     </div>
 
-    <div class="flex flex-col justify-between items-end py-1 gap-1.5">
+    <div class="flex flex-col gap-1.5 justify-between items-end py-1">
       <time
         class="text-xs" 
         class:text-zinc-700={chat.unreadCount === 0}
