@@ -1,24 +1,16 @@
-import { sql } from "drizzle-orm";
 import { integer, text, sqliteTable, primaryKey, blob } from "drizzle-orm/sqlite-core";
 import { v4 as uuidv4 } from "uuid";
 
-function currentTimestamp() {
-  return sql`CURRENT_TIMESTAMP`;
-}
-
 export const chat = sqliteTable("chat", {
   id: text("id").primaryKey().$defaultFn(() => uuidv4()),
-  createdAt: integer("created_at", { mode: "timestamp" })
-    .default(currentTimestamp()),
+  createdAt: integer("created_at", { mode: "timestamp" }),
 });
 
 export const participant = sqliteTable("participant", {
   chatId: text("chat_id").references(() => chat.id, { onDelete: "cascade" }).notNull(),
-  userId: text("user_id").references(() => user.id).notNull(),
-  joinedAt: integer("joined_at", { mode: "timestamp" })
-    .default(currentTimestamp()),
-  lastReadAt: integer("last_read_at", { mode: "timestamp" })
-    .default(currentTimestamp()),
+  userId: text("user_id").references(() => user.id, { onDelete: "cascade" }).notNull(),
+  joinedAt: integer("joined_at", { mode: "timestamp" }),
+  lastReadAt: integer("last_read_at", { mode: "timestamp" }),
 }, (p) => ({
   compoundKey: primaryKey(p.chatId, p.userId),
 }));
@@ -28,17 +20,15 @@ export const message = sqliteTable("message", {
   chatId: text("chat_id").references(() => chat.id, { onDelete: "cascade" }).notNull(),
   senderId: text("sender_id").references(() => user.id).notNull(),
   text: text("text"),
-  createdAt: integer("created_at", { mode: "timestamp" })
-    .default(currentTimestamp()),
+  createdAt: integer("created_at", { mode: "timestamp" }),
 });
 
-export const contact = sqliteTable("contact", { 
+export const contact = sqliteTable("contact", {
   userId: text("user_id").references(() => user.id, { onDelete: "cascade" }).notNull(),
   contactId: text("contact_id")
     .references(() => user.id, { onDelete: "cascade" }).notNull(),
   alias: text("alias").notNull(),
-  createdAt: integer("created_at", { mode: "timestamp" })
-    .default(currentTimestamp()),
+  createdAt: integer("created_at", { mode: "timestamp" }),
 }, (p) => ({
   compoundKey: primaryKey(p.userId, p.contactId),
 }));

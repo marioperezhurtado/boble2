@@ -27,11 +27,11 @@
         Edit contact
       </Button>
       <form action="?/openChat" method="POST">
-        <input type="hidden" name="contactId" value={contact.id} />
         <Button type="submit" intent="primary" size="small">
           <img src="/icons/chat-light.svg" alt="Open chat" class="w-4 h-4" />
           Open chat
         </Button>
+        <input type="hidden" name="contactId" value={contact.id} />
       </form>
     </div>
 

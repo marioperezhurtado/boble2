@@ -18,8 +18,8 @@
 </p>
 
 <form class="flex flex-col gap-3 pt-8">
-  <Label for="email"
-    >Email
+  <Label for="email">
+    Email
     <Input id="email" name="email" type="email" autocomplete="email" />
   </Label>
   <Label for="password">

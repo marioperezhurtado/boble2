@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1698763402151,
-      "tag": "0000_famous_nemesis",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1698763691475,
-      "tag": "0001_messy_scalphunter",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1698832080841,
-      "tag": "0002_good_vivisector",
+      "when": 1699436748490,
+      "tag": "0000_sparkling_raider",
       "breakpoints": true
     }
   ]

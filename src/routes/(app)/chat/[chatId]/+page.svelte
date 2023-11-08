@@ -10,12 +10,7 @@
 </script>
 
 <section class="flex relative flex-col flex-grow h-full">
-  <ChatTopBar
-    name={data.chat.user.name}
-    image={data.chat.user.image}
-    email={data.chat.user.email}
-    status={data.chat.user.status}
-  />
+  <ChatTopBar chat={data.chat} />
   <MessageList
     initialMessages={data.messages ?? []}
     lastReadAt={data.chat?.user.lastReadAt ?? new Date(0)}

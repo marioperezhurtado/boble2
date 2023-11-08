@@ -30,8 +30,8 @@
     >Password
     <PasswordInput id="password" name="password" />
   </Label>
-  <Label for="confirmPassword"
-    >Confirm Password
+  <Label for="confirmPassword">
+    Confirm Password
     <PasswordInput id="confirmPassword" name="confirmPassword" />
   </Label>
 

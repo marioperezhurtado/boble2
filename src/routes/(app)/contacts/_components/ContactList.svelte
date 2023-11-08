@@ -2,6 +2,7 @@
   import { page } from "$app/stores";
   import FilterContacts from "./FilterContacts.svelte";
   import Contact from "./Contact.svelte";
+  import ActionIconLink from "$lib/ui/ActionIconLink.svelte";
   import type { Contacts } from "$lib/db/getContacts";
 
   export let contacts: Contacts;
@@ -9,10 +10,17 @@
   let filteredContacts = contacts;
 </script>
 
-<FilterContacts initialContacts={contacts} bind:filteredContacts />
+<div class="p-2 flex gap-2 items-center">
+  <FilterContacts initialContacts={contacts} bind:filteredContacts />
+  <ActionIconLink
+    href={$page.url.pathname + "?create=true"}
+    title="Add contact"
+    icon="/icons/add-contact.svg"
+  />
+</div>
 
 {#if filteredContacts.length > 0}
-  <ul class="flex flex-col gap-3 border-t">
+  <ul class="border-t">
     {#each filteredContacts as contact}
       <Contact {contact} isSelected={contact.id === $page.params.contactId} />
     {/each}

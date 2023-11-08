@@ -19,7 +19,7 @@
   >
     <Avatar image={chat.user.image} name={chat.user.name ?? ""} />
     <div class="flex flex-col flex-1">
-      <p class="font-medium">{chat.user.name}</p>
+      <p class="font-medium">{chat.user.alias || chat.user.name}</p>
       {#if chat.lastMessage}
         <p
           class="flex gap-0.5 items-center text-sm text-zinc-500"

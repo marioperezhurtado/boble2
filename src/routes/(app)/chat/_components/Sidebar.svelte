@@ -15,7 +15,7 @@
     <a href="/profile">
       <Avatar image={data.user.image} name={data.user.name} size="small" />
     </a>
-    <div class="flex gap-1.5">
+    <div class="flex gap-2">
       <ActionIconLink
         href="/contacts"
         title="Contacts"

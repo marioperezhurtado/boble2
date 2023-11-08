@@ -3,9 +3,11 @@
   import AppHeader from "../_components/AppHeader.svelte";
   import ContactList from "./_components/ContactList.svelte";
   import Sidebar from "../chat/_components/Sidebar.svelte";
+  import NewContact from "./_components/NewContact.svelte";
   import type { LayoutServerData } from "./$types";
 
   $: data = $page.data as LayoutServerData;
+  $: isCreating = $page.url.searchParams.get("create") === "true";
 </script>
 
 <svelte:head>
@@ -28,3 +30,7 @@
     </div>
   </main>
 </div>
+
+{#if isCreating}
+  <NewContact />
+{/if}
