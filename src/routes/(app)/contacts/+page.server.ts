@@ -1,6 +1,6 @@
 import { error, fail, redirect } from "@sveltejs/kit";
-import { getUserByEmail } from "$lib/db/getUserByEmail";
-import { createContact } from "$lib/db/createContact";
+import { getUserByEmail } from "$lib/db/user/getUserByEmail";
+import { createContact } from "$lib/db/contact/createContact";
 import type { Actions } from "./$types";
 
 export const actions = {

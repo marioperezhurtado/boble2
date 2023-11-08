@@ -1,4 +1,4 @@
-import { getChats } from '$lib/db/getChats';
+import { getChats } from '$lib/db/chat/getChats';
 import type { LayoutServerLoad } from './$types';
 
 export const load: LayoutServerLoad = async ({ parent }) => {

@@ -1,5 +1,5 @@
-import { db } from "./db";
-import { contact } from "./schema";
+import { db } from "$lib/db/db";
+import { contact } from "$lib/db/schema";
 
 type CreateContactParams = {
   userId: string;

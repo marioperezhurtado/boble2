@@ -1,7 +1,7 @@
 <script lang="ts">
   import { formatLastMessageAt } from "$lib/utils/date";
   import Avatar from "$lib/ui/Avatar.svelte";
-  import type { Chat } from "$lib/db/getChats";
+  import type { Chat } from "$lib/db/chat/getChats";
 
   export let chat: Chat;
   export let isSelected: boolean;

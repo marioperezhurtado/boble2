@@ -1,13 +1,13 @@
-import { db } from "./db";
-import { message } from "./schema";
+import { db } from "$lib/db/db";
+import { message } from "$lib/db/schema";
 
-type AddMessageParams = {
+type CreateMessageParams = {
   chatId: string;
   senderId: string;
   text: string;
 };
 
-export function addMessage({ chatId, senderId, text }: AddMessageParams) {
+export function createMessage({ chatId, senderId, text }: CreateMessageParams) {
     return db.insert(message).values({
         chatId,
         senderId,

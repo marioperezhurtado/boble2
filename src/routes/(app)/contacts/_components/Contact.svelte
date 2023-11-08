@@ -1,6 +1,6 @@
 <script lang="ts">
   import Avatar from "$lib/ui/Avatar.svelte";
-  import type { Contact } from "$lib/db/getContacts";
+  import type { Contact } from "$lib/db/contact/getContacts";
 
   export let contact: Contact;
   export let isSelected: boolean;

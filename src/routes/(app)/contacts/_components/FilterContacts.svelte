@@ -1,6 +1,6 @@
 <script lang="ts">
   import { capitalize } from "$lib/utils/text";
-  import type { Contacts } from "$lib/db/getContacts";
+  import type { Contacts } from "$lib/db/contact/getContacts";
 
   export let initialContacts: Contacts;
   export let filteredContacts: Contacts;

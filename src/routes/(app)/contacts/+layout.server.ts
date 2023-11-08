@@ -1,4 +1,4 @@
-import { getContacts } from '$lib/db/getContacts';
+import { getContacts } from '$lib/db/contact/getContacts';
 
 import type { LayoutServerLoad } from './$types';
 

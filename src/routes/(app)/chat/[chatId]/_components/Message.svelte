@@ -1,6 +1,6 @@
 <script lang="ts">
   import { formatDate, formatTime } from "$lib/utils/date";
-  import type { Message } from "$lib/db/getMessages";
+  import type { Message } from "$lib/db/message/getMessages";
 
   export let message: Message;
   export let prevMessage: Message;

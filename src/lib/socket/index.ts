@@ -1,7 +1,7 @@
 import express from "express";
 import { createServer } from "http";
 import { Server as WebSocketServer } from "socket.io";
-import type { Message } from "$lib/db/getMessages";
+import type { Message } from "$lib/db/message/getMessages";
 
 export type ClientToServerEvents = {
   join: (chatId: string) => void;

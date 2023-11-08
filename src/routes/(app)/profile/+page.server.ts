@@ -1,5 +1,5 @@
 import { error, fail } from "@sveltejs/kit";
-import { editUser } from "$lib/db/editUser";
+import { editUser } from "$lib/db/user/editUser";
 import type { Actions } from "./$types";
 
 export const actions = {

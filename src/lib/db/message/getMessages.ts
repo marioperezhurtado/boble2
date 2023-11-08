@@ -1,6 +1,6 @@
 import { asc, eq } from "drizzle-orm";
-import { db } from "./db";
-import { message } from "./schema";
+import { db } from "$lib/db/db";
+import { message } from "$lib/db/schema";
 
 export function getMessages(chatId: string) {
   return db

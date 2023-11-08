@@ -1,6 +1,7 @@
-import { fail, redirect } from '@sveltejs/kit';
-import { getChatByParticipants } from '$lib/db/getChatByParticipants';
-import { createChat } from '$lib/db/createChat';
+import { error, redirect } from '@sveltejs/kit';
+import { getChatByParticipants } from '$lib/db/chat/getChatByParticipants';
+import { createChat } from '$lib/db/chat/createChat';
+import { deleteContact } from '$lib/db/contact/deleteContact';
 import type { PageServerLoad, Actions } from './$types';
 
 
@@ -19,14 +20,14 @@ export const actions = {
   async openChat({ request, locals }) {
     const session = await locals.auth.validate();
     if (!session) {
-      return fail(401, { message: 'Unauthorized' });
+      throw error(401, 'Unauthorized');
     }
 
     const formData = await request.formData();
 
     const contactId = formData.get('contactId') as string;
     if (!contactId) {
-      return fail(400, { message: 'Bad Request' });
+      throw error(400, 'Bad Request');
     }
 
     const existingChat = await getChatByParticipants(session.user.id, contactId);
@@ -36,5 +37,22 @@ export const actions = {
 
     const newChat = await createChat(session.user.id, contactId);
     throw redirect(302, `/chat/${newChat.id}`);
+  },
+  async removeContact({ request, locals }) {
+    const session = await locals.auth.validate();
+    if (!session) {
+      throw error(401, 'Unauthorized');
+    }
+
+    const formData = await request.formData();
+
+    const contactId = formData.get('contactId') as string;
+    if (!contactId) {
+      throw error(400, 'Bad Request');
+    }
+
+    await deleteContact({ userId: session.user.id, contactId });
+
+    throw redirect(302, '/contacts');
   }
 } satisfies Actions;  

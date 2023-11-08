@@ -1,6 +1,6 @@
 import { db } from "$lib/db/db";
+import { user } from "$lib/db/schema";
 import { eq } from "drizzle-orm";
-import { user } from "./schema";
 
 type EditUserParams = {
   name: string;

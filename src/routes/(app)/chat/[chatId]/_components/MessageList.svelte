@@ -2,7 +2,7 @@
 	import { onDestroy } from 'svelte';
 	import { joinChat, subscribeToMessages, unsubscribeFromMessages } from '$lib/utils/chat';
 	import Message from './Message.svelte';
-	import type { Messages } from '$lib/db/getMessages';
+	import type { Messages } from '$lib/db/message/getMessages';
 
 	export let initialMessages: Messages;
 	export let lastReadAt: Date;

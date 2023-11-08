@@ -3,7 +3,7 @@
   import FilterContacts from "./FilterContacts.svelte";
   import Contact from "./Contact.svelte";
   import ActionIconLink from "$lib/ui/ActionIconLink.svelte";
-  import type { Contacts } from "$lib/db/getContacts";
+  import type { Contacts } from "$lib/db/contact/getContacts";
 
   export let contacts: Contacts;
 

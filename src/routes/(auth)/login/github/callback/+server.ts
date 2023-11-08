@@ -1,7 +1,7 @@
 import { auth, githubAuth } from "$lib/auth/auth";
 import { OAuthRequestError } from "@lucia-auth/oauth";
 import type { RequestHandler } from "@sveltejs/kit";
-import { getUserByEmail } from "$lib/db/getUserByEmail";
+import { getUserByEmail } from "$lib/db/user/getUserByEmail";
 
 export const GET: RequestHandler = async ({ url, cookies, locals }) => {
   const storedState = cookies.get("github_oauth_state");

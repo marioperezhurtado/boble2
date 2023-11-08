@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
-import { db } from "./db";
-import { chat, participant } from "./schema";
+import { db } from "$lib/db/db";
+import { chat, participant } from "$lib/db/schema";
 import { alias } from "drizzle-orm/sqlite-core";
 
 export async function getChatByParticipants(user1Id: string, user2Id: string) {

@@ -1,6 +1,6 @@
 import { eq, desc } from "drizzle-orm";
-import { db } from "./db";
-import { contact, user } from "./schema";
+import { db } from "$lib/db/db";
+import { contact, user } from "$lib/db/schema";
 
 export function getContacts(userId: string) {
   return db

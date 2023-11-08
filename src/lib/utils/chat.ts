@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
-import type { Messages, Message } from "$lib/db/getMessages";
+import type { Messages, Message } from "$lib/db/message/getMessages";
 import type { ServerToClientEvents, ClientToServerEvents } from "$lib/socket";
 import type { Socket } from "socket.io-client";
 

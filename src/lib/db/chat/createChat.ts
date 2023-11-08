@@ -1,6 +1,6 @@
-import { db } from "./db";
-import { chat } from "./schema";
-import { createParticipant } from "./createParticipant";
+import { db } from "$lib/db/db";
+import { chat } from "$lib/db/schema";
+import { createParticipant } from "../participant/createParticipant";
 
 export async function createChat(user1Id: string, user2Id: string) {
   const newChat = await db

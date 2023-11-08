@@ -1,7 +1,7 @@
-import { getMessages } from '$lib/db/getMessages';
 import { fail, redirect } from '@sveltejs/kit';
-import { addMessage } from '$lib/db/addMessage';
-import { readChat } from '$lib/db/readChat';
+import { getMessages } from '$lib/db/message/getMessages';
+import { createMessage } from '$lib/db/message/createMessage';
+import { readChat } from '$lib/db/chat/readChat';
 import { sendMessage } from '$lib/utils/chat';
 import type { PageServerLoad, Actions } from './$types';
 
@@ -37,7 +37,7 @@ export const actions = {
       return fail(400, { message, missing: true });
     }
 
-    const newMessage = await addMessage({
+    const newMessage = await createMessage({
       chatId: params.chatId,
       text: message,
       senderId: session.user.id,

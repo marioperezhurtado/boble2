@@ -2,7 +2,7 @@
   import { page } from "$app/stores";
   import FilterChats from "./FilterChats.svelte";
   import Chat from "./Chat.svelte";
-  import type { Chats } from "$lib/db/getChats";
+  import type { Chats } from "$lib/db/chat/getChats";
 
   export let chats: Chats;
 

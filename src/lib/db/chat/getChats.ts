@@ -1,7 +1,7 @@
 import { and, desc, eq, gt, ne, sql } from "drizzle-orm";
 import { alias } from "drizzle-orm/sqlite-core";
-import { db } from "./db";
-import { chat, participant, message, user, contact } from "./schema";
+import { db } from "$lib/db/db";
+import { chat, participant, message, user, contact } from "$lib/db/schema";
 
 export async function getChats(userId: string) {
   const unreadMessage = alias(message, "unreadMessage");

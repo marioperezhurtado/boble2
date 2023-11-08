@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { capitalize } from '$lib/utils/text';
-	import type { Chats } from '$lib/db/getChats';
+	import type { Chats } from '$lib/db/chat/getChats';
 
 	export let initialChats: Chats;
 	export let filteredChats: Chats;
