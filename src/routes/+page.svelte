@@ -35,12 +35,12 @@
     <PrivateChats />
     <OpenSource />
 
-    <section class="mt-40 pb-14 text-center grid grid-cols-3">
-      <div class="flex flex-col items-center gap-6">
+    <section class="grid grid-cols-3 pb-14 mt-40 text-center">
+      <div class="flex flex-col gap-6 items-center">
         <h3 class="text-lg font-bold">Are you ready?</h3>
         <ButtonLink href="/chat">Start chatting</ButtonLink>
       </div>
-      <div class="flex flex-col items-center gap-6">
+      <div class="flex flex-col gap-6 items-center">
         <h3 class="text-lg font-bold">About this project</h3>
         <ButtonLink
           href="https://github.com/marioperezhurtado/boble2"
@@ -51,7 +51,7 @@
           More info
         </ButtonLink>
       </div>
-      <div class="flex flex-col items-center gap-6">
+      <div class="flex flex-col gap-6 items-center">
         <h3 class="text-lg font-bold">Any questions?</h3>
         <ButtonLink
           href="#"

@@ -1,5 +1,5 @@
 <span
-  class="bg-cyan-600 text-white px-1 rounded-sm"
+  class="px-1 text-white bg-cyan-600 rounded-sm"
 >
   <slot />
 </span>

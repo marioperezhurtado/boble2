@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import { fly } from "svelte/transition";
+  import { fade, fly, scale } from "svelte/transition";
   import { chatInfoOpen } from "./stores";
   import { clickOutside } from "$lib/utils/clickOutside";
   import { formatDateTime } from "$lib/utils/date";
@@ -11,6 +11,8 @@
 
   $: data = $page.data as PageData;
   $: user = data.chat.user;
+
+  let avatarExpanded = false;
 </script>
 
 {#if $chatInfoOpen}
@@ -27,11 +29,14 @@
     />
 
     <div class="flex flex-col items-center text-center">
-      <Avatar
-        name={data.chat.user.name}
-        image={data.chat.user.image}
-        size="large"
-      />
+      <button on:click={() => (avatarExpanded = !avatarExpanded)}>
+        <Avatar
+          bind:expanded={avatarExpanded}
+          name={data.chat.user.name}
+          image={data.chat.user.image}
+          size="large"
+        />
+      </button>
       <h2 class="pt-2 font-medium">{user.name}</h2>
       <p class="text-sm text-zinc-500">{data.chat.user.email}</p>
     </div>

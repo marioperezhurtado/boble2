@@ -14,5 +14,6 @@ export function createContact({ userId, contactId, alias }: CreateContactParams)
       userId,
       contactId,
       alias,
+      createdAt: new Date(),
     })
 }

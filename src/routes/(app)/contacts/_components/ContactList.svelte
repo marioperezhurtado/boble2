@@ -10,7 +10,7 @@
   let filteredContacts = contacts;
 </script>
 
-<div class="p-2 flex gap-2 items-center">
+<div class="flex gap-2 items-center p-2">
   <FilterContacts initialContacts={contacts} bind:filteredContacts />
   <ActionIconLink
     href={$page.url.pathname + "?create=true"}
