@@ -56,9 +56,7 @@
     on:click|stopPropagation
     role="presentation"
     in:scale={{ start: 0.7, duration: 350 }}
-    class="overflow-hidden fixed left-1/2 z-40 w-5/6 h-auto rounded-md border
-    shadow-md -translate-x-1/2 sm:top-1/2 sm:w-auto sm:h-2/3 sm:-translate-y-1/2
-    top-1/5 max-h-[30rem] aspect-square border-zinc-400 cursor-default"
+    class="overflow-hidden fixed left-1/2 z-40 w-5/6 h-auto rounded-md border shadow-md -translate-x-1/2 cursor-default sm:top-1/2 sm:w-auto sm:h-2/3 sm:-translate-y-1/2 top-1/5 max-h-[30rem] aspect-square border-zinc-400"
   >
     <img
       src={imageSource}
@@ -68,10 +66,9 @@
     />
 
     <div
-      class="absolute bottom-2.5 left-2.5 z-30 px-3 py-1.5 rounded-md
-      bg-zinc-200/70 backdrop-blur-sm"
+      class="absolute bottom-2.5 left-2.5 z-30 py-1.5 px-3 rounded-md bg-zinc-200/70 backdrop-blur-sm"
     >
-      <h2 class="font-bold text-sm">
+      <h2 class="text-sm font-bold">
         {name}
       </h2>
     </div>

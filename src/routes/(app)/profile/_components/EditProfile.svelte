@@ -26,7 +26,7 @@
   <div class="flex flex-col gap-1 pb-8 text-sm text-zinc-500">
     <p>
       You are logged in as
-      <span class="font-bold text-zinc-700">{data.user.email}</span>.
+      <span class="font-bold text-zinc-700">{data.user.email}.</span>
     </p>
     <p>Change your account settings and how other users see you.</p>
   </div>

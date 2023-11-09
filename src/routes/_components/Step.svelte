@@ -5,7 +5,7 @@
 </script>
 
 <div>
-  <figure class="flex justify-center items-center mx-auto font-bold text-white rounded-full circle">
+  <figure class="flex justify-center items-center mx-auto font-bold text-white rounded-full shadow-md circle">
     {step}
   </figure>
   <p class="pt-6 pb-2 text-lg font-bold">{title}</p>

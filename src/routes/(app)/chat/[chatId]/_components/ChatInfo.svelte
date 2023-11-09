@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import { fade, fly, scale } from "svelte/transition";
+  import { fly } from "svelte/transition";
   import { chatInfoOpen } from "./stores";
   import { clickOutside } from "$lib/utils/clickOutside";
   import { formatDateTime } from "$lib/utils/date";
