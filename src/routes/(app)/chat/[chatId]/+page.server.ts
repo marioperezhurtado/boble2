@@ -3,6 +3,7 @@ import { getMessages } from '$lib/db/message/getMessages';
 import { createMessage } from '$lib/db/message/createMessage';
 import { readChat } from '$lib/db/chat/readChat';
 import { sendMessage } from '$lib/utils/chat';
+import { getSessionRequired } from '$lib/auth/auth';
 import type { PageServerLoad, Actions } from './$types';
 
 export const load: PageServerLoad = async ({ params, parent }) => {
@@ -25,11 +26,7 @@ export const load: PageServerLoad = async ({ params, parent }) => {
 
 export const actions = {
   sendMessage: async ({ request, params, locals }) => {
-    const session = await locals.auth.validate();
-    if (!session) {
-      return fail(401, { message: 'Unauthorized' });
-    }
-
+    const session = await getSessionRequired(locals.auth);
     const formData = await request.formData();
 
     const message = formData.get('message') as string;

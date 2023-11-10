@@ -4,8 +4,8 @@ import { createChat } from '$lib/db/chat/createChat';
 import { deleteContact } from '$lib/db/contact/deleteContact';
 import { getUserByEmail } from '$lib/db/user/getUserByEmail';
 import { editContact } from '$lib/db/contact/editContact';
+import { getSessionRequired } from '$lib/auth/auth';
 import type { PageServerLoad, Actions } from './$types';
-
 
 export const load: PageServerLoad = async ({ params, parent }) => {
   const { contacts } = await parent();
@@ -20,11 +20,7 @@ export const load: PageServerLoad = async ({ params, parent }) => {
 
 export const actions = {
   async openChat({ request, locals }) {
-    const session = await locals.auth.validate();
-    if (!session) {
-      throw error(401, 'Unauthorized');
-    }
-
+    const session = await getSessionRequired(locals.auth);
     const formData = await request.formData();
 
     const contactId = formData.get('contactId') as string;
@@ -41,11 +37,7 @@ export const actions = {
     throw redirect(302, `/chat/${newChat.id}`);
   },
   async removeContact({ request, locals }) {
-    const session = await locals.auth.validate();
-    if (!session) {
-      throw error(401, 'Unauthorized');
-    }
-
+    const session = await getSessionRequired(locals.auth);
     const formData = await request.formData();
 
     const contactId = formData.get('contactId') as string;
@@ -58,11 +50,7 @@ export const actions = {
     throw redirect(302, '/contacts');
   },
   async editContact({ request, locals }) {
-    const session = await locals.auth.validate();
-    if (!session) {
-      throw error(401, "Unauthorized");
-    }
-
+    const session = await getSessionRequired(locals.auth);
     const formData = await request.formData();
 
     const contactId = formData.get("contactId") as string;

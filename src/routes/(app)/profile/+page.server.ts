@@ -1,16 +1,12 @@
-import { error, fail } from "@sveltejs/kit";
+import { fail } from "@sveltejs/kit";
 import { editUser } from "$lib/db/user/editUser";
+import { getSessionRequired } from "$lib/auth/auth";
 import type { Actions } from "./$types";
 
 export const actions = {
-  editProfile: async (event) => {
-    const session = await event.locals.auth.validate();
-
-    if (!session) {
-      throw error(401, "Unauthorized");
-    }
-
-    const formData = await event.request.formData();
+  editProfile: async ({ request, locals }) => {
+    const session = await getSessionRequired(locals.auth);
+    const formData = await request.formData();
 
     const name = formData.get("name") as string;
     if (!name) {

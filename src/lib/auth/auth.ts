@@ -1,10 +1,12 @@
+import { error } from "@sveltejs/kit";
 import { dev } from "$app/environment";
 import { lucia } from "lucia";
 import { sveltekit } from "lucia/middleware";
 import { betterSqlite3 } from "@lucia-auth/adapter-sqlite";
 import { sqliteDatabase } from "$lib/db/db";
-import {github} from "@lucia-auth/oauth/providers"
+import { github } from "@lucia-auth/oauth/providers"
 import { GITHUB_ID, GITHUB_SECRET } from "$env/static/private";
+import type { AuthRequest } from "lucia";
 
 export const auth = lucia({
   env: dev ? "DEV" : "PROD",
@@ -29,3 +31,11 @@ export const githubAuth = github(auth, {
 });
 
 export type Auth = typeof auth;
+
+export async function getSessionRequired(auth: AuthRequest) {
+  const session = await auth.validate();
+  if (!session) {
+    throw error(401);
+  }
+  return session;
+}
