@@ -24,18 +24,18 @@ export const actions = {
       return fail(400, { error: "Alias must be at least 3 characters"});
     }
 
-    const user = await getUserByEmail(email);
+    const existingUser = await getUserByEmail(email);
 
-    if (!user) {
+    if (!existingUser) {
       return fail(400, { error: "User not found" });
     }
 
     await createContact({
       userId: session.user.id,
-      contactId: user.id,
+      contactId: existingUser.id,
       alias,
     });
 
-    throw redirect(302, `/contacts/${user.id}`);
+    throw redirect(302, `/contacts/${existingUser.id}`);
   }
 } satisfies Actions;

@@ -7,7 +7,7 @@
   import type { LayoutServerData } from "./$types";
 
   $: data = $page.data as LayoutServerData;
-  $: isCreating = $page.url.searchParams.get("create") === "true";
+  $: isCreating = $page.url.searchParams.has("create");
 </script>
 
 <svelte:head>

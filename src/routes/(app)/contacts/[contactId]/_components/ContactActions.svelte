@@ -1,6 +1,8 @@
 <script lang="ts">
+  import { page } from "$app/stores";
   import { enhance } from "$app/forms";
   import Button from "$lib/ui/Button.svelte";
+  import ButtonLink from "$lib/ui/ButtonLink.svelte";
   import type { Contact } from "$lib/db/contact/getContacts";
 
   export let contact: Contact;
@@ -9,10 +11,15 @@
 </script>
 
 <div class="flex flex-col gap-2 pb-8 sm:flex-row">
-  <Button intent="secondary" size="small">
+  <ButtonLink
+    href={$page.url.pathname + "?edit"}
+    intent="secondary"
+    size="small"
+  >
     <img src="/icons/edit.svg" alt="Edit contact" class="w-4 h-4" />
     Edit contact
-  </Button>
+  </ButtonLink>
+
   <form
     use:enhance={() => {
       isOpeningChat = true;

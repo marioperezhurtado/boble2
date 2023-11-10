@@ -6,31 +6,38 @@
   import Input from "$lib/ui/Input.svelte";
   import Modal from "$lib/ui/Modal.svelte";
   import FormError from "$lib/ui/FormError.svelte";
+  import type { PageData } from "../$types";
 
-  let isAdding = false;
+  let isEditing = false;
+
+  $: data = $page.data as PageData;
+  $: alias = data.contact.alias;
+  $: email = data.contact.email;
 </script>
 
 <Modal backTo={$page.url.pathname}>
-  <h1 class="pb-3 text-xl font-bold">New contact</h1>
-  <p class="text-sm text-zinc-500">Add a new contact to your list.</p>
+  <h1 class="pb-3 text-xl font-bold">Edit contact</h1>
+  <p class="text-sm text-zinc-500">Change the details of your contact.</p>
 
   <form
-    action="/contacts?/addContact"
+    action="?/editContact"
     use:enhance={() => {
-      isAdding = true;
+      isEditing = true;
 
       return async ({ update }) => {
         await update();
-        isAdding = false;
+        isEditing = false;
       };
     }}
     method="POST"
     class="flex flex-col gap-3 pt-8"
   >
+    <input type="hidden" name="contactId" value={data.contact.id} />
+
     <div>
       <Label for="alias">
         Alias
-        <Input id="alias" name="alias" type="text" />
+        <Input bind:value={alias} id="alias" name="alias" type="text" />
       </Label>
       <p class="pt-2 text-xs font-normal text-zinc-500">
         This is the name that will appear in your contact list.
@@ -40,6 +47,7 @@
     <Label for="email">
       Email address
       <Input
+        bind:value={email}
         id="email"
         name="email"
         type="email"
@@ -51,8 +59,8 @@
       <FormError message={$page.form.error} />
     {/if}
 
-    <Button isLoading={isAdding} type="submit" class="ml-auto">
-      Save contact
+    <Button isLoading={isEditing} type="submit" class="ml-auto">
+      Save changes
     </Button>
   </form>
 </Modal>

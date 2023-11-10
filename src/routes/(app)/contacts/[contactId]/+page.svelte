@@ -4,12 +4,14 @@
   import ContactActions from "./_components/ContactActions.svelte";
   import ContactInfo from "./_components/ContactInfo.svelte";
   import ContactDangerActions from "./_components/ContactDangerActions.svelte";
+  import EditContact from "./_components/EditContact.svelte";
   import type { PageData } from "./$types";
 
   let avatarExpanded = false;
 
   $: data = $page.data as PageData;
   $: contact = data.contact;
+  $: isEditing = $page.url.searchParams.has("edit");
 </script>
 
 <section class="p-6 h-full bg-zinc-50">
@@ -36,3 +38,7 @@
     <ContactDangerActions {contact} />
   </div>
 </section>
+
+{#if isEditing}
+  <EditContact />
+{/if}
