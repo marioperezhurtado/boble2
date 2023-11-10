@@ -1,6 +1,6 @@
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, and } from "drizzle-orm";
 import { db } from "$lib/db/db";
-import { contact, user } from "$lib/db/schema";
+import { block, contact, user } from "$lib/db/schema";
 
 export function getContacts(userId: string) {
   return db
@@ -11,12 +11,21 @@ export function getContacts(userId: string) {
       email: user.email,
       status: user.status,
       image: user.image,
+      isBlocked: block.blockedUserId,
       createdAt: contact.createdAt,
     })
     .from(contact)
     .where(eq(contact.userId, userId))
+    // join contact
     .innerJoin(user, eq(contact.contactId, user.id))
-    .orderBy(desc(contact.alias));
+    // join if is blocked
+    .leftJoin(block, and(
+      eq(block.userId, userId),
+      eq(block.blockedUserId, contact.contactId),
+    ))
+    .orderBy(desc(contact.alias))
+
+
 }
 
 export type Contacts = typeof getContacts extends (...args: any) => Promise<infer T> ? T : never

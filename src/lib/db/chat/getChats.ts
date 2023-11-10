@@ -1,7 +1,7 @@
 import { and, desc, eq, gt, ne, sql } from "drizzle-orm";
 import { alias } from "drizzle-orm/sqlite-core";
 import { db } from "$lib/db/db";
-import { chat, participant, message, user, contact } from "$lib/db/schema";
+import { chat, participant, message, user, contact, block } from "$lib/db/schema";
 
 export async function getChats(userId: string) {
   const unreadMessage = alias(message, "unreadMessage");
@@ -20,6 +20,7 @@ export async function getChats(userId: string) {
         status: user.status,
         joinedAt: otherParticipant.joinedAt,
         lastReadAt: otherParticipant.lastReadAt,
+        isBlocked: block.blockedUserId
       },
       lastMessage: {
         id: message.id,
@@ -39,12 +40,17 @@ export async function getChats(userId: string) {
       eq(otherParticipant.chatId, chat.id),
       ne(otherParticipant.userId, userId)
     ))
+    .innerJoin(user, eq(user.id, otherParticipant.userId))
     // join the other user's contact info if exists
     .leftJoin(contact, and(
       eq(contact.userId, userId),
       eq(contact.contactId, otherParticipant.userId)
     ))
-    .innerJoin(user, eq(user.id, otherParticipant.userId))
+    // join if user is blocked
+    .leftJoin(block, and(
+      eq(block.userId, userId),
+      eq(block.blockedUserId, otherParticipant.userId)
+    ))
     // join unread messages (message.createdAt > participant.lastReadAt)
     .leftJoin(unreadMessage, and(
       eq(unreadMessage.chatId, chat.id),

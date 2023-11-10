@@ -33,6 +33,15 @@ export const contact = sqliteTable("contact", {
   compoundKey: primaryKey(p.userId, p.contactId),
 }));
 
+export const block = sqliteTable("block", {
+  userId: text("user_id").references(() => user.id, { onDelete: "cascade" }).notNull(),
+  blockedUserId: text("blocked_user_id")
+    .references(() => user.id, { onDelete: "cascade" }).notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" }),
+}, (p) => ({
+  compoundKey: primaryKey(p.userId, p.blockedUserId),
+}));
+
 // auth tables (lucia)
 
 export const user = sqliteTable("user", {

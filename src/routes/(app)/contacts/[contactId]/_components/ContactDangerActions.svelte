@@ -2,6 +2,7 @@
   import { enhance } from "$app/forms";
   import Button from "$lib/ui/Button.svelte";
   import type { Contact } from "$lib/db/contact/getContacts";
+  import BlockUnblockButton from "$lib/ui/BlockUnblockButton.svelte";
 
   export let contact: Contact;
 
@@ -9,10 +10,7 @@
 </script>
 
 <div class="flex flex-col gap-2 mt-auto sm:flex-row">
-  <Button intent="dangerSecondary" fullWidth>
-    <img src="/icons/block.svg" alt="Block user" class="w-4 h-4" />
-    Block user
-  </Button>
+  <BlockUnblockButton userId={contact.id} isBlocked={!!contact.isBlocked} />
 
   <form
     use:enhance={() => {

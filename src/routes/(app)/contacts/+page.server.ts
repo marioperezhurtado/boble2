@@ -13,7 +13,7 @@ export const actions = {
     const formData = await request.formData();
     const email = formData.get("email") as string;
     if (!email) {
-      return fail(401, {error: "Email address is required"});
+      return fail(400, { error: "Email address is required" });
     }
 
     const alias = formData.get("alias") as string;
@@ -21,7 +21,7 @@ export const actions = {
       return fail(400, { error: "Alias is required" });
     }
     if (alias.length < 3) {
-      return fail(400, { error: "Alias must be at least 3 characters"});
+      return fail(400, { error: "Alias must be at least 3 characters" });
     }
 
     const existingUser = await getUserByEmail(email);

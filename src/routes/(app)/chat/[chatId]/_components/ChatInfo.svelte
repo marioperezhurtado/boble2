@@ -8,8 +8,10 @@
   import Avatar from "$lib/ui/Avatar.svelte";
   import Button from "$lib/ui/Button.svelte";
   import type { PageData } from "../$types";
+  import BlockUnblockButton from "$lib/ui/BlockUnblockButton.svelte";
 
   $: data = $page.data as PageData;
+  $: chat = data.chat;
   $: user = data.chat.user;
 
   let avatarExpanded = false;
@@ -32,13 +34,13 @@
       <button on:click={() => (avatarExpanded = !avatarExpanded)}>
         <Avatar
           bind:expanded={avatarExpanded}
-          name={data.chat.user.name}
-          image={data.chat.user.image}
+          name={chat.user.name}
+          image={chat.user.image}
           size="large"
         />
       </button>
       <h2 class="pt-2 font-medium">{user.name}</h2>
-      <p class="text-sm text-zinc-500">{data.chat.user.email}</p>
+      <p class="text-sm text-zinc-500">{user.email}</p>
     </div>
 
     <div class="flex flex-col gap-4 pt-8">
@@ -59,20 +61,17 @@
       <div>
         <p class="text-xs text-zinc-500">Last read</p>
         <p class="text-sm font-medium">
-          {#if data.chat.user.lastReadAt}
-            {formatDateTime(data.chat.user.lastReadAt)}
-          {:else if data.chat.createdAt}
-            {formatDateTime(data.chat.createdAt)}
+          {#if user.lastReadAt}
+            {formatDateTime(user.lastReadAt)}
+          {:else if chat.createdAt}
+            {formatDateTime(chat.createdAt)}
           {/if}
         </p>
       </div>
     </div>
 
     <div class="flex flex-col gap-2 mt-auto">
-      <Button intent="dangerSecondary" fullWidth>
-        <img src="/icons/block.svg" alt="Block user" class="w-4 h-4" />
-        Block user
-      </Button>
+      <BlockUnblockButton userId={user.id} isBlocked={!!user.isBlocked} />
       <Button intent="danger" fullWidth>
         <img src="/icons/delete.svg" alt="Delete chat" class="w-4 h-4" />
         Delete chat

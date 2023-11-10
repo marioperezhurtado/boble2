@@ -115,9 +115,11 @@ You can check your tables and data using drizzle studio:
 npm run db:studio
 ```
 
+![Database diagram](./doc/db-diagram.png)
+
 ## Developing
 
-Once you've created a project and installed dependencies with npm install *(or pnpm install or yarn, bun etc)*, populated your environment variables and set up your database, start a development server:
+Once you've created a project and installed dependencies with npm install *(or pnpm, yarn, bun etc)*, populated your environment variables and set up your database, start a development server:
 
 ```
 npm run dev
@@ -146,8 +148,7 @@ TBD...
 | format | Format your project |
 | db:generate | Generate a SQL migration file |
 | db:push | Push your changes to your database |
-| db:studio | Launch a visual editor for your database |
+| db:studio | Launch a visual editor for your database on port 4983 |
 | test | Run all tests |
 | test:unit | Run unit tests |
 | test:integration | Run integration tests |
-
