@@ -8,6 +8,8 @@
   import FormError from "$lib/ui/FormError.svelte";
 
   let isAdding = false;
+
+  let email = $page.url.searchParams.get("email") || "";
 </script>
 
 <Modal backTo={$page.url.pathname}>
@@ -40,6 +42,7 @@
     <Label for="email">
       Email address
       <Input
+        bind:value={email}
         id="email"
         name="email"
         type="email"

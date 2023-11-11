@@ -71,6 +71,21 @@
     </div>
 
     <div class="flex flex-col gap-2 mt-auto">
+      {#if !user.alias}
+        <ButtonLink
+          href="/contacts?create&email={user.email}"
+          intent="primary"
+          fullWidth
+        >
+          <img
+            src="/icons/add-contact-light.svg"
+            alt="Add contact"
+            class="w-4 h-4"
+          />
+          Add contact
+        </ButtonLink>
+      {/if}
+
       <BlockUnblockButton userId={user.id} isBlocked={!!user.isBlocked} />
       <ButtonLink
         href={$page.url.pathname + "?delete"}
