@@ -36,27 +36,16 @@ export const actions = {
     const newChat = await createChat(session.user.id, contactId);
     throw redirect(302, `/chat/${newChat.id}`);
   },
-  async removeContact({ request, locals }) {
+  async removeContact({ params, locals }) {
     const session = await getSessionRequired(locals.auth);
-    const formData = await request.formData();
 
-    const contactId = formData.get('contactId') as string;
-    if (!contactId) {
-      throw error(400, 'Bad Request');
-    }
-
-    await deleteContact({ userId: session.user.id, contactId });
+    await deleteContact({ userId: session.user.id, contactId: params.contactId });
 
     throw redirect(302, '/contacts');
   },
-  async editContact({ request, locals }) {
+  async editContact({ params, request, locals }) {
     const session = await getSessionRequired(locals.auth);
     const formData = await request.formData();
-
-    const contactId = formData.get("contactId") as string;
-    if (!contactId) {
-      throw error(400, 'Bad Request');
-    }
 
     const email = formData.get("email") as string;
     if (!email) {
@@ -79,7 +68,7 @@ export const actions = {
 
     await editContact({
       userId: session.user.id,
-      contactId: contactId,
+      contactId: params.contactId,
       newAlias: alias,
       newContactId: existingUser.id,
     });

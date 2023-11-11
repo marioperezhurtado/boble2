@@ -4,11 +4,11 @@
   import { chatInfoOpen } from "./stores";
   import { clickOutside } from "$lib/utils/clickOutside";
   import { formatDateTime } from "$lib/utils/date";
+  import type { PageData } from "../$types";
   import ActionIconButton from "$lib/ui/ActionIconButton.svelte";
   import Avatar from "$lib/ui/Avatar.svelte";
-  import Button from "$lib/ui/Button.svelte";
-  import type { PageData } from "../$types";
   import BlockUnblockButton from "$lib/ui/BlockUnblockButton.svelte";
+  import ButtonLink from "$lib/ui/ButtonLink.svelte";
 
   $: data = $page.data as PageData;
   $: chat = data.chat;
@@ -72,10 +72,14 @@
 
     <div class="flex flex-col gap-2 mt-auto">
       <BlockUnblockButton userId={user.id} isBlocked={!!user.isBlocked} />
-      <Button intent="danger" fullWidth>
+      <ButtonLink
+        href={$page.url.pathname + "?delete"}
+        intent="danger"
+        fullWidth
+      >
         <img src="/icons/delete.svg" alt="Delete chat" class="w-4 h-4" />
         Delete chat
-      </Button>
+      </ButtonLink>
     </div>
   </aside>
 {/if}

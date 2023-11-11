@@ -4,7 +4,7 @@
       <h2 class="text-4xl font-extrabold leading-snug text-white">
         Open source.
       </h2>
-      <div class="pt-5 flex flex-col gap-3 text-zinc-100 max-w-md font-medium">
+      <div class="flex flex-col gap-3 pt-5 max-w-md font-medium text-zinc-100">
         <p>
           You can access the code of this project to see how it works, take it
           as yours and contribute to its development.
@@ -19,7 +19,7 @@
             href="https://github.com/marioperezhurtado/boble2"
             target="_blank"
             rel="noopener noreferrer"
-            class="font-semibold underline hover:brightness-125 transition"
+            class="font-semibold underline transition hover:brightness-125"
           >
             GitHub.
           </a>

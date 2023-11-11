@@ -32,8 +32,6 @@
     method="POST"
     class="flex flex-col gap-3 pt-8"
   >
-    <input type="hidden" name="contactId" value={data.contact.id} />
-
     <div>
       <Label for="alias">
         Alias

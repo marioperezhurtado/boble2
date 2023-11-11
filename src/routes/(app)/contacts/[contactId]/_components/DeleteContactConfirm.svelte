@@ -1,0 +1,50 @@
+<script lang="ts">
+  import { page } from "$app/stores";
+  import { enhance } from "$app/forms";
+  import type { PageData } from "../$types";
+  import Button from "$lib/ui/Button.svelte";
+  import ButtonLink from "$lib/ui/ButtonLink.svelte";
+  import Modal from "$lib/ui/Modal.svelte";
+  import FormError from "$lib/ui/FormError.svelte";
+
+  let isDeleting = false;
+
+  $: data = $page.data as PageData;
+</script>
+
+<Modal backTo={$page.url.pathname}>
+  <h1 class="pb-3 text-xl font-bold">Delete contact</h1>
+  <div class="flex flex-col gap-2 text-sm text-zinc-500">
+    <p>
+      Are you sure you want to remove <strong>“{data.contact.alias}”</strong> from
+      your contact list?
+    </p>
+  </div>
+
+  <form
+    action="?/removeContact"
+    use:enhance={() => {
+      isDeleting = true;
+
+      return async ({ update }) => {
+        await update();
+        isDeleting = false;
+      };
+    }}
+    method="POST"
+    class="flex flex-col gap-3 pt-10"
+  >
+    {#if $page.form?.error}
+      <FormError message={$page.form.error} />
+    {/if}
+
+    <div class="flex gap-4 justify-end">
+      <ButtonLink intent="secondary" href={$page.url.pathname}>
+        Cancel
+      </ButtonLink>
+      <Button isLoading={isDeleting} type="submit" intent="danger">
+        Delete contact
+      </Button>
+    </div>
+  </form>
+</Modal>
