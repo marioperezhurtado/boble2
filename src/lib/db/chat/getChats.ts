@@ -6,8 +6,9 @@ import { chat, participant, message, user, contact, block } from "$lib/db/schema
 export async function getChats(userId: string) {
   const unreadMessage = alias(message, "unreadMessage");
   const otherParticipant = alias(participant, "otherParticipant");
+  const ownBlock = alias(block, "ownBlock");
 
-  return db
+  const chats = await db
     .select({
       id: chat.id,
       createdAt: chat.createdAt,
@@ -20,7 +21,8 @@ export async function getChats(userId: string) {
         status: user.status,
         joinedAt: otherParticipant.joinedAt,
         lastReadAt: otherParticipant.lastReadAt,
-        isBlocked: block.blockedUserId
+        isBlocked: block.blockedUserId,
+        blockedMe: ownBlock.blockedUserId,
       },
       lastMessage: {
         id: message.id,
@@ -51,6 +53,11 @@ export async function getChats(userId: string) {
       eq(block.userId, userId),
       eq(block.blockedUserId, otherParticipant.userId)
     ))
+    // join if user blocked me
+    .leftJoin(ownBlock, and(
+      eq(ownBlock.userId, otherParticipant.userId),
+      eq(ownBlock.blockedUserId, userId)
+    ))
     // join unread messages (message.createdAt > participant.lastReadAt)
     .leftJoin(unreadMessage, and(
       eq(unreadMessage.chatId, chat.id),
@@ -68,6 +75,15 @@ export async function getChats(userId: string) {
     ))
     // order by latest message
     .orderBy(desc(message.createdAt));
+
+  // Hide user info if blocked me
+  return chats.map(chat => {
+    if (chat.user.blockedMe) {
+      chat.user.image = null;
+      chat.user.status = null;
+    }
+    return chat;
+  });
 }
 
 export type Chats = typeof getChats extends (...args: any) => Promise<infer T> ? T : never
