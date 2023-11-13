@@ -1,4 +1,4 @@
-import { error } from "@sveltejs/kit";
+import { redirect } from "@sveltejs/kit";
 import { dev } from "$app/environment";
 import { lucia } from "lucia";
 import { sveltekit } from "lucia/middleware";
@@ -20,6 +20,7 @@ export const auth = lucia({
     id: user.id,
     name: user.name,
     email: user.email,
+    emailVerified: user.emailVerified,
     image: user.image,
     status: user.status,
   }),
@@ -35,7 +36,10 @@ export type Auth = typeof auth;
 export async function getSessionRequired(auth: AuthRequest) {
   const session = await auth.validate();
   if (!session) {
-    throw error(401);
+    throw redirect(302, "/login");
+  }
+  if (!session.user.emailVerified) {
+    throw redirect(302, "/email-verification");
   }
   return session;
 }

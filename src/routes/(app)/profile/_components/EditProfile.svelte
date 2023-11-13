@@ -16,7 +16,6 @@
   $: untouched = name === data.user.name && status === data.user.status;
 
   let isUpdating = false;
-
 </script>
 
 <section
@@ -36,7 +35,7 @@
       isUpdating = true;
 
       return async ({ update }) => {
-        update({ reset: false });
+        await update({ reset: false });
         isUpdating = false;
       };
     }}

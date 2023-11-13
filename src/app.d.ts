@@ -14,6 +14,7 @@ declare global {
     type DatabaseUserAttributes = {
       name: string;
       email: string;
+      emailVerified: number; // 0/1
       image: string | null;
       status: string | null;
     };

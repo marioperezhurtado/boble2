@@ -13,6 +13,7 @@
   export let lastReadAt: Date;
   export let chatId: string;
   export let userId: string;
+  export let isSavedContact: boolean;
 
   let messages = initialMessages;
   let messageList: HTMLElement | undefined = undefined;
@@ -50,7 +51,9 @@
           isOwn={message.senderId === userId}
         />
       {/each}
-      <AddContactPrompt />
+      {#if !isSavedContact}
+        <AddContactPrompt />
+      {/if}
     </ul>
   {/if}
 </section>

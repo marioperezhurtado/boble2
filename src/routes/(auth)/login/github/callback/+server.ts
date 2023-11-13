@@ -39,7 +39,10 @@ export const GET: RequestHandler = async ({ url, cookies, locals }) => {
           });
         }
         // transform `UserSchema` to `User`
-        const user = auth.transformDatabaseUser(existingUserWithEmail);
+        const user = auth.transformDatabaseUser({
+          ...existingUserWithEmail,
+          emailVerified: Number(existingUserWithEmail.emailVerified)
+        });
         await createKey(user.userId);
         return user;
       }
@@ -48,6 +51,7 @@ export const GET: RequestHandler = async ({ url, cookies, locals }) => {
         attributes: {
           name: githubUser.login,
           email: githubUser.email,
+          emailVerified: Number(true),
           image: githubUser.avatar_url,
           status: null,
         }

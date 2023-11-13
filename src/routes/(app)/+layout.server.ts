@@ -1,11 +1,8 @@
-import { redirect } from '@sveltejs/kit';
+import { getSessionRequired } from '$lib/auth/auth';
 import type { LayoutServerLoad } from './$types';
 
-export const load: LayoutServerLoad = async ({ locals, url }) => {
-  const session = await locals.auth.validate();
-  if (!session) {
-    throw redirect(302, `/login?redirectTo=${url.pathname + url.search}`);
-  }
+export const load: LayoutServerLoad = async ({ locals }) => {
+  const session = await getSessionRequired(locals.auth);
 
   return { user: session.user };
 }

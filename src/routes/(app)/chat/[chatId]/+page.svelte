@@ -18,6 +18,7 @@
     lastReadAt={data.chat?.user.lastReadAt ?? new Date(0)}
     chatId={$page.params.chatId}
     userId={data.user.id}
+    isSavedContact={data.chat?.user.alias !== null}
   />
   <SendMessage />
   <ChatInfo />

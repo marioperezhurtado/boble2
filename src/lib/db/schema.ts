@@ -48,6 +48,7 @@ export const user = sqliteTable("user", {
   id: text("id").primaryKey(),
   // other user attributes
   email: text("email").notNull().unique(),
+  emailVerified: integer("emailVerified", { mode: "boolean" }).notNull(),
   name: text("name").notNull(),
   image: text("image"),
   status: text("status"),
@@ -57,7 +58,7 @@ export const session = sqliteTable("user_session", {
   id: text("id").primaryKey(),
   userId: text("user_id")
     .notNull()
-    .references(() => user.id),
+    .references(() => user.id, { onDelete: "cascade" }),
   activeExpires: blob("active_expires", {
     mode: "bigint"
   }).notNull(),
@@ -70,6 +71,24 @@ export const key = sqliteTable("user_key", {
   id: text("id").primaryKey(),
   userId: text("user_id")
     .notNull()
-    .references(() => user.id),
+    .references(() => user.id, { onDelete: "cascade" }),
   hashedPassword: text("hashed_password")
+});
+
+export const emailVerificationToken = sqliteTable("email_verification_token", {
+  id: text("id").primaryKey().$defaultFn(() => uuidv4()),
+  userId: text("user_id")
+    .references(() => user.id, { onDelete: "cascade" })
+    .notNull(),
+  token: text("token").notNull().unique(),
+  expires: integer("expires", { mode: "timestamp" }).notNull()
+});
+
+export const passwordResetToken = sqliteTable("password_reset_token", {
+  id: text("id").primaryKey().$defaultFn(() => uuidv4()),
+  userId: text("user_id")
+    .references(() => user.id, { onDelete: "cascade" })
+    .notNull(),
+  token: text("token").notNull(),
+  expires: integer("expires", { mode: "timestamp" }).notNull()
 });
