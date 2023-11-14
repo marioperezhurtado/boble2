@@ -31,7 +31,7 @@
   src={imageSource}
   alt={name}
   class="object-cover rounded-full border shadow-sm {SIZES[size]} 
-    aspect-square"
+    aspect-square bg-white"
   draggable={false}
 />
 

@@ -8,10 +8,9 @@
 </script>
 
 <div
-  class="bg-white shadow-sm p-2 flex items-center justify-between rounded-md
-  mt-auto"
+  class="flex justify-between items-center p-2 mt-auto bg-white rounded-md shadow-sm"
 >
-  <p class="text-sm font-medium pl-2 text-zinc-600">
+  <p class="pl-2 text-sm font-medium text-zinc-600">
     This user is not in your contact list.
   </p>
   <ButtonLink href="/contacts?create&email={email}">

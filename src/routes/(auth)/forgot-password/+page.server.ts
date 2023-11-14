@@ -4,7 +4,8 @@ import { eq } from 'drizzle-orm';
 import { auth } from '$lib/auth/auth';
 import { user as userTable } from '$lib/db/schema';
 import { generatePasswordResetToken } from '$lib/db/passwordResetToken/generatePasswordResetToken';
-import { isValidEmail, sendPasswordResetLink } from '$lib/utils/email';
+import { isValidEmail } from '$lib/email/email';
+import { sendPasswordResetLink } from '$lib/email/sendPasswordResetLink';
 
 import type { Actions } from './$types';
 
@@ -32,11 +33,12 @@ export const actions: Actions = {
       });
 
       const token = await generatePasswordResetToken(user.userId);
-      await sendPasswordResetLink(token);
+      await sendPasswordResetLink({
+        email: user.email,
+        token
+      });
 
-      return {
-        success: true
-      };
+      return { success: true };
     } catch (e) {
       return fail(500, { error: 'An unknown error occurred' });
     }

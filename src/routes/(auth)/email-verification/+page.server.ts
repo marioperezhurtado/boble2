@@ -1,6 +1,6 @@
 import { redirect, fail } from '@sveltejs/kit';
 import { generateEmailVerificationToken } from '$lib/db/emailVerificationToken/generateEmailVerificationToken';
-import { sendEmailVerificationLink } from '$lib/utils/email';
+import { sendEmailVerificationLink } from '$lib/email/sendEmailVerificationLink';
 
 import type { PageServerLoad, Actions } from './$types';
 
@@ -22,7 +22,11 @@ export const actions: Actions = {
     }
     try {
       const token = await generateEmailVerificationToken(session.user.userId);
-      await sendEmailVerificationLink(token);
+      await sendEmailVerificationLink({
+        email: session.user.email,
+        token
+      });
+
       return { success: true };
     } catch {
       return fail(500, { error: 'An unknown error occurred' });

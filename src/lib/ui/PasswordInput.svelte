@@ -16,9 +16,9 @@
 		class="absolute right-2 top-1/2 -translate-y-1/2 w-fit"
 	>
 		{#if showPassword}
-			<img src="/icons/eye.svg" alt="Hide password" class="w-5 h-5" />
+			<img src="/icons/eye-off.svg" alt="Hide password" class="w-5 h-5" />
 		{:else}
-			<img src="/icons/eye-off.svg" alt="Show password" class="w-5 h-5" />
+			<img src="/icons/eye.svg" alt="Show password" class="w-5 h-5" />
 		{/if}
 	</button>
 </div>

@@ -2,7 +2,8 @@ import { auth } from '$lib/auth/auth';
 import { fail, redirect } from '@sveltejs/kit';
 import { SqliteError } from 'better-sqlite3';
 import { generateEmailVerificationToken } from '$lib/db/emailVerificationToken/generateEmailVerificationToken';
-import { isValidEmail, sendEmailVerificationLink } from '$lib/utils/email';
+import { isValidEmail } from '$lib/email/email';
+import { sendEmailVerificationLink } from '$lib/email/sendEmailVerificationLink';
 
 import type { PageServerLoad, Actions } from './$types';
 
@@ -65,7 +66,7 @@ export const actions: Actions = {
       locals.auth.setSession(session); // set session cookie
 
       const token = await generateEmailVerificationToken(user.userId);
-      await sendEmailVerificationLink(token);
+      await sendEmailVerificationLink({ email, token });
     } catch (e) {
       // check for unique constraint error in user table
       if (e instanceof SqliteError && e.code === 'SQLITE_CONSTRAINT_UNIQUE') {

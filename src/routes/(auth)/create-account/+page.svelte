@@ -49,7 +49,7 @@
     <PasswordInput id="password" name="password" />
   </Label>
   <Label for="confirmPassword">
-    Confirm Password
+    Confirm password
     <PasswordInput id="confirmPassword" name="confirmPassword" />
   </Label>
 
