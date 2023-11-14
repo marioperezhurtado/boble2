@@ -3,7 +3,7 @@ import { passwordResetToken } from "$lib/db/schema";
 import { eq } from "drizzle-orm";
 import { generateRandomString, isWithinExpiration } from "lucia/utils";
 
-const EXPIRES_IN = 1000 * 60 * 60 * 1; // 1 hour
+const EXPIRES_IN = 1000 * 60 * 60 * 2; // 2 hours
 
 export async function generatePasswordResetToken(userId: string) {
   const storedUserTokens = await db
@@ -15,9 +15,9 @@ export async function generatePasswordResetToken(userId: string) {
     const reusableStoredToken = storedUserTokens.find((token) => {
       // check if expiration is within 1 hour
       // and reuse the token if true
-      return isWithinExpiration(Number(token.expires) - EXPIRES_IN);
+      return isWithinExpiration(Number(token.expires) - EXPIRES_IN / 2);
     });
-    if (reusableStoredToken) return reusableStoredToken.id;
+    if (reusableStoredToken) return reusableStoredToken.token;
   }
   const token = generateRandomString(63);
   await db
