@@ -3,8 +3,13 @@
   import { minidenticon } from "minidenticons";
   import ActionIconButton from "./ActionIconButton.svelte";
 
-  export let image: string | null = null;
-  export let name: string;
+  type User = {
+    name: string;
+    email: string;
+    image: string | null;
+  };
+
+  export let user: User;
   export let size: keyof typeof SIZES = "medium";
   export let expanded = false;
 
@@ -24,12 +29,12 @@
     );
   }
 
-  $: imageSource = !!image ? image : generateIdenticon(name);
+  $: imageSource = !!user.image ? user.image : generateIdenticon(user.email);
 </script>
 
 <img
   src={imageSource}
-  alt={name}
+  alt={user.name}
   class="object-cover rounded-full border shadow-sm {SIZES[size]} 
     aspect-square bg-white"
   draggable={false}
@@ -60,7 +65,7 @@
   >
     <img
       src={imageSource}
-      alt={name}
+      alt={user.name + "'s avatar"}
       class="object-cover w-full h-full bg-white"
       draggable={false}
     />
@@ -69,7 +74,7 @@
       class="absolute bottom-2.5 left-2.5 z-30 py-1.5 px-3 rounded-md bg-zinc-200/70 backdrop-blur-sm"
     >
       <h2 class="text-sm font-bold">
-        {name}
+        {user.name}
       </h2>
     </div>
   </div>

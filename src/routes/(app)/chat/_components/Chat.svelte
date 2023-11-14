@@ -17,7 +17,7 @@
     class="flex items-center gap-3 p-2 border-b border-r-[3px] border-r-transparent
     {isSelected ? 'bg-zinc-100 !border-r-cyan-600' : ''}"
   >
-    <Avatar image={chat.user.image} name={chat.user.name ?? ""} />
+    <Avatar user={chat.user} />
     <div class="flex flex-col flex-1">
       <p class="font-medium">{chat.user.alias || chat.user.name}</p>
       {#if chat.lastMessage}
@@ -49,7 +49,7 @@
 
     <div class="flex flex-col gap-1.5 justify-between items-end py-1">
       <time
-        class="text-xs" 
+        class="text-xs"
         class:text-zinc-700={chat.unreadCount === 0}
         class:text-cyan-700={chat.unreadCount > 0}
         class:font-medium={chat.unreadCount > 0}

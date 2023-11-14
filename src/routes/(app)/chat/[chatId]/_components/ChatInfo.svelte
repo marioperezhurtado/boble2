@@ -32,12 +32,7 @@
 
     <div class="flex flex-col items-center text-center">
       <button on:click={() => (avatarExpanded = !avatarExpanded)}>
-        <Avatar
-          bind:expanded={avatarExpanded}
-          name={chat.user.name}
-          image={chat.user.image}
-          size="large"
-        />
+        <Avatar bind:expanded={avatarExpanded} {user} size="large" />
       </button>
       <h2 class="pt-2 font-medium">{user.name}</h2>
       <p class="text-sm text-zinc-500">{user.email}</p>

@@ -20,12 +20,7 @@
   <div class="flex flex-col flex-grow mx-auto max-w-md h-full">
     <div class="flex gap-4 items-center">
       <button on:click={() => (avatarExpanded = !avatarExpanded)}>
-        <Avatar
-          bind:expanded={avatarExpanded}
-          name={contact.name}
-          image={contact.image}
-          size="large"
-        />
+        <Avatar bind:expanded={avatarExpanded} user={contact} size="large" />
       </button>
       <div>
         <h2 class="pt-2 font-medium">{contact.alias}</h2>

@@ -12,7 +12,7 @@
 <div class="mt-5">
   <hr class="mb-5" />
   <div class="flex gap-3 items-center">
-    <Avatar {name} {image} size="small" />
+    <Avatar user={{ name, email, image }} size="small" />
     <div>
       <h2 class="text-sm font-semibold">{name}</h2>
       <p class="text-xs break-all text-zinc-500">

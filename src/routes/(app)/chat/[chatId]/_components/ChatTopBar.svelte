@@ -12,7 +12,7 @@
     on:click|stopPropagation={() => ($chatInfoOpen = true)}
     class="flex flex-grow gap-3 items-center text-left"
   >
-    <Avatar name={chat.user.name} image={chat.user.image} size="small" />
+    <Avatar user={chat.user} size="small" />
     <div>
       <h2 class="text-sm font-semibold">{chat.user.alias || chat.user.name}</h2>
       <p class="text-xs text-zinc-500 line-clamp-1">

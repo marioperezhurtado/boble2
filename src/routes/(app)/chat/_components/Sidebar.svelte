@@ -13,7 +13,7 @@
 >
   <div class="flex justify-between items-center p-2 border-b">
     <a href="/profile">
-      <Avatar image={data.user.image} name={data.user.name} size="small" />
+      <Avatar user={data.user} size="small" />
     </a>
     <div class="flex gap-2">
       <ActionIconLink
