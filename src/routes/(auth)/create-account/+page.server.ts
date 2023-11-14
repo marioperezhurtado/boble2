@@ -66,7 +66,7 @@ export const actions: Actions = {
       locals.auth.setSession(session); // set session cookie
 
       const token = await generateEmailVerificationToken(user.userId);
-      await sendEmailVerificationLink({ email, token });
+      await sendEmailVerificationLink({ name, email, token });
     } catch (e) {
       // check for unique constraint error in user table
       if (e instanceof SqliteError && e.code === 'SQLITE_CONSTRAINT_UNIQUE') {

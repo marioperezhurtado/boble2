@@ -57,6 +57,7 @@
 		"nodemailer": "^6.9.7",
 		"socket.io": "^4.7.2",
 		"socket.io-client": "^4.7.2",
+		"svelte-email": "^0.0.4",
 		"uuid": "^9.0.1"
 	}
 }

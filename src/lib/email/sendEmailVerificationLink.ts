@@ -1,22 +1,27 @@
-import { SITE_URL } from "$env/static/private";
+import { PUBLIC_SITE_URL } from "$env/static/public";
 import { sendEmail } from "$lib/email/email";
+import { render } from "svelte-email";
+import EmailVerification from "$lib/email/templates/EmailVerification.svelte";
 
 type SendEmailVerificationLinkProps = {
+  name: string;
   email: string;
   token: string;
 };
 
-export async function sendEmailVerificationLink({ email, token }: SendEmailVerificationLinkProps) {
-  const url = `${SITE_URL}/email-verification/${token}`;
-  console.log(`Your email verification link: ${url}`);
+export async function sendEmailVerificationLink({ name, email, token }: SendEmailVerificationLinkProps) {
+  const verificationUrl = `${PUBLIC_SITE_URL}/email-verification/${token}`;
+  console.log(`Your email verification link: ${verificationUrl}`);
 
   return sendEmail({
     to: email,
-    subject: "Verify your email address",
-    html: `
-      <h1>Verify your email address</h1>
-      <p>Click the link below to verify your email address.</p>
-      <a href="${url}">Verify your email address</a>
-    `,
+    subject: "Verify your account",
+    html: render({
+      template: EmailVerification,
+      props: {
+        name,
+        verificationUrl,
+      },
+    }),
   });
-};
+}

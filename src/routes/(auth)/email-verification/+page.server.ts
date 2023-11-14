@@ -23,6 +23,7 @@ export const actions: Actions = {
     try {
       const token = await generateEmailVerificationToken(session.user.userId);
       await sendEmailVerificationLink({
+        name: session.user.name,
         email: session.user.email,
         token
       });

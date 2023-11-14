@@ -28,6 +28,7 @@ export const actions: Actions = {
 
       const token = await generatePasswordResetToken(user.userId);
       await sendPasswordResetLink({
+        name: user.name,
         email: user.email,
         token
       });

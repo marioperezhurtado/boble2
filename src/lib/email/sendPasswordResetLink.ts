@@ -1,22 +1,27 @@
-import { SITE_URL } from "$env/static/private";
+import { PUBLIC_SITE_URL } from "$env/static/public";
 import { sendEmail } from "$lib/email/email";
+import PasswordReset from "$lib/email/templates/PasswordReset.svelte";
+import { render } from "svelte-email";
 
 type SendPasswordResetLinkProps = {
+  name: string;
   email: string;
   token: string;
 };
 
-export async function sendPasswordResetLink({ email, token }: SendPasswordResetLinkProps) {
-  const url = `${SITE_URL}/forgot-password/${token}`;
-  console.log(`Your password reset link: ${url}`);
+export async function sendPasswordResetLink({ name, email, token }: SendPasswordResetLinkProps) {
+  const resetUrl = `${PUBLIC_SITE_URL}/forgot-password/${token}`;
+  console.log(`Your password reset link: ${resetUrl}`);
 
   return sendEmail({
     to: email,
     subject: "Reset your password",
-    html: `
-      <h1>Reset your password</h1>
-      <p>Click the link below to reset your password.</p>
-      <a href="${url}">Reset your password</a>
-    `,
+    html: render({
+      template: PasswordReset,
+      props: {
+        name,
+        resetUrl,
+      },
+    }),
   });
 };
