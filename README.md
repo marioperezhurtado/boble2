@@ -8,6 +8,7 @@ Chat with your friends and family from any device.
 - [Project structure](#project-structure)
 - [Environment variables](#environment-variables)
 - [Database setup](#database-setup)
+- [Email setup](#email-setup)
 - [Developing](#developing)
 - [Deployment](#deployment)
 - [List of commands](#list-of-commands)
@@ -30,6 +31,9 @@ Chat with your friends and family from any device.
 **Authentication**
 - [Lucia](https://lucia-auth.com/): Simple and flexible auth library for TypeScript.
 
+**Email**
+- [Nodemailer](https://nodemailer.com/): Send emails from Node.js.
+
 **Testing**
 - [Vitest](https://vitest.dev/): Next generation testing framework powered by Vite.
 - [Playwright](https://playwright.dev/): Reliable end-to-end testing for modern web apps. 
@@ -48,6 +52,8 @@ Chat with your friends and family from any device.
 │   │   │   └── Database config, schemas and queries using drizzle.
 │   │   ├── socket/
 │   │   │   └── WebSocket server using socket.io. 
+│   │   ├── email/
+│   │   │   └── Email config, templates and functions.
 │   │   ├── ui/
 │   │   │   └── Reusable UI components.
 │   │   └── utils/
@@ -57,6 +63,8 @@ Chat with your friends and family from any device.
 │   
 └── Config files.
 ```
+
+[Reference](https://kit.svelte.dev/docs/project-structure)
 
 ## Installation
 
@@ -78,9 +86,18 @@ npm install
 To run this project, you will need to add the following environment variables to your `.env` file
 
 ```
+# Private
 # Oauth providers
 GITHUB_ID=""
 GITHUB_SECRET=""
+
+# Email
+SENDGRID_API_KEY=""
+SENDER_ADDRESS=""
+SENDER_NAME=""
+
+# Public
+PUBLIC_SITE_URL="http://localhost:5173"
 ```
 
 You can create a copy of the `.env.example` file to `.env` and populate it with your secrets.
@@ -91,7 +108,7 @@ cp .env.example .env
 
 ## Database setup
 
-This project uses SQLite with better-sqlite3, and DrizzleORM.
+This project uses [SQLite](https://www.sqlite.org/index.html) with [better-sqlite3](https://www.sqlite.org/index.html), and [DrizzleORM](https://orm.drizzle.team/).
 
 Your database will be stored in a single `sqlite.db` file at the root of your project, and your SQL migrations will be stored under the `drizzle/` folder.
 
@@ -116,6 +133,24 @@ npm run db:studio
 ```
 
 ![Database diagram](./doc/db-diagram.png)
+
+## Email setup
+
+This project uses [Nodemailer](https://nodemailer.com/) to send emails, and [SendGrid](https://sendgrid.com/) as a SMTP provider.
+
+There are several alternatives that you could use as SMPT provider ([Mailgun](https://www.mailgun.com/), [AWS SES](https://aws.amazon.com/es/ses/), etc).
+
+If you choose to use SendGrid:
+
+- Create your account.
+- Create a verified single sender. (You can choose a real email, or setup your domain, e.g. noreply@your-domain.com)
+- Create your API key.
+- Populate your .env.
+
+[Reference](https://midnightgamer.medium.com/how-to-use-sendgrid-with-nodemailer-to-send-mails-a289f30af622)
+
+If you choose a different provider, you might need to change the email config at
+`src/lib/email/email.ts`.
 
 ## Developing
 

@@ -93,10 +93,8 @@
       />
     {/if}
 
-    {#if name && !untouched}
-      <Button isLoading={isUpdating} type="submit" class="ml-auto">
-        Save changes
-      </Button>
-    {/if}
+    <Button isLoading={isUpdating} type="submit" class="ml-auto">
+      Save changes
+    </Button>
   </form>
 </section>

@@ -39,8 +39,27 @@ export const block = sqliteTable("block", {
     .references(() => user.id, { onDelete: "cascade" }).notNull(),
   createdAt: integer("created_at", { mode: "timestamp" }),
 }, (p) => ({
+
   compoundKey: primaryKey(p.userId, p.blockedUserId),
 }));
+
+export const emailVerificationToken = sqliteTable("email_verification_token", {
+  id: text("id").primaryKey().$defaultFn(() => uuidv4()),
+    userId: text("user_id")
+  .references(() => user.id, { onDelete: "cascade" })
+  .notNull(),
+  token: text("token").notNull().unique(),
+  expires: integer("expires", { mode: "timestamp" }).notNull()
+});
+
+export const passwordResetToken = sqliteTable("password_reset_token", {
+  id: text("id").primaryKey().$defaultFn(() => uuidv4()),
+    userId: text("user_id")
+  .references(() => user.id, { onDelete: "cascade" })
+  .notNull(),
+  token: text("token").notNull(),
+  expires: integer("expires", { mode: "timestamp" }).notNull()
+});
 
 // auth tables (lucia)
 
@@ -73,22 +92,4 @@ export const key = sqliteTable("user_key", {
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
   hashedPassword: text("hashed_password")
-});
-
-export const emailVerificationToken = sqliteTable("email_verification_token", {
-  id: text("id").primaryKey().$defaultFn(() => uuidv4()),
-  userId: text("user_id")
-    .references(() => user.id, { onDelete: "cascade" })
-    .notNull(),
-  token: text("token").notNull().unique(),
-  expires: integer("expires", { mode: "timestamp" }).notNull()
-});
-
-export const passwordResetToken = sqliteTable("password_reset_token", {
-  id: text("id").primaryKey().$defaultFn(() => uuidv4()),
-  userId: text("user_id")
-    .references(() => user.id, { onDelete: "cascade" })
-    .notNull(),
-  token: text("token").notNull(),
-  expires: integer("expires", { mode: "timestamp" }).notNull()
 });
