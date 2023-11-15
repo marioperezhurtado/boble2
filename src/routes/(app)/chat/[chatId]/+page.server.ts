@@ -7,6 +7,7 @@ import { getSessionRequired } from '$lib/auth/auth';
 import { deleteChat } from '$lib/db/chat/deleteChat';
 import { getChats } from '$lib/db/chat/getChats';
 import { isBlockedInChat } from '$lib/db/block/isBlockedInChat';
+import { getTrendingGifs } from '$lib/gif/getTrendingGifs';
 import type { PageServerLoad, Actions } from './$types';
 
 export const load: PageServerLoad = async ({ params, parent }) => {
@@ -24,6 +25,9 @@ export const load: PageServerLoad = async ({ params, parent }) => {
   return {
     chat,
     messages,
+    streamed: {
+      trendingGifs: getTrendingGifs(),
+    },
   };
 }
 

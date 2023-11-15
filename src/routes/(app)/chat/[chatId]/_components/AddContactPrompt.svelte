@@ -7,14 +7,16 @@
   $: email = data.chat.user.email;
 </script>
 
+<div class="mt-auto pb-2 pt-4">
 <div
-  class="flex justify-between items-center p-2 mt-auto bg-white rounded-md shadow-sm"
+  class="flex flex-col flex-wrap gap-4 justify-between items-center p-2 bg-white rounded-md shadow-sm xs:flex-row"
 >
   <p class="pl-2 text-sm font-medium text-zinc-600">
     This user is not in your contact list.
   </p>
-  <ButtonLink href="/contacts?create&email={email}">
+  <ButtonLink href="/contacts?create&email={email}" size="small">
     <img src="/icons/add-contact-light.svg" alt="Add contact" class="w-4 h-4" />
     Add contact
   </ButtonLink>
+</div>
 </div>

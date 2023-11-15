@@ -24,7 +24,7 @@ function pickRandomEmoji(): string {
 	type="button"
 	title="Open emoji picker"
 	aria-label="Open emoji picker"
-	class="rounded-md focus:outline-cyan-600"
+	class="p-0.5 rounded-md focus:outline-cyan-600"
 >
 	<p class="text-xl transition hover:scale-[115%] grayscale hover:grayscale-0">
 		{displayedEmoji}

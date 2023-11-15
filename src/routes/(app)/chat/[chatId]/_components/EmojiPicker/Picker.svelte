@@ -22,7 +22,7 @@
 
 <div
 	in:fly={{ y: 30, duration: 150 }}
-	class="absolute bottom-12 z-20 w-80 bg-white rounded-md border shadow-md"
+	class="absolute bottom-12 z-20 w-96 bg-white rounded-md border shadow-md"
 >
 	<FilterEmojis />
 	<div class="flex justify-around items-center px-2 pt-1 border-b">

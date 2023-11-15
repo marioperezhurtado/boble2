@@ -12,7 +12,7 @@
 	{category.title}
 </h2>
 {#if $filteredEmojis[category.slug].length > 0}
-	<ul id={category.slug} class="grid grid-cols-8 gap-0.5 p-2">
+	<ul id={category.slug} class="grid grid-cols-10 gap-0.5 p-2">
 		{#each $filteredEmojis[category.slug] as emoji}
 			<li class="flex justify-center items-center">
 				<button

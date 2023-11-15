@@ -1,5 +1,6 @@
 <script lang="ts">
   import { formatLastMessageAt } from "$lib/utils/date";
+  import { isImage } from "$lib/utils/messageType";
   import Avatar from "$lib/ui/Avatar.svelte";
   import type { Chat } from "$lib/db/chat/getChats";
 
@@ -42,7 +43,19 @@
               />
             {/if}
           {/if}
-          <span class="line-clamp-1">{chat.lastMessage.text}</span>
+          {#if isImage(chat.lastMessage.text ?? "")}
+            <!-- svelte-ignore a11y-img-redundant-alt -->
+            <img
+              src="/icons/camera.svg"
+              alt="Last message is an image"
+              class="w-3.5 h-3.5 mr-0.5"
+            />
+            <span>Photo</span>
+          {:else}
+            <span class="line-clamp-1 w-[35%] overflow-ellipsis">
+              {chat.lastMessage.text}
+            </span>
+          {/if}
         </p>
       {/if}
     </div>

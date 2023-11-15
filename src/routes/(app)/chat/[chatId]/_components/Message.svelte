@@ -1,5 +1,8 @@
 <script lang="ts">
-  import { formatDate, formatTime } from "$lib/utils/date";
+  import { formatDate } from "$lib/utils/date";
+  import { isImage } from "$lib/utils/messageType";
+  import TextMessage from "./TextMessage.svelte";
+  import ImageMessage from "./ImageMessage.svelte";
   import type { Message } from "$lib/db/message/getMessages";
 
   export let message: Message;
@@ -11,47 +14,27 @@
   const currentDate = new Date(message.createdAt!);
   const firstOfDate = prevDate.getDate() !== currentDate.getDate();
   const isFirst = prevMessage?.senderId !== message.senderId || firstOfDate;
-  const isRead = lastReadAt >= message.createdAt!;
   const createdAt = new Date(message.createdAt!);
-
 </script>
 
 {#if firstOfDate && message.createdAt}
-  <span class="sticky top-3 z-10 py-1 mx-auto mt-3 w-20 text-xs text-center bg-white rounded-md shadow-sm">
+  <span
+    class="sticky top-3 z-10 py-1 mx-auto mt-3 w-20 text-xs text-center bg-white rounded-md shadow-sm"
+  >
     {formatDate(createdAt)}
   </span>
 {/if}
 <li
-  class={`relative flex items-end gap-x-2 pt-1.5 pb-1 pl-2.5 pr-1 bg-cyan-700
-  rounded-md shadow-sm sm:max-w-[80%] md:max-w-full lg:max-w-[80%] 
+  class={`relative rounded-md shadow-sm sm:max-w-[80%] md:max-w-full lg:max-w-[80%] 
       ${isOwn ? "self-end bg-cyan-700 text-white" : "self-start bg-white"}
       ${isFirst ? (isOwn ? "rounded-tr-none" : "rounded-tl-none") : ""}
       ${isFirst ? "mt-3" : "mt-1"}`}
 >
-  <p class="w-full">{message.text}</p>
-  <p
-    class={`leading-3 text-right text-[10px] flex min-w-fit gap-0.5 items-end
-        ${isOwn ? "text-cyan-100" : "text-zinc-600"}`}
-  >
-    {formatTime(createdAt)}
-    {#if isOwn}
-      {#if isRead}
-        <img
-          src="/icons/double-check.svg"
-          alt="Read"
-          title="Read"
-          class="-mb-0.5 w-4 h-4"
-        />
-      {:else}
-        <img
-          src="/icons/check.svg"
-          alt="Sent"
-          title="Sent"
-          class="-mb-0.5 w-4 h-4"
-        />
-      {/if}
-    {/if}
-  </p>
+  {#if isImage(message.text ?? "")}
+    <ImageMessage {message} {lastReadAt} {isOwn} />
+  {:else}
+    <TextMessage {message} {lastReadAt} {isOwn} />
+  {/if}
   {#if isFirst}
     <span
       class={`absolute top-0 w-0 h-0 border-transparent border-t-[10px]
