@@ -8,10 +8,10 @@ type CreateMessageParams = {
 };
 
 export function createMessage({ chatId, senderId, text }: CreateMessageParams) {
-    return db.insert(message).values({
-        chatId,
-        senderId,
-        text,
-        createdAt: new Date(),
-    }).returning();
+  return db.insert(message).values({
+    chatId,
+    senderId,
+    text,
+    createdAt: new Date(),
+  }).returning();
 }

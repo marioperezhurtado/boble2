@@ -22,7 +22,7 @@
 	<label for="message" class="sr-only">Message</label>
 	<input
 		value={text}
-		on:change={(e) => (text = capitalize(e.currentTarget.value))}
+		on:input={(e) => (text = capitalize(e.currentTarget.value))}
 		bind:this={textInput}
 		id="message"
 		name="message"
@@ -31,7 +31,7 @@
 		class="block py-1.5 px-2 w-full rounded-md border shadow-sm placeholder:text-zinc-400 focus:outline-cyan-600"
 		autocomplete="off"
 	/>
-	{#if text}
+	{#if text.length}
 		<button
 			type="submit"
 			title="Send message"

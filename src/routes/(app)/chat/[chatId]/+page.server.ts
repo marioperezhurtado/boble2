@@ -6,6 +6,7 @@ import { sendMessage } from '$lib/utils/chat';
 import { getSessionRequired } from '$lib/auth/auth';
 import { deleteChat } from '$lib/db/chat/deleteChat';
 import { getChats } from '$lib/db/chat/getChats';
+import { isBlockedInChat } from '$lib/db/block/isBlockedInChat';
 import type { PageServerLoad, Actions } from './$types';
 
 export const load: PageServerLoad = async ({ params, parent }) => {
@@ -33,7 +34,16 @@ export const actions = {
 
     const message = formData.get('message') as string;
     if (!message) {
-      return fail(400, { message, missing: true });
+      return fail(400, { error: 'Message is required' });
+    }
+
+    const blocked = await isBlockedInChat({
+      userId: session.user.id,
+      chatId: params.chatId,
+    });
+
+    if (blocked) {
+      return fail(400, { error: "You can't send messages in this chat" });
     }
 
     const newMessage = await createMessage({
@@ -50,7 +60,7 @@ export const actions = {
     const chats = await getChats(session.user.id);
     const chat = chats.find((chat) => chat.id === params.chatId);
     if (!chat) {
-      return fail(400, { message: 'Chat not found' });
+      return fail(400, { error: 'Chat not found' });
     }
 
     await deleteChat(params.chatId);
