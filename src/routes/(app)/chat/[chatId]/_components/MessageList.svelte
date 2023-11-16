@@ -6,7 +6,7 @@
     unsubscribeFromMessages,
   } from "$lib/utils/chat";
   import type { Messages } from "$lib/db/message/getMessages";
-  import Message from "./Message.svelte";
+  import Message from "./Message/Message.svelte";
   import AddContactPrompt from "./AddContactPrompt.svelte";
 
   export let initialMessages: Messages;
@@ -34,7 +34,7 @@
 
 <section
   bind:this={messageList}
-  class="overflow-y-auto px-4 pb-4 h-full bg-zinc-100 bg-repeat bg-[url('/pattern.png')]"
+  class="overflow-y-auto px-4 pb-4 h-full bg-stone-100 bg-repeat bg-[url('/pattern.png')]"
 >
   {#if messages.length === 0}
     <div class="pt-10 text-center">

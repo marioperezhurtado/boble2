@@ -7,7 +7,7 @@
   $: email = data.chat.user.email;
 </script>
 
-<div class="mt-auto pb-2 pt-4">
+<div class="pt-4 pb-2 mt-auto">
 <div
   class="flex flex-col flex-wrap gap-4 justify-between items-center p-2 bg-white rounded-md shadow-sm xs:flex-row"
 >

@@ -10,9 +10,9 @@ export type Gif = {
   images: {
     downsized: {
       url: string
-      height: string
-      width: string
-      size: string
+    }
+    downsized_small: {
+      mp4: string
     }
   }
 }

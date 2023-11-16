@@ -1,13 +1,25 @@
-export function isImage(imageUrl: string): boolean {
-  const IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif', 'svg'];
-
+export function containsAnyExtension(url: string, extensions: string[]) {
   try {
-    const url = new URL(imageUrl);
-    const extension = url.pathname.split('.').pop();
+    const urlObject = new URL(url);
+    const extension = urlObject.pathname.split('.').pop();
     if (!extension) return false;
 
-    return IMAGE_EXTENSIONS.includes(extension);
+    return extensions.includes(extension.toLowerCase());
   } catch (e) {
     return false;
   }
+}
+
+export function isImage(imageUrl: string): boolean {
+  return containsAnyExtension(imageUrl, [
+    "jpg",
+    "jpeg",
+    "png",
+    "svg",
+    "webp",
+  ]);
+}
+
+export function isGif(imageUrl: string) {
+  return imageUrl.includes("giphy.com");
 }

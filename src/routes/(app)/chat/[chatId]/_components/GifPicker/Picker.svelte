@@ -30,7 +30,7 @@
             {#if i % NUM_COLUMNS === column}
               <li>
                 <button
-                  on:click={() => onPick(gif.images.downsized.url)}
+                  on:click={() => onPick(gif.images.downsized_small.mp4)}
                   type="button"
                   class="overflow-hidden w-full h-full rounded-md border shadow-sm hover:outline-cyan-600"
                 >

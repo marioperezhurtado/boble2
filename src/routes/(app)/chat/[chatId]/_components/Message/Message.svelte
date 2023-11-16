@@ -1,9 +1,10 @@
 <script lang="ts">
   import { formatDate } from "$lib/utils/date";
-  import { isImage } from "$lib/utils/messageType";
+  import { isImage, isGif } from "$lib/utils/messageType";
+  import type { Message } from "$lib/db/message/getMessages";
   import TextMessage from "./TextMessage.svelte";
   import ImageMessage from "./ImageMessage.svelte";
-  import type { Message } from "$lib/db/message/getMessages";
+  import GifMessage from "./GifMessage.svelte";
 
   export let message: Message;
   export let prevMessage: Message;
@@ -32,6 +33,8 @@
 >
   {#if isImage(message.text ?? "")}
     <ImageMessage {message} {lastReadAt} {isOwn} />
+  {:else if isGif(message.text ?? "")}
+    <GifMessage {message} {lastReadAt} {isOwn} />
   {:else}
     <TextMessage {message} {lastReadAt} {isOwn} />
   {/if}

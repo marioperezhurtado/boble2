@@ -11,15 +11,13 @@
 </script>
 
 <div class="p-1 max-w-[18rem]">
-  <div class="relative rounded-md overflow-hidden">
+  <div class="overflow-hidden relative rounded-md">
     <div
-      class="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-black/40
-  to-transparent"
+      class="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t to-transparent from-black/40"
     />
     <img src={message.text} alt={`Image sent by ${message.senderId}`} />
     <p
-      class={`absolute bottom-1 right-1 leading-3 text-right text-[10px] flex min-w-fit gap-0.5 items-end
-      ${isOwn ? "text-white" : "text-zinc-600"}`}
+      class="absolute bottom-1 right-1 leading-3 text-right text-[10px] flex min-w-fit gap-0.5 items-end text-white"
     >
       {formatTime(createdAt)}
       {#if isOwn}
