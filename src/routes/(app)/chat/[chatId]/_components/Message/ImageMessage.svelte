@@ -1,6 +1,7 @@
 <script lang="ts">
   import { formatTime } from "$lib/utils/date";
   import type { Message } from "$lib/db/message/getMessages";
+  import ExpandedImage from "$lib/ui/ExpandedImage.svelte";
 
   export let message: Message;
   export let lastReadAt: Date;
@@ -8,6 +9,8 @@
 
   const isRead = lastReadAt >= message.createdAt!;
   const createdAt = new Date(message.createdAt!);
+
+  let isExpanded = false;
 </script>
 
 <div class="p-1 max-w-[18rem]">
@@ -15,9 +18,16 @@
     <div
       class="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t to-transparent from-black/40"
     />
-    <img src={message.text} alt={`Image sent by ${message.senderId}`} />
+    <button on:click={() => (isExpanded = true)} class="block">
+      <img
+        src={message.text}
+        alt="Image sent by {message.senderId}"
+        class="bg-zinc-100"
+        draggable={false}
+      />
+    </button>
     <p
-      class="absolute bottom-1 right-1 leading-3 text-right text-[10px] flex min-w-fit gap-0.5 items-end text-white"
+      class="flex absolute right-1 bottom-1 gap-0.5 items-end leading-3 text-right text-white text-[10px] min-w-fit"
     >
       {formatTime(createdAt)}
       {#if isOwn}
@@ -40,3 +50,14 @@
     </p>
   </div>
 </div>
+
+{#if isExpanded}
+  <ExpandedImage bind:expanded={isExpanded}>
+    <img
+      src={message.text}
+      alt="Image sent by {message.senderId}"
+      class="object-contain h-full w-full"
+      draggable={false}
+    />
+  </ExpandedImage>
+{/if}

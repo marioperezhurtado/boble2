@@ -17,7 +17,7 @@
 >
   <SearchGifs />
 
-  <div class="h-96 p-2 overflow-auto">
+  <div class="overflow-auto p-2 h-96">
     {#if searchData?.gifResults}
       <GifList gifs={searchData.gifResults} {onPick} />
     {:else}

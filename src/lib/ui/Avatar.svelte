@@ -1,7 +1,6 @@
 <script lang="ts">
-  import { fade, scale } from "svelte/transition";
   import { minidenticon } from "minidenticons";
-  import ActionIconButton from "./ActionIconButton.svelte";
+  import ExpandedImage from "./ExpandedImage.svelte";
 
   type User = {
     name: string;
@@ -41,41 +40,13 @@
 />
 
 {#if expanded}
-  <div
-    on:click|stopPropagation={() => (expanded = false)}
-    in:fade={{ duration: 200 }}
-    role="presentation"
-    class="fixed top-0 left-0 z-30 w-full h-full bg-black/50 backdrop-blur-[2px]"
-  />
-  <ActionIconButton
-    title="Close"
-    icon="/icons/close.svg"
-    class="fixed top-6 right-6 z-30"
-    on:click={(e) => {
-      e.stopPropagation();
-      expanded = false;
-    }}
-  />
-
-  <div
-    on:click|stopPropagation
-    role="presentation"
-    in:scale={{ start: 0.7, duration: 350 }}
-    class="overflow-hidden fixed left-1/2 z-40 w-5/6 h-auto rounded-md border shadow-md -translate-x-1/2 cursor-default sm:top-1/2 sm:w-auto sm:h-2/3 sm:-translate-y-1/2 top-1/5 max-h-[30rem] aspect-square border-zinc-400"
-  >
+  <ExpandedImage bind:expanded>
     <img
       src={imageSource}
       alt={user.name + "'s avatar"}
-      class="object-cover w-full h-full bg-white"
+      class="object-cover bg-white rounded-md border shadow-md aspect-square
+      border-zinc-400 w-full"
       draggable={false}
     />
-
-    <div
-      class="absolute bottom-2.5 left-2.5 z-30 py-1.5 px-3 rounded-md bg-zinc-200/70 backdrop-blur-sm"
-    >
-      <h2 class="text-sm font-bold">
-        {user.name}
-      </h2>
-    </div>
-  </div>
+  </ExpandedImage>
 {/if}

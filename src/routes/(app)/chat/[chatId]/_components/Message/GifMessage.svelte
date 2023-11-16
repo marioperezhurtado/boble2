@@ -35,7 +35,7 @@
       autoplay
       muted
       loop
-      class="cursor-pointer"
+      class="cursor-pointer bg-zinc-100"
     >
       <source src={message.text} type="video/mp4" />
     </video>
@@ -47,8 +47,7 @@
       </div>
     {/if}
     <p
-      class="absolute bottom-1 right-1 leading-3 text-right text-[10px] flex
-      min-w-fit gap-0.5 items-end text-white"
+      class="flex absolute right-1 bottom-1 gap-0.5 items-end leading-3 text-right text-white text-[10px] min-w-fit"
     >
       {formatTime(createdAt)}
       {#if isOwn}
