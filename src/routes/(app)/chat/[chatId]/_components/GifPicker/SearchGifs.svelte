@@ -1,10 +1,16 @@
 <script lang="ts">
+  import { enhance } from "$app/forms";
   import { capitalize } from "$lib/utils/text";
 
   let search = "";
 </script>
 
-<div class="p-2 border-b">
+<form
+  action="?/searchGifs"
+  method="post"
+  use:enhance={() => {}}
+  class="p-2 border-b"
+>
   <!-- svelte-ignore a11y-autofocus -->
   <input
     value={search}
@@ -17,4 +23,4 @@
     autocomplete="off"
     autofocus
   />
-</div>
+</form>

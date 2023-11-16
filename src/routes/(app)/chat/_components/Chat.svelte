@@ -22,10 +22,7 @@
     <div class="flex flex-col flex-1">
       <p class="font-medium">{chat.user.alias || chat.user.name}</p>
       {#if chat.lastMessage}
-        <p
-          class="flex gap-0.5 items-center text-sm text-zinc-500"
-          title={chat.lastMessage.text ?? ""}
-        >
+        <p class="flex gap-0.5 items-center text-sm text-zinc-500">
           {#if isLastMessageOwn}
             {#if isLastMessageRead}
               <img
@@ -52,14 +49,13 @@
             />
             <span>Photo</span>
           {:else if isGif(chat.lastMessage.text ?? "")}
-            <img
-              src="/icons/gif.svg"
-              alt="GIF icon"
-              class="mr-0.5 w-4 h-4"
-            />
+            <img src="/icons/gif.svg" alt="GIF icon" class="mr-0.5 w-4 h-4" />
             <span>GIF</span>
           {:else}
-            <span class="line-clamp-1 w-[35%] overflow-ellipsis">
+            <span
+              class="line-clamp-1 w-[35%] overflow-ellipsis"
+              title={chat.lastMessage.text ?? ""}
+            >
               {chat.lastMessage.text}
             </span>
           {/if}

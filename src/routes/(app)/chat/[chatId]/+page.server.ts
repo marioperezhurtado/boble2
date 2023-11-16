@@ -8,6 +8,7 @@ import { deleteChat } from '$lib/db/chat/deleteChat';
 import { getChats } from '$lib/db/chat/getChats';
 import { isBlockedInChat } from '$lib/db/block/isBlockedInChat';
 import { getTrendingGifs } from '$lib/gif/getTrendingGifs';
+import { searchGifs } from '$lib/gif/searchGifs';
 import type { PageServerLoad, Actions } from './$types';
 
 export const load: PageServerLoad = async ({ params, parent }) => {
@@ -70,5 +71,17 @@ export const actions = {
     await deleteChat(params.chatId);
 
     throw redirect(302, '/chat');
-  }
+  },
+  searchGifs: async ({ request }) => {
+    const formData = await request.formData();
+    const query = formData.get('search') as string;
+
+    if (!query) {
+      return fail(400, { error: 'Search query is required' });
+    }
+
+    const gifResults = await searchGifs(query);
+
+    return { gifResults };
+  },
 } satisfies Actions;

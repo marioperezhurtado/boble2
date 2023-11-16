@@ -1,14 +1,14 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import { fly } from "svelte/transition";
+  import type { PageData, ActionData } from "../../$types";
   import SearchGifs from "./SearchGifs.svelte";
-  import type { PageData } from "../../$types";
+  import GifList from "./GifList.svelte";
 
   export let onPick: (gif: string) => void;
 
-  const NUM_COLUMNS = 2;
-
   $: data = $page.data as PageData;
+  $: searchData = $page.form as ActionData;
 </script>
 
 <div
@@ -17,34 +17,15 @@
 >
   <SearchGifs />
 
-  <div
-    class="grid overflow-auto gap-2 p-2 h-96"
-    style={`grid-template-columns: repeat(${NUM_COLUMNS}, 1fr)`}
-  >
-    {#await data.streamed.trendingGifs}
-      <p>Loading...</p>
-    {:then trendingGifs}
-      {#each { length: NUM_COLUMNS } as _, column}
-        <ul class="flex flex-col gap-2">
-          {#each trendingGifs as gif, i}
-            {#if i % NUM_COLUMNS === column}
-              <li>
-                <button
-                  on:click={() => onPick(gif.images.downsized_small.mp4)}
-                  type="button"
-                  class="overflow-hidden w-full h-full rounded-md border shadow-sm hover:outline-cyan-600"
-                >
-                  <img
-                    src={gif.images.downsized.url}
-                    alt={gif.title}
-                    class="w-full h-full"
-                  />
-                </button>
-              </li>
-            {/if}
-          {/each}
-        </ul>
-      {/each}
-    {/await}
+  <div class="h-96 p-2 overflow-auto">
+    {#if searchData?.gifResults}
+      <GifList gifs={searchData.gifResults} {onPick} />
+    {:else}
+      {#await data.streamed.trendingGifs}
+        <p>Loading...</p>
+      {:then trendingGifs}
+        <GifList gifs={trendingGifs} {onPick} />
+      {/await}
+    {/if}
   </div>
 </div>
