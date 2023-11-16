@@ -5,7 +5,9 @@ Chat with your friends and family from any device.
 ## Table of Contents
 
 - [Tech and tools](#tech-and-tools)
+- [External services](#external-services)
 - [Project structure](#project-structure)
+- [Installation](#installation)
 - [Environment variables](#environment-variables)
 - [Database setup](#database-setup)
 - [Email setup](#email-setup)
@@ -38,6 +40,11 @@ Chat with your friends and family from any device.
 - [Vitest](https://vitest.dev/): Next generation testing framework powered by Vite.
 - [Playwright](https://playwright.dev/): Reliable end-to-end testing for modern web apps. 
 
+## External services
+
+- [SendGrid](https://sendgrid.com/): SMTP provider.
+- [Giphy](https://developers.giphy.com/): GIF search API.
+
 ## Project structure
 
 ```
@@ -54,6 +61,8 @@ Chat with your friends and family from any device.
 │   │   │   └── WebSocket server using socket.io. 
 │   │   ├── email/
 │   │   │   └── Email config, templates and functions.
+│   │   ├── gif/
+│   │   │   └── GIF search using Giphy API.
 │   │   ├── ui/
 │   │   │   └── Reusable UI components.
 │   │   └── utils/
@@ -95,6 +104,9 @@ GITHUB_SECRET=""
 SENDGRID_API_KEY=""
 SENDER_ADDRESS=""
 SENDER_NAME=""
+
+# GIF search
+GIPHY_API_KEY=""
 
 # Public
 PUBLIC_SITE_URL="http://localhost:5173"
@@ -154,7 +166,9 @@ If you choose a different provider, you might need to change the email config at
 
 ## Developing
 
-Once you've created a project and installed dependencies with npm install *(or pnpm, yarn, bun etc)*, populated your environment variables and set up your database, start a development server:
+Once you've created a project and installed dependencies with npm install *(or
+pnpm, yarn, bun etc)*, populated your environment variables and followed the
+previous steps, start a development server:
 
 ```
 npm run dev
