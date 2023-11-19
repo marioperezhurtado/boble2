@@ -42,6 +42,11 @@ export const actions = {
       return fail(400, { error: 'Message is required' });
     }
 
+    const messageType = formData.get('messageType') as "text";
+    if (!messageType) {
+      return fail(400, { error: 'Message type is required' });
+    }
+
     const blocked = await isBlockedInChat({
       userId: session.user.id,
       chatId: params.chatId,
@@ -54,6 +59,7 @@ export const actions = {
     const newMessage = await createMessage({
       chatId: params.chatId,
       text: message,
+      type: messageType,
       senderId: session.user.id,
     });
 

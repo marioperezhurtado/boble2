@@ -20,6 +20,16 @@ export const message = sqliteTable("message", {
   chatId: text("chat_id").references(() => chat.id, { onDelete: "cascade" }).notNull(),
   senderId: text("sender_id").references(() => user.id).notNull(),
   text: text("text"),
+  type: text("type", {
+    enum: [
+      "text",
+      "image",
+      "gif",
+      "video",
+      "audio",
+      "file"
+    ] as const
+  }).notNull(),
   createdAt: integer("created_at", { mode: "timestamp" }),
 });
 
@@ -45,18 +55,18 @@ export const block = sqliteTable("block", {
 
 export const emailVerificationToken = sqliteTable("email_verification_token", {
   id: text("id").primaryKey().$defaultFn(() => uuidv4()),
-    userId: text("user_id")
-  .references(() => user.id, { onDelete: "cascade" })
-  .notNull(),
+  userId: text("user_id")
+    .references(() => user.id, { onDelete: "cascade" })
+    .notNull(),
   token: text("token").notNull().unique(),
   expires: integer("expires", { mode: "timestamp" }).notNull()
 });
 
 export const passwordResetToken = sqliteTable("password_reset_token", {
   id: text("id").primaryKey().$defaultFn(() => uuidv4()),
-    userId: text("user_id")
-  .references(() => user.id, { onDelete: "cascade" })
-  .notNull(),
+  userId: text("user_id")
+    .references(() => user.id, { onDelete: "cascade" })
+    .notNull(),
   token: text("token").notNull(),
   expires: integer("expires", { mode: "timestamp" }).notNull()
 });

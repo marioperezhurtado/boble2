@@ -10,10 +10,11 @@
   const createdAt = new Date(message.createdAt!);
 </script>
 
-<div
-  class="flex gap-x-2 items-end pt-1.5 pr-1 pb-1 pl-2.5"
->
-  <p class="break-all">{message.text}</p>
+<div class="flex gap-x-2 items-end pt-1.5 pr-1 pb-1 pl-2.5">
+  <p class="break-all">{message.text}
+
+  </p>
+
   <p
     class={`leading-3 text-right text-[10px] flex min-w-fit gap-0.5 items-end
         ${isOwn ? "text-white" : "text-zinc-600"}`}

@@ -1,11 +1,11 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
-  import { capitalize } from "$lib/utils/text";
-    import { tick } from "svelte";
+  import { tick } from "svelte";
   import EmojiPicker from "./EmojiPicker/EmojiPicker.svelte";
   import GifPicker from "./GifPicker/GifPicker.svelte";
 
   let text = "";
+  let messageType: "text" | "image" | "gif" = "text";
   let textInput: HTMLInputElement | undefined = undefined;
   let form: HTMLFormElement | undefined = undefined;
 
@@ -17,8 +17,12 @@
   async function handlePickGif(gif: string) {
     if (!textInput || !form) return;
 
-    textInput.value = gif;
+    text = gif;
+    messageType = "gif";
+    await tick();
+
     form.requestSubmit();
+    messageType = "text";
   }
 </script>
 
@@ -29,12 +33,12 @@
   bind:this={form}
   class="flex gap-2.5 items-center p-2 px-3 border-t bg-zinc-50"
 >
+  <input type="hidden" name="messageType" value={messageType} />
   <EmojiPicker onPick={handlePickEmoji} />
   <GifPicker onPick={handlePickGif} />
   <label for="message" class="sr-only">Message</label>
   <input
-    value={text}
-    on:input={(e) => (text = capitalize(e.currentTarget.value))}
+    bind:value={text}
     bind:this={textInput}
     id="message"
     name="message"

@@ -1,10 +1,11 @@
 <script lang="ts">
   import { formatDate } from "$lib/utils/date";
-  import { isImage, isGif } from "$lib/utils/messageType";
+  import { isValidUrl } from "$lib/utils/url";
   import type { Message } from "$lib/db/message/getMessages";
   import TextMessage from "./TextMessage.svelte";
   import ImageMessage from "./ImageMessage.svelte";
   import GifMessage from "./GifMessage.svelte";
+  import LinkMessage from "./LinkMessage.svelte";
 
   export let message: Message;
   export let prevMessage: Message;
@@ -31,10 +32,12 @@
       ${isFirst ? (isOwn ? "rounded-tr-none" : "rounded-tl-none") : ""}
       ${isFirst ? "mt-3" : "mt-1"}`}
 >
-  {#if isImage(message.text ?? "")}
+  {#if message.type === "image"}
     <ImageMessage {message} {lastReadAt} {isOwn} />
-  {:else if isGif(message.text ?? "")}
+  {:else if message.type === "gif"}
     <GifMessage {message} {lastReadAt} {isOwn} />
+  {:else if isValidUrl(message.text ?? "")}
+    <LinkMessage {message} {lastReadAt} {isOwn} />
   {:else}
     <TextMessage {message} {lastReadAt} {isOwn} />
   {/if}

@@ -7,6 +7,7 @@ export function getMessages(chatId: string) {
     .select({
       id: message.id,
       text: message.text,
+      type: message.type,
       senderId: message.senderId,
       createdAt: message.createdAt,
       chatId: message.chatId,

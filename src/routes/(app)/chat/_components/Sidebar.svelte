@@ -7,7 +7,7 @@
   $: data = $page.data as LayoutData;
 </script>
 
-<section
+<aside
   class="w-full md:block md:max-w-sm bg-zinc-50"
   class:hidden={!!$page.params.chatId || !!$page.params.contactId}
 >
@@ -35,4 +35,4 @@
   </div>
 
   <slot />
-</section>
+</aside>

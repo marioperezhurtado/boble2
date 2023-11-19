@@ -1,0 +1,1 @@
+ALTER TABLE message ADD `type` text NOT NULL;

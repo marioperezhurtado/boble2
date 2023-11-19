@@ -1,6 +1,6 @@
 <script lang="ts">
   import { formatLastMessageAt } from "$lib/utils/date";
-  import { isGif, isImage } from "$lib/utils/messageType";
+  import { isValidUrl } from "$lib/utils/url";
   import Avatar from "$lib/ui/Avatar.svelte";
   import type { Chat } from "$lib/db/chat/getChats";
 
@@ -19,7 +19,8 @@
     {isSelected ? 'bg-zinc-100 !border-r-cyan-600' : ''}"
   >
     <Avatar user={chat.user} />
-    <div class="flex flex-col flex-1">
+
+    <div class="flex flex-col overflow-hidden w-full">
       <p class="font-medium">{chat.user.alias || chat.user.name}</p>
       {#if chat.lastMessage}
         <p class="flex gap-0.5 items-center text-sm text-zinc-500">
@@ -40,7 +41,7 @@
               />
             {/if}
           {/if}
-          {#if isImage(chat.lastMessage.text ?? "")}
+          {#if chat.lastMessage.type === "image"}
             <!-- svelte-ignore a11y-img-redundant-alt -->
             <img
               src="/icons/camera.svg"
@@ -48,12 +49,20 @@
               class="mr-0.5 w-3.5 h-3.5"
             />
             <span>Photo</span>
-          {:else if isGif(chat.lastMessage.text ?? "")}
+          {:else if chat.lastMessage.type === "gif"}
             <img src="/icons/gif.svg" alt="GIF icon" class="mr-0.5 w-4 h-4" />
             <span>GIF</span>
+          {:else if isValidUrl(chat.lastMessage.text ?? "")}
+            <img src="/icons/link.svg" alt="Link icon" class="mr-0.5 w-4 h-4" />
+            <span
+              class="line-clamp-1 overflow-ellipsis"
+              title={chat.lastMessage.text ?? ""}
+            >
+              {chat.lastMessage.text}
+            </span>
           {:else}
             <span
-              class="line-clamp-1 w-[35%] overflow-ellipsis"
+              class="line-clamp-1 overflow-ellipsis"
               title={chat.lastMessage.text ?? ""}
             >
               {chat.lastMessage.text}
@@ -63,7 +72,7 @@
       {/if}
     </div>
 
-    <div class="flex flex-col gap-1.5 justify-between items-end py-1">
+    <div class="flex flex-col gap-1.5 justify-between items-end py-1 min-w-fit">
       <time
         class="text-xs"
         class:text-zinc-700={chat.unreadCount === 0}

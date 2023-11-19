@@ -21,7 +21,7 @@
       <ChatList chats={data.chats} />
     </Sidebar>
     <div
-      class="flex flex-col w-full h-full border-l"
+      class="flex flex-col w-full h-full border-l bg-zinc-50 md:flex"
       class:hidden={!$page.params.chatId}
     >
       <slot />

@@ -2,16 +2,15 @@ import { db } from "$lib/db/db";
 import { message } from "$lib/db/schema";
 
 type CreateMessageParams = {
-  chatId: string;
-  senderId: string;
-  text: string;
+  chatId: string
+  senderId: string
+  text: string
+  type: "text" | "image" | "gif"
 };
 
-export function createMessage({ chatId, senderId, text }: CreateMessageParams) {
+export function createMessage(newMessage: CreateMessageParams) {
   return db.insert(message).values({
-    chatId,
-    senderId,
-    text,
+    ...newMessage,
     createdAt: new Date(),
   }).returning();
 }
