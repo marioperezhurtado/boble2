@@ -15,13 +15,13 @@
 <div class="flex flex-col h-screen bg-zinc-200">
   <AppHeader />
   <main
-    class="flex flex-grow mx-auto w-full max-w-screen-xl md:overflow-hidden bg-zinc-200 border-x border-zinc-300"
+    class="flex overflow-hidden flex-grow mx-auto w-full max-w-screen-xl bg-zinc-200 border-x border-zinc-300"
   >
     <Sidebar>
       <ChatList chats={data.chats} />
     </Sidebar>
     <div
-      class="flex-col w-full h-full border-l md:flex"
+      class="flex flex-col w-full h-full border-l"
       class:hidden={!$page.params.chatId}
     >
       <slot />

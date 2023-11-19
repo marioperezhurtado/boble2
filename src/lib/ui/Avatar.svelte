@@ -44,8 +44,7 @@
     <img
       src={imageSource}
       alt={user.name + "'s avatar"}
-      class="object-cover bg-white rounded-md border shadow-md aspect-square
-      border-zinc-400 w-full"
+      class="object-cover w-full bg-white rounded-md border shadow-md aspect-square border-zinc-400"
       draggable={false}
     />
   </ExpandedImage>

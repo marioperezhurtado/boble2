@@ -56,7 +56,7 @@
     <img
       src={message.text}
       alt="Image sent by {message.senderId}"
-      class="object-contain h-full w-full"
+      class="object-contain w-full h-full"
       draggable={false}
     />
   </ExpandedImage>

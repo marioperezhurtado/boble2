@@ -23,7 +23,7 @@
 
 <div
   in:scale={{ start: 0.7, duration: 350 }}
-  class="fixed left-1/2 top-1/3 z-30 px-4 w-full max-w-md -translate-x-1/2 -translate-y-1/2"
+  class="fixed left-1/2 top-1/2 md:top-1/3 z-30 px-4 w-full max-w-md -translate-x-1/2 -translate-y-1/2"
 >
   <div class="relative p-6 w-full bg-white rounded-md border shadow-md">
     <slot />
