@@ -10,7 +10,7 @@
   let isOpeningChat = false;
 </script>
 
-<div class="flex flex-col gap-2 pb-8 sm:flex-row">
+<div class="flex flex-col gap-2 sm:flex-row">
   <ButtonLink
     href={$page.url.pathname + "?edit"}
     intent="secondary"

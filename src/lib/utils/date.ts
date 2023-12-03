@@ -28,7 +28,7 @@ export function formatTime(date: Date) {
 export function formatDate(date: Date) {
   const today = new Date();
 
-  if (!areDatesInSameWeek(date, today)) {
+  if (!areDatesInSameWeek(today, date)) {
     return date.toLocaleDateString("en-US", {
       day: "numeric",
       month: "numeric",

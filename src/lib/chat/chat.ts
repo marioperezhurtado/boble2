@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
-import type { Messages, Message } from "$lib/db/message/getMessages";
+import type { Message } from "$lib/db/message/getMessages";
 import type { ServerToClientEvents, ClientToServerEvents } from "$lib/socket";
 import type { Socket } from "socket.io-client";
 
@@ -7,7 +7,7 @@ const socket: Socket<
   ServerToClientEvents, ClientToServerEvents
 > = io("http://localhost:8000");
 
-export function sendMessage(message: Messages[number]) {
+export function sendMessage(message: Message) {
   socket.emit("message", message);
 }
 

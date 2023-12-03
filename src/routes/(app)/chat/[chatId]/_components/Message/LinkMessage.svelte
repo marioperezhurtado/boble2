@@ -11,19 +11,19 @@
   const createdAt = new Date(message.createdAt!);
 </script>
 
-<div class="max-w-xs flex-col gap-2 p-1">
+<div class="flex-col gap-2 p-1 max-w-xs">
   {#await generateLinkPreview(message.text ?? "") then preview}
     {#if preview}
       <a
         href={message.text}
         target="_blank"
         rel="noopener noreferrer"
-        class="block bg-cyan-800 rounded-md mb-1 hover:underline"
+        class={`block rounded-md mb-1 ${isOwn ? "bg-cyan-800" : "bg-zinc-100"}`}
       >
         <img src={preview.image} alt={preview.title} class="rounded-t-md" />
-        <h3 class="text-sm font-medium p-2 pb-0">{preview.title}</h3>
+        <h3 class="p-2 pb-0 text-sm font-medium">{preview.title}</h3>
         {#if preview.description}
-          <p class="text-xs p-2">{preview.description}</p>
+          <p class="p-2 text-xs">{preview.description}</p>
         {/if}
       </a>
     {/if}
@@ -32,11 +32,11 @@
   <div class="p-1">
     <a href={message.text} target="_blank" rel="noopener noreferrer">
       <img
-        src="/icons/link-light.svg"
+        src={isOwn ? "/icons/link-light.svg" : "/icons/link.svg"}
         alt="Link"
-        class="w-3.5 h-3.5 inline -mt-0.5"
+        class="inline -mt-0.5 w-3.5 h-3.5"
       />
-      <span class="break-all underline">{message.text}</span>
+      <span class="underline break-all">{message.text}</span>
     </a>
 
     <p

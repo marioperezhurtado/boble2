@@ -7,9 +7,9 @@
   export let chat: Chat;
   export let isSelected: boolean;
 
-  const isLastMessageOwn = chat.lastMessage?.senderId !== chat.user.id;
-  const lastReadAt = chat.user.lastReadAt ?? chat.createdAt;
-  const isLastMessageRead = chat.lastMessage?.createdAt! <= lastReadAt!;
+  $: isLastMessageOwn = chat.lastMessage?.senderId !== chat.user.id;
+  $: lastReadAt = chat.user.lastReadAt ?? chat.createdAt;
+  $: isLastMessageRead = chat.lastMessage?.createdAt! <= lastReadAt!;
 </script>
 
 <li>
@@ -20,7 +20,7 @@
   >
     <Avatar user={chat.user} />
 
-    <div class="flex flex-col overflow-hidden w-full">
+    <div class="flex overflow-hidden flex-col w-full">
       <p class="font-medium">{chat.user.alias || chat.user.name}</p>
       {#if chat.lastMessage}
         <p class="flex gap-0.5 items-center text-sm text-zinc-500">

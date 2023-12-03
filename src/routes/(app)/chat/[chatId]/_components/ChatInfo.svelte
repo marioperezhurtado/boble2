@@ -34,7 +34,7 @@
       <button on:click={() => (avatarExpanded = !avatarExpanded)}>
         <Avatar bind:expanded={avatarExpanded} {user} size="large" />
       </button>
-      <h2 class="pt-2 font-medium">{user.name}</h2>
+      <h2 class="pt-2 font-medium">{user.alias ?? user.name}</h2>
       <p class="text-sm text-zinc-500">{user.email}</p>
     </div>
 
@@ -66,7 +66,21 @@
     </div>
 
     <div class="flex flex-col gap-2 mt-auto">
-      {#if !user.alias}
+      {#if user.alias}
+        <ButtonLink
+          href="/contacts/{user.id}"
+          intent="primary"
+          fullWidth
+        >
+          <img
+            src="/icons/contact-light.svg"
+            alt="Contact info"
+            class="w-4 h-4"
+          />
+          Contact info
+       </ButtonLink>
+ 
+      {:else}
         <ButtonLink
           href="/contacts?create&email={user.email}"
           intent="primary"

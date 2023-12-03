@@ -1,19 +1,37 @@
 <script lang="ts">
+  import { onDestroy } from "svelte";
   import { page } from "$app/stores";
+  import {
+    joinChat,
+    subscribeToMessages,
+    unsubscribeFromMessages,
+  } from "$lib/chat/chat";
+  import { chats } from "$lib/chat/store";
   import FilterChats from "./FilterChats.svelte";
   import Chat from "./Chat.svelte";
-  import type { Chats } from "$lib/db/chat/getChats";
 
-  export let chats: Chats;
+  chats.set($page.data.chats);
 
-  let filteredChats = chats;
+  $: filteredChats = $chats;
+
+  $: {
+    $chats.forEach((chat) => {
+      joinChat(chat.id);
+    });
+  }
+
+  subscribeToMessages((message) => {
+    chats.updateLastMessage(message.chatId, message);
+  });
+
+  onDestroy(() => unsubscribeFromMessages());
 </script>
 
-<FilterChats initialChats={chats} bind:filteredChats />
+<FilterChats initialChats={$page.data.chats} bind:filteredChats />
 
 {#if filteredChats.length > 0}
   <ul class="border-t">
-    {#each filteredChats as chat}
+    {#each $chats as chat}
       <Chat {chat} isSelected={chat.id === $page.params.chatId} />
     {/each}
   </ul>

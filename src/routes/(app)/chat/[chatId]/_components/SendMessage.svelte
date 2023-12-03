@@ -3,6 +3,7 @@
   import { tick } from "svelte";
   import EmojiPicker from "./EmojiPicker/EmojiPicker.svelte";
   import GifPicker from "./GifPicker/GifPicker.svelte";
+    import { sendMessage } from "$lib/chat/chat";
 
   let text = "";
   let messageType: "text" | "image" | "gif" = "text";
@@ -29,7 +30,7 @@
 <form
   action="?/sendMessage"
   method="post"
-  use:enhance
+  use:enhance={() => {}}
   bind:this={form}
   class="flex gap-2.5 items-center p-2 px-3 border-t bg-zinc-50"
 >

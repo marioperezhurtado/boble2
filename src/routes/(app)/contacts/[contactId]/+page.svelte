@@ -17,23 +17,25 @@
 </script>
 
 <section class="p-6 h-full bg-zinc-50">
-  <div class="flex flex-col flex-grow mx-auto max-w-md h-full">
+  <div class="flex flex-col flex-grow gap-6 mx-auto max-w-md h-full">
     <div class="flex gap-4 items-center">
       <button on:click={() => (avatarExpanded = !avatarExpanded)}>
-        <Avatar bind:expanded={avatarExpanded} 
-        user={{
-          ...contact,
-          name: `${contact.alias} (${contact.name})`,
-        }}
-        size="large" />
+        <Avatar
+          bind:expanded={avatarExpanded}
+          user={{
+            ...contact,
+            name: `${contact.alias} (${contact.name})`,
+          }}
+          size="large"
+        />
       </button>
       <div>
-        <h2 class="pt-2 font-medium">{contact.alias}</h2>
+        <h2 class="font-medium">{contact.alias}</h2>
         <p class="text-sm text-zinc-500">{contact.email}</p>
       </div>
     </div>
 
-    <hr class="my-8 h-px bg-zinc-100" />
+    <hr class="h-px bg-zinc-100" />
 
     <ContactActions {contact} />
     <ContactInfo {contact} />
