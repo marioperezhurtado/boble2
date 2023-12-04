@@ -47,12 +47,7 @@ export const actions = {
     const session = await getSessionRequired(locals.auth);
     const formData = await request.formData();
 
-    const email = formData.get("email") as string;
-    if (!email) {
-      return fail(401, { error: "Email address is required" });
-    }
-
-    const alias = formData.get("alias") as string;
+    const alias = (formData.get("alias") as string).trim();
     if (!alias) {
       return fail(400, { error: "Alias is required" });
     }
@@ -60,19 +55,12 @@ export const actions = {
       return fail(400, { error: "Alias must be at least 3 characters" });
     }
 
-    const existingUser = await getUserByEmail(email);
-
-    if (!existingUser) {
-      return fail(400, { error: "User not found" });
-    }
-
     await editContact({
       userId: session.user.id,
       contactId: params.contactId,
       newAlias: alias,
-      newContactId: existingUser.id,
     });
 
-    throw redirect(302, `/contacts/${existingUser.id}`);
+    throw redirect(302, `/contacts/${params.contactId}`);
   }
 } satisfies Actions;  

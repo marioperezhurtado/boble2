@@ -6,21 +6,16 @@ type EditContactParams = {
   userId: string;
   contactId: string;
   newAlias: string;
-  newContactId: string;
 };
 
 export function editContact({
   userId,
   contactId,
   newAlias,
-  newContactId,
 }: EditContactParams) {
   return db
     .update(contact)
-    .set({
-      alias: newAlias,
-      contactId: newContactId,
-    })
+    .set({ alias: newAlias })
     .where(
       and(
         eq(contact.userId, userId),

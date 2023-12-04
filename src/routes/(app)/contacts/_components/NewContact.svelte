@@ -17,7 +17,7 @@
   <p class="text-sm text-zinc-500">Add a new contact to your list.</p>
 
   <form
-    action="/contacts?/addContact"
+    action="?/addContact"
     use:enhance={() => {
       isAdding = true;
 

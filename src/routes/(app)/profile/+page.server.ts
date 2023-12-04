@@ -1,4 +1,4 @@
-import { fail } from "@sveltejs/kit";
+import { fail, redirect } from "@sveltejs/kit";
 import { editUser } from "$lib/db/user/editUser";
 import { getSessionRequired } from "$lib/auth/auth";
 import type { Actions } from "./$types";
@@ -23,6 +23,6 @@ export const actions = {
 
     await editUser({ name, status, id: session.user.id });
 
-    return { success: true };
+    throw redirect(302, "/profile");
   },
 } satisfies Actions;

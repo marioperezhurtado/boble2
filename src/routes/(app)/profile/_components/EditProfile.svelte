@@ -16,6 +16,7 @@
   $: untouched = name === data.user.name && status === data.user.status;
 
   let isUpdating = false;
+  let success = false;
 </script>
 
 <section
@@ -33,10 +34,12 @@
   <form
     use:enhance={() => {
       isUpdating = true;
+      success = false;
 
       return async ({ update }) => {
         await update({ reset: false });
         isUpdating = false;
+        success = true;
       };
     }}
     action="?/editProfile"
@@ -80,7 +83,7 @@
     {#if $page.form?.error}
       <FormError message={$page.form.error} />
     {/if}
-    {#if $page.form?.success && !isUpdating && untouched}
+    {#if success && !isUpdating && untouched}
       <FormSuccess message="Your profile has been updated." />
     {/if}
 

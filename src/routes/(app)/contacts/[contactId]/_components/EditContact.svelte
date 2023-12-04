@@ -7,12 +7,14 @@
   import Modal from "$lib/ui/Modal.svelte";
   import FormError from "$lib/ui/FormError.svelte";
   import type { PageData } from "../$types";
+  import Avatar from "$lib/ui/Avatar.svelte";
 
   let isEditing = false;
 
   $: data = $page.data as PageData;
   $: alias = data.contact.alias;
   $: email = data.contact.email;
+  $: image = data.contact.image;
 </script>
 
 <Modal backTo={$page.url.pathname}>
@@ -30,28 +32,33 @@
       };
     }}
     method="POST"
-    class="flex flex-col gap-3 pt-8"
+    class="flex flex-col gap-6 pt-8"
   >
     <div>
       <Label for="alias">
         Alias
-        <Input bind:value={alias} id="alias" name="alias" type="text" />
+        <Input
+          value={alias}
+          on:input={(input) => (alias = input.detail)}
+          id="alias"
+          name="alias"
+          type="text"
+        />
       </Label>
       <p class="pt-2 text-xs font-normal text-zinc-500">
         This is the name that will appear in your contact list.
       </p>
     </div>
 
-    <Label for="email">
-      Email address
-      <Input
-        bind:value={email}
-        id="email"
-        name="email"
-        type="email"
-        placeholder="your-friend@email.com"
-      />
-    </Label>
+    <div class="flex gap-3 items-center">
+      <Avatar user={{ name: alias, email, image }} size="small" />
+      <div>
+        <h2 class="text-sm font-semibold">{alias}</h2>
+        <p class="text-xs break-all text-zinc-500">
+          {email}
+        </p>
+      </div>
+    </div>
 
     {#if $page.form?.error}
       <FormError message={$page.form.error} />
