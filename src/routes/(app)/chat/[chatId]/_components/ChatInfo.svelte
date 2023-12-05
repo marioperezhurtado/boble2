@@ -2,7 +2,7 @@
   import { page } from "$app/stores";
   import { fly } from "svelte/transition";
   import { chatInfoOpen } from "./stores";
-  import { clickOutside } from "$lib/utils/clickOutside";
+  import { clickOutside } from "$lib/actions/clickOutside";
   import { formatDateTime } from "$lib/utils/date";
   import type { PageData } from "../$types";
   import ActionIconButton from "$lib/ui/ActionIconButton.svelte";
@@ -68,16 +68,16 @@
     <div class="flex flex-col gap-2 mt-auto">
       {#if user.alias}
         <ButtonLink
-          href="/contacts/{user.id}"
+          href="/contacts/{user.id}?edit"
           intent="primary"
           fullWidth
         >
           <img
-            src="/icons/contact-light.svg"
-            alt="Contact info"
+            src="/icons/edit-light.svg"
+            alt="Edit contact"
             class="w-4 h-4"
           />
-          Contact info
+          Edit contact
        </ButtonLink>
  
       {:else}
@@ -101,7 +101,7 @@
         intent="danger"
         fullWidth
       >
-        <img src="/icons/delete.svg" alt="Delete chat" class="w-4 h-4" />
+        <img src="/icons/delete-light.svg" alt="Delete chat" class="w-4 h-4" />
         Delete chat
       </ButtonLink>
     </div>

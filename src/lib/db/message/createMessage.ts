@@ -1,11 +1,13 @@
 import { db } from "$lib/db/db";
 import { message } from "$lib/db/schema";
+import type { VALID_MESSAGE_TYPES } from "$lib/db/schema";
 
-type CreateMessageParams = {
+export type CreateMessageParams = {
   chatId: string
   senderId: string
+  replyToId: string | null
   text: string
-  type: "text" | "image" | "gif"
+  type: typeof VALID_MESSAGE_TYPES[number]
 };
 
 export function createMessage(newMessage: CreateMessageParams) {

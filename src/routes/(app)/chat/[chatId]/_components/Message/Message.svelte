@@ -1,11 +1,13 @@
 <script lang="ts">
   import { formatDate } from "$lib/utils/date";
   import { isValidUrl } from "$lib/utils/url";
+  import { longPress } from "$lib/actions/longPress";
   import type { Message } from "$lib/db/message/getMessages";
   import TextMessage from "./TextMessage.svelte";
   import ImageMessage from "./ImageMessage.svelte";
   import GifMessage from "./GifMessage.svelte";
   import LinkMessage from "./LinkMessage.svelte";
+  import MessageActions from "./MessageActions.svelte";
 
   export let message: Message;
   export let prevMessage: Message;
@@ -17,6 +19,8 @@
   const firstOfDate = prevDate.getDate() !== currentDate.getDate();
   const isFirst = prevMessage?.senderId !== message.senderId || firstOfDate;
   const createdAt = new Date(message.createdAt!);
+
+  let actionsOpen = false;
 </script>
 
 {#if firstOfDate && message.createdAt}
@@ -32,24 +36,34 @@
       ${isFirst ? (isOwn ? "rounded-tr-none" : "rounded-tl-none") : ""}
       ${isFirst ? "mt-3" : "mt-1"}`}
 >
-  {#if message.type === "image"}
-    <ImageMessage {message} {lastReadAt} {isOwn} />
-  {:else if message.type === "gif"}
-    <GifMessage {message} {lastReadAt} {isOwn} />
-  {:else if isValidUrl(message.text ?? "")}
-    <LinkMessage {message} {lastReadAt} {isOwn} />
-  {:else}
-    <TextMessage {message} {lastReadAt} {isOwn} />
-  {/if}
-  {#if isFirst}
-    <span
-      class={`absolute top-0 w-0 h-0 border-transparent border-t-[10px]
+  <button
+    on:contextmenu|preventDefault={() => (actionsOpen = true)}
+    use:longPress={() => (actionsOpen = true)}
+    class="block text-left"
+  >
+    {#if message.type === "image"}
+      <ImageMessage {message} {lastReadAt} {isOwn} />
+    {:else if message.type === "gif"}
+      <GifMessage {message} {lastReadAt} {isOwn} />
+    {:else if isValidUrl(message.text ?? "")}
+      <LinkMessage {message} {lastReadAt} {isOwn} />
+    {:else}
+      <TextMessage {message} {lastReadAt} {isOwn} />
+    {/if}
+    {#if isFirst}
+      <span
+        class={`absolute top-0 w-0 h-0 border-transparent border-t-[10px]
         ${
           isOwn
             ? "border-t-cyan-700 border-r-[5px] -right-1"
             : "border-t-white border-l-[5px] -left-1"
         }
       `}
-    />
+      />
+    {/if}
+  </button>
+
+  {#if actionsOpen}
+    <MessageActions bind:isOpen={actionsOpen} {message} {isOwn} />
   {/if}
 </li>

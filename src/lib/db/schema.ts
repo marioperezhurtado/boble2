@@ -15,21 +15,15 @@ export const participant = sqliteTable("participant", {
   compoundKey: primaryKey(p.chatId, p.userId),
 }));
 
+export const VALID_MESSAGE_TYPES = ["text", "image", "gif", "video", "audio", "file"] as const;
+
 export const message = sqliteTable("message", {
   id: text("id").primaryKey().$defaultFn(() => uuidv4()),
   chatId: text("chat_id").references(() => chat.id, { onDelete: "cascade" }).notNull(),
   senderId: text("sender_id").references(() => user.id).notNull(),
+  replyToId: text("reply_to_id"),
   text: text("text"),
-  type: text("type", {
-    enum: [
-      "text",
-      "image",
-      "gif",
-      "video",
-      "audio",
-      "file"
-    ] as const
-  }).notNull(),
+  type: text("type", { enum: VALID_MESSAGE_TYPES }).notNull(),
   createdAt: integer("created_at", { mode: "timestamp" }),
 });
 
@@ -49,7 +43,6 @@ export const block = sqliteTable("block", {
     .references(() => user.id, { onDelete: "cascade" }).notNull(),
   createdAt: integer("created_at", { mode: "timestamp" }),
 }, (p) => ({
-
   compoundKey: primaryKey(p.userId, p.blockedUserId),
 }));
 

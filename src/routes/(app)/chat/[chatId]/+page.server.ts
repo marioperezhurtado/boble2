@@ -9,6 +9,7 @@ import { getChats } from '$lib/db/chat/getChats';
 import { isBlockedInChat } from '$lib/db/block/isBlockedInChat';
 import { getTrendingGifs } from '$lib/gif/getTrendingGifs';
 import { searchGifs } from '$lib/gif/searchGifs';
+import { VALID_MESSAGE_TYPES } from '$lib/db/schema';
 import type { PageServerLoad, Actions } from './$types';
 
 export const load: PageServerLoad = async ({ params, parent }) => {
@@ -42,25 +43,31 @@ export const actions = {
       return fail(400, { error: 'Message is required' });
     }
 
-    const messageType = formData.get('messageType') as "text";
+    const messageType = formData.get('messageType') as typeof VALID_MESSAGE_TYPES[number];
+
     if (!messageType) {
       return fail(400, { error: 'Message type is required' });
+    }
+    if (!VALID_MESSAGE_TYPES.includes(messageType)) {
+      return fail(400, { error: 'Invalid message type' });
     }
 
     const blocked = await isBlockedInChat({
       userId: session.user.id,
       chatId: params.chatId,
     });
-
     if (blocked) {
       return fail(400, { error: "You can't send messages in this chat" });
     }
 
+    const replyToId = formData.get('replyToId') as string | null;
+
     const newMessage = await createMessage({
       chatId: params.chatId,
+      senderId: session.user.id,
+      replyToId: replyToId ?? null,
       text: message,
       type: messageType,
-      senderId: session.user.id,
     });
 
     sendMessage(newMessage[0]);

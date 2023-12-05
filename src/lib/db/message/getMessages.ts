@@ -6,11 +6,12 @@ export function getMessages(chatId: string) {
   return db
     .select({
       id: message.id,
+      chatId: message.chatId,
+      senderId: message.senderId,
+      replyToId: message.replyToId,
       text: message.text,
       type: message.type,
-      senderId: message.senderId,
       createdAt: message.createdAt,
-      chatId: message.chatId,
     })
     .from(message)
     .where(eq(message.chatId, chatId))

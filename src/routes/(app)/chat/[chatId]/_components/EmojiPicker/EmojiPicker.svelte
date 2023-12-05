@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Trigger from './Trigger.svelte';
 	import Picker from './Picker.svelte';
-	import { clickOutside } from '$lib/utils/clickOutside';
+	import { clickOutside } from '$lib/actions/clickOutside';
   import { hoveredEmoji } from './store';
 
 	export let onPick: (emoji: string) => void;

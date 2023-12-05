@@ -15,6 +15,13 @@
       "when": 1700405410354,
       "tag": "0001_small_cargill",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1701707956776,
+      "tag": "0002_many_caretaker",
+      "breakpoints": true
     }
   ]
 }

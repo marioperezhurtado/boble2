@@ -13,6 +13,7 @@
   export let isSavedContact: boolean;
 
   let messages = initialMessages;
+  let messagesContainer: HTMLElement | undefined = undefined;
 
   $: {
     chats.readChat(chatId);
@@ -29,6 +30,7 @@
 </script>
 
 <section
+  bind:this={messagesContainer}
   class="overflow-y-auto px-4 h-full bg-stone-100 bg-repeat bg-[url('/pattern.png')]"
 >
   {#if messages.length === 0}

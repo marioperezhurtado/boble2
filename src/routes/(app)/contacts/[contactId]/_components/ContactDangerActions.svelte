@@ -15,7 +15,7 @@
     intent="danger"
     fullWidth
   >
-    <img src="/icons/delete.svg" alt="Delete contact" class="w-4 h-4" />
+    <img src="/icons/delete-light.svg" alt="Delete contact" class="w-4 h-4" />
     Delete contact
   </ButtonLink>
 </div>
