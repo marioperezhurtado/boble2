@@ -13,7 +13,7 @@
   let isExpanded = false;
 </script>
 
-<div class="p-1 max-w-[18rem]">
+<div class="max-w-[18rem]">
   <div class="overflow-hidden relative rounded-md">
     <div
       class="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t to-transparent from-black/40"

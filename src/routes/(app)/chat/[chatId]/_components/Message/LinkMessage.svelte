@@ -11,7 +11,7 @@
   const createdAt = new Date(message.createdAt!);
 </script>
 
-<div class="flex-col gap-2 p-1 max-w-xs">
+<div class="flex-col gap-2 max-w-xs">
   {#await generateLinkPreview(message.text ?? "") then preview}
     {#if preview}
       <a
