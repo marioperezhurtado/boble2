@@ -2,8 +2,9 @@ import { fail, redirect } from '@sveltejs/kit';
 import { getMessages } from '$lib/db/message/getMessages';
 import { createMessage } from '$lib/db/message/createMessage';
 import { readChat } from '$lib/db/chat/readChat';
-import { sendMessage } from '$lib/chat/chat';
+import { sendMessage, removeMessage } from '$lib/chat/chat';
 import { getSessionRequired } from '$lib/auth/auth';
+import { deleteMessage } from '$lib/db/message/deleteMessage';
 import { deleteChat } from '$lib/db/chat/deleteChat';
 import { getChats } from '$lib/db/chat/getChats';
 import { isBlockedInChat } from '$lib/db/block/isBlockedInChat';
@@ -11,6 +12,7 @@ import { getTrendingGifs } from '$lib/gif/getTrendingGifs';
 import { searchGifs } from '$lib/gif/searchGifs';
 import { VALID_MESSAGE_TYPES } from '$lib/db/schema';
 import type { PageServerLoad, Actions } from './$types';
+import { isParticipant } from '$lib/db/participant/isParticipant';
 
 export const load: PageServerLoad = async ({ params, parent }) => {
   const { user, chats } = await parent();
@@ -71,6 +73,39 @@ export const actions = {
     });
 
     sendMessage(newMessage[0]);
+  },
+  deleteMessage: async ({ request, params, locals }) => {
+    const session = await getSessionRequired(locals.auth);
+
+    const formData = await request.formData();
+    const messageId = formData.get('messageId') as string;
+    if (!messageId) {
+      return fail(400, { error: "Message is required" });
+    }
+
+    const participant = await isParticipant({
+      userId: session.user.id,
+      chatId: params.chatId,
+    });
+    if (!participant) {
+      return fail(401, { error: "You are not a participant in this chat" });
+    }
+
+    const messages = await getMessages(params.chatId);
+    const message = messages.find((message) => message.id === messageId);
+    if (!message) {
+      return fail(400, { error: "Message not found" });
+    }
+
+    if (message.senderId !== session.user.id) {
+      return fail(401, { error: "You cannot delete other people's messages" });
+    }
+
+    await deleteMessage(messageId);
+
+    removeMessage(messageId, params.chatId);
+
+    throw redirect(302, `/chat/${params.chatId}`); 
   },
   deleteChat: async ({ params, locals }) => {
     const session = await getSessionRequired(locals.auth);

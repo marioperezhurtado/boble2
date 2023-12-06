@@ -3,6 +3,7 @@
   import { formatDate } from "$lib/utils/date";
   import { isValidUrl } from "$lib/utils/url";
   import { longPress } from "$lib/actions/longPress";
+  import { messages } from "../stores";
   import type { PageData } from "../../$types";
   import type { Message } from "$lib/db/message/getMessages";
   import TextMessage from "./TextMessage.svelte";
@@ -17,7 +18,7 @@
   export let isOwn: boolean;
 
   $: data = $page.data as PageData;
-  $: replyTo = data.messages.find((m) => m.id === message.replyToId);
+  $: replyTo = $messages.find((m) => m.id === message.replyToId);
 
   const prevDate = new Date(prevMessage?.createdAt!);
   const currentDate = new Date(message.createdAt!);

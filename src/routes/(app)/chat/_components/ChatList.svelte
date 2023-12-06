@@ -3,7 +3,8 @@
   import { page } from "$app/stores";
   import {
     joinChat,
-    subscribeToMessages,
+    onDeleteMessage,
+    onMessage,
     unsubscribeFromMessages,
   } from "$lib/chat/chat";
   import { chats } from "$lib/chat/store";
@@ -20,8 +21,16 @@
     });
   }
 
-  subscribeToMessages((message) => {
+  onMessage((message) => {
     chats.updateLastMessage(message.chatId, message);
+  });
+
+  onDeleteMessage((messageId, chatId) => {
+    const chat = $chats.find((chat) => chat.id === chatId);
+
+    if (chat?.lastMessage?.id == messageId) {
+      chats.deleteLastMessage(chatId);
+    }
   });
 
   onDestroy(() => unsubscribeFromMessages());

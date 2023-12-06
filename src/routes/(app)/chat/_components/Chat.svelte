@@ -2,9 +2,9 @@
   import { formatLastMessageAt } from "$lib/utils/date";
   import { isValidUrl } from "$lib/utils/url";
   import Avatar from "$lib/ui/Avatar.svelte";
-  import type { Chat } from "$lib/db/chat/getChats";
+  import type { DisplayChat } from "$lib/chat/store";
 
-  export let chat: Chat;
+  export let chat: DisplayChat;
   export let isSelected: boolean;
 
   $: isLastMessageOwn = chat.lastMessage?.senderId !== chat.user.id;
@@ -22,7 +22,21 @@
 
     <div class="flex overflow-hidden flex-col w-full">
       <p class="font-medium">{chat.user.alias || chat.user.name}</p>
-      {#if chat.lastMessage}
+      {#if !chat.lastMessage}
+        <span></span>
+      {:else if chat.lastMessage?.deleted}
+        <p class="flex gap-0.5 items-center text-sm text-zinc-500">
+          <img
+            src="/icons/cancel.svg"
+            alt="Deleted"
+            title="Deleted"
+            class="w-3.5 h-3.5"
+          />
+          <span class="italic" title="This message was deleted">
+            This message was deleted
+          </span>
+        </p>
+      {:else}
         <p class="flex gap-0.5 items-center text-sm text-zinc-500">
           {#if isLastMessageOwn}
             {#if isLastMessageRead}

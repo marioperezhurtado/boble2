@@ -1,5 +1,6 @@
 <script lang="ts">
   import { fly } from "svelte/transition";
+  import { enhance } from "$app/forms";
   import { clickOutside } from "$lib/actions/clickOutside";
   import { replyingTo } from "../stores";
   import type { Message } from "$lib/db/message/getMessages";
@@ -51,16 +52,32 @@
     </button>
   </li>
   <li>
-    <button
-      class="flex justify-between items-center py-2 px-2.5 w-full text-red-600 hover:bg-zinc-100"
-    >
-      {#if isOwn}
-        Delete Message
-        <img src="/icons/delete.svg" alt="Delete" width="17" height="17" />
-      {:else}
+    {#if isOwn}
+      <form
+        action="?/deleteMessage"
+        method="post"
+        use:enhance={() => {
+          return ({ update }) => {
+            isOpen = false;
+            update();
+          };
+        }}
+      >
+        <input type="hidden" name="messageId" value={message.id} />
+        <button
+          class="flex justify-between items-center py-2 px-2.5 w-full text-red-600 hover:bg-zinc-100"
+        >
+          Delete Message
+          <img src="/icons/delete.svg" alt="Delete" width="17" height="17" />
+        </button>
+      </form>
+    {:else}
+      <button
+        class="flex justify-between items-center py-2 px-2.5 w-full text-red-600 hover:bg-zinc-100"
+      >
         Report Message
         <img src="/icons/report.svg" alt="Report" width="17" height="17" />
-      {/if}
-    </button>
+      </button>
+    {/if}
   </li>
 </ul>

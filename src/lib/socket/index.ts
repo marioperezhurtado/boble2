@@ -6,10 +6,12 @@ import type { Message } from "$lib/db/message/getMessages";
 export type ClientToServerEvents = {
   join: (chatId: string) => void;
   message: (message: Message) => void;
+  deleteMessage: (messageId: string, chatId: string) => void;
 };
 
 export type ServerToClientEvents = {
   message: (message: Message) => void;
+  deleteMessage: (messageId: string, chatId: string) => void;
 };
 
 const app = express();
@@ -35,6 +37,12 @@ io.on("connection", (socket) => {
     console.log("> Message in chat: ", message.chatId, " - ", message.text);
 
     io.to(message.chatId).emit("message", message);
+  });
+
+  socket.on("deleteMessage", async (messageId, chatId) => {
+    console.log("> Message deleted in chat: ", chatId, " - ", messageId);
+
+    io.to(chatId).emit("deleteMessage", messageId, chatId);
   });
 
   socket.on("disconnect", () => {
