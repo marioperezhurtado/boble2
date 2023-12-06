@@ -9,6 +9,7 @@
 
   $: data = $page.data as PageData;
   $: isDeleting = $page.url.searchParams.has("delete");
+  $: isInfoOpen = $page.url.searchParams.has("info");
 </script>
 
 <section class="flex relative flex-col flex-grow h-full">
@@ -21,7 +22,10 @@
     isSavedContact={data.chat?.user.alias !== null}
   />
   <SendMessage />
-  <ChatInfo />
+
+  {#if isInfoOpen}
+    <ChatInfo />
+  {/if}
 </section>
 
 {#if isDeleting}

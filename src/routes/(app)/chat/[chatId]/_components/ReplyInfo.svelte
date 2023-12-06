@@ -26,7 +26,7 @@
           {data.chat.user.alias || data.chat.user.name}
         {/if}
       </p>
-      <p>{$replyingTo.text}</p>
+      <p class="break-all">{$replyingTo.text}</p>
     </div>
 
     <button

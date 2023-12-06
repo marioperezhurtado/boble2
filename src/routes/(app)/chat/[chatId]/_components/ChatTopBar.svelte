@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { chatInfoOpen } from "./stores";
   import ActionIconButton from "$lib/ui/ActionIconButton.svelte";
   import Avatar from "$lib/ui/Avatar.svelte";
   import type { Chat } from "$lib/db/chat/getChats";
@@ -8,8 +7,8 @@
 </script>
 
 <div class="flex gap-2 justify-between items-center p-2 border-b bg-zinc-50">
-  <button
-    on:click|stopPropagation={() => ($chatInfoOpen = true)}
+  <a
+    href="/chat/{chat.id}?info"
     class="flex flex-grow gap-3 items-center text-left"
   >
     <Avatar user={chat.user} size="small" />
@@ -23,7 +22,7 @@
         {/if}
       </p>
     </div>
-  </button>
+  </a>
 
   <div class="flex gap-2">
     <ActionIconButton title="Search messages" icon="/icons/search.svg" />
