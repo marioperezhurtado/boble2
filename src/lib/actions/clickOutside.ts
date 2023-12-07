@@ -8,11 +8,13 @@ export function clickOutside(
     }
   }
 
-  document.addEventListener('click', handleClick)
+  document.addEventListener('click', handleClick, true)
+  document.addEventListener('contextmenu', handleClick, true)
 
   return {
     destroy() {
-      document.removeEventListener('click', handleClick)
+      document.removeEventListener('click', handleClick, true)
+      document.addEventListener('contextmenu', handleClick, true)
     }
   }
 }
