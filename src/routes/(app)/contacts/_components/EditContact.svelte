@@ -1,20 +1,18 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import { enhance } from "$app/forms";
+  import type { Contact } from "$lib/db/contact/getContacts";
   import Button from "$lib/ui/Button.svelte";
   import Label from "$lib/ui/Label.svelte";
   import Input from "$lib/ui/Input.svelte";
   import Modal from "$lib/ui/Modal.svelte";
   import FormError from "$lib/ui/FormError.svelte";
-  import type { PageData } from "../$types";
   import Avatar from "$lib/ui/Avatar.svelte";
 
+  export let contact: Contact;
   let isEditing = false;
 
-  $: data = $page.data as PageData;
-  $: alias = data.contact.alias;
-  $: email = data.contact.email;
-  $: image = data.contact.image;
+  let alias = contact.alias;
 </script>
 
 <Modal backTo={$page.url.pathname}>
@@ -22,7 +20,7 @@
   <p class="text-sm text-zinc-500">Change the details of your contact.</p>
 
   <form
-    action="?/editContact"
+    action="/contacts?/editContact"
     use:enhance={() => {
       isEditing = true;
 
@@ -51,15 +49,17 @@
     </div>
 
     <div class="flex gap-3 items-center">
-      <Avatar user={{ name: alias, email, image }} size="small" />
+      <Avatar user={contact} size="small" />
       <div>
         <h2 class="text-sm font-semibold">{alias}</h2>
         <p class="text-xs break-all text-zinc-500">
-          {email}
+          {contact.email}
         </p>
       </div>
     </div>
 
+    <input type="hidden" name="contactId" value={contact.id} />
+  
     {#if $page.form?.error}
       <FormError message={$page.form.error} />
     {/if}

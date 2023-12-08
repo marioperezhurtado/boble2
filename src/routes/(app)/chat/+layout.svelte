@@ -1,8 +1,15 @@
 <script lang="ts">
   import { page } from "$app/stores";
+  import type { LayoutData } from "./$types";
   import AppHeader from "../_components/AppHeader.svelte";
   import ChatList from "./_components/ChatList.svelte";
   import Sidebar from "./_components/Sidebar.svelte";
+  import DeleteChatConfirm from "./_components/DeleteChatConfirm.svelte";
+
+  $: data = $page.data as LayoutData;
+  $: deletingChat = data.chats.find(
+    (chat) => chat.id === $page.url.searchParams.get("deleteChat"),
+  );
 </script>
 
 <svelte:head>
@@ -25,3 +32,7 @@
     </div>
   </main>
 </div>
+
+{#if deletingChat}
+  <DeleteChatConfirm chat={deletingChat} />
+{/if}

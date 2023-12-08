@@ -8,8 +8,7 @@
   import FormError from "$lib/ui/FormError.svelte";
 
   let isAdding = false;
-
-  let email = $page.url.searchParams.get("email") || "";
+  let newContactEmail = $page.url.searchParams.get("createContact") || "";
 </script>
 
 <Modal backTo={$page.url.pathname}>
@@ -17,7 +16,7 @@
   <p class="text-sm text-zinc-500">Add a new contact to your list.</p>
 
   <form
-    action="?/addContact"
+    action="/contacts?/addContact"
     use:enhance={() => {
       isAdding = true;
 
@@ -32,7 +31,7 @@
     <div>
       <Label for="alias">
         Alias
-        <Input id="alias" name="alias" type="text" />
+        <Input id="alias" name="alias" type="text" autofocus />
       </Label>
       <p class="pt-2 text-xs font-normal text-zinc-500">
         This is the name that will appear in your contact list.
@@ -42,7 +41,7 @@
     <Label for="email">
       Email address
       <Input
-        bind:value={email}
+        bind:value={newContactEmail}
         id="email"
         name="email"
         type="email"

@@ -10,9 +10,9 @@
   let isOpeningChat = false;
 </script>
 
-<div class="flex flex-col gap-2 sm:flex-row">
+<div class="flex flex-row flex-wrap gap-2">
   <ButtonLink
-    href={$page.url.pathname + "?edit"}
+    href={$page.url.pathname + "?editContact=" + contact.id}
     intent="secondary"
     size="small"
   >
@@ -33,6 +33,8 @@
     method="POST"
     use:enhance
   >
+    <input type="hidden" name="contactId" value={contact.id} />
+
     <Button
       isLoading={isOpeningChat}
       type="submit"
@@ -42,6 +44,5 @@
       <img src="/icons/chat-light.svg" alt="Open chat" class="w-4 h-4" />
       Open chat
     </Button>
-    <input type="hidden" name="contactId" value={contact.id} />
   </form>
 </div>

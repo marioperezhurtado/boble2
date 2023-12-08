@@ -81,7 +81,11 @@
 
   <div class="flex flex-col gap-2 mt-auto">
     {#if user.alias}
-      <ButtonLink href="/contacts/{user.id}?edit" intent="primary" fullWidth>
+      <ButtonLink
+        href="/contacts/{user.id}?editContact={user.id}"
+        intent="primary"
+        fullWidth
+      >
         <img src="/icons/edit-light.svg" alt="Edit contact" class="w-4 h-4" />
         Edit contact
       </ButtonLink>
@@ -101,7 +105,11 @@
     {/if}
 
     <BlockUnblockButton userId={user.id} isBlocked={!!user.isBlocked} />
-    <ButtonLink href={$page.url.pathname + "?delete"} intent="danger" fullWidth>
+    <ButtonLink
+      href={$page.url.pathname + "?deleteChat=" + $page.params.chatId}
+      intent="danger"
+      fullWidth
+    >
       <img src="/icons/delete-light.svg" alt="Delete chat" class="w-4 h-4" />
       Delete chat
     </ButtonLink>

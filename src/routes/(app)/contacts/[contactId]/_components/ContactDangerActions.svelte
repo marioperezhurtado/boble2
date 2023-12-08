@@ -10,7 +10,7 @@
 <div class="flex flex-col gap-2 mt-auto sm:flex-row">
   <BlockUnblockButton userId={contact.id} isBlocked={!!contact.isBlocked} />
   <ButtonLink
-    href={$page.url.pathname + "?delete"}
+    href={$page.url.pathname + "?deleteContact=" + contact.id}
     type="submit"
     intent="danger"
     fullWidth

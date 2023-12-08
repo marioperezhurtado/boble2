@@ -1,7 +1,6 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import { fly } from "svelte/transition";
-  import { clickOutside } from "$lib/actions/clickOutside";
   import { replyingTo } from "../stores";
   import type { Message } from "$lib/db/message/getMessages";
   import ContextMenu from "$lib/ui/ContextMenu.svelte";
@@ -24,7 +23,6 @@
 <ContextMenu bind:isOpen>
   <ul
     in:fly={{ y: 30, duration: 150 }}
-    use:clickOutside={() => (isOpen = false)}
     class="flex flex-col w-36 text-xs font-medium bg-white rounded-md border shadow-sm text-zinc-600 border-zinc-200"
   >
     <li>

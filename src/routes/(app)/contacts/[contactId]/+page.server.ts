@@ -1,8 +1,6 @@
-import { error, fail, redirect } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import { getChatByParticipants } from '$lib/db/chat/getChatByParticipants';
 import { createChat } from '$lib/db/chat/createChat';
-import { deleteContact } from '$lib/db/contact/deleteContact';
-import { editContact } from '$lib/db/contact/editContact';
 import { getSessionRequired } from '$lib/auth/auth';
 import type { PageServerLoad, Actions } from './$types';
 
@@ -35,31 +33,5 @@ export const actions = {
     const newChat = await createChat(session.user.id, contactId);
     throw redirect(302, `/chat/${newChat.id}`);
   },
-  async removeContact({ params, locals }) {
-    const session = await getSessionRequired(locals.auth);
 
-    await deleteContact({ userId: session.user.id, contactId: params.contactId });
-
-    throw redirect(302, '/contacts');
-  },
-  async editContact({ params, request, locals }) {
-    const session = await getSessionRequired(locals.auth);
-    const formData = await request.formData();
-
-    const alias = (formData.get("alias") as string).trim();
-    if (!alias) {
-      return fail(400, { error: "Alias is required" });
-    }
-    if (alias.length < 3) {
-      return fail(400, { error: "Alias must be at least 3 characters" });
-    }
-
-    await editContact({
-      userId: session.user.id,
-      contactId: params.contactId,
-      newAlias: alias,
-    });
-
-    throw redirect(302, `/contacts/${params.contactId}`);
-  }
 } satisfies Actions;  

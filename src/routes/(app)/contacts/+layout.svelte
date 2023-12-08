@@ -4,10 +4,18 @@
   import ContactList from "./_components/ContactList.svelte";
   import Sidebar from "../chat/_components/Sidebar.svelte";
   import NewContact from "./_components/NewContact.svelte";
+  import DeleteContactConfirm from "./_components/DeleteContactConfirm.svelte";
+  import EditContact from "./_components/EditContact.svelte";
   import type { LayoutServerData } from "./$types";
 
   $: data = $page.data as LayoutServerData;
-  $: isCreating = $page.url.searchParams.has("create");
+  $: isCreating = $page.url.searchParams.has("createContact");
+  $: deletingContact = data.contacts.find(
+    (contact) => contact.id === $page.url.searchParams.get("deleteContact"),
+  );
+  $: editingContact = data.contacts.find(
+    (contact) => contact.id === $page.url.searchParams.get("editContact"),
+  );
 </script>
 
 <svelte:head>
@@ -33,4 +41,8 @@
 
 {#if isCreating}
   <NewContact />
+{:else if deletingContact}
+  <DeleteContactConfirm contact={deletingContact} />
+{:else if editingContact}
+  <EditContact contact={editingContact} />
 {/if}

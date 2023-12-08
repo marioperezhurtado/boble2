@@ -13,7 +13,7 @@
 <div class="flex gap-2 items-center p-2">
   <FilterContacts initialContacts={contacts} bind:filteredContacts />
   <ActionIconLink
-    href={$page.url.pathname + "?create"}
+    href={$page.url.pathname + "?createContact"}
     title="Add contact"
     icon="/icons/add-contact.svg"
   />

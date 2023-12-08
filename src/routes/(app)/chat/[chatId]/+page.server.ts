@@ -5,8 +5,6 @@ import { readChat } from '$lib/db/chat/readChat';
 import { sendMessage, removeMessage } from '$lib/chat/chat';
 import { getSessionRequired } from '$lib/auth/auth';
 import { deleteMessage } from '$lib/db/message/deleteMessage';
-import { deleteChat } from '$lib/db/chat/deleteChat';
-import { getChats } from '$lib/db/chat/getChats';
 import { isBlockedInChat } from '$lib/db/block/isBlockedInChat';
 import { getTrendingGifs } from '$lib/gif/getTrendingGifs';
 import { searchGifs } from '$lib/gif/searchGifs';
@@ -106,19 +104,6 @@ export const actions = {
     removeMessage(messageId, params.chatId);
 
     throw redirect(302, `/chat/${params.chatId}`); 
-  },
-  deleteChat: async ({ params, locals }) => {
-    const session = await getSessionRequired(locals.auth);
-
-    const chats = await getChats(session.user.id);
-    const chat = chats.find((chat) => chat.id === params.chatId);
-    if (!chat) {
-      return fail(400, { error: 'Chat not found' });
-    }
-
-    await deleteChat(params.chatId);
-
-    throw redirect(302, '/chat');
   },
   searchGifs: async ({ request }) => {
     const formData = await request.formData();

@@ -41,7 +41,7 @@
 </script>
 
 <section
-  class="overflow-y-auto px-4 h-full bg-stone-100 bg-repeat bg-[url('/pattern.png')]"
+  class="overflow-y-auto px-4 h-full flex flex-col bg-stone-100 bg-repeat bg-[url('/pattern.png')]"
 >
   {#if $messages.length === 0}
     <div class="pt-10 text-center">
@@ -58,9 +58,9 @@
           isOwn={message.senderId === userId}
         />
       {/each}
-      {#if !isSavedContact}
-        <AddContactPrompt />
-      {/if}
     </ul>
+  {/if}
+  {#if !isSavedContact}
+    <AddContactPrompt />
   {/if}
 </section>
