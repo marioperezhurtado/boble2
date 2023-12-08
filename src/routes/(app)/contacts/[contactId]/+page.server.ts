@@ -2,7 +2,6 @@ import { error, fail, redirect } from '@sveltejs/kit';
 import { getChatByParticipants } from '$lib/db/chat/getChatByParticipants';
 import { createChat } from '$lib/db/chat/createChat';
 import { deleteContact } from '$lib/db/contact/deleteContact';
-import { getUserByEmail } from '$lib/db/user/getUserByEmail';
 import { editContact } from '$lib/db/contact/editContact';
 import { getSessionRequired } from '$lib/auth/auth';
 import type { PageServerLoad, Actions } from './$types';

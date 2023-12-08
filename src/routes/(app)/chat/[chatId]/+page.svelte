@@ -6,10 +6,14 @@
   import ChatTopBar from "./_components/ChatTopBar.svelte";
   import ChatInfo from "./_components/ChatInfo.svelte";
   import DeleteChatConfirm from "./_components/DeleteChatConfirm.svelte";
+  import DeleteMessageConfirm from "./_components/DeleteMessageConfirm.svelte";
 
   $: data = $page.data as PageData;
-  $: isDeleting = $page.url.searchParams.has("delete");
   $: isInfoOpen = $page.url.searchParams.has("info");
+  $: isDeletingChat = $page.url.searchParams.has("delete");
+  $: deletingMessage = data.messages.find(
+    (message) => message.id === $page.url.searchParams.get("deleteMessage"),
+  );
 </script>
 
 <section class="flex relative flex-col flex-grow h-full">
@@ -28,6 +32,9 @@
   {/if}
 </section>
 
-{#if isDeleting}
+{#if isDeletingChat}
   <DeleteChatConfirm />
+{/if}
+{#if deletingMessage}
+  <DeleteMessageConfirm message={deletingMessage} />
 {/if}

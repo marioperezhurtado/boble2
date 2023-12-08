@@ -1,6 +1,6 @@
 <script lang="ts">
+  import { page } from "$app/stores";
   import { fly } from "svelte/transition";
-  import { enhance } from "$app/forms";
   import { clickOutside } from "$lib/actions/clickOutside";
   import { replyingTo } from "../stores";
   import type { Message } from "$lib/db/message/getMessages";
@@ -55,24 +55,13 @@
     </li>
     <li>
       {#if isOwn}
-        <form
-          action="?/deleteMessage"
-          method="post"
-          use:enhance={() => {
-            return ({ update }) => {
-              isOpen = false;
-              update();
-            };
-          }}
+        <a
+          href={$page.url.pathname + "?deleteMessage=" + message.id}
+          class="flex justify-between items-center py-2 px-2.5 w-full text-red-600 hover:bg-zinc-100"
         >
-          <input type="hidden" name="messageId" value={message.id} />
-          <button
-            class="flex justify-between items-center py-2 px-2.5 w-full text-red-600 hover:bg-zinc-100"
-          >
-            Delete Message
-            <img src="/icons/delete.svg" alt="Delete" width="17" height="17" />
-          </button>
-        </form>
+          Delete Message
+          <img src="/icons/delete.svg" alt="Delete" width="17" height="17" />
+        </a>
       {:else}
         <button
           class="flex justify-between items-center py-2 px-2.5 w-full text-red-600 hover:bg-zinc-100"
