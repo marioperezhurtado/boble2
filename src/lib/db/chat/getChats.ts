@@ -77,9 +77,9 @@ export async function getChats(userId: string) {
     // order by latest message
     .orderBy(desc(message.createdAt));
 
-  // Hide user info if blocked me
+  // Hide user info if blocked
   return chats.map(chat => {
-    if (chat.user.blockedMe) {
+    if (chat.user.blockedMe || chat.user.isBlocked) {
       chat.user.image = null;
       chat.user.status = null;
     }

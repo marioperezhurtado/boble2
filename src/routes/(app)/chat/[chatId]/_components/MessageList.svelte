@@ -60,6 +60,7 @@
       {/each}
     </ul>
   {/if}
+
   {#if !isSavedContact}
     <AddContactPrompt />
   {/if}

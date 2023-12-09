@@ -31,4 +31,3 @@ export function unsubscribeFromMessages() {
   socket.off("message");
   socket.off("deleteMessage");
 }
-

@@ -2,7 +2,6 @@ import { writable } from 'svelte/store';
 import type { Chat } from "$lib/db/chat/getChats";
 
 // Adding a `deleted` property to be able to display lastMessage as deleted
-
 export type DisplayChat = Omit<Chat, "lastMessage"> & {
   lastMessage: Chat["lastMessage"] & {
     deleted?: boolean;

@@ -1,21 +1,23 @@
 <script lang="ts">
   import { onDestroy } from "svelte";
   import { page } from "$app/stores";
+  import type { PageData } from "../$types";
   import {
     joinChat,
-    onDeleteMessage,
     onMessage,
+    onDeleteMessage,
     unsubscribeFromMessages,
   } from "$lib/chat/chat";
   import { chats } from "$lib/chat/store";
   import FilterChats from "./FilterChats.svelte";
   import Chat from "./Chat.svelte";
 
-  chats.set($page.data.chats);
-
   $: filteredChats = $chats;
+  $: data = $page.data as PageData;
 
   $: {
+    chats.set(data.chats);
+
     $chats.forEach((chat) => {
       joinChat(chat.id);
     });
@@ -36,7 +38,7 @@
   onDestroy(() => unsubscribeFromMessages());
 </script>
 
-<FilterChats initialChats={$page.data.chats} bind:filteredChats />
+<FilterChats initialChats={data.chats} bind:filteredChats />
 
 {#if filteredChats.length > 0}
   <ul class="border-t">

@@ -17,7 +17,7 @@
   <div class="flex flex-col gap-5 text-sm">
     <p class="text-zinc-500">Are you sure you want to delete this message?</p>
     <div
-      class="px-2.5 py-1.5 rounded text-xs border-l-4 w-full bg-cyan-600/10 border-cyan-600"
+      class="py-1.5 px-2.5 w-full text-xs rounded border-l-4 border-cyan-600 bg-cyan-600/10"
     >
       <p class="font-semibold">You</p>
       <p class="break-all">{message.text}</p>

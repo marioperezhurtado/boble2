@@ -10,7 +10,7 @@
   const createdAt = new Date(message.createdAt!);
 </script>
 
-<div class="flex gap-x-2 items-end justify-between pl-1.5">
+<div class="flex gap-x-2 justify-between items-end pl-1.5">
   <p class="break-all">{message.text}</p>
   <p
     class="flex gap-0.5 items-end leading-3 text-right text-[10px] min-w-fit"

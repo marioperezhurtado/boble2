@@ -11,7 +11,7 @@
 {#if $replyingTo}
   <div
     transition:slide={{ duration: 200 }}
-    class="flex items-center gap-2.5 mb-2"
+    class="flex gap-2.5 items-center mb-2"
   >
     <div
       class={`px-2.5 py-1.5 rounded text-xs border-l-4 w-full

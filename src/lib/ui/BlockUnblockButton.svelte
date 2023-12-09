@@ -12,6 +12,7 @@
   <form
     use:enhance={() => {
       pending = true;
+
       return async ({ update }) => {
         await update();
         pending = false;
@@ -31,6 +32,7 @@
   <form
     use:enhance={() => {
       pending = true;
+
       return async ({ update }) => {
         await update();
         pending = false;

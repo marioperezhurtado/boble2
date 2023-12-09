@@ -32,9 +32,10 @@
     <video
       on:click={() => (isPaused = !isPaused)}
       bind:this={videoGif}
-      autoplay
       muted
       loop
+      autoplay
+      playsinline
       class="cursor-pointer bg-zinc-100"
     >
       <source src={message.text} type="video/mp4" />
