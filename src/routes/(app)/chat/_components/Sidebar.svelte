@@ -16,15 +16,15 @@
       <Avatar user={data.user} size="small" />
     </a>
     <div class="flex gap-2">
+     <ActionIconLink
+        href="/chat"
+        title="Chats"
+        icon="/icons/chat.svg"
+      />
       <ActionIconLink
         href="/contacts"
         title="Contacts"
         icon="/icons/contact.svg"
-      />
-      <ActionIconLink
-        href="/chat"
-        title="Chats"
-        icon="/icons/chat.svg"
       />
       <ActionIconLink
         href="/settings"
