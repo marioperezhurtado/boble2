@@ -12,7 +12,8 @@
   import FilterChats from "./FilterChats.svelte";
   import Chat from "./Chat.svelte";
 
-  $: filteredChats = $chats;
+  let filteredChats = $chats;
+
   $: data = $page.data as PageData;
 
   $: {
@@ -38,14 +39,16 @@
   onDestroy(() => unsubscribeFromMessages());
 </script>
 
-<FilterChats initialChats={data.chats} bind:filteredChats />
+<FilterChats initialChats={$chats} bind:filteredChats />
 
 {#if filteredChats.length > 0}
   <ul class="border-t">
-    {#each $chats as chat}
+    {#each filteredChats as chat}
       <Chat {chat} isSelected={chat.id === $page.params.chatId} />
     {/each}
   </ul>
+{:else if $chats.length > 0}
+  <p class="p-2 font-medium border-t text-zinc-500">No chats found.</p>
 {:else}
-  <p class="py-1 pl-3 font-medium border-t">No chats found.</p>
+  <p class="p-2 font-medium border-t text-zinc-500">No chats yet.</p>
 {/if}
