@@ -41,7 +41,9 @@ CREATE TABLE `message` (
 	`id` text PRIMARY KEY NOT NULL,
 	`chat_id` text NOT NULL,
 	`sender_id` text NOT NULL,
+	`reply_to_id` text,
 	`text` text,
+	`type` text NOT NULL,
 	`created_at` integer,
 	FOREIGN KEY (`chat_id`) REFERENCES `chat`(`id`) ON UPDATE no action ON DELETE cascade,
 	FOREIGN KEY (`sender_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action

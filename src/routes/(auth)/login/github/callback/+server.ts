@@ -1,7 +1,8 @@
 import { auth, githubAuth } from "$lib/auth/auth";
 import { OAuthRequestError } from "@lucia-auth/oauth";
-import type { RequestHandler } from "@sveltejs/kit";
 import { getUserByEmail } from "$lib/db/user/getUserByEmail";
+import { nanoid } from "$lib/db/nanoid";
+import type { RequestHandler } from "@sveltejs/kit";
 
 export const GET: RequestHandler = async ({ url, cookies, locals }) => {
   const storedState = cookies.get("github_oauth_state");
@@ -48,6 +49,7 @@ export const GET: RequestHandler = async ({ url, cookies, locals }) => {
       }
 
       const user = await createUser({
+        userId: `u_${nanoid(8)}`,
         attributes: {
           name: githubUser.login,
           email: githubUser.email,

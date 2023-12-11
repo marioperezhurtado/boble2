@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "b90cc0bc-5873-4724-8bf6-6e3bd75e3c3f",
+  "id": "6d8abd00-eb56-4e09-a324-2328d84b5ef1",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "block": {
@@ -63,7 +63,8 @@
           "columns": [
             "blocked_user_id",
             "user_id"
-          ]
+          ],
+          "name": "block_user_id_blocked_user_id_pk"
         }
       },
       "uniqueConstraints": {}
@@ -157,7 +158,8 @@
           "columns": [
             "contact_id",
             "user_id"
-          ]
+          ],
+          "name": "contact_user_id_contact_id_pk"
         }
       },
       "uniqueConstraints": {}
@@ -289,11 +291,25 @@
           "notNull": true,
           "autoincrement": false
         },
+        "reply_to_id": {
+          "name": "reply_to_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "text": {
           "name": "text",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
+          "autoincrement": false
+        },
+        "type": {
+          "name": "type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
           "autoincrement": false
         },
         "created_at": {
@@ -402,7 +418,8 @@
           "columns": [
             "chat_id",
             "user_id"
-          ]
+          ],
+          "name": "participant_chat_id_user_id_pk"
         }
       },
       "uniqueConstraints": {}

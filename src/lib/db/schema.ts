@@ -1,8 +1,8 @@
 import { integer, text, sqliteTable, primaryKey, blob } from "drizzle-orm/sqlite-core";
-import { v4 as uuidv4 } from "uuid";
+import { nanoid } from "./nanoid";
 
 export const chat = sqliteTable("chat", {
-  id: text("id").primaryKey().$defaultFn(() => uuidv4()),
+  id: text("id").primaryKey().$defaultFn(() => `c_${nanoid(12)}`),
   createdAt: integer("created_at", { mode: "timestamp" }),
 });
 
@@ -12,13 +12,13 @@ export const participant = sqliteTable("participant", {
   joinedAt: integer("joined_at", { mode: "timestamp" }),
   lastReadAt: integer("last_read_at", { mode: "timestamp" }),
 }, (p) => ({
-  compoundKey: primaryKey(p.chatId, p.userId),
+  pk: primaryKey({ columns: [p.chatId, p.userId] }),
 }));
 
 export const VALID_MESSAGE_TYPES = ["text", "image", "gif", "video", "audio", "file"] as const;
 
 export const message = sqliteTable("message", {
-  id: text("id").primaryKey().$defaultFn(() => uuidv4()),
+  id: text("id").primaryKey().$defaultFn(() => `m_${nanoid(16)}`),
   chatId: text("chat_id").references(() => chat.id, { onDelete: "cascade" }).notNull(),
   senderId: text("sender_id").references(() => user.id).notNull(),
   replyToId: text("reply_to_id"),
@@ -34,7 +34,7 @@ export const contact = sqliteTable("contact", {
   alias: text("alias").notNull(),
   createdAt: integer("created_at", { mode: "timestamp" }),
 }, (p) => ({
-  compoundKey: primaryKey(p.userId, p.contactId),
+  pk: primaryKey({ columns: [p.userId, p.contactId] }),
 }));
 
 export const block = sqliteTable("block", {
@@ -43,11 +43,11 @@ export const block = sqliteTable("block", {
     .references(() => user.id, { onDelete: "cascade" }).notNull(),
   createdAt: integer("created_at", { mode: "timestamp" }),
 }, (p) => ({
-  compoundKey: primaryKey(p.userId, p.blockedUserId),
+  pk: primaryKey({ columns: [p.userId, p.blockedUserId] }),
 }));
 
 export const emailVerificationToken = sqliteTable("email_verification_token", {
-  id: text("id").primaryKey().$defaultFn(() => uuidv4()),
+  id: text("id").primaryKey().$defaultFn(() => `evtk_${nanoid(16)}`),
   userId: text("user_id")
     .references(() => user.id, { onDelete: "cascade" })
     .notNull(),
@@ -56,7 +56,7 @@ export const emailVerificationToken = sqliteTable("email_verification_token", {
 });
 
 export const passwordResetToken = sqliteTable("password_reset_token", {
-  id: text("id").primaryKey().$defaultFn(() => uuidv4()),
+  id: text("id").primaryKey().$defaultFn(() => `prtk_${nanoid(16)}`),
   userId: text("user_id")
     .references(() => user.id, { onDelete: "cascade" })
     .notNull(),

@@ -10,8 +10,8 @@
   import Avatar from "$lib/ui/Avatar.svelte";
 
   export let contact: Contact;
-  let isEditing = false;
 
+  let isEditing = false;
   let alias = contact.alias;
 </script>
 

@@ -6,6 +6,7 @@ import { isValidEmail } from '$lib/email/email';
 import { sendEmailVerificationLink } from '$lib/email/sendEmailVerificationLink';
 
 import type { PageServerLoad, Actions } from './$types';
+import { nanoid } from '$lib/db/nanoid';
 
 export const load: PageServerLoad = async ({ locals }) => {
   const session = await locals.auth.validate();
@@ -45,6 +46,7 @@ export const actions: Actions = {
 
     try {
       const user = await auth.createUser({
+        userId: `u_${nanoid(8)}`,
         key: {
           providerId: 'email',
           // unique id when using "email" auth method
