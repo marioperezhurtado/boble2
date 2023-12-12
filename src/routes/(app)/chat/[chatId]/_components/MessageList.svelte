@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onDestroy } from "svelte";
+  import { onDestroy, tick } from "svelte";
   import {
     onDeleteMessage,
     onMessage,
@@ -10,6 +10,7 @@
   import type { Messages } from "$lib/db/message/getMessages";
   import Message from "./Message/Message.svelte";
   import AddContactPrompt from "./AddContactPrompt.svelte";
+  import ScrollBottomButton from "./ScrollBottomButton.svelte";
 
   export let initialMessages: Messages;
   export let lastReadAt: Date;
@@ -17,22 +18,54 @@
   export let userId: string;
   export let isSavedContact: boolean;
 
-  $messages = initialMessages;
+  $: chat = $chats.find((chat) => chat.id === chatId);
 
-  $: {
-    chats.readChat(chatId);
-    $messages = initialMessages;
+  let messageContainer: HTMLElement;
+  let showScrollBottomButton = false;
+
+  // Change messages on chat change
+  $: if (chatId) {
+    messages.set(initialMessages);
   }
 
-  onMessage((message) => {
+  // Scroll bottom instantly on chat change
+  $: if (chatId) {
+    tick().then(() => {
+      messageContainer?.scrollTo({
+        top: messageContainer.scrollHeight,
+        behavior: "instant",
+      });
+    });
+  }
+
+  function scrollBottom() {
+    messageContainer?.scrollTo({
+      top: messageContainer.scrollHeight,
+      behavior: "smooth",
+    });
+  }
+
+  function isNearEnoughToBottom(distance: number) {
+    return (
+      messageContainer.scrollTop + messageContainer.clientHeight >=
+      messageContainer.scrollHeight - distance
+    );
+  }
+
+  onMessage(async (message) => {
     if (message.chatId !== chatId) return;
 
     $messages = [...$messages, message];
-    chats.readChat(chatId);
+    await tick();
+
+    // Scroll bottom if message is own or user is near bottom
+    if (message.senderId === userId || isNearEnoughToBottom(300)) {
+      scrollBottom();
+    }
   });
 
-  onDeleteMessage((messageId, chatId) => {
-    if (chatId !== chatId) return;
+  onDeleteMessage((messageId, chatId2) => {
+    if (chatId !== chatId2) return;
 
     $messages = $messages.filter((message) => message.id !== messageId);
   });
@@ -41,6 +74,15 @@
 </script>
 
 <section
+  on:scroll={() => {
+    if (isNearEnoughToBottom(0)) {
+      showScrollBottomButton = false;
+      chats.readChat(chatId);
+      return;
+    }
+    showScrollBottomButton = true;
+  }}
+  bind:this={messageContainer}
   class="overflow-y-auto px-4 h-full flex flex-col bg-stone-100 bg-repeat bg-[url('/pattern.png')]"
 >
   {#if $messages.length === 0}
@@ -63,5 +105,12 @@
 
   {#if !isSavedContact}
     <AddContactPrompt />
+  {/if}
+
+  {#if showScrollBottomButton}
+    <ScrollBottomButton
+      onScrollBottom={scrollBottom}
+      unreadCount={chat?.unreadCount ?? 0}
+    />
   {/if}
 </section>

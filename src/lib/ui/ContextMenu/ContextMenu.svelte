@@ -28,7 +28,7 @@
   bind:this={menu}
   use:clickOutside={() => (isOpen = false)}
   in:fly={{ y: 30, duration: 150 }}
-  class="fixed z-30 flex flex-col w-36 text-xs font-medium bg-white rounded-md border shadow-sm text-zinc-600 border-zinc-200"
+  class="flex fixed z-30 flex-col w-36 text-xs font-medium bg-white rounded-md border shadow-sm text-zinc-600 border-zinc-200"
   style="top:{pos.y}px; left:{pos.x}px"
 >
   <slot />
