@@ -38,7 +38,7 @@
 {/if}
 <li
   class={`relative rounded-md shadow-sm sm:max-w-[80%] p-1 md:max-w-full
-  lg:max-w-[80%] select-none md:select-auto
+  lg:max-w-[60%] select-none md:select-auto
       ${isOwn ? "self-end bg-cyan-700 text-white" : "self-start bg-white"}
       ${isFirst ? (isOwn ? "rounded-tr-none" : "rounded-tl-none") : ""}
       ${isFirst ? "mt-3" : "mt-1"}`}
@@ -61,7 +61,7 @@
               You
             {/if}
           </p>
-          <p>{replyTo.text}</p>
+          <p class="break-all">{replyTo.text}</p>
         {:else}
           <p>Original message was deleted</p>
         {/if}

@@ -31,6 +31,7 @@ export const actions = {
     }
 
     const newChat = await createChat(session.user.id, contactId);
+
     throw redirect(302, `/chat/${newChat.id}`);
   },
 
