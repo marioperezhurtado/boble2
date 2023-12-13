@@ -44,7 +44,7 @@
       <div
         class="flex absolute top-1/2 left-1/2 justify-center items-center w-12 h-12 rounded-full -translate-x-1/2 -translate-y-1/2 pointer-events-none bg-black/20"
       >
-        <img src="/icons/gif-light.svg" alt="GIF" class="w-5 h-5" />
+        <img src="/icons/gif-letters-light.svg" alt="GIF" class="w-5 h-5" />
       </div>
     {/if}
     <p

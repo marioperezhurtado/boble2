@@ -83,7 +83,8 @@
     showScrollBottomButton = true;
   }}
   bind:this={messageContainer}
-  class="overflow-y-auto px-4 h-full flex flex-col bg-stone-100 bg-repeat bg-[url('/pattern.png')]"
+  class="overflow-y-auto px-4 h-full flex flex-col bg-stone-100 bg-repeat
+  bg-[url('/pattern.png')] scroll-smooth"
 >
   {#if $messages.length === 0}
     <div class="pt-10 text-center">

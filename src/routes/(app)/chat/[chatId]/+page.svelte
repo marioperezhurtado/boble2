@@ -2,7 +2,7 @@
   import { page } from "$app/stores";
   import ChatTopBar from "./_components/ChatTopBar.svelte";
   import MessageList from "./_components/MessageList.svelte";
-  import ReplyInfo from "./_components/ReplyInfo.svelte";
+  import ReplyingInfo from "./_components/ReplyingInfo.svelte";
   import SendMessage from "./_components/SendMessage.svelte";
   import ChatInfo from "./_components/ChatInfo.svelte";
   import DeleteMessageConfirm from "./_components/DeleteMessageConfirm.svelte";
@@ -35,11 +35,11 @@
         />
       </span>
     {:else if data.chat.user.blockedMe}
-        <p class="py-4 px-3 text-sm font-medium text-center text-zinc-500">
-          This user has blocked you. You can't send messages in this chat.
-        </p>
+      <p class="py-4 px-3 text-sm font-medium text-center text-zinc-500">
+        This user has blocked you. You can't send messages in this chat.
+      </p>
     {:else}
-      <ReplyInfo />
+      <ReplyingInfo />
       <SendMessage />
     {/if}
   </div>

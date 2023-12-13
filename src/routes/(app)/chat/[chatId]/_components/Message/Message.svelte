@@ -1,23 +1,21 @@
 <script lang="ts">
-  import { page } from "$app/stores";
   import { formatDate } from "$lib/utils/date";
   import { isValidUrl } from "$lib/utils/url";
   import { longPress } from "$lib/actions/longPress";
   import { messages } from "../stores";
-  import type { PageData } from "../../$types";
   import type { Message } from "$lib/db/message/getMessages";
   import TextMessage from "./TextMessage.svelte";
   import ImageMessage from "./ImageMessage.svelte";
   import GifMessage from "./GifMessage.svelte";
   import LinkMessage from "./LinkMessage.svelte";
   import MessageActions from "./MessageActions.svelte";
+  import ReplyTo from "./ReplyTo.svelte";
 
   export let message: Message;
   export let prevMessage: Message;
   export let lastReadAt: Date;
   export let isOwn: boolean;
 
-  $: data = $page.data as PageData;
   $: replyTo = $messages.find((m) => m.id === message.replyToId);
 
   const prevDate = new Date(prevMessage?.createdAt!);
@@ -36,7 +34,9 @@
     {formatDate(createdAt)}
   </span>
 {/if}
+
 <li
+  id={message.id}
   class={`relative rounded-md shadow-sm sm:max-w-[80%] p-1 md:max-w-full
   lg:max-w-[60%] select-none md:select-auto
       ${isOwn ? "self-end bg-cyan-700 text-white" : "self-start bg-white"}
@@ -49,23 +49,7 @@
     class="block text-left"
   >
     {#if message.replyToId}
-      <div
-        class={`px-2.5 py-1.5 mb-1 rounded text-xs border-l-4
-      ${isOwn ? "bg-cyan-800 text-zinc-100" : "bg-zinc-100 border-zinc-300"}`}
-      >
-        {#if replyTo}
-          <p class="font-semibold">
-            {#if replyTo.senderId === data.chat.user.id}
-              {data.chat.user.alias || data.chat.user.name}
-            {:else}
-              You
-            {/if}
-          </p>
-          <p class="break-all">{replyTo.text}</p>
-        {:else}
-          <p>Original message was deleted</p>
-        {/if}
-      </div>
+      <ReplyTo replyTo={replyTo ?? null} {isOwn} />
     {/if}
 
     {#if message.type === "image"}
