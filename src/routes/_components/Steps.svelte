@@ -18,10 +18,10 @@
   ];
 </script>
 
-<section class="px-8 pt-52 mx-auto max-w-screen-lg text-center">
+<section class="px-8 pt-24 mx-auto max-w-screen-lg text-center sm:pt-52">
   <div>
-    <h2 class="text-4xl font-extrabold leading-snug">
-      As easy as
+    <h2 class="text-3xl font-extrabold sm:text-4xl">
+      <span class="block sm:inline">As easy as </span>
       <Highlighted>one, two, three!</Highlighted>
     </h2>
     <p class="pt-5 mx-auto max-w-md font-medium text-zinc-500">
@@ -30,7 +30,7 @@
     </p>
   </div>
 
-  <ol class="grid grid-cols-3 gap-10 pt-24">
+  <ol class="grid grid-cols-1 gap-10 pt-10 md:grid-cols-3 lg:pt-24">
     {#each STEPS as { title, description }, i}
       <li class="relative">
         <Step step={i + 1} {title} {description} />
@@ -38,7 +38,7 @@
           <img
             src="/icons/dashed-arrow.svg"
             alt="Arrow"
-            class="absolute -top-28 w-60 -right-[8.8rem]"
+            class="hidden absolute -top-28 w-60 md:block -right-[8.8rem]"
             style="transform: scaleX(-1) rotate(-142deg)"
           />
         {/if}

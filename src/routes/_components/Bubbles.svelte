@@ -1,4 +1,4 @@
-<div class="relative -ml-3 w-12 md:w-24">
+<div class="relative mt-3 -ml-3 w-20 sm:w-24">
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="800"
@@ -6,7 +6,7 @@
     fill="none"
     viewBox="0 0 24 24"
     id="bubble1"
-    class="absolute w-12 h-12 md:w-24 md:h-24"
+    class="absolute w-20 h-20 sm:w-24 sm:h-24"
   >
     <circle
       cx="6.5"
@@ -23,7 +23,7 @@
     fill="none"
     viewBox="0 0 24 24"
     id="bubble2"
-    class="absolute w-12 h-12 md:w-24 md:h-24"
+    class="absolute w-20 h-20 sm:w-24 sm:h-24"
   >
     <circle
       cx="17"
@@ -40,7 +40,7 @@
     fill="none"
     viewBox="0 0 24 24"
     id="bubble3"
-    class="absolute w-12 h-12 md:w-24 md:h-24"
+    class="absolute w-20 h-20 sm:w-24 sm:h-24"
   >
     <circle
       cx="12"
@@ -52,7 +52,7 @@
   </svg>
   <div
     id="shadow"
-    class="hidden absolute bottom-0 left-4 w-16 h-3 md:block bg-zinc-200"
+    class="absolute bottom-0 w-14 h-3 left-3 sm:left-4 sm:w-16 bg-zinc-200"
   />
 </div>
 

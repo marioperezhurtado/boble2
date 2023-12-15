@@ -11,11 +11,11 @@
 </script>
 
 <a
-  href="#{replyTo?.id}"
+  href="#{replyTo?.id ?? ""}"
   class={`mb-1 rounded text-xs border-l-4 flex justify-between overflow-hidden
       ${isOwn ? "bg-cyan-800 text-zinc-100" : "bg-zinc-100 border-zinc-300"}`}
 >
-  <div class="px-2.5 py-1.5">
+  <div class="py-1.5 px-2.5">
     {#if replyTo}
       <p class="font-semibold">
         {#if replyTo.senderId === data.chat.user.id}
@@ -65,10 +65,10 @@
     <img
       src={replyTo.text}
       alt="Reply to"
-      class="w-[46px] h-[46px] object-cover"
+      class="object-cover w-[46px] h-[46px]"
     />
   {:else if replyTo?.type === "gif"}
-    <video src={replyTo.text} class="w-[46px] h-[46px] object-cover" muted>
+    <video src={replyTo.text} class="object-cover w-[46px] h-[46px]" muted>
       <source src={replyTo.text} type="image/gif" />
     </video>
   {/if}

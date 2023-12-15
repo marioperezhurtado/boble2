@@ -1,15 +1,15 @@
 <script>
-	import '../app.css';
+  import "../app.css";
 </script>
 
 <svelte:head>
-	<link rel="icon" href="/boble.svg" type="image/svg+xml" />
-	<link rel="preconnect" href="https://fonts.googleapis.com" />
-	<link rel="preconnect" href="https://fonts.gstatic.com" />
-	<link
-		href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
-		rel="stylesheet"
-	/>
+  <link rel="icon" href="/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
+    rel="stylesheet"
+  />
   <title>BOBLE Web Chat</title>
 </svelte:head>
 

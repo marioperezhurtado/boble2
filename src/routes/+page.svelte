@@ -7,7 +7,7 @@
   import Footer from "./_components/Footer.svelte";
 </script>
 
-<main>
+<main class="overflow-x-hidden">
   <Heading />
   <AnyDevice />
   <Steps />

@@ -9,7 +9,7 @@
     {step}
   </figure>
   <p class="pt-6 pb-2 text-lg font-bold">{title}</p>
-  <p class="text-sm text-zinc-500">{description}</p>
+  <p class="mx-auto w-60 text-sm text-zinc-500">{description}</p>
 </div>
 
 <style>

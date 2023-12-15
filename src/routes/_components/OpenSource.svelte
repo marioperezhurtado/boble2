@@ -1,13 +1,15 @@
-<section class="p-10 mt-52 bg-cyan-600 shadow-md">
-  <div class="flex gap-10 justify-center mx-auto max-w-screen-lg">
+<section class="p-8 mt-28 bg-cyan-600 shadow-md sm:p-10 sm:mt-60">
+  <div
+    class="flex flex-col gap-10 justify-center items-center mx-auto max-w-screen-lg lg:flex-row lg:items-start"
+  >
     <div>
-      <h2 class="text-4xl font-extrabold leading-snug text-white">
+      <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
         Open source.
       </h2>
       <div class="flex flex-col gap-3 pt-5 max-w-md font-medium text-zinc-100">
         <p>
           You can access the code of this project to see how it works, take it
-          as yours and contribute to its development.
+          as yours or contribute to its development.
         </p>
         <p>
           We are open to any suggestions, ideas or contributions, and keen to
@@ -24,14 +26,14 @@
             GitHub.
           </a>
         </p>
-        <p>If you like it, give it a star! 🌟</p>
+        <p>If you like it, give us a star! 🌟</p>
       </div>
     </div>
 
     <img
-      src="/code-example.png"
+      src="/code-example.webp"
       alt="Code example"
-      class="max-w-md rounded-sm shadow-md"
+      class="w-full max-w-md rounded-md shadow-md"
     />
   </div>
 </section>
