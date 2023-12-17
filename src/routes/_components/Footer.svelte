@@ -3,7 +3,7 @@
 </script>
 
 <footer
-  class="flex justify-between items-center p-8 mx-auto mt-52 max-w-screen-lg"
+  class="flex justify-between items-center p-8 mx-auto mt-24 max-w-screen-lg sm:mt-52"
 >
   <div class="flex gap-2 items-center">
     <img src="/boble.svg" alt="BOBLE logo" class="w-8 h-8" />

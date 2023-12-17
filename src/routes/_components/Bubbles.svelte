@@ -12,7 +12,7 @@
       cx="6.5"
       cy="9.5"
       r="2.5"
-      stroke-width="1.5"
+      stroke-width="1.8"
       class="stroke-cyan-600"
     />
   </svg>
@@ -29,7 +29,7 @@
       cx="17"
       cy="8"
       r="4"
-      stroke-width="1.5"
+      stroke-width="1.8"
       class="stroke-cyan-600"
     />
   </svg>
@@ -46,13 +46,13 @@
       cx="12"
       cy="17"
       r="3"
-      stroke-width="1.5"
+      stroke-width="1.8"
       class="stroke-cyan-600"
     />
   </svg>
   <div
     id="shadow"
-    class="absolute bottom-0 w-14 h-3 left-3 sm:left-4 sm:w-16 bg-zinc-200"
+    class="absolute bottom-0 left-3 w-14 h-3 sm:left-4 sm:w-16 bg-zinc-200"
   />
 </div>
 

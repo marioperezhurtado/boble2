@@ -10,7 +10,12 @@
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
     rel="stylesheet"
   />
-  <title>BOBLE Web Chat</title>
+  <title>Boble Web Chat</title>
+  <meta
+    name="description"
+    content="Real-time web chat. Chat with your friends and family from any device."
+  />
+  <meta name="author" content="Mario Pérez Hurtado" />
 </svelte:head>
 
 <slot />

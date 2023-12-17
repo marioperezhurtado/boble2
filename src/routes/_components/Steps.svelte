@@ -30,7 +30,7 @@
     </p>
   </div>
 
-  <ol class="grid grid-cols-1 gap-10 pt-10 md:grid-cols-3 lg:pt-24">
+  <ol class="grid grid-cols-1 gap-10 pt-10 md:grid-cols-3 md:pt-24">
     {#each STEPS as { title, description }, i}
       <li class="relative">
         <Step step={i + 1} {title} {description} />
