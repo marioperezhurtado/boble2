@@ -4,8 +4,8 @@
     onDeleteMessage,
     onMessage,
     unsubscribeFromMessages,
-  } from "$lib/chat/chat";
-  import { chats } from "$lib/chat/store";
+  } from "$lib/socket/client";
+  import { chats } from "$lib/stores/chats";
   import { messages } from "./stores";
   import type { Messages } from "$lib/db/message/getMessages";
   import Message from "./Message/Message.svelte";

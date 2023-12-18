@@ -2,7 +2,7 @@
   import { formatLastMessageAt } from "$lib/utils/date";
   import { isValidUrl } from "$lib/utils/url";
   import { longPress } from "$lib/actions/longPress";
-  import type { DisplayChat } from "$lib/chat/store";
+  import type { DisplayChat } from "$lib/stores/chats";
   import Avatar from "$lib/ui/Avatar.svelte";
   import ChatActions from "./ChatActions.svelte";
 

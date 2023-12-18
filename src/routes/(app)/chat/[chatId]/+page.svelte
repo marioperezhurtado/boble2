@@ -23,7 +23,7 @@
     lastReadAt={data.chat?.user.lastReadAt ?? new Date(0)}
     chatId={data.chat.id}
     userId={data.user.id}
-    isSavedContact={data.chat?.user.alias}
+    isSavedContact={!!data.chat?.user.alias}
   />
 
   <div class="p-2 px-3 border-t bg-zinc-50">
@@ -31,7 +31,7 @@
       <span class="block py-2 mx-auto w-44">
         <BlockUnblockButton
           userId={data.chat.user.id}
-          isBlocked={data.chat.user.isBlocked}
+          isBlocked={!!data.chat.user.isBlocked}
         />
       </span>
     {:else if data.chat.user.blockedMe}

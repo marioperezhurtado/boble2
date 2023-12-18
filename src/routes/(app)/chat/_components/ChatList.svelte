@@ -7,8 +7,8 @@
     onMessage,
     onDeleteMessage,
     unsubscribeFromMessages,
-  } from "$lib/chat/chat";
-  import { chats } from "$lib/chat/store";
+  } from "$lib/socket/client";
+  import { chats } from "$lib/stores/chats";
   import FilterChats from "./FilterChats.svelte";
   import Chat from "./Chat.svelte";
 

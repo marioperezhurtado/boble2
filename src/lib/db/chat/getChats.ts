@@ -33,6 +33,42 @@ export async function getChats(userId: string) {
       },
       unreadCount: sql<number>`cast(count(${unreadMessage.id}) as integer)`,
     })
+    .from(chat)
+    .innerJoin(participant, eq(participant.chatId, chat.id))
+    .innerJoin(otherParticipant, and(
+      eq(otherParticipant.chatId, chat.id),
+      ne(otherParticipant.userId, userId)
+    ))
+    .innerJoin(user, eq(user.id, otherParticipant.userId))
+    .leftJoin(contact, and(
+      eq(contact.userId, userId),
+      eq(contact.contactId, otherParticipant.userId)
+    ))
+    .leftJoin(block, and(
+      eq(block.userId, userId),
+      eq(block.blockedUserId, otherParticipant.userId)
+    ))
+    .leftJoin(ownBlock, and(
+      eq(ownBlock.userId, otherParticipant.userId),
+      eq(ownBlock.blockedUserId, userId)
+    ))
+    .leftJoin(unreadMessage, and(
+      eq(unreadMessage.chatId, chat.id),
+      ne(unreadMessage.senderId, userId),
+      gt(unreadMessage.createdAt, participant.lastReadAt),
+    ))
+    .groupBy(chat.id)
+    .leftJoin(message, eq(message.id, db
+      .select({ id: message.id })
+      .from(message)
+      .where(eq(message.chatId, chat.id))
+      .orderBy(desc(message.createdAt))
+      .limit(1)
+    ))
+    .orderBy(desc(message.createdAt));
+
+
+    /*
     .from(participant)
     .where(eq(participant.userId, userId))
     .orderBy(desc(participant.lastReadAt))
@@ -76,6 +112,7 @@ export async function getChats(userId: string) {
     ))
     // order by latest message
     .orderBy(desc(message.createdAt));
+    */
 
   // Hide user info if blocked
   return chats.map(chat => {

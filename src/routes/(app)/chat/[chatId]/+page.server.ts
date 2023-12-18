@@ -2,7 +2,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import { getMessages } from '$lib/db/message/getMessages';
 import { createMessage } from '$lib/db/message/createMessage';
 import { readChat } from '$lib/db/chat/readChat';
-import { sendMessage, removeMessage } from '$lib/chat/chat';
+import { sendMessage, removeMessage } from '$lib/socket/client';
 import { getSessionRequired } from '$lib/auth/auth';
 import { deleteMessage } from '$lib/db/message/deleteMessage';
 import { isBlockedInChat } from '$lib/db/block/isBlockedInChat';
