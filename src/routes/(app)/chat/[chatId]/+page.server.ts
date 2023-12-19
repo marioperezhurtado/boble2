@@ -1,6 +1,5 @@
 import { fail, redirect } from '@sveltejs/kit';
-import { getMessages } from '$lib/db/message/getMessages';
-import { createMessage } from '$lib/db/message/createMessage';
+import { getMessages } from '$lib/db/message/getMessages'; import { createMessage } from '$lib/db/message/createMessage';
 import { readChat } from '$lib/db/chat/readChat';
 import { sendMessage, removeMessage } from '$lib/socket/client';
 import { getSessionRequired } from '$lib/auth/auth';
@@ -8,9 +7,17 @@ import { deleteMessage } from '$lib/db/message/deleteMessage';
 import { isBlockedInChat } from '$lib/db/block/isBlockedInChat';
 import { getTrendingGifs } from '$lib/gif/getTrendingGifs';
 import { searchGifs } from '$lib/gif/searchGifs';
-import { VALID_MESSAGE_TYPES } from '$lib/db/schema';
-import type { PageServerLoad, Actions } from './$types';
 import { isParticipant } from '$lib/db/participant/isParticipant';
+import { VALID_MESSAGE_TYPES } from '$lib/db/schema';
+import { getLinkPreview } from '$lib/db/linkPreview/getLinkPreview';
+import { generateLinkPreview } from '$lib/db/linkPreview/generateLinkPreview';
+import { isValidUrl } from '$lib/utils/url';
+import type { PageServerLoad, Actions } from './$types';
+import { diffInDays } from '$lib/utils/date';
+
+function isLinkPreviewStale(createdAt: Date) {
+  return diffInDays(createdAt, new Date()) > 1;
+}
 
 export const load: PageServerLoad = async ({ params, parent }) => {
   const { user, chats } = await parent();
@@ -62,6 +69,34 @@ export const actions = {
 
     const replyToId = formData.get('replyToId') as string | null;
 
+    if (messageType === "text" && isValidUrl(message)) {
+      const url = new URL(message);
+      const existingLinkPreview = await getLinkPreview(url);
+
+      const newMessage = await createMessage({
+        chatId: params.chatId,
+        senderId: session.user.id,
+        replyToId: replyToId ?? null,
+        text: url.toString(),
+        type: "link",
+      });
+
+      // If link preview data exists and its not stale, use it
+      if (existingLinkPreview && !isLinkPreviewStale(existingLinkPreview.createdAt)) {
+        sendMessage({ ...newMessage, linkPreview: existingLinkPreview });
+        return;
+      }
+
+      // Otherwise, generate new link preview data
+      try {
+        const newLinkPreview = await generateLinkPreview(url);
+        sendMessage({ ...newMessage, linkPreview: newLinkPreview });
+      } catch (e) {
+        sendMessage({ ...newMessage, linkPreview: null });
+      }
+      return;
+    }
+
     const newMessage = await createMessage({
       chatId: params.chatId,
       senderId: session.user.id,
@@ -70,7 +105,7 @@ export const actions = {
       type: messageType,
     });
 
-    sendMessage(newMessage[0]);
+    sendMessage({ ...newMessage, linkPreview: null });
   },
   deleteMessage: async ({ request, params, locals }) => {
     const session = await getSessionRequired(locals.auth);
@@ -100,10 +135,9 @@ export const actions = {
     }
 
     await deleteMessage(messageId);
-
     removeMessage(messageId, params.chatId);
 
-    throw redirect(302, `/chat/${params.chatId}`); 
+    throw redirect(302, `/chat/${params.chatId}`);
   },
   searchGifs: async ({ request }) => {
     const formData = await request.formData();

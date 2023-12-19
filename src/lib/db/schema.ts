@@ -15,7 +15,15 @@ export const participant = sqliteTable("participant", {
   pk: primaryKey({ columns: [p.chatId, p.userId] }),
 }));
 
-export const VALID_MESSAGE_TYPES = ["text", "image", "gif", "video", "audio", "file"] as const;
+export const VALID_MESSAGE_TYPES = [
+  "text",
+  "link",
+  "image",
+  "gif",
+  "video", 
+  "audio", 
+  "file"
+] as const;
 
 export const message = sqliteTable("message", {
   id: text("id").primaryKey().$defaultFn(() => `m_${nanoid(16)}`),
@@ -24,7 +32,7 @@ export const message = sqliteTable("message", {
   replyToId: text("reply_to_id"),
   text: text("text"),
   type: text("type", { enum: VALID_MESSAGE_TYPES }).notNull(),
-  createdAt: integer("created_at", { mode: "timestamp" }),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
 });
 
 export const contact = sqliteTable("contact", {
@@ -32,7 +40,7 @@ export const contact = sqliteTable("contact", {
   contactId: text("contact_id")
     .references(() => user.id, { onDelete: "cascade" }).notNull(),
   alias: text("alias").notNull(),
-  createdAt: integer("created_at", { mode: "timestamp" }),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
 }, (p) => ({
   pk: primaryKey({ columns: [p.userId, p.contactId] }),
 }));
@@ -41,7 +49,7 @@ export const block = sqliteTable("block", {
   userId: text("user_id").references(() => user.id, { onDelete: "cascade" }).notNull(),
   blockedUserId: text("blocked_user_id")
     .references(() => user.id, { onDelete: "cascade" }).notNull(),
-  createdAt: integer("created_at", { mode: "timestamp" }),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
 }, (p) => ({
   pk: primaryKey({ columns: [p.userId, p.blockedUserId] }),
 }));
@@ -63,6 +71,16 @@ export const passwordResetToken = sqliteTable("password_reset_token", {
   token: text("token").notNull(),
   expires: integer("expires", { mode: "timestamp" }).notNull()
 });
+
+export const linkPreview = sqliteTable("link_preview", {
+  url: text("url").primaryKey(),
+  title: text("title"),
+  description: text("description"),
+  image: text("image"),
+  siteName: text("site_name"),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+});
+
 
 // auth tables (lucia)
 

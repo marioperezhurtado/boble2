@@ -2,7 +2,6 @@
   import { page } from "$app/stores";
   import type { PageData } from "../../$types";
   import type { Message } from "$lib/db/message/getMessages";
-  import { isValidUrl } from "$lib/utils/url";
 
   export let isOwn: boolean;
   export let replyTo: Message | null;
@@ -41,7 +40,7 @@
             class="mr-0.5 w-4 h-4"
           />
           <span>GIF</span>
-        {:else if isValidUrl(replyTo.text ?? "")}
+        {:else if replyTo.type === "link"}
           <img
             src={isOwn ? "/icons/link-light.svg" : "/icons/link.svg"}
             alt="Link icon"

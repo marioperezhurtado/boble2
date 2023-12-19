@@ -93,7 +93,7 @@
     </div>
   {:else}
     <ul class="flex flex-col pb-4 text-sm">
-      {#each $messages as message, i}
+      {#each $messages as message, i (message.id)}
         <Message
           {message}
           prevMessage={$messages[i - 1]}

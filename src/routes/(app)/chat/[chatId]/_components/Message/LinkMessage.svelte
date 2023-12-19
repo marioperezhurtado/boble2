@@ -1,6 +1,5 @@
 <script lang="ts">
   import { formatTime } from "$lib/utils/date";
-  import { generateLinkPreview } from "$lib/utils/url";
   import type { Message } from "$lib/db/message/getMessages";
 
   export let message: Message;
@@ -9,28 +8,40 @@
 
   const isRead = lastReadAt >= message.createdAt!;
   const createdAt = new Date(message.createdAt!);
+  const linkPreview = message.linkPreview;
 </script>
 
 <div class="flex-col gap-2 max-w-xs">
-  {#await generateLinkPreview(message.text ?? "") then preview}
-    {#if preview}
-      <a
-        href={message.text}
-        target="_blank"
-        rel="noopener noreferrer"
-        class={`block rounded-md mb-1 ${isOwn ? "bg-cyan-800" : "bg-zinc-100"}`}
-      >
-        <img src={preview.image} alt={preview.title} class="rounded-t-md" />
-        <h3 class="p-2 pb-0 text-sm font-medium">{preview.title}</h3>
-        {#if preview.description}
-          <p class="p-2 text-xs">{preview.description}</p>
-        {/if}
-      </a>
-    {/if}
-  {/await}
+  {#if linkPreview}
+    <a
+      href={linkPreview.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      class={`block rounded-md mb-1 ${isOwn ? "bg-cyan-800" : "bg-zinc-100"}`}
+    >
+      {#if linkPreview.image}
+        <img
+          src={linkPreview.image}
+          alt={linkPreview.title}
+          class="rounded-t-md aspect-video object-cover bg-zinc-100"
+          width="320"
+          height="180"
+        />
+      {/if}
+      <h3 class="p-2 pb-0 text-sm font-medium">{linkPreview.title}</h3>
+      {#if linkPreview.description}
+        <p class="p-2 text-xs">{linkPreview.description}</p>
+      {/if}
+    </a>
+  {/if}
 
-  <div class="p-1">
-    <a href={message.text} target="_blank" rel="noopener noreferrer">
+  <div class="flex flex-wrap justify-between items-end">
+    <a
+      href={message.text}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="px-1"
+    >
       <img
         src={isOwn ? "/icons/link-light.svg" : "/icons/link.svg"}
         alt="Link"
@@ -40,9 +51,9 @@
     </a>
 
     <p
-      class={`leading-3 text-right text-[10px] flex min-w-fit gap-0.5 items-end
-      justify-end pt-1
-        ${isOwn ? "text-white" : "text-zinc-600"}`}
+      class="flex gap-0.5 ml-auto pl-0.5 items-end leading-3 text-right text-[10px] min-w-fit"
+      class:text-white={isOwn}
+      class:text-zinc-600={!isOwn}
     >
       {formatTime(createdAt)}
       {#if isOwn}

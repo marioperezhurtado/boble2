@@ -10,9 +10,13 @@ export type CreateMessageParams = {
   type: typeof VALID_MESSAGE_TYPES[number]
 };
 
-export function createMessage(newMessage: CreateMessageParams) {
-  return db.insert(message).values({
-    ...newMessage,
-    createdAt: new Date(),
-  }).returning();
+export async function createMessage(newMessage: CreateMessageParams) {
+  const newMesage = await db
+    .insert(message)
+    .values({
+      ...newMessage,
+      createdAt: new Date(),
+    }).returning();
+
+  return newMesage[0];
 }

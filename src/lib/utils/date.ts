@@ -1,4 +1,4 @@
-function diffInDays(date1: Date, date2: Date) {
+export function diffInDays(date1: Date, date2: Date) {
   return Math.floor(
     (Date.UTC(date1.getFullYear(), date1.getMonth(), date1.getDate()) -
       Date.UTC(date2.getFullYear(), date2.getMonth(), date2.getDate())) /

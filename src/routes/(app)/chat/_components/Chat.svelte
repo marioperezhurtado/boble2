@@ -1,6 +1,5 @@
 <script lang="ts">
   import { formatLastMessageAt } from "$lib/utils/date";
-  import { isValidUrl } from "$lib/utils/url";
   import { longPress } from "$lib/actions/longPress";
   import type { DisplayChat } from "$lib/stores/chats";
   import Avatar from "$lib/ui/Avatar.svelte";
@@ -75,7 +74,7 @@
             {:else if chat.lastMessage.type === "gif"}
               <img src="/icons/gif.svg" alt="GIF icon" class="mr-0.5 w-4 h-4" />
               <span>GIF</span>
-            {:else if isValidUrl(chat.lastMessage.text ?? "")}
+            {:else if chat.lastMessage.type === "link"}
               <img
                 src="/icons/link.svg"
                 alt="Link icon"

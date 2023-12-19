@@ -8,6 +8,20 @@
       "when": 1702292944301,
       "tag": "0000_neat_tombstone",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1702994417715,
+      "tag": "0001_hot_warpath",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1702995478292,
+      "tag": "0002_burly_ink",
+      "breakpoints": true
     }
   ]
 }

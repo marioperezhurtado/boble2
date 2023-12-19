@@ -1,6 +1,5 @@
 <script lang="ts">
   import { formatDate } from "$lib/utils/date";
-  import { isValidUrl } from "$lib/utils/url";
   import { longPress } from "$lib/actions/longPress";
   import { messages } from "../stores";
   import type { Message } from "$lib/db/message/getMessages";
@@ -56,7 +55,7 @@
       <ImageMessage {message} {lastReadAt} {isOwn} />
     {:else if message.type === "gif"}
       <GifMessage {message} {lastReadAt} {isOwn} />
-    {:else if isValidUrl(message.text ?? "")}
+    {:else if message.type === "link"}
       <LinkMessage {message} {lastReadAt} {isOwn} />
     {:else}
       <TextMessage {message} {lastReadAt} {isOwn} />
