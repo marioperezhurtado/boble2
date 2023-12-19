@@ -35,6 +35,7 @@ export async function getChats(userId: string) {
     })
     .from(chat)
     .innerJoin(participant, eq(participant.chatId, chat.id))
+    .where(eq(participant.userId, userId))
     .innerJoin(otherParticipant, and(
       eq(otherParticipant.chatId, chat.id),
       ne(otherParticipant.userId, userId)
