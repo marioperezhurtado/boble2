@@ -11,8 +11,7 @@
   let newContactEmail = $page.url.searchParams.get("createContact") || "";
 </script>
 
-<Modal backTo={$page.url.pathname}>
-  <h1 class="pb-3 text-xl font-bold">New contact</h1>
+<Modal title="New contact" backTo={$page.url.pathname}>
   <p class="text-sm text-zinc-500">Add a new contact to your list.</p>
 
   <form

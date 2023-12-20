@@ -9,7 +9,7 @@ export const load: PageServerLoad = async ({ params, parent }) => {
 
   const contact = contacts.find((contact) => contact.id === params.contactId);
   if (!contact) {
-    throw redirect(302, '/contacts');
+    redirect(302, '/contacts');
   }
 
   return { contact };
@@ -22,17 +22,17 @@ export const actions = {
 
     const contactId = formData.get('contactId') as string;
     if (!contactId) {
-      throw error(400, 'Bad Request');
+      error(400, 'Bad Request');
     }
 
     const existingChat = await getChatByParticipants(session.user.id, contactId);
     if (existingChat) {
-      throw redirect(302, `/chat/${existingChat.id}`);
+      redirect(302, `/chat/${existingChat.id}`);
     }
 
     const newChat = await createChat(session.user.id, contactId);
 
-    throw redirect(302, `/chat/${newChat.id}`);
+    redirect(302, `/chat/${newChat.id}`);
   },
 
 } satisfies Actions;  

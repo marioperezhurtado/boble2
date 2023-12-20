@@ -23,12 +23,14 @@
         <img
           src={linkPreview.image}
           alt={linkPreview.title}
-          class="rounded-t-md aspect-video object-cover bg-zinc-100"
+          class="object-cover rounded-t-md aspect-video bg-zinc-100"
           width="320"
           height="180"
         />
       {/if}
-      <h3 class="p-2 pb-0 text-sm font-medium">{linkPreview.title}</h3>
+      {#if linkPreview.title}
+        <h3 class="p-2 pb-0 text-sm font-medium">{linkPreview.title}</h3>
+      {/if}
       {#if linkPreview.description}
         <p class="p-2 text-xs">{linkPreview.description}</p>
       {/if}
@@ -51,7 +53,7 @@
     </a>
 
     <p
-      class="flex gap-0.5 ml-auto pl-0.5 items-end leading-3 text-right text-[10px] min-w-fit"
+      class="flex gap-0.5 items-end pl-0.5 ml-auto leading-3 text-right text-[10px] min-w-fit"
       class:text-white={isOwn}
       class:text-zinc-600={!isOwn}
     >

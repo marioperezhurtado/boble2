@@ -1,15 +1,23 @@
 <script lang="ts">
+  import { clickOutside } from "$lib/actions/clickOutside";
+  import { replyingTo } from "../stores";
   import Trigger from "./Trigger.svelte";
   import Picker from "./Picker.svelte";
-  import { clickOutside } from "$lib/actions/clickOutside";
-
-  export let onPick: (emoji: string) => void;
 
   let isOpen = false;
 
-  function handlePickEmoji(emoji: string) {
-    onPick(emoji);
+  async function handlePickGif(gif: string) {
+    const formData = new FormData();
+    formData.append("gif", gif);
+    formData.append("replyToId", $replyingTo?.id ?? "");
+
+    await fetch("?/sendGif", {
+      method: "POST",
+      body: formData,
+    });
+
     isOpen = false;
+    $replyingTo = null;
   }
 
   function handleClose() {
@@ -25,6 +33,6 @@
 >
   <Trigger onToggle={() => (isOpen = !isOpen)} />
   {#if isOpen}
-    <Picker onPick={handlePickEmoji} />
+    <Picker onPick={handlePickGif} />
   {/if}
 </div>

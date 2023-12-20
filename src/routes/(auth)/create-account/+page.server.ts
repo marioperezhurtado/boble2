@@ -11,8 +11,8 @@ import { nanoid } from '$lib/db/nanoid';
 export const load: PageServerLoad = async ({ locals }) => {
   const session = await locals.auth.validate();
   if (session) {
-    if (!session.user.emailVerified) throw redirect(302, '/email-verification');
-    throw redirect(302, '/');
+    if (!session.user.emailVerified) redirect(302, '/email-verification');
+    redirect(302, '/');
   }
   return {};
 };
@@ -78,6 +78,6 @@ export const actions: Actions = {
     }
     // redirect to
     // make sure you don't throw inside a try/catch block!
-    throw redirect(302, '/email-verification');
+    redirect(302, '/email-verification');
   }
 };

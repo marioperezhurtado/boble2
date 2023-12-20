@@ -44,7 +44,7 @@ export const actions = {
       alias,
     });
 
-    throw redirect(302, `/contacts/${existingUser.id}`);
+    redirect(302, `/contacts/${existingUser.id}`);
   },
   async removeContact({ request, locals }) {
     const session = await getSessionRequired(locals.auth);
@@ -81,6 +81,6 @@ export const actions = {
       newAlias: alias,
     });
 
-    throw redirect(302, `/contacts/${contactId}`);
+    redirect(302, `/contacts/${contactId}`);
   }
 } satisfies Actions;

@@ -11,9 +11,9 @@
 </script>
 
 <div class="flex flex-wrap justify-between items-end">
-  <p class="break-all px-1">{message.text}</p>
+  <p class="px-1 break-all">{message.text}</p>
   <p
-    class="flex gap-0.5 ml-auto pl-0.5 items-end leading-3 text-right text-[10px] min-w-fit"
+    class="flex gap-0.5 items-end pl-0.5 ml-auto leading-3 text-right text-[10px] min-w-fit"
     class:text-white={isOwn}
     class:text-zinc-600={!isOwn}
   >

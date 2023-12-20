@@ -8,21 +8,6 @@ export function isValidUrl(url: string): boolean {
   }
 }
 
-export type LinkPreview = {
-  title: string;
-  description: string;
-  image: string;
-}
-
-export async function generateLinkPreview(url: string): Promise<LinkPreview | null> {
-  try {
-    const response = await fetch("/api/link-preview?url=" + url);
-    if (!response.ok) {
-      throw new Error("Cannot generate link preview");
-    }
-    const data = await response.json() as LinkPreview;
-    return data;
-  } catch (err) {
-    return null;
-  }
+export function getFileUrl(fileId: string): string {
+  return `http://localhost:5000/boble-files/${fileId}`;
 }

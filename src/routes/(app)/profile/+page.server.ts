@@ -23,6 +23,6 @@ export const actions = {
 
     await editUser({ name, status, id: session.user.id });
 
-    throw redirect(302, "/profile");
+    redirect(302, "/profile");
   },
 } satisfies Actions;
