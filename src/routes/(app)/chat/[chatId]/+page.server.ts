@@ -24,7 +24,7 @@ export const load: PageServerLoad = async ({ params, parent }) => {
 
   const chat = chats.find((chat) => chat.id === params.chatId);
   if (!chat) {
-    throw redirect(302, '/chat');
+    redirect(302, '/chat');
   }
 
   await readChat(params.chatId, user.id);
@@ -137,7 +137,7 @@ export const actions = {
     await deleteMessage(messageId);
     removeMessage(messageId, params.chatId);
 
-    throw redirect(302, `/chat/${params.chatId}`);
+    redirect(302, `/chat/${params.chatId}`);
   },
   searchGifs: async ({ request }) => {
     const formData = await request.formData();

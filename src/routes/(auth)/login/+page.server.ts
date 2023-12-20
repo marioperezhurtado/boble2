@@ -37,6 +37,6 @@ export const actions: Actions = {
       return fail(500, { error: 'An unknown error occurred' });
     }
     // make sure you don't throw inside a try/catch block!
-    throw redirect(302, '/chat');
+    redirect(302, '/chat');
   }
 };

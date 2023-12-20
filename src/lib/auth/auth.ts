@@ -36,10 +36,10 @@ export type Auth = typeof auth;
 export async function getSessionRequired(auth: AuthRequest) {
   const session = await auth.validate();
   if (!session) {
-    throw redirect(302, "/login");
+    redirect(302, "/login");
   }
   if (!session.user.emailVerified) {
-    throw redirect(302, "/email-verification");
+    redirect(302, "/email-verification");
   }
   return session;
 }
