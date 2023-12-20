@@ -5,6 +5,7 @@
   import type { Message } from "$lib/db/message/getMessages";
   import ContextMenu from "$lib/ui/ContextMenu/ContextMenu.svelte";
   import ContextMenuItem from "$lib/ui/ContextMenu/ContextMenuItem.svelte";
+  import { getFileUrl } from "$lib/utils/url";
 
   export let message: Message;
   export let isOpen: boolean;
@@ -21,9 +22,15 @@
   }
 
   function handleDownload(message: Message) {
-    if (message.type === "text" || !message.text) return;
+    if (!message.text) return;
 
-    downloadFile(message.text, message.type);
+    if (message.type === "gif") {
+      downloadFile(message.text, message.type);
+      isOpen = false;
+      return;
+    }
+
+    downloadFile(getFileUrl(message.text), message.type);
     isOpen = false;
   }
 </script>
