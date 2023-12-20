@@ -12,8 +12,7 @@
   let isDeleting = false;
 </script>
 
-<Modal backTo={$page.url.pathname}>
-  <h1 class="pb-3 text-xl font-bold">Delete contact</h1>
+<Modal title="Delete contact" backTo={$page.url.pathname}>
   <div class="flex flex-col gap-2 text-sm text-zinc-500">
     <p>
       Are you sure you want to remove <strong>“{contact.alias}”</strong> from

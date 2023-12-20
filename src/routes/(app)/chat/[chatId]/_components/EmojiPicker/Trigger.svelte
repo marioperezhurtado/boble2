@@ -17,10 +17,9 @@ function pickRandomEmoji(): string {
 
 </script>
 
-<!-- svelte-ignore a11y-mouse-events-have-key-events -->
 <button
 	on:click={onToggle}
-	on:mouseover={() => displayedEmoji = pickRandomEmoji()}
+	on:mouseenter={() => displayedEmoji = pickRandomEmoji()}
 	type="button"
 	title="Open emoji picker"
 	aria-label="Open emoji picker"

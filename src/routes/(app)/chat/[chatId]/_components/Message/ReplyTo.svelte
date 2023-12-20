@@ -1,5 +1,6 @@
 <script lang="ts">
   import { page } from "$app/stores";
+  import { getFileUrl } from "$lib/utils/url";
   import type { PageData } from "../../$types";
   import type { Message } from "$lib/db/message/getMessages";
 
@@ -10,7 +11,7 @@
 </script>
 
 <a
-  href="#{replyTo?.id ?? ""}"
+  href="#{replyTo?.id ?? ''}"
   class={`mb-1 rounded text-xs border-l-4 flex justify-between overflow-hidden
       ${isOwn ? "bg-cyan-800 text-zinc-100" : "bg-zinc-100 border-zinc-300"}`}
 >
@@ -46,11 +47,11 @@
             alt="Link icon"
             class="mr-0.5 w-3.5 h-3.5"
           />
-          <p class="break-all max-w-[30ch] text-ellipsis line-clamp-1">
+          <p class="break-all max-w-[36ch] text-ellipsis line-clamp-1">
             {replyTo.text}
           </p>
         {:else}
-          <p class="break-all max-w-[30ch] text-ellipsis line-clamp-1">
+          <p class="break-all max-w-[36ch] text-ellipsis line-clamp-1">
             {replyTo.text}
           </p>
         {/if}
@@ -62,13 +63,19 @@
 
   {#if replyTo?.type === "image"}
     <img
-      src={replyTo.text}
+      src={getFileUrl(replyTo.text ?? "")}
       alt="Reply to"
-      class="object-cover w-[46px] h-[46px]"
+      class="object-cover w-[46px] h-[46px] bg-zinc-100"
     />
   {:else if replyTo?.type === "gif"}
     <video src={replyTo.text} class="object-cover w-[46px] h-[46px]" muted>
       <source src={replyTo.text} type="image/gif" />
     </video>
+  {:else if replyTo?.type === "link" && replyTo.linkPreview?.image}
+    <img
+      src={replyTo.linkPreview.image}
+      alt="Reply to"
+      class="object-cover w-[46px] h-[46px] bg-zinc-100"
+    />
   {/if}
 </a>

@@ -15,8 +15,7 @@
   let alias = contact.alias;
 </script>
 
-<Modal backTo={$page.url.pathname}>
-  <h1 class="pb-3 text-xl font-bold">Edit contact</h1>
+<Modal title="Delete contact" backTo={$page.url.pathname}>
   <p class="text-sm text-zinc-500">Change the details of your contact.</p>
 
   <form

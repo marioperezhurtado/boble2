@@ -1,5 +1,6 @@
 <script lang="ts">
   import { formatTime } from "$lib/utils/date";
+  import { getFileUrl } from "$lib/utils/url";
   import type { Message } from "$lib/db/message/getMessages";
   import ExpandedImage from "$lib/ui/ExpandedImage.svelte";
 
@@ -18,17 +19,19 @@
   tabindex="0"
   on:click={() => (isExpanded = true)}
   on:keydown={(e) => e.key === "Enter" && (isExpanded = true)}
-  class="overflow-hidden relative max-w-xs rounded-md"
+  class="overflow-hidden relative rounded-md"
 >
   <div
     class="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t to-transparent from-black/40"
   />
-  <img
-    src={message.text}
-    alt="Image sent by {message.senderId}"
-    class="bg-zinc-100"
-    draggable={false}
-  />
+  {#if message.text}
+    <img
+      src={getFileUrl(message.text)}
+      alt="Image sent by {message.senderId}"
+      class="bg-zinc-100 max-w-xs max-h-80 object-contain"
+      draggable={false}
+    />
+  {/if}
   <p
     class="flex absolute right-1 bottom-1 gap-0.5 items-end leading-3 text-right text-white text-[10px] min-w-fit"
   >
@@ -55,11 +58,13 @@
 
 {#if isExpanded}
   <ExpandedImage bind:expanded={isExpanded}>
-    <img
-      src={message.text}
-      alt="Image sent by {message.senderId}"
-      class="object-contain w-full h-full"
-      draggable={false}
-    />
+    {#if message.text}
+      <img
+        src={getImageUrl(message.text)}
+        alt="Image sent by {message.senderId}"
+        class="object-contain w-full h-full"
+        draggable={false}
+      />
+    {/if}
   </ExpandedImage>
 {/if}

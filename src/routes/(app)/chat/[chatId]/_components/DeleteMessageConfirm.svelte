@@ -12,8 +12,7 @@
   let isDeleting = false;
 </script>
 
-<Modal backTo={$page.url.pathname}>
-  <h1 class="pb-3 text-xl font-bold">Delete message</h1>
+<Modal title="Delete message" backTo={$page.url.pathname}>
   <div class="flex flex-col gap-5 text-sm">
     <p class="text-zinc-500">Are you sure you want to delete this message?</p>
     <div
