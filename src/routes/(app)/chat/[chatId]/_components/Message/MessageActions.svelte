@@ -10,6 +10,7 @@
   export let message: Message;
   export let isOpen: boolean;
   export let isOwn: boolean;
+  export let brokenFile = false;
 
   function handleCopy() {
     navigator.clipboard.writeText(message.text ?? "");
@@ -55,7 +56,7 @@
     on:click={handleReply}
   />
 
-  {#if message.type !== "text"}
+  {#if message.type !== "text" && !brokenFile}
     <ContextMenuItem
       text="Open in new tab"
       icon="/icons/new-tab.svg"

@@ -1,10 +1,12 @@
 <script lang="ts">
   import { formatTime } from "$lib/utils/date";
   import type { Message } from "$lib/db/message/getMessages";
+  import { onMount } from "svelte";
 
   export let message: Message;
   export let lastReadAt: Date;
   export let isOwn: boolean;
+  export let brokenFile = false;
 
   const isRead = lastReadAt >= message.createdAt!;
   const createdAt = new Date(message.createdAt!);
@@ -12,15 +14,20 @@
   let videoGif: HTMLVideoElement | undefined;
   let isPaused = false;
 
-  $: if (isPaused) {
-    videoGif?.removeAttribute("loop");
-    videoGif?.pause();
-  } else {
-    videoGif?.setAttribute("loop", "");
-    videoGif?.play();
-    setTimeout(() => {
+  onMount(() => {
+    setTimeout(() => handlePlayPause(), 5000);
+  });
+
+  function handlePlayPause() {
+    if (brokenFile) return;
+
+    if (isPaused) {
+      videoGif?.play();
+      isPaused = false;
+    } else {
+      videoGif?.pause();
       isPaused = true;
-    }, 5000);
+    }
   }
 </script>
 
@@ -30,15 +37,21 @@
       class="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t to-transparent from-black/40"
     />
     <video
-      on:click={() => (isPaused = !isPaused)}
+      on:click={handlePlayPause}
+      on:error={() => (brokenFile = true)}
       bind:this={videoGif}
       muted
       loop
       autoplay
       playsinline
+      src={message.text}
       class="cursor-pointer bg-zinc-100"
     >
-      <source src={message.text} type="video/mp4" />
+      <source
+        on:error={() => (brokenFile = true)}
+        src={message.text}
+        type="video/mp4"
+      />
     </video>
     {#if isPaused}
       <div

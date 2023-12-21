@@ -24,6 +24,7 @@
   const createdAt = new Date(message.createdAt!);
 
   let actionsOpen = false;
+  let brokenFile = false;
 </script>
 
 {#if firstOfDate && message.createdAt}
@@ -52,9 +53,9 @@
     {/if}
 
     {#if message.type === "image"}
-      <ImageMessage {message} {lastReadAt} {isOwn} />
+      <ImageMessage {message} {lastReadAt} {isOwn} bind:brokenFile />
     {:else if message.type === "gif"}
-      <GifMessage {message} {lastReadAt} {isOwn} />
+      <GifMessage {message} {lastReadAt} {isOwn} bind:brokenFile />
     {:else if message.type === "link"}
       <LinkMessage {message} {lastReadAt} {isOwn} />
     {:else}
@@ -74,6 +75,6 @@
   </button>
 
   {#if actionsOpen}
-    <MessageActions bind:isOpen={actionsOpen} {message} {isOwn} />
+    <MessageActions bind:isOpen={actionsOpen} {message} {isOwn} {brokenFile} />
   {/if}
 </li>
