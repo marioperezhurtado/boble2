@@ -5,18 +5,17 @@
   import Modal from "$lib/ui/Modal.svelte";
   import Input from "$lib/ui/Input.svelte";
 
+  export let onClose: () => void;
+
   let selectedImage: File | null = null;
   let imageInput: HTMLInputElement;
   let isUploading = false;
 
-  function openImagePicker() {
+  function handleOpenImagePicker() {
     imageInput.click();
   }
 
-  function handleClose() {
-    imageInput.value = "";
-    selectedImage = null;
-  }
+  $: console.log(selectedImage);
 </script>
 
 <form
@@ -30,22 +29,12 @@
       await update();
       isUploading = false;
       $replyingTo = null;
-      handleClose();
+      onClose();
     };
   }}
   class="flex"
 >
   <input type="hidden" name="replyToId" value={$replyingTo?.id ?? null} />
-
-  <button
-    on:click={openImagePicker}
-    type="button"
-    title="Upload image"
-    aria-label="Upload image"
-    class="p-0.5 rounded-md min-w-fit focus:outline-cyan-600"
-  >
-    <img src="/icons/camera.svg" alt="Upload" class="w-7 h-7" />
-  </button>
 
   <input
     bind:this={imageInput}
@@ -56,33 +45,42 @@
     hidden
   />
 
-  {#if selectedImage}
-    <Modal title="Upload image" onClose={handleClose}>
-      <div class="p-2 w-full h-56 rounded-md border bg-zinc-100">
+  <Modal title="Upload image" {onClose}>
+    <div class="p-2 w-full h-56 rounded-md border bg-zinc-100">
+      {#if !selectedImage}
+        <button
+          type="button"
+          class="flex justify-center items-center w-full h-full"
+          on:click={handleOpenImagePicker}
+        >
+          <img src="/icons/upload.svg" alt="Upload" class="w-7 h-7" />
+        </button>
+      {:else}
         <img
           src={URL.createObjectURL(selectedImage)}
           alt="Upload preview"
           class="object-contain mx-auto w-full h-full"
         />
-      </div>
+      {/if}
+    </div>
 
-      <div class="flex gap-2 mt-5">
-        <Input
-          placeholder="Add a description"
-          name="description"
-          id="description"
-        />
-        <Button type="submit" class="min-w-fit">
-          Upload
-          {#if !isUploading}
-            <img
-              src="/icons/upload-light.svg"
-              alt="Upload"
-              class="w-3.5 h-3.5"
-            />
-          {/if}
-        </Button>
-      </div>
-    </Modal>
-  {/if}
+    <div class="flex gap-2 mt-5">
+      <Input
+        placeholder="Add a description"
+        name="description"
+        id="description"
+      />
+      <Button
+        disabled={!selectedImage}
+        isLoading={isUploading}
+        type="submit"
+        class="min-w-fit"
+      >
+        Upload
+        {#if !isUploading}
+          <img src="/icons/upload-light.svg" alt="Upload" class="w-3.5 h-3.5" />
+        {/if}
+      </Button>
+    </div>
+  </Modal>
 </form>

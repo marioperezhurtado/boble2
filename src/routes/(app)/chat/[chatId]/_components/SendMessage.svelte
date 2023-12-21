@@ -3,7 +3,7 @@
   import { replyingTo } from "./stores";
   import EmojiPicker from "./EmojiPicker/EmojiPicker.svelte";
   import GifPicker from "./GifPicker/GifPicker.svelte";
-  import ImageUploadButton from "./ImageUpload/ImageUploadButton.svelte";
+  import Attachments from "./Attachments/Attachments.svelte";
 
   let text = "";
 
@@ -20,7 +20,7 @@
 <div class="flex gap-2.5 items-center">
   <EmojiPicker onPick={handlePickEmoji} />
   <GifPicker />
-  <ImageUploadButton />
+  <Attachments />
 
   <form
     action="?/sendTextMessage"

@@ -9,6 +9,7 @@
   {#if href}
     <a
       {href}
+      on:click
       class="flex justify-between items-center py-2 px-2.5 w-full hover:bg-zinc-100"
       class:text-red-600={danger}
     >

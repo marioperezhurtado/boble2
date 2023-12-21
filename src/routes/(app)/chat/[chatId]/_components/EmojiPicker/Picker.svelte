@@ -21,7 +21,7 @@
 </script>
 
 <div
-	in:fly={{ y: 30, duration: 150 }}
+	transition:fly={{ y: 30, duration: 150 }}
 	class="absolute bottom-12 z-20 w-96 bg-white rounded-md border shadow-md"
 >
 	<FilterEmojis />

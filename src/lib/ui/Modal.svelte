@@ -29,12 +29,14 @@
 <div
   on:click|stopPropagation={handleClose}
   in:fade={{ duration: 200 }}
+  out:fade={{ duration: 100 }}
   role="presentation"
   class="fixed top-0 left-0 z-30 w-full h-full cursor-pointer bg-black/50 backdrop-blur-[2px]"
 />
 
 <div
   in:scale={{ start: 0.7, duration: 350 }}
+  out:scale={{ start: 0.7, duration: 150 }}
   class="fixed top-1/2 left-1/2 z-30 px-4 w-full max-w-md -translate-x-1/2 -translate-y-1/2"
 >
   <div class="relative py-4 px-5 w-full bg-white rounded-md border shadow-md">

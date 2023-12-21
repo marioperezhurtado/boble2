@@ -22,7 +22,7 @@ export async function generateLinkPreview(url: URL) {
       title,
       description,
       image,
-      siteName,
+      siteName: siteName || url.hostname,
       createdAt: new Date(),
     })
     .onConflictDoUpdate({

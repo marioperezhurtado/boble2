@@ -2,15 +2,17 @@
   import { page } from "$app/stores";
   import { replyingTo } from "../stores";
   import { downloadFile } from "$lib/utils/file";
+  import { getFileUrl } from "$lib/utils/url";
   import type { Message } from "$lib/db/message/getMessages";
   import ContextMenu from "$lib/ui/ContextMenu/ContextMenu.svelte";
   import ContextMenuItem from "$lib/ui/ContextMenu/ContextMenuItem.svelte";
-  import { getFileUrl } from "$lib/utils/url";
 
   export let message: Message;
   export let isOpen: boolean;
   export let isOwn: boolean;
   export let brokenFile = false;
+
+  const isMedia = message.type !== "text" && message.type !== "link";
 
   function handleCopy() {
     navigator.clipboard.writeText(message.text ?? "");
@@ -56,7 +58,7 @@
     on:click={handleReply}
   />
 
-  {#if message.type !== "text" && !brokenFile}
+  {#if isMedia && !brokenFile}
     <ContextMenuItem
       text="Open in new tab"
       icon="/icons/new-tab.svg"
@@ -81,6 +83,7 @@
       text="Delete message"
       icon="/icons/delete.svg"
       href="{$page.url.pathname}?deleteMessage={message.id}"
+      on:click={() => (isOpen = false)}
     />
   {:else}
     <ContextMenuItem text="Report message" icon="/icons/report.svg" danger />
