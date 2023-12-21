@@ -6,6 +6,7 @@
   import ButtonLink from "$lib/ui/ButtonLink.svelte";
   import Modal from "$lib/ui/Modal.svelte";
   import FormError from "$lib/ui/FormError.svelte";
+  import MessageOverview from "./MessageOverview.svelte";
 
   export let message: Message;
 
@@ -15,12 +16,7 @@
 <Modal title="Delete message" backTo={$page.url.pathname}>
   <div class="flex flex-col gap-5 text-sm">
     <p class="text-zinc-500">Are you sure you want to delete this message?</p>
-    <div
-      class="py-1.5 px-2.5 w-full text-xs rounded border-l-4 border-cyan-600 bg-cyan-600/10"
-    >
-      <p class="font-semibold">You</p>
-      <p class="break-all">{message.text}</p>
-    </div>
+    <MessageOverview {message} isOwn />
   </div>
 
   <form

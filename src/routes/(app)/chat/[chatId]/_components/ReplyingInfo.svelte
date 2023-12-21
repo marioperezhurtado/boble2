@@ -3,6 +3,7 @@
   import { page } from "$app/stores";
   import { replyingTo } from "./stores";
   import type { PageData } from "../$types";
+  import MessageOverview from "./MessageOverview.svelte";
 
   $: data = $page.data as PageData;
   $: isOwn = $replyingTo?.senderId !== data.chat.user.id;
@@ -13,21 +14,7 @@
     transition:slide={{ duration: 200 }}
     class="flex gap-2.5 items-center mb-2"
   >
-    <div
-      class={`px-2.5 py-1.5 rounded text-xs border-l-4 w-full
-      ${
-        isOwn ? "bg-cyan-600/10 border-cyan-600" : "bg-zinc-100 border-zinc-300"
-      }`}
-    >
-      <p class="font-semibold">
-        {#if isOwn}
-          You
-        {:else}
-          {data.chat.user.alias || data.chat.user.name}
-        {/if}
-      </p>
-      <p class="break-all">{$replyingTo.text}</p>
-    </div>
+    <MessageOverview message={$replyingTo} {isOwn} />
 
     <button
       type="button"
