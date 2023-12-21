@@ -10,7 +10,7 @@
   import type { Messages } from "$lib/db/message/getMessages";
   import Message from "./Message/Message.svelte";
   import AddContactPrompt from "./AddContactPrompt.svelte";
-  import ScrollBottomButton from "./ScrollBottomButton.svelte";
+  import ScrollBottom from "./ScrollBottom.svelte";
 
   export let initialMessages: Messages;
   export let lastReadAt: Date;
@@ -21,7 +21,7 @@
   $: chat = $chats.find((chat) => chat.id === chatId);
 
   let messageContainer: HTMLElement;
-  let showScrollBottomButton = false;
+  let showScrollBottom = false;
 
   // Change messages on chat change
   $: if (chatId) {
@@ -76,11 +76,11 @@
 <section
   on:scroll={() => {
     if (isNearEnoughToBottom(0)) {
-      showScrollBottomButton = false;
+      showScrollBottom = false;
       chats.readChat(chatId);
       return;
     }
-    showScrollBottomButton = true;
+    showScrollBottom = true;
   }}
   bind:this={messageContainer}
   class="overflow-y-auto px-4 h-full flex flex-col bg-stone-100 bg-repeat
@@ -108,8 +108,8 @@
     <AddContactPrompt />
   {/if}
 
-  {#if showScrollBottomButton}
-    <ScrollBottomButton
+  {#if showScrollBottom}
+    <ScrollBottom
       onScrollBottom={scrollBottom}
       unreadCount={chat?.unreadCount ?? 0}
     />

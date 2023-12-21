@@ -35,7 +35,7 @@
     <Image
       src={getFileUrl(message.text)}
       alt="Image sent by {message.senderId}"
-      class="bg-zinc-100 max-w-xs max-h-80 object-contain"
+      class="object-contain max-w-xs max-h-80 bg-zinc-100"
       draggable={false}
       bind:brokenFile
     />

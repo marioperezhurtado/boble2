@@ -1,12 +1,12 @@
 <script lang="ts">
   import { page } from "$app/stores";
+  import BlockUnblockButton from "$lib/ui/BlockUnblockButton.svelte";
   import ChatTopBar from "./_components/ChatTopBar.svelte";
   import MessageList from "./_components/MessageList.svelte";
   import ReplyingInfo from "./_components/ReplyingInfo.svelte";
   import SendMessage from "./_components/SendMessage.svelte";
   import ChatInfo from "./_components/ChatInfo.svelte";
   import DeleteMessageConfirm from "./_components/DeleteMessageConfirm.svelte";
-  import BlockUnblockButton from "$lib/ui/BlockUnblockButton.svelte";
 
   export let data;
 
@@ -26,7 +26,7 @@
     isSavedContact={!!data.chat?.user.alias}
   />
 
-  <div class="p-2 px-3 border-t bg-zinc-50">
+  <div class="relative p-2 px-3 border-t bg-zinc-50">
     {#if data.chat.user.isBlocked}
       <span class="block py-2 mx-auto w-44">
         <BlockUnblockButton
