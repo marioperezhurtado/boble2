@@ -21,6 +21,19 @@
     isOpen = false;
   }
 
+  function handleOpenInNewTab() {
+    if (!message.text) return;
+
+    if (message.type === "gif") {
+      window.open(message.text);
+      isOpen = false;
+      return;
+    }
+
+    window.open(getFileUrl(message.text));
+    isOpen = false;
+  }
+
   function handleDownload(message: Message) {
     if (!message.text) return;
 
@@ -43,6 +56,11 @@
   />
 
   {#if message.type !== "text"}
+    <ContextMenuItem
+      text="Open in new tab"
+      icon="/icons/new-tab.svg"
+      on:click={handleOpenInNewTab}
+    />
     <ContextMenuItem
       text="Download"
       icon="/icons/download.svg"
