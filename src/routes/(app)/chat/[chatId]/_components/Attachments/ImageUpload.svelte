@@ -14,8 +14,6 @@
   function handleOpenImagePicker() {
     imageInput.click();
   }
-
-  $: console.log(selectedImage);
 </script>
 
 <form
@@ -32,7 +30,6 @@
       onClose();
     };
   }}
-  class="flex"
 >
   <input type="hidden" name="replyToId" value={$replyingTo?.id ?? null} />
 

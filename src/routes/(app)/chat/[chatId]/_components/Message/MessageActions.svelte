@@ -84,6 +84,7 @@
       icon="/icons/delete.svg"
       href="{$page.url.pathname}?deleteMessage={message.id}"
       on:click={() => (isOpen = false)}
+      danger
     />
   {:else}
     <ContextMenuItem text="Report message" icon="/icons/report.svg" danger />

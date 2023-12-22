@@ -41,6 +41,5 @@
     placeholder="Search emojis"
     class="py-1.5 px-2 w-full text-sm rounded-md border shadow-sm placeholder:text-zinc-400 bg-zinc-50 focus:outline-cyan-600"
     autocomplete="off"
-    autofocus
   />
 </div>

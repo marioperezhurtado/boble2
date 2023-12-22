@@ -23,8 +23,8 @@
   {...$$restProps}
   class="w-fit border font-semibold rounded-md shadow-sm transition flex gap-2 items-center justify-center {$$restProps.class} {SIZES[size]} {INTENTS[intent]}"
   class:w-full={fullWidth}
-  class:opacity-50={$$restProps.disabled}
-  class:pointer-events-none={$$restProps.disabled}
+  class:opacity-50={$$restProps.disabled || isLoading}
+  class:pointer-events-none={$$restProps.disabled || isLoading}
 >
   <slot />
   {#if isLoading}

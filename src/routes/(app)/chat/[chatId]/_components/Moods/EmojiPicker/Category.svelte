@@ -12,7 +12,7 @@
 	{category.title}
 </h2>
 {#if $filteredEmojis[category.slug].length > 0}
-	<ul id={category.slug} class="grid grid-cols-10 gap-0.5 p-2">
+	<ul id={category.slug} class="grid grid-cols-9 gap-1.5 p-2">
 		{#each $filteredEmojis[category.slug] as emoji}
 			<li class="flex justify-center items-center">
 				<button
@@ -20,7 +20,7 @@
 					on:mouseover={() => $hoveredEmoji = emoji}
 					on:focus={() => $hoveredEmoji = emoji}
 					type="button"
-					class="w-7 h-7 text-xl rounded-md hover:bg-zinc-200"
+					class="w-full text-2xl rounded-md aspect-square hover:bg-zinc-200"
 				>
 					{parseUnicodeEmoji(emoji.u)}
 				</button>

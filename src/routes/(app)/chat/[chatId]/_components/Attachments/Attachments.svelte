@@ -32,8 +32,8 @@
   <button
     on:click={() => (isOpen = !isOpen)}
     type="button"
-    title="Attach"
-    aria-label="Attach"
+    title="Attachments"
+    aria-label="Attachments"
     class="p-0.5 rounded-md min-w-fit focus:outline-cyan-600"
   >
     <img src="/icons/plus.svg" alt="Attach" class="w-7 h-7" />
@@ -66,8 +66,8 @@
       />
     </ul>
   {/if}
-</div>
 
-{#if openAttachment === "image"}
-  <ImageUpload onClose={() => (openAttachment = null)} />
-{/if}
+  {#if openAttachment === "image"}
+    <ImageUpload onClose={() => (openAttachment = null)} />
+  {/if}
+</div>

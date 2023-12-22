@@ -13,12 +13,7 @@
 
 <div class="flex-col gap-2 max-w-xs">
   {#if linkPreview}
-    <a
-      href={linkPreview.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      class={`block rounded-md mb-1 ${isOwn ? "bg-cyan-800" : "bg-zinc-100"}`}
-    >
+    <div class={`rounded-md mb-1 ${isOwn ? "bg-cyan-800" : "bg-zinc-100"}`}>
       {#if linkPreview.image}
         <img
           src={linkPreview.image}
@@ -34,7 +29,7 @@
       {#if linkPreview.description}
         <p class="p-2 text-xs">{linkPreview.description}</p>
       {/if}
-    </a>
+    </div>
   {/if}
 
   <div class="flex flex-wrap justify-between items-end">

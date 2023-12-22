@@ -1,25 +1,18 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
   import { replyingTo } from "./stores";
-  import EmojiPicker from "./EmojiPicker/EmojiPicker.svelte";
-  import GifPicker from "./GifPicker/GifPicker.svelte";
   import Attachments from "./Attachments/Attachments.svelte";
+  import Moods from "./Moods/Moods.svelte";
 
   let text = "";
 
   let textInput: HTMLInputElement | undefined = undefined;
 
-  function handlePickEmoji(emoji: string) {
-    text += emoji;
-    textInput?.focus();
-  }
-
   $: if ($replyingTo) textInput?.focus();
 </script>
 
 <div class="flex gap-2.5 items-center">
-  <EmojiPicker onPick={handlePickEmoji} />
-  <GifPicker />
+  <Moods />
   <Attachments />
 
   <form
@@ -53,7 +46,7 @@
         aria-label="Send message"
         class="p-0.5 rounded-md min-w-fit focus:outline-cyan-600"
       >
-        <img src="/icons/send.svg" alt="Send message" class="w-6 h-6" />
+        <img src="/icons/send.svg" alt="Send message" class="w-7 h-7" />
       </button>
     {:else}
       <button
@@ -62,7 +55,7 @@
         aria-label="Record audio"
         class="p-0.5 rounded-md min-w-fit focus:outline-cyan-600"
       >
-        <img src="/icons/microphone.svg" alt="Record audio" class="w-6 h-6" />
+        <img src="/icons/microphone.svg" alt="Record audio" class="h-7" />
       </button>
     {/if}
   </form>
