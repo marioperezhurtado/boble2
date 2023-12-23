@@ -35,6 +35,7 @@ Chat with your friends and family from any device.
 
 **Email**
 - [Nodemailer](https://nodemailer.com/): Send emails from Node.js.
+- [Svelte-email](https://svelte-email.vercel.app/docs/overview/svelte-email): Build emails using Svelte components.
 
 **Testing**
 - [Vitest](https://vitest.dev/): Next generation testing framework powered by Vite.
@@ -43,12 +44,21 @@ Chat with your friends and family from any device.
 ## External services
 
 - [SendGrid](https://sendgrid.com/): SMTP provider.
-- [Giphy](https://developers.giphy.com/): GIF search API.
+- [Giphy](https://developers.giphy.com/): GIF & sticker API.
+- [Amazon S3](https://aws.amazon.com/s3/): Object storage.
 
 ## Project structure
 
 ```
 /
+├── doc/
+│   └── Documentation images.
+├── drizzle/
+│   └── SQL migrations.
+├── tests/
+│   └── Tests.
+├── s3/
+│   └── Fake S3 server for development.
 ├── static/
 │   └── Static assets to be served.
 ├── src/
@@ -61,10 +71,14 @@ Chat with your friends and family from any device.
 │   │   │   └── WebSocket server using socket.io. 
 │   │   ├── email/
 │   │   │   └── Email config, templates and functions.
-│   │   ├── gif/
-│   │   │   └── GIF search using Giphy API.
+│   │   ├── file-upload/
+│   │   │   └── File uploads using Amazon S3.
+│   │   ├── mood/
+│   │   │   └── GIF and sticker search using Giphy.
 │   │   ├── ui/
 │   │   │   └── Reusable UI components.
+│   │   ├── actions/
+│   │   │   └── Reusable element behaviors.
 │   │   └── utils/
 │   │       └── Helper functions.
 │   └── routes/
@@ -168,16 +182,24 @@ If you choose a different provider, you might need to change the email config at
 
 Once you've created a project and installed dependencies with npm install *(or
 pnpm, yarn, bun etc)*, populated your environment variables and followed the
-previous steps, start a development server:
+previous steps,
+
+Start a development server:
 
 ```
 npm run dev
 ```
 
-And start a WebSocket server:
+Start a WebSocket server:
 
 ```
 npm run socket
+```
+
+Start a fake S3 server:
+
+```
+npm run s3
 ```
 
 ## Deployment
@@ -190,6 +212,7 @@ TBD...
 | -------- | -------- | 
 | dev | Start a development server on port 5173 | 
 | socket | Start a websocket server on port 8000 |
+| s3 | Start a fake S3 server on port 5000 |
 | build | Create a production version of your app |
 | preview | Preview your production build |
 | check | Run diagnostic checks |
