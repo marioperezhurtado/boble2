@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { capitalize } from "$lib/utils/text";
   import type { Contacts } from "$lib/db/contact/getContacts";
 
   export let initialContacts: Contacts;
@@ -20,8 +19,7 @@
 </script>
 
 <input
-  value={search}
-  on:input={(e) => (search = capitalize(e.currentTarget.value))}
+  bind:value={search}
   id="search"
   name="search"
   type="search"

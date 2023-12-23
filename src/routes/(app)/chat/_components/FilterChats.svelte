@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { capitalize } from "$lib/utils/text";
   import type { Chats } from "$lib/db/chat/getChats";
 
   export let initialChats: Chats;
@@ -21,8 +20,7 @@
 
 <div class="p-2">
   <input
-    value={search}
-    on:input={(e) => (search = capitalize(e.currentTarget.value))}
+    bind:value={search}
     id="search"
     name="search"
     type="search"

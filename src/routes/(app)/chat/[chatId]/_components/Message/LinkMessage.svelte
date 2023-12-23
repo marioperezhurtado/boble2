@@ -1,16 +1,19 @@
 <script lang="ts">
   import { formatTime } from "$lib/utils/date";
   import type { Message } from "$lib/db/message/getMessages";
+  import MessageBubble from "./MessageBubble.svelte";
 
   export let message: Message;
   export let lastReadAt: Date;
   export let isOwn: boolean;
+  export let isFirst: boolean;
 
   const isRead = lastReadAt >= message.createdAt!;
   const createdAt = new Date(message.createdAt!);
   const linkPreview = message.linkPreview;
 </script>
 
+<MessageBubble {message} {isOwn} {isFirst}>
 <div class="flex-col gap-2 max-w-xs">
   {#if linkPreview}
     <div class={`rounded-md mb-1 ${isOwn ? "bg-cyan-800" : "bg-zinc-100"}`}>
@@ -73,3 +76,4 @@
     </p>
   </div>
 </div>
+</MessageBubble>

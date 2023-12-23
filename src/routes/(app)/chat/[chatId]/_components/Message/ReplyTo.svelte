@@ -42,6 +42,13 @@
             class="mr-0.5 w-4 h-4"
           />
           <span>GIF</span>
+        {:else if replyTo.type === "sticker"}
+          <img
+            src={isOwn ? "/icons/sticker-light.svg" : "/icons/sticker.svg"}
+            alt="Sticker icon"
+            class="mr-0.5 w-4 h-4"
+          />
+          <span>Sticker</span>
         {:else if replyTo.type === "link"}
           <img
             src={isOwn ? "/icons/link-light.svg" : "/icons/link.svg"}
@@ -72,6 +79,12 @@
     <video src={replyTo.text} class="object-cover w-[46px] h-[46px]" muted>
       <source src={replyTo.text} type="image/gif" />
     </video>
+  {:else if replyTo?.type === "sticker"}
+    <Image
+      src={replyTo.text ?? ""}
+      alt="Reply to"
+      class="object-cover w-[46px] h-[46px]"
+    />
   {:else if replyTo?.type === "link" && replyTo.linkPreview?.image}
     <Image
       src={replyTo.linkPreview.image}

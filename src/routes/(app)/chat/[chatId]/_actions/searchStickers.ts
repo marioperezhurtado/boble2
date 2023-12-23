@@ -1,9 +1,9 @@
 import { fail } from "@sveltejs/kit";
 import { getSessionRequired } from "$lib/auth/auth";
-import { searchGifs as searchGifsFromApi } from "$lib/mood/gif/searchGifs";
+import { searchStickers as searchStickersFromApi } from "$lib/mood/sticker/searchStickers";
 import type { RequestEvent } from "../$types";
 
-export async function searchGifs({ request, locals }: RequestEvent) {
+export async function searchStickers({ request, locals }: RequestEvent) {
   await getSessionRequired(locals.auth);
 
   const formData = await request.formData();
@@ -13,7 +13,7 @@ export async function searchGifs({ request, locals }: RequestEvent) {
     return fail(400, { error: "Search query is required" });
   }
 
-  const gifResults = await searchGifsFromApi(query);
+  const stickerResults = await searchStickersFromApi(query);
 
-  return { gifResults };
+  return { stickerResults };
 }

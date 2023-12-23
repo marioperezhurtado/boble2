@@ -1,6 +1,5 @@
 <script lang="ts">
   import emojis from "./emojis.json";
-  import { capitalize } from "$lib/utils/text";
   import { filteredEmojis } from "./store";
 
   let search = "";
@@ -33,8 +32,7 @@
 <div class="px-2 pt-2">
   <!-- svelte-ignore a11y-autofocus -->
   <input
-    value={search}
-    on:input={(e) => (search = capitalize(e.currentTarget.value))}
+    bind:value={search}
     id="search"
     name="search"
     type="search"

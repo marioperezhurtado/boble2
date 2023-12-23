@@ -4,6 +4,7 @@
   import { isOpen, selectedMood } from "./store";
   import EmojiPicker from "./EmojiPicker/EmojiPicker.svelte";
   import GifPicker from "./GifPicker/GifPicker.svelte";
+  import StickerPicker from "./StickerPicker/StickerPicker.svelte";
   import Mood from "./Mood.svelte";
 </script>
 
@@ -26,14 +27,14 @@
   {#if $isOpen}
     <div
       transition:fly={{ y: 30, duration: 150 }}
-      class="absolute bottom-12 z-20 w-96 bg-white rounded-md border shadow-md"
+      class="absolute -left-2.5 z-20 w-screen bg-white rounded-md rounded-b-none border shadow-none sm:left-0 sm:bottom-12 sm:w-96 sm:rounded-b sm:shadow-md bottom-[42px]"
     >
       {#if $selectedMood === "Emoji"}
         <EmojiPicker onPick={() => {}} />
       {:else if $selectedMood === "GIF"}
         <GifPicker />
       {:else if $selectedMood === "Sticker"}
-        <p>TODO: Sticker picker</p>
+        <StickerPicker />
       {/if}
 
       <div class="p-2 border-t">
@@ -42,7 +43,7 @@
         >
           <Mood mood="Emoji" icon="/icons/emoji.svg" />
           <Mood mood="GIF" icon="/icons/gif-outline.svg" />
-          <Mood mood="Sticker" icon="/icons/sticker.svg" />
+          <Mood mood="Sticker" icon="/icons/sticker-outline.svg" />
         </ul>
       </div>
     </div>

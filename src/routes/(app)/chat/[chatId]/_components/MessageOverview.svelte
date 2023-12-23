@@ -27,7 +27,7 @@
       {/if}
     </p>
 
-    <div class="flex gap-0.5 items-center mt-0.5">
+    <div class="flex gap-0.5 items-center mt-0.5 text-zinc-600">
       {#if message.type === "image"}
         <!-- svelte-ignore a11y-img-redundant-alt -->
         <img
@@ -39,6 +39,9 @@
       {:else if message.type === "gif"}
         <img src="/icons/gif.svg" alt="GIF icon" class="mr-0.5 w-4 h-4" />
         <span>GIF</span>
+      {:else if message.type === "sticker"}
+        <img src="/icons/sticker.svg" alt="Sticker icon" class="mr-0.5 w-4 h-4" />
+        <span>Sticker</span>
       {:else if message.type === "link"}
         <img src="/icons/link.svg" alt="Link icon" class="mr-0.5 w-3.5 h-3.5" />
         <p class="break-all max-w-[36ch] text-ellipsis line-clamp-1">
@@ -62,6 +65,12 @@
     <video src={message.text} class="object-cover w-[46px] h-[46px]" muted>
       <source src={message.text} type="image/gif" />
     </video>
+  {:else if message?.type === "sticker"}
+    <Image
+      src={message.text ?? ""}
+      alt="Reply to"
+      class="object-cover w-[46px] h-[46px]"
+    />
   {:else if message?.type === "link" && message.linkPreview?.image}
     <Image
       src={message.linkPreview.image}

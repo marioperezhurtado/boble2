@@ -20,6 +20,7 @@ export const VALID_MESSAGE_TYPES = [
   "link",
   "image",
   "gif",
+  "sticker",
   "video", 
   "audio", 
   "file"

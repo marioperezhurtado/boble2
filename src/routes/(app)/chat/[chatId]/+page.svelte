@@ -26,7 +26,7 @@
     isSavedContact={!!data.chat?.user.alias}
   />
 
-  <div class="relative p-2 px-3 border-t bg-zinc-50">
+  <div class="relative p-2 px-2 border-t sm:px-3 bg-zinc-50">
     {#if data.chat.user.isBlocked}
       <span class="block py-2 mx-auto w-44">
         <BlockUnblockButton

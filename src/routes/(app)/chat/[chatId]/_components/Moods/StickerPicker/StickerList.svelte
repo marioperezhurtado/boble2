@@ -1,10 +1,10 @@
 <script lang="ts">
-  import type { Gif } from "$lib/mood/types";
+  import type { Sticker } from "$lib/mood/types";
 
   export let onPick: (url: string) => void;
-  export let gifs: Gif[] = [];
+  export let stickers: Sticker[] = [];
 
-  const NUM_COLUMNS = 2;
+  const NUM_COLUMNS = 4;
 </script>
 
 <div
@@ -13,19 +13,19 @@
 >
   {#each { length: NUM_COLUMNS } as _, column}
     <ul class="flex flex-col gap-2">
-      {#each gifs as gif, i}
+      {#each stickers as sticker, i}
         {#if i % NUM_COLUMNS === column}
           <li>
             <button
-              on:click={() => onPick(gif.images.downsized_small.mp4)}
+              on:click={() => onPick(sticker.images.downsized.url)}
               type="button"
-              class="overflow-hidden w-full h-full rounded-md border shadow-sm hover:outline-cyan-600"
+              class="overflow-hidden w-full h-full rounded-md hover:outline-cyan-600"
             >
               <img
-                src={gif.images.downsized.url}
-                alt={gif.title}
-                class="w-full h-full bg-zinc-50"
-                style="aspect-ratio: {gif.images.downsized.width} / {gif.images
+                src={sticker.images.downsized.url}
+                alt={sticker.title}
+                class="w-full h-full"
+                style="aspect-ratio: {sticker.images.downsized.width} / {sticker.images
                   .downsized.height}"
               />
             </button>

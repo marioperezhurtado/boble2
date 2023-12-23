@@ -11,7 +11,7 @@
   $: if ($replyingTo) textInput?.focus();
 </script>
 
-<div class="flex gap-2.5 items-center">
+<div class="flex gap-1.5 items-center sm:gap-2.5">
   <Moods />
   <Attachments />
 

@@ -27,7 +27,7 @@
   function handleOpenInNewTab() {
     if (!message.text) return;
 
-    if (message.type === "gif") {
+    if (message.type === "gif" || message.type == "sticker") {
       window.open(message.text);
       isOpen = false;
       return;
@@ -40,7 +40,7 @@
   function handleDownload(message: Message) {
     if (!message.text) return;
 
-    if (message.type === "gif") {
+    if (message.type === "gif" || message.type == "sticker") {
       downloadFile(message.text, message.type);
       isOpen = false;
       return;
