@@ -81,6 +81,9 @@
       return;
     }
     showScrollBottom = true;
+
+    // Close message actions context menu
+    messageContainer.click();
   }}
   bind:this={messageContainer}
   class="overflow-y-auto px-4 h-full flex flex-col bg-stone-100 bg-repeat

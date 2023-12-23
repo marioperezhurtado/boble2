@@ -74,6 +74,9 @@
             {:else if chat.lastMessage.type === "gif"}
               <img src="/icons/gif.svg" alt="GIF icon" class="mr-0.5 w-4 h-4" />
               <span>GIF</span>
+            {:else if chat.lastMessage.type === "sticker"}
+               <img src="/icons/sticker.svg" alt="Sticker icon" class="mr-0.5 w-4 h-4" />
+              <span>Sticker</span>
             {:else if chat.lastMessage.type === "link"}
               <img
                 src="/icons/link.svg"
