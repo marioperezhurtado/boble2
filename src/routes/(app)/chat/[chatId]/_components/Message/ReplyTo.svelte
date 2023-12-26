@@ -3,7 +3,6 @@
   import { getFileUrl } from "$lib/utils/url";
   import type { PageData } from "../../$types";
   import type { Message } from "$lib/db/message/getMessages";
-  import Image from "$lib/ui/Image.svelte";
 
   export let isOwn: boolean;
   export let replyTo: Message | null;
@@ -35,6 +34,13 @@
             class="mr-0.5 w-3.5 h-3.5"
           />
           <span>Photo</span>
+        {:else if replyTo.type === "video"}
+          <img
+            src={isOwn ? "/icons/video-light.svg" : "/icons/video.svg"}
+            alt="Video icon"
+            class="mr-0.5 w-4 h-4"
+          />
+          <span>Video</span>
         {:else if replyTo.type === "gif"}
           <img
             src={isOwn ? "/icons/gif-light.svg" : "/icons/gif.svg"}
@@ -70,23 +76,27 @@
   </div>
 
   {#if replyTo?.type === "image"}
-    <Image
+    <img
       src={getFileUrl(replyTo.text ?? "")}
       alt="Reply to"
       class="object-cover w-[46px] h-[46px] bg-zinc-100"
     />
+  {:else if replyTo?.type === "video"}
+    <video class="object-cover w-[46px] h-[46px]" muted>
+      <source src={getFileUrl(replyTo.text ?? "")} />
+    </video>
   {:else if replyTo?.type === "gif"}
-    <video src={replyTo.text} class="object-cover w-[46px] h-[46px]" muted>
+    <video class="object-cover w-[46px] h-[46px]" muted>
       <source src={replyTo.text} type="image/gif" />
     </video>
   {:else if replyTo?.type === "sticker"}
-    <Image
+    <img
       src={replyTo.text ?? ""}
       alt="Reply to"
       class="object-cover w-[46px] h-[46px]"
     />
   {:else if replyTo?.type === "link" && replyTo.linkPreview?.image}
-    <Image
+    <img
       src={replyTo.linkPreview.image}
       alt="Reply to"
       class="object-cover w-[46px] h-[46px] bg-zinc-100"

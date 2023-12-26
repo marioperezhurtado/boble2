@@ -4,6 +4,7 @@
   import type { Message } from "$lib/db/message/getMessages";
   import TextMessage from "./TextMessage.svelte";
   import ImageMessage from "./ImageMessage.svelte";
+  import VideoMessage from "./VideoMessage.svelte";
   import GifMessage from "./GifMessage.svelte";
   import StickerMessage from "./StickerMessage.svelte";
   import LinkMessage from "./LinkMessage.svelte";
@@ -45,6 +46,8 @@
   >
     {#if message.type === "image"}
       <ImageMessage {message} {lastReadAt} {isOwn} {isFirst} bind:brokenFile />
+    {:else if message.type === "video"}
+      <VideoMessage {message} {lastReadAt} {isOwn} {isFirst} />
     {:else if message.type === "gif"}
       <GifMessage {message} {lastReadAt} {isOwn} {isFirst} bind:brokenFile />
     {:else if message.type === "sticker"}

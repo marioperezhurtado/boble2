@@ -39,11 +39,6 @@ export const EMOJI_CATEGORIES = [
     icon: "/icons/emojis/symbols.svg",
     slug: "symbols",
   },
-  {
-    title: "Flags",
-    icon: "/icons/emojis/flags.svg",
-    slug: "flags",
-  },
 ] as const;
 
 export type Category = typeof EMOJI_CATEGORIES[number];

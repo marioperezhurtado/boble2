@@ -25,6 +25,7 @@
   class:w-full={fullWidth}
   class:opacity-50={$$restProps.disabled || isLoading}
   class:pointer-events-none={$$restProps.disabled || isLoading}
+  on:click
 >
   <slot />
   {#if isLoading}

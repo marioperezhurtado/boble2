@@ -9,6 +9,8 @@
   $: isOwn = $replyingTo?.senderId !== data.chat.user.id;
 </script>
 
+<svelte:window on:keydown={(e) => e.key === "Escape" && ($replyingTo = null)} />
+
 {#if $replyingTo}
   <div
     transition:slide={{ duration: 200 }}

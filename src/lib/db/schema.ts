@@ -23,7 +23,7 @@ export const VALID_MESSAGE_TYPES = [
   "sticker",
   "video", 
   "audio", 
-  "file"
+  "document"
 ] as const;
 
 export const message = sqliteTable("message", {

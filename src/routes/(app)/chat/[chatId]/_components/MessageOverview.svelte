@@ -3,7 +3,6 @@
   import { getFileUrl } from "$lib/utils/url";
   import type { PageData } from "../$types";
   import type { Message } from "$lib/db/message/getMessages";
-  import Image from "$lib/ui/Image.svelte";
 
   export let message: Message;
   export let isOwn: boolean;
@@ -36,11 +35,18 @@
           class="mr-0.5 w-3.5 h-3.5"
         />
         <span>Photo</span>
+      {:else if message.type === "video"}
+        <img src="/icons/video.svg" alt="Video icon" class="mr-0.5 w-4 h-4" />
+        <span>Video</span>
       {:else if message.type === "gif"}
         <img src="/icons/gif.svg" alt="GIF icon" class="mr-0.5 w-4 h-4" />
         <span>GIF</span>
       {:else if message.type === "sticker"}
-        <img src="/icons/sticker.svg" alt="Sticker icon" class="mr-0.5 w-4 h-4" />
+        <img
+          src="/icons/sticker.svg"
+          alt="Sticker icon"
+          class="mr-0.5 w-4 h-4"
+        />
         <span>Sticker</span>
       {:else if message.type === "link"}
         <img src="/icons/link.svg" alt="Link icon" class="mr-0.5 w-3.5 h-3.5" />
@@ -56,23 +62,27 @@
   </div>
 
   {#if message?.type === "image"}
-    <Image
+    <img
       src={getFileUrl(message.text ?? "")}
       alt="Reply to"
       class="object-cover w-[46px] h-[46px] bg-zinc-100"
     />
+  {:else if message?.type === "video"}
+    <video class="object-cover w-[46px] h-[46px]" muted>
+      <source src={getFileUrl(message.text ?? "")} />
+    </video>
   {:else if message?.type === "gif"}
-    <video src={message.text} class="object-cover w-[46px] h-[46px]" muted>
-      <source src={message.text} type="image/gif" />
+    <video class="object-cover w-[46px] h-[46px]" muted>
+      <source src={message.text} />
     </video>
   {:else if message?.type === "sticker"}
-    <Image
+    <img
       src={message.text ?? ""}
       alt="Reply to"
       class="object-cover w-[46px] h-[46px]"
     />
   {:else if message?.type === "link" && message.linkPreview?.image}
-    <Image
+    <img
       src={message.linkPreview.image}
       alt="Reply to"
       class="object-cover w-[46px] h-[46px] bg-zinc-100"

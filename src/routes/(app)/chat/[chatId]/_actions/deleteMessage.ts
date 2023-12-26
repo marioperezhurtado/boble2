@@ -4,6 +4,7 @@ import { isParticipant } from "$lib/db/participant/isParticipant";
 import { getMessages } from "$lib/db/message/getMessages";
 import { removeMessage } from "$lib/socket/client";
 import { deleteMessage as deleteMessageDb } from "$lib/db/message/deleteMessage";
+import { deleteFile } from "$lib/file-upload/deleteFile";
 import type { RequestEvent } from "../$types";
 
 export async function deleteMessage({ request, params, locals }: RequestEvent) {
@@ -35,6 +36,12 @@ export async function deleteMessage({ request, params, locals }: RequestEvent) {
 
   await deleteMessageDb(messageId);
   removeMessage(messageId, params.chatId);
+
+  const isMedia = message.type === "image" || message.type === "video" || message.type === "document" || message.type === "audio";
+
+  if (isMedia && message.text) {
+    await deleteFile(message.text);
+  }
 
   redirect(302, `/chat/${params.chatId}`);
 }

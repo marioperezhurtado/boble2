@@ -3,7 +3,7 @@ import { getSessionRequired } from "$lib/auth/auth";
 import { isBlockedInChat } from "$lib/db/block/isBlockedInChat";
 import { createMessage } from "$lib/db/message/createMessage";
 import { sendMessage } from "$lib/socket/client";
-import { uploadImage } from "$lib/file-uploads/uploadImage";
+import { uploadImage, IMAGE_UPLOAD_MAX_FILE_SIZE} from "$lib/file-upload/uploadFile";
 import type { RequestEvent } from "../$types";
 
 export async function sendImage({ request, params, locals }: RequestEvent) {
@@ -13,6 +13,12 @@ export async function sendImage({ request, params, locals }: RequestEvent) {
   const image = formData.get('image') as File | null;
   if (!image) {
     return fail(400, { error: 'Image is required' });
+  }
+  if (!image.type.startsWith('image/')) {
+    return fail(400, { error: 'File must be an image' });
+  }
+  if (image.size > IMAGE_UPLOAD_MAX_FILE_SIZE) {
+    return fail(400, { error: 'Image is too large' });
   }
 
   const blocked = await isBlockedInChat({

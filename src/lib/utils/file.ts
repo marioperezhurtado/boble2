@@ -1,12 +1,17 @@
-export async function downloadFile(url: string, type: string) {
-  const now = new Date();
-  const dateInfo = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}`;
-  const timeInfo = `${now.getHours()}-${now.getMinutes()}-${now.getSeconds()}`;
+type DownloadFile = {
+  url: string;
+  type: string;
+  createdAt: Date;
+};
+
+export async function downloadFile({ url, type, createdAt }: DownloadFile) {
+  const dateInfo = `${createdAt.getFullYear()}-${createdAt.getMonth()}-${createdAt.getDate()}`;
+  const timeInfo = `${createdAt.getHours()}-${createdAt.getMinutes()}-${createdAt.getSeconds()}`;
 
   // format: boble_<type>_<year>-<month>-<day>_<hour>-<minute>-<second>
-  const fileName = `boble_${type}_${dateInfo}_${timeInfo}`; 
+  const fileName = `boble_${type}_${dateInfo}_${timeInfo}`;
 
-  const response = await fetch(url); 
+  const response = await fetch(url);
   const blob = await response.blob();
 
   const a = document.createElement("a");

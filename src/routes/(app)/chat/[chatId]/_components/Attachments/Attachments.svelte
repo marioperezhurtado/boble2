@@ -2,12 +2,11 @@
   import { clickOutside } from "$lib/actions/clickOutside";
   import { fly } from "svelte/transition";
   import AttachmentItem from "./AttachmentItem.svelte";
-  import ImageUpload from "./ImageUpload.svelte";
+  import ImageVideoUpload from "./ImageVideoUpload.svelte";
 
   let isOpen = false;
   let openAttachment:
-    | "image"
-    | "video"
+    | "photo-video"
     | "document"
     | "location"
     | "contact"
@@ -17,16 +16,12 @@
     openAttachment = attachment;
     isOpen = false;
   }
-
-  function handleClose() {
-    isOpen = false;
-  }
 </script>
 
-<svelte:window on:keydown={(e) => e.key === "Escape" && handleClose()} />
+<svelte:window on:keydown={(e) => e.key === "Escape" && (isOpen = false)} />
 
 <div
-  use:clickOutside={handleClose}
+  use:clickOutside={() => (isOpen = false)}
   class="flex relative items-center min-w-fit"
 >
   <button
@@ -42,17 +37,13 @@
   {#if isOpen}
     <ul
       transition:fly={{ y: 30, duration: 150 }}
-      class="flex absolute bottom-12 z-20 flex-col flex-1 w-44 text-sm font-medium bg-white rounded-md border shadow-md text-zinc-600"
+      class="flex absolute bottom-12 z-20 flex-col flex-1 w-44 text-sm
+      font-medium bg-white rounded-md border shadow-md text-zinc-600"
     >
       <AttachmentItem
-        onOpen={() => handleOpenAttachment("image")}
-        text="Image"
-        icon="/icons/camera.svg"
-      />
-      <AttachmentItem
-        onOpen={() => handleOpenAttachment("video")}
-        text="Video"
-        icon="/icons/video.svg"
+        onOpen={() => handleOpenAttachment("photo-video")}
+        text="Photo or Video"
+        icon="/icons/image.svg"
       />
       <AttachmentItem
         onOpen={() => handleOpenAttachment("document")}
@@ -67,7 +58,7 @@
     </ul>
   {/if}
 
-  {#if openAttachment === "image"}
-    <ImageUpload onClose={() => (openAttachment = null)} />
+  {#if openAttachment === "photo-video"}
+    <ImageVideoUpload onClose={() => (openAttachment = null)} />
   {/if}
 </div>

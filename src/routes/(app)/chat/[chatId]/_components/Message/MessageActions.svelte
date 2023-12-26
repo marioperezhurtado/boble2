@@ -41,12 +41,20 @@
     if (!message.text) return;
 
     if (message.type === "gif" || message.type == "sticker") {
-      downloadFile(message.text, message.type);
+      downloadFile({
+        url: message.text,
+        type: message.type,
+        createdAt: new Date(message.createdAt),
+      });
       isOpen = false;
       return;
     }
 
-    downloadFile(getFileUrl(message.text), message.type);
+    downloadFile({
+      url: getFileUrl(message.text),
+      type: message.type,
+      createdAt: new Date(message.createdAt),
+    });
     isOpen = false;
   }
 </script>
