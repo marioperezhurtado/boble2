@@ -4,14 +4,15 @@
   import Attachments from "./Attachments/Attachments.svelte";
   import Moods from "./Moods/Moods.svelte";
 
-  let text = "";
+  export let onStartRecording: () => void;
 
+  let text = "";
   let textInput: HTMLInputElement | undefined = undefined;
 
   $: if ($replyingTo) textInput?.focus();
 </script>
 
-<div class="flex gap-1.5 items-center sm:gap-2.5">
+<div class="flex gap-1.5 items-center h-14 sm:gap-2.5">
   <Moods />
   <Attachments />
 
@@ -24,7 +25,7 @@
         $replyingTo = null;
       };
     }}
-    class="flex flex-1 gap-2.5 items-center"
+    class="flex flex-1 gap-1.5 sm:gap-2.5 items-center"
   >
     <input type="hidden" name="replyToId" value={$replyingTo?.id ?? null} />
 
@@ -50,12 +51,13 @@
       </button>
     {:else}
       <button
+        on:click={onStartRecording}
         type="button"
         title="Record audio"
         aria-label="Record audio"
         class="p-0.5 rounded-md min-w-fit focus:outline-cyan-600"
       >
-        <img src="/icons/microphone.svg" alt="Record audio" class="h-7" />
+        <img src="/icons/microphone.svg" alt="Record audio" class="h-7 w-7" />
       </button>
     {/if}
   </form>

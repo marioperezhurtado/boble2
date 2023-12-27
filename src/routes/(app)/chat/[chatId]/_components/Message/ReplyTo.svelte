@@ -3,6 +3,7 @@
   import { getFileUrl } from "$lib/utils/url";
   import type { PageData } from "../../$types";
   import type { Message } from "$lib/db/message/getMessages";
+  import Image from "$lib/ui/Image.svelte";
 
   export let isOwn: boolean;
   export let replyTo: Message | null;
@@ -41,6 +42,13 @@
             class="mr-0.5 w-4 h-4"
           />
           <span>Video</span>
+        {:else if replyTo.type === "audio"}
+          <img
+            src={isOwn ? "/icons/microphone-light.svg" : "/icons/microphone.svg"}
+            alt="Audio icon"
+            class="mr-0.5 w-4 h-4"
+          />
+          <span>Voice message</span>
         {:else if replyTo.type === "gif"}
           <img
             src={isOwn ? "/icons/gif-light.svg" : "/icons/gif.svg"}
@@ -76,7 +84,7 @@
   </div>
 
   {#if replyTo?.type === "image"}
-    <img
+    <Image
       src={getFileUrl(replyTo.text ?? "")}
       alt="Reply to"
       class="object-cover w-[46px] h-[46px] bg-zinc-100"
@@ -90,13 +98,13 @@
       <source src={replyTo.text} type="image/gif" />
     </video>
   {:else if replyTo?.type === "sticker"}
-    <img
+    <Image
       src={replyTo.text ?? ""}
       alt="Reply to"
       class="object-cover w-[46px] h-[46px]"
     />
   {:else if replyTo?.type === "link" && replyTo.linkPreview?.image}
-    <img
+    <Image
       src={replyTo.linkPreview.image}
       alt="Reply to"
       class="object-cover w-[46px] h-[46px] bg-zinc-100"

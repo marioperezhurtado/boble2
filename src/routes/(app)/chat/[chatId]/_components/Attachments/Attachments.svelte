@@ -37,8 +37,7 @@
   {#if isOpen}
     <ul
       transition:fly={{ y: 30, duration: 150 }}
-      class="flex absolute bottom-12 z-20 flex-col flex-1 w-44 text-sm
-      font-medium bg-white rounded-md border shadow-md text-zinc-600"
+      class="flex absolute bottom-12 z-20 flex-col flex-1 w-44 text-sm font-medium bg-white rounded-md border shadow-md text-zinc-600"
     >
       <AttachmentItem
         onOpen={() => handleOpenAttachment("photo-video")}

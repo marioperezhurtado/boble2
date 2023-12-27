@@ -18,8 +18,7 @@
 <MessageBubble {message} {isOwn} {isFirst}>
   <div class="overflow-hidden relative rounded-md">
     <div
-      class="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t to-transparent
-      from-black/40 pointer-events-none"
+      class="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t to-transparent pointer-events-none from-black/40"
     />
     {#if message.text}
       <Image
@@ -31,8 +30,7 @@
       />
     {/if}
     <p
-      class="flex absolute right-1 bottom-1 gap-0.5 items-end leading-3
-      text-right text-white text-[10px] min-w-fit pointer-events-none"
+      class="flex absolute right-1 bottom-1 gap-0.5 items-end leading-3 text-right text-white pointer-events-none text-[10px] min-w-fit"
     >
       {formatTime(createdAt)}
       {#if isOwn}

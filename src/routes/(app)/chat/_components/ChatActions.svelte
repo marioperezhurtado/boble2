@@ -35,7 +35,7 @@
   <ContextMenuItem text="Pin chat" icon="/icons/pin.svg" />
   <ContextMenuItem
     text="Delete chat"
-    icon="/icons/delete.svg"
+    icon="/icons/delete-danger.svg"
     href="{$page.url.pathname}?deleteChat={chat.id}"
     danger
   />

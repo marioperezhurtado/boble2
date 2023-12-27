@@ -5,10 +5,13 @@
   import MessageList from "./_components/MessageList.svelte";
   import ReplyingInfo from "./_components/ReplyingInfo.svelte";
   import SendMessage from "./_components/SendMessage.svelte";
+  import AudioRecorder from "./_components/AudioRecorder.svelte";
   import ChatInfo from "./_components/ChatInfo.svelte";
   import DeleteMessageConfirm from "./_components/DeleteMessageConfirm.svelte";
 
   export let data;
+
+  let isRecording = false;
 
   $: isInfoOpen = $page.url.searchParams.has("info");
   $: deletingMessage = data.messages.find(
@@ -40,7 +43,12 @@
       </p>
     {:else}
       <ReplyingInfo />
-      <SendMessage />
+      
+      {#if isRecording}
+        <AudioRecorder onClose={() => (isRecording = false)} />
+      {:else}
+        <SendMessage onStartRecording={() => (isRecording = true)} />
+      {/if}
     {/if}
   </div>
 

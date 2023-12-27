@@ -5,6 +5,7 @@ import { getTrendingGifs } from '$lib/mood/gif/getTrendingGifs';
 import { getTrendingStickers } from '$lib/mood/sticker/getTrendingStickers';
 import { sendTextMessage } from './_actions/sendTextMessage';
 import { sendImage } from './_actions/sendImage';
+import { sendAudio } from './_actions/sendAudio';
 import { sendGif } from './_actions/sendGif';
 import { sendVideo } from './_actions/sendVideo';
 import { sendSticker } from './_actions/sendSticker';
@@ -38,6 +39,7 @@ export const actions = {
   sendTextMessage,
   sendImage,
   sendVideo,
+  sendAudio,
   sendGif,
   sendSticker,
   deleteMessage,

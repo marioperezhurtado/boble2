@@ -8,6 +8,7 @@
   import GifMessage from "./GifMessage.svelte";
   import StickerMessage from "./StickerMessage.svelte";
   import LinkMessage from "./LinkMessage.svelte";
+  import AudioMessage from "./AudioMessage.svelte";
   import MessageActions from "./MessageActions.svelte";
 
   export let message: Message;
@@ -48,6 +49,8 @@
       <ImageMessage {message} {lastReadAt} {isOwn} {isFirst} bind:brokenFile />
     {:else if message.type === "video"}
       <VideoMessage {message} {lastReadAt} {isOwn} {isFirst} />
+    {:else if message.type === "audio"}
+      <AudioMessage {message} {lastReadAt} {isOwn} />
     {:else if message.type === "gif"}
       <GifMessage {message} {lastReadAt} {isOwn} {isFirst} bind:brokenFile />
     {:else if message.type === "sticker"}

@@ -1,24 +1,23 @@
 <script lang="ts">
   import { formatTime } from "$lib/utils/date";
+  import { getFileUrl } from "$lib/utils/url";
   import type { Message } from "$lib/db/message/getMessages";
-  import Image from "$lib/ui/Image.svelte";
 
   export let message: Message;
   export let lastReadAt: Date;
   export let isOwn: boolean;
-  export let brokenFile = false;
 
   const isRead = lastReadAt >= message.createdAt!;
   const createdAt = new Date(message.createdAt!);
 </script>
 
-<div class="relative mt-1 max-w-[8rem]">
-  <Image
-    bind:brokenFile
-    src={message.text ?? ""}
-    alt="Sticker"
-    class="w-full rounded-md"
-  />
+<div>
+  {#if message.text}
+    <!-- svelte-ignore a11y-media-has-caption -->
+    <audio controls>
+      <source src={getFileUrl(message.text)} />
+    </audio>
+  {/if}
 
   <p
     class={`flex gap-0.5 items-end px-1 py-0.5 shadow-sm mt-1 rounded-md

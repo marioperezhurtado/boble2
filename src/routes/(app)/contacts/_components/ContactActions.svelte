@@ -30,7 +30,7 @@
   />
   <ContextMenuItem
     text="Delete contact"
-    icon="/icons/delete.svg"
+    icon="/icons/delete-danger.svg"
     href="{$page.url.pathname}?deleteContact={contact.id}"
     danger
   />

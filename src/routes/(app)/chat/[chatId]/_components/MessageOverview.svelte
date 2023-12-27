@@ -38,6 +38,13 @@
       {:else if message.type === "video"}
         <img src="/icons/video.svg" alt="Video icon" class="mr-0.5 w-4 h-4" />
         <span>Video</span>
+      {:else if message.type === "audio"}
+        <img
+          src="/icons/microphone.svg"
+          alt="Audio icon"
+          class="mr-0.5 w-4 h-4"
+        />
+        <span>Voice message</span>
       {:else if message.type === "gif"}
         <img src="/icons/gif.svg" alt="GIF icon" class="mr-0.5 w-4 h-4" />
         <span>GIF</span>

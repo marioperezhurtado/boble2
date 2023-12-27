@@ -13,7 +13,7 @@
   aria-label="Scroll to bottom"
   class="flex absolute right-5 z-20 justify-center items-center w-12 h-12 bg-white rounded-full border shadow-md hover:bg-zinc-50"
   style="
-    bottom: {$replyingTo ? 7.5 : 4.1}rem;
+    bottom: {$replyingTo ? 8.5 : 5.1}rem;
     transition-duration: 200ms;
     transition-timing-function: cubic-out;
   "

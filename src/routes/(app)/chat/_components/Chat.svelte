@@ -78,6 +78,13 @@
                 class="mr-0.5 w-4 h-4"
               />
               <span>Video</span>
+            {:else if chat.lastMessage.type === "audio"}
+              <img
+                src="/icons/microphone.svg"
+                alt="Audio icon"
+                class="mr-0.5 w-4 h-4"
+              />
+              <span>Voice message</span>
             {:else if chat.lastMessage.type === "gif"}
               <img src="/icons/gif.svg" alt="GIF icon" class="mr-0.5 w-4 h-4" />
               <span>GIF</span>

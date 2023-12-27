@@ -15,6 +15,12 @@
   const isMedia = message.type !== "text" && message.type !== "link";
 
   function handleCopy() {
+    if (isMedia && message.type !== "sticker" && message.type !== "gif") {
+      navigator.clipboard.writeText(getFileUrl(message.text ?? ""));
+      isOpen = false;
+      return;
+    }
+
     navigator.clipboard.writeText(message.text ?? "");
     isOpen = false;
   }
@@ -89,7 +95,7 @@
   {#if isOwn}
     <ContextMenuItem
       text="Delete message"
-      icon="/icons/delete.svg"
+      icon="/icons/delete-danger.svg"
       href="{$page.url.pathname}?deleteMessage={message.id}"
       on:click={() => (isOpen = false)}
       danger
