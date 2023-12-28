@@ -14,7 +14,7 @@ export async function sendAudio({ request, params, locals }: RequestEvent) {
   if (!audio) {
     return fail(400, { error: 'Audio is required' });
   }
-  if (!audio.type.startsWith('audio/ogg')) {
+  if (!audio.type.startsWith('audio/')) {
     return fail(400, { error: 'File must be an audio' });
   }
   if (audio.size > AUDIO_UPLOAD_MAX_FILE_SIZE) {

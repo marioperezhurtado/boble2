@@ -25,7 +25,7 @@
         $replyingTo = null;
       };
     }}
-    class="flex flex-1 gap-1.5 sm:gap-2.5 items-center"
+    class="flex flex-1 gap-1.5 items-center sm:gap-2.5"
   >
     <input type="hidden" name="replyToId" value={$replyingTo?.id ?? null} />
 
@@ -57,7 +57,7 @@
         aria-label="Record audio"
         class="p-0.5 rounded-md min-w-fit focus:outline-cyan-600"
       >
-        <img src="/icons/microphone.svg" alt="Record audio" class="h-7 w-7" />
+        <img src="/icons/microphone.svg" alt="Record audio" class="w-7 h-7" />
       </button>
     {/if}
   </form>

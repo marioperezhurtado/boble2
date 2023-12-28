@@ -12,10 +12,6 @@
   );
 </script>
 
-<svelte:head>
-  <title>BOBLE Web Chat</title>
-</svelte:head>
-
 <div class="flex flex-col h-screen bg-zinc-200">
   <AppHeader />
   <main

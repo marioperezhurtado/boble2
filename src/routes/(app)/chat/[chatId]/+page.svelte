@@ -5,7 +5,7 @@
   import MessageList from "./_components/MessageList.svelte";
   import ReplyingInfo from "./_components/ReplyingInfo.svelte";
   import SendMessage from "./_components/SendMessage.svelte";
-  import AudioRecorder from "./_components/AudioRecorder.svelte";
+  import AudioRecorder from "./_components/AudioRecorder/AudioRecorder.svelte";
   import ChatInfo from "./_components/ChatInfo.svelte";
   import DeleteMessageConfirm from "./_components/DeleteMessageConfirm.svelte";
 

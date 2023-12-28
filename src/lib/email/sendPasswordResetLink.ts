@@ -11,7 +11,6 @@ type SendPasswordResetLinkProps = {
 
 export async function sendPasswordResetLink({ name, email, token }: SendPasswordResetLinkProps) {
   const resetUrl = `${PUBLIC_SITE_URL}/forgot-password/${token}`;
-  console.log(`Your password reset link: ${resetUrl}`);
 
   return sendEmail({
     to: email,

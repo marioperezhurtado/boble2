@@ -19,7 +19,7 @@
 
     const formData = new FormData();
     formData.append(fileType, selectedFile);
-    formData.append("replyingTo", $replyingTo?.id ?? "");
+    formData.append("replyToId", $replyingTo?.id ?? "");
 
     isUploading = true;
 
@@ -35,8 +35,6 @@
 
   onMount(() => fileInput.click());
 </script>
-
-<svelte:window on:focus={onClose} />
 
 <input
   bind:this={fileInput}
