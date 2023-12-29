@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import { scale } from "svelte/transition";
   import { replyingTo } from "../stores";
+  import TimeElapsed from "./TimeElapsed.svelte";
   import VolumeMeter from "./VolumeMeter.svelte";
   import Modal from "$lib/ui/Modal.svelte";
   import Button from "$lib/ui/Button.svelte";
@@ -12,8 +13,10 @@
   let mediaRecorder: MediaRecorder | null = null;
   let audioBlob: Blob | null = null;
   let audioUrl: string | null = null;
-  let accessDenied = false;
   let isUploading = false;
+
+  let accessDenied = false;
+  let deviceNotFound = false;
 
   function handleStart() {
     mediaRecorder?.start();
@@ -69,6 +72,10 @@
 
       handleStart();
     } catch (e) {
+      if ((e as DOMException).name === "NotFoundError") {
+        deviceNotFound = true;
+        return;
+      }
       accessDenied = true;
     }
   }
@@ -86,6 +93,21 @@
       </p>
       <Button on:click={onClose} class="mt-5 ml-auto">Close</Button>
     </Modal>
+  {:else if deviceNotFound}
+    <img
+      in:scale
+      src="/icons/block.svg"
+      alt="Microphone not found"
+      class="w-9 h-9"
+    />
+
+    <Modal title="Microphone not found" {onClose}>
+      <div class="text-sm text-zinc-500 flex flex-col gap-2">
+        <p>No microphone was found on your device.</p>
+        <p>Please make sure you have a microphone connected and try again.</p>
+        <Button on:click={onClose} class="mt-5 ml-auto">Close</Button>
+      </div></Modal
+    >
   {:else if mediaRecorder?.stream}
     <button
       on:click={handleDelete}
@@ -97,6 +119,8 @@
         class="w-[24px] h-[24px]"
       />
     </button>
+
+    <TimeElapsed />
 
     <VolumeMeter stream={mediaRecorder.stream} />
 

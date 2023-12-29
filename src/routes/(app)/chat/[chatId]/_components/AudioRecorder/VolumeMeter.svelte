@@ -22,7 +22,7 @@
         sumSquares += amplitude * amplitude;
       }
 
-      volume = Math.sqrt(sumSquares / pcmData.length) * 3;
+      volume = Math.sqrt(sumSquares / pcmData.length) * 3 + 0.05;
       window.requestAnimationFrame(onFrame);
     };
 
@@ -32,15 +32,13 @@
       volumeSpikes = [...volumeSpikes.slice(1), Math.min(1, volume)];
     }, 100);
   });
-
-
 </script>
 
 <div class="flex items-center gap-0.5 h-full relative">
   {#each volumeSpikes as spike}
     <div
       class="w-0.5 rounded-full bg-zinc-400"
-      style="height: calc(100% * {spike + 0.05});"
+      style="height: calc(100% * {spike});"
     />
   {/each}
 

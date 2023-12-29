@@ -75,7 +75,7 @@
 
 <section
   on:scroll={() => {
-    if (isNearEnoughToBottom(0)) {
+    if (isNearEnoughToBottom(10)) {
       showScrollBottom = false;
       chats.readChat(chatId);
       return;
