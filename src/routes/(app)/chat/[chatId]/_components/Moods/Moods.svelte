@@ -30,7 +30,7 @@
       class="absolute -left-2.5 z-20 w-screen bg-white rounded-md rounded-b-none border shadow-none sm:left-0 sm:bottom-12 sm:w-96 sm:rounded-b sm:shadow-md bottom-[42px]"
     >
       {#if $selectedMood === "Emoji"}
-        <EmojiPicker onPick={() => {}} />
+        <EmojiPicker />
       {:else if $selectedMood === "GIF"}
         <GifPicker />
       {:else if $selectedMood === "Sticker"}

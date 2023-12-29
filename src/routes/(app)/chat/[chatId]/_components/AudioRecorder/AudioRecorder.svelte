@@ -11,8 +11,7 @@
 
   let chunks: BlobPart[] = [];
   let mediaRecorder: MediaRecorder | null = null;
-  let audioBlob: Blob | null = null;
-  let audioUrl: string | null = null;
+  let audioBlob: Blob | null = null; let audioUrl: string | null = null;
   let isUploading = false;
 
   let accessDenied = false;

@@ -2,13 +2,12 @@
   import { EMOJI_CATEGORIES } from "./categories";
   import { capitalize } from "$lib/utils/text";
   import { hoveredEmoji, parseUnicodeEmoji } from "./store";
+  import { text } from "../../stores";
   import Category from "./Category.svelte";
   import FilterEmojis from "./FilterEmojis.svelte";
 
-  export let onPick: (emoji: string) => void;
-
   function handlePick(emoji: string) {
-    onPick(parseUnicodeEmoji(emoji));
+    $text += parseUnicodeEmoji(emoji);
   }
 
   function scrollToCategory(category: string) {
