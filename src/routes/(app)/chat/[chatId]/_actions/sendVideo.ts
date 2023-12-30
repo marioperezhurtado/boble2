@@ -40,5 +40,5 @@ export async function sendVideo({ request, params, locals }: RequestEvent) {
     text: uploadedVideoId,
     type: "video",
   });
-  sendMessage({ ...newMessage, linkPreview: null });
+  sendMessage({ ...newMessage, linkPreview: null, documentInfo: null });
 }

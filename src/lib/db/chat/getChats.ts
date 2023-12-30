@@ -1,7 +1,7 @@
 import { and, desc, eq, gt, ne, sql } from "drizzle-orm";
 import { alias } from "drizzle-orm/sqlite-core";
 import { db } from "$lib/db/db";
-import { chat, participant, message, user, contact, block } from "$lib/db/schema";
+import { chat, participant, message, user, contact, block, documentInfo } from "$lib/db/schema";
 
 export async function getChats(userId: string) {
   const unreadMessage = alias(message, "unreadMessage");
@@ -31,6 +31,7 @@ export async function getChats(userId: string) {
         createdAt: message.createdAt,
         senderId: message.senderId,
       },
+      documentName: documentInfo.name,
       unreadCount: sql<number>`cast(count(${unreadMessage.id}) as integer)`,
     })
     .from(chat)
@@ -66,54 +67,12 @@ export async function getChats(userId: string) {
       .orderBy(desc(message.createdAt))
       .limit(1)
     ))
+    .leftJoin(documentInfo, and(
+      eq(message.type, "document"),
+      eq(documentInfo.url, message.text)
+    ))
     .orderBy(desc(message.createdAt));
 
-
-    /*
-    .from(participant)
-    .where(eq(participant.userId, userId))
-    .orderBy(desc(participant.lastReadAt))
-    // join chat
-    .innerJoin(chat, eq(chat.id, participant.chatId))
-    // join the other user
-    .innerJoin(otherParticipant, and(
-      eq(otherParticipant.chatId, chat.id),
-      ne(otherParticipant.userId, userId)
-    ))
-    .innerJoin(user, eq(user.id, otherParticipant.userId))
-    // join the other user's contact info if exists
-    .leftJoin(contact, and(
-      eq(contact.userId, userId),
-      eq(contact.contactId, otherParticipant.userId)
-    ))
-    // join if user is blocked
-    .leftJoin(block, and(
-      eq(block.userId, userId),
-      eq(block.blockedUserId, otherParticipant.userId)
-    ))
-    // join if user blocked me
-    .leftJoin(ownBlock, and(
-      eq(ownBlock.userId, otherParticipant.userId),
-      eq(ownBlock.blockedUserId, userId)
-    ))
-    // join unread messages (message.createdAt > participant.lastReadAt)
-    .leftJoin(unreadMessage, and(
-      eq(unreadMessage.chatId, chat.id),
-      ne(unreadMessage.senderId, userId),
-      gt(unreadMessage.createdAt, participant.lastReadAt),
-    ))
-    .groupBy(chat.id)
-    // join the latest message
-    .leftJoin(message, eq(message.id, db
-      .select({ id: message.id })
-      .from(message)
-      .where(eq(message.chatId, chat.id))
-      .orderBy(desc(message.createdAt))
-      .limit(1)
-    ))
-    // order by latest message
-    .orderBy(desc(message.createdAt));
-    */
 
   // Hide user info if blocked
   return chats.map(chat => {

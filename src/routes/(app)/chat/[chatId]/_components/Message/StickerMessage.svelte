@@ -15,6 +15,6 @@
     bind:brokenFile
     src={message.text ?? ""}
     alt="Sticker"
-    class="w-full rounded-md max-w-32 max-h-32 object-contain  mx-auto"
+    class="object-contain mx-auto w-full max-h-32 rounded-md max-w-32"
   />
 </MessageTransparent>

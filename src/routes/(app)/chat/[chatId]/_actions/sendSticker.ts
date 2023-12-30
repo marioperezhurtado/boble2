@@ -31,5 +31,5 @@ export async function sendSticker({ request, params, locals }: RequestEvent) {
     text: sticker,
     type: "sticker",
   });
-  sendMessage({ ...newMessage, linkPreview: null });
+  sendMessage({ ...newMessage, linkPreview: null, documentInfo: null });
 }

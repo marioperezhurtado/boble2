@@ -12,6 +12,6 @@
 <MessageTransparent {message} {lastReadAt} {isOwn} {isFirst}>
   {#if message.text}
     <!-- svelte-ignore a11y-media-has-caption -->
-    <audio controls src={getFileUrl(message.text)} />
+    <audio controls src={getFileUrl(message.text)} class="mb-1"/>
   {/if}
 </MessageTransparent>

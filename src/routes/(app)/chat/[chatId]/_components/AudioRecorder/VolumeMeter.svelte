@@ -34,7 +34,7 @@
   });
 </script>
 
-<div class="flex items-center gap-0.5 h-full relative">
+<div class="flex relative gap-0.5 items-center h-full">
   {#each volumeSpikes as spike}
     <div
       class="w-0.5 rounded-full bg-zinc-400"
@@ -43,11 +43,9 @@
   {/each}
 
   <div
-    class="absolute right-0 bg-gradient-to-r from-transparent to-zinc-50 h-14
-  w-5"
+    class="absolute right-0 w-5 h-14 bg-gradient-to-r from-transparent to-zinc-50"
   />
   <div
-    class="absolute left-0 bg-gradient-to-l from-transparent to-zinc-50 h-14
-  w-5"
+    class="absolute left-0 w-5 h-14 bg-gradient-to-l from-transparent to-zinc-50"
   />
 </div>

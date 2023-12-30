@@ -31,6 +31,5 @@ export async function sendGif({ request, params, locals }: RequestEvent) {
     text: gif,
     type: "gif",
   });
-
-  sendMessage({ ...newMessage, linkPreview: null });
+  sendMessage({ ...newMessage, linkPreview: null, documentInfo: null });
 }

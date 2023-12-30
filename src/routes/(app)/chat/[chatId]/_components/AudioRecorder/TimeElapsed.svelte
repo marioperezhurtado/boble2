@@ -12,6 +12,6 @@
   });
 </script>
 
-<p class="font-mono text-zinc-500 font-semibold text-lg">
+<p class="font-mono text-lg font-semibold text-zinc-500">
   {Math.floor(timeElapsed / 60)}:{(timeElapsed % 60).toString().padStart(2, "0")}
 </p>

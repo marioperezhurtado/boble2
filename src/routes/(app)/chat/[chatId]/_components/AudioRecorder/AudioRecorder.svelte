@@ -87,7 +87,7 @@
     <img in:scale src="/icons/block.svg" alt="Access denied" class="w-9 h-9" />
 
     <Modal title="Unable to access microphone" {onClose}>
-      <p class="text-zinc-500 text-sm">
+      <p class="text-sm text-zinc-500">
         You need to grant access to your microphone to send voice messages.
       </p>
       <Button on:click={onClose} class="mt-5 ml-auto">Close</Button>
@@ -101,7 +101,7 @@
     />
 
     <Modal title="Microphone not found" {onClose}>
-      <div class="text-sm text-zinc-500 flex flex-col gap-2">
+      <div class="flex flex-col gap-2 text-sm text-zinc-500">
         <p>No microphone was found on your device.</p>
         <p>Please make sure you have a microphone connected and try again.</p>
         <Button on:click={onClose} class="mt-5 ml-auto">Close</Button>

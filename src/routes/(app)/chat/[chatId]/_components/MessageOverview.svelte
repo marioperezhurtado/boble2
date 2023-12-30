@@ -45,6 +45,13 @@
           class="mr-0.5 w-4 h-4"
         />
         <span>Voice message</span>
+      {:else if message.type === "document"}
+        <img
+          src="/icons/document.svg"
+          alt="Document icon"
+          class="mr-0.5 w-4 h-4"
+        />
+        <span>{message.documentInfo?.name ?? "Document"}</span>
       {:else if message.type === "gif"}
         <img src="/icons/gif.svg" alt="GIF icon" class="mr-0.5 w-4 h-4" />
         <span>GIF</span>

@@ -24,3 +24,15 @@ export async function downloadFile({ url, type, createdAt }: DownloadFile) {
   document.body.removeChild(a);
   URL.revokeObjectURL(a.href);
 }
+
+export function formatFileSize(sizeInBytes: number) {
+  const units = ["B", "KB", "MB", "GB", "TB"];
+
+  if (sizeInBytes === 0) {
+    return "0 B";
+  }
+
+  const i = Math.floor(Math.log(sizeInBytes) / Math.log(1024));
+
+  return `${Math.round(sizeInBytes / Math.pow(1024, i))} ${units[i]}`;
+}

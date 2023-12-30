@@ -1,6 +1,6 @@
 import { asc, eq, and } from "drizzle-orm";
 import { db } from "$lib/db/db";
-import { message, linkPreview } from "$lib/db/schema";
+import { message, linkPreview, documentInfo } from "$lib/db/schema";
 
 export function getMessages(chatId: string) {
   return db
@@ -12,21 +12,21 @@ export function getMessages(chatId: string) {
       text: message.text,
       type: message.type,
       createdAt: message.createdAt,
-      linkPreview: {
-        url: linkPreview.url,
-        title: linkPreview.title,
-        description: linkPreview.description,
-        image: linkPreview.image,
-        siteName: linkPreview.siteName,
-      }
+      linkPreview,
+      documentInfo,
     })
     .from(message)
     .where(eq(message.chatId, chatId))
     .orderBy(asc(message.createdAt))
     // join link preview metadata to link messages
     .leftJoin(linkPreview, and(
-      eq(message.type, "link"), 
+      eq(message.type, "link"),
       eq(message.text, linkPreview.url)
+    ))
+    // join document info to document messages
+    .leftJoin(documentInfo, and(
+      eq(message.type, "document"),
+      eq(message.text, documentInfo.url)
     ))
 }
 

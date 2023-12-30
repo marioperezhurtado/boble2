@@ -40,5 +40,5 @@ export async function sendImage({ request, params, locals }: RequestEvent) {
     text: uploadedImageId,
     type: "image",
   });
-  sendMessage({ ...newMessage, linkPreview: null });
+  sendMessage({ ...newMessage, linkPreview: null, documentInfo: null });
 }

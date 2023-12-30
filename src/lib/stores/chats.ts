@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
 import type { Chat } from "$lib/db/chat/getChats";
+import type { Message } from '$lib/db/message/getMessages';
 
 // Adding a `deleted` property to be able to display lastMessage as deleted
 export type DisplayChat = Omit<Chat, "lastMessage"> & {
@@ -14,7 +15,7 @@ function createChatStore(initialChats: DisplayChat[]) {
   return {
     subscribe,
     set,
-    updateLastMessage: (chatId: string, lastMessage: Chat["lastMessage"]) => {
+    updateLastMessage: (chatId: string, lastMessage: Message) => {
       update((chats) => {
         const chat = chats.find((chat) => chat.id === chatId);
         if (!chat) return chats;
@@ -22,6 +23,11 @@ function createChatStore(initialChats: DisplayChat[]) {
         // Update last message
         chat.lastMessage = lastMessage;
         chat.unreadCount++;
+
+        // Update document name if last message is a document
+        if (lastMessage?.type === "document") {
+          chat.documentName = lastMessage.documentInfo?.name ?? null;
+        }
 
         // Sort chats by last message created at date
         chats.sort((a, b) => {

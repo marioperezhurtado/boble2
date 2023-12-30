@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { replyingTo } from "../stores";
-  import { capitalize } from "$lib/utils/text";
+  import { formatFileSize } from "$lib/utils/file";
   import Button from "$lib/ui/Button.svelte";
   import Modal from "$lib/ui/Modal.svelte";
   import Input from "$lib/ui/Input.svelte";
@@ -12,18 +12,18 @@
   let fileInput: HTMLInputElement;
   let isUploading = false;
 
-  $: fileType = selectedFile?.type.split("/")[0] ?? "file";
+  $: fileExtension = selectedFile?.name.split(".").pop();
 
   async function handleUploadFile() {
     if (!selectedFile) return;
 
     const formData = new FormData();
-    formData.append(fileType, selectedFile);
+    formData.append("document", selectedFile);
     formData.append("replyToId", $replyingTo?.id ?? "");
 
     isUploading = true;
 
-    await fetch(`?/send${capitalize(fileType)}`, {
+    await fetch(`?/sendDocument`, {
       method: "POST",
       body: formData,
     });
@@ -40,29 +40,21 @@
   bind:this={fileInput}
   on:input={() => (selectedFile = fileInput?.files?.[0] ?? null)}
   type="file"
-  accept="image/jpeg,image/jpg,image/png,image/webp,video/*"
   hidden
 />
 
 {#if selectedFile}
-  <Modal title="Upload {fileType}" {onClose}>
-    <div class="p-2 w-full h-56 rounded-md border bg-zinc-100">
-      {#if fileType === "video"}
-        <!-- svelte-ignore a11y-media-has-caption -->
-        <video controls class="object-contain mx-auto w-full h-full">
-          <source
-            src={URL.createObjectURL(selectedFile)}
-            type={selectedFile.type}
-          />
-        </video>
-      {/if}
-      {#if fileType === "image"}
-        <img
-          src={URL.createObjectURL(selectedFile)}
-          alt="Upload preview"
-          class="object-contain mx-auto w-full h-full"
-        />
-      {/if}
+  <Modal title="Upload document" {onClose}>
+    <div class="flex gap-2 p-2 pr-4 rounded-md border bg-zinc-100">
+      <img src="/icons/document.svg" alt="Document icon" class="w-10 h-10" />
+      <div>
+        <p class="font-medium break-all">{selectedFile.name}</p>
+        <p class="text-xs text-zinc-500">
+        {#if fileExtension}
+          {fileExtension.toUpperCase()} ·   
+        {/if}
+        {formatFileSize(selectedFile.size)}</p>
+      </div>
     </div>
 
     <div class="flex gap-2 mt-5">

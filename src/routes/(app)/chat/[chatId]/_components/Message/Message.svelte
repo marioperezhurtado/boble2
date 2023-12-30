@@ -5,10 +5,11 @@
   import TextMessage from "./TextMessage.svelte";
   import ImageMessage from "./ImageMessage.svelte";
   import VideoMessage from "./VideoMessage.svelte";
+  import AudioMessage from "./AudioMessage.svelte";
+  import DocumentMessage from "./DocumentMessage.svelte";
   import GifMessage from "./GifMessage.svelte";
   import StickerMessage from "./StickerMessage.svelte";
   import LinkMessage from "./LinkMessage.svelte";
-  import AudioMessage from "./AudioMessage.svelte";
   import MessageActions from "./MessageActions.svelte";
 
   export let message: Message;
@@ -40,10 +41,11 @@
       ${isOwn ? "self-end text-white" : "self-start"}
       ${isFirst ? "mt-3" : "mt-1"}`}
 >
-  <button
+  <div
+    role="button"
+    tabindex="0"
     on:contextmenu|preventDefault={() => (actionsOpen = true)}
     use:longPress={() => (actionsOpen = true)}
-    class="block text-left"
   >
     {#if message.type === "image"}
       <ImageMessage {message} {lastReadAt} {isOwn} {isFirst} bind:brokenFile />
@@ -51,6 +53,8 @@
       <VideoMessage {message} {lastReadAt} {isOwn} {isFirst} />
     {:else if message.type === "audio"}
       <AudioMessage {message} {lastReadAt} {isOwn} {isFirst} />
+    {:else if message.type === "document"}
+      <DocumentMessage {message} {lastReadAt} {isOwn} {isFirst} />
     {:else if message.type === "gif"}
       <GifMessage {message} {lastReadAt} {isOwn} {isFirst} bind:brokenFile />
     {:else if message.type === "sticker"}
@@ -69,5 +73,5 @@
         {brokenFile}
       />
     {/if}
-  </button>
+  </div>
 </li>

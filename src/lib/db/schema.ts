@@ -21,13 +21,13 @@ export const VALID_MESSAGE_TYPES = [
   "image",
   "gif",
   "sticker",
-  "video", 
-  "audio", 
+  "video",
+  "audio",
   "document"
 ] as const;
 
 export const message = sqliteTable("message", {
-  id: text("id").primaryKey().$defaultFn(() => `m_${nanoid(16)}`),
+  id: text("id").primaryKey().$defaultFn(() => `msg_${nanoid(16)}`),
   chatId: text("chat_id").references(() => chat.id, { onDelete: "cascade" }).notNull(),
   senderId: text("sender_id").references(() => user.id).notNull(),
   replyToId: text("reply_to_id"),
@@ -82,6 +82,12 @@ export const linkPreview = sqliteTable("link_preview", {
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
 });
 
+export const documentInfo = sqliteTable("document", {
+  url: text("url").primaryKey(),
+  name: text("name").notNull(),
+  size: integer("size").notNull(),
+  extension: text("extension"),
+});
 
 // auth tables (lucia)
 

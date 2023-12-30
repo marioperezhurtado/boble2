@@ -40,5 +40,5 @@ export async function sendAudio({ request, params, locals }: RequestEvent) {
     text: uploadedAudioId,
     type: "audio",
   });
-  sendMessage({ ...newMessage, linkPreview: null });
+  sendMessage({ ...newMessage, linkPreview: null, documentInfo: null });
 }

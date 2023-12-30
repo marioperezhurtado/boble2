@@ -1,69 +1,27 @@
 <script lang="ts">
-  import { formatTime } from "$lib/utils/date";
   import type { Message } from "$lib/db/message/getMessages";
   import MessageBubble from "./MessageBubble.svelte";
+  import MessageStatus from "./MessageStatus.svelte";
 
   export let message: Message;
   export let lastReadAt: Date;
   export let isOwn: boolean;
   export let isFirst: boolean;
-
-  const isRead = lastReadAt >= message.createdAt!;
-  const createdAt = new Date(message.createdAt!);
 </script>
 
 {#if message.replyToId}
   <MessageBubble {message} {isOwn} {isFirst}>
     <slot />
-    <p
-      class="flex gap-0.5 items-end mt-1 leading-3 text-[10px] w-fit ml-auto"
-    >
-      {formatTime(createdAt)}
-      {#if isOwn}
-        {#if isRead}
-          <img
-            src="/icons/double-check.svg"
-            alt="Read"
-            title="Read"
-            class="-mb-0.5 w-4 h-4"
-          />
-        {:else}
-          <img
-            src="/icons/check.svg"
-            alt="Sent"
-            title="Sent"
-            class="-mb-0.5 w-4 h-4"
-          />
-        {/if}
-      {/if}
-    </p>
+    <MessageStatus {message} {lastReadAt} {isOwn} />
   </MessageBubble>
 {:else}
   <slot />
 
-  <p
-    class={`flex gap-0.5 items-end px-1 py-0.5 shadow-sm mt-1 rounded-md
-    leading-3 text-[10px] w-fit ml-auto
-      ${isOwn ? "bg-cyan-700" : "bg-white"}
-    `}
+  <div
+    class="w-fit ml-auto rounded-md p-1 pl-1.5 pt-0.5"
+    class:bg-cyan-700={isOwn}
+    class:bg-white={!isOwn}
   >
-    {formatTime(createdAt)}
-    {#if isOwn}
-      {#if isRead}
-        <img
-          src="/icons/double-check.svg"
-          alt="Read"
-          title="Read"
-          class="-mb-0.5 w-4 h-4"
-        />
-      {:else}
-        <img
-          src="/icons/check.svg"
-          alt="Sent"
-          title="Sent"
-          class="-mb-0.5 w-4 h-4"
-        />
-      {/if}
-    {/if}
-  </p>
+    <MessageStatus {message} {lastReadAt} {isOwn} />
+  </div>
 {/if}

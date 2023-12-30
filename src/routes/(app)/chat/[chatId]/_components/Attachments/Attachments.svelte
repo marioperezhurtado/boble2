@@ -3,6 +3,7 @@
   import { fly } from "svelte/transition";
   import AttachmentItem from "./AttachmentItem.svelte";
   import ImageVideoUpload from "./ImageVideoUpload.svelte";
+  import DocumentUpload from "./DocumentUpload.svelte";
 
   let isOpen = false;
   let openAttachment:
@@ -59,5 +60,7 @@
 
   {#if openAttachment === "photo-video"}
     <ImageVideoUpload onClose={() => (openAttachment = null)} />
+  {:else if openAttachment === "document"}
+    <DocumentUpload onClose={() => (openAttachment = null)} />
   {/if}
 </div>

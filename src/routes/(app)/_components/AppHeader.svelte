@@ -7,7 +7,7 @@
 </script>
 
 <header class="w-full text-cyan-50 bg-cyan-900">
-  <div class="flex justify-between items-center px-2 xl:px-4 mx-auto max-w-screen-2xl">
+  <div class="flex justify-between items-center px-2 mx-auto max-w-screen-2xl xl:px-4">
     <a href="/chat" class="flex gap-1 items-center py-2.5">
       <img
         src="/icons/boble-light.svg"

@@ -49,6 +49,13 @@
             class="mr-0.5 w-4 h-4"
           />
           <span>Voice message</span>
+        {:else if replyTo.type === "document"}
+          <img
+            src={isOwn ? "/icons/document-light.svg" : "/icons/document.svg"}
+            alt="Document icon"
+            class="mr-0.5 w-4 h-4"
+          />
+          <span>{replyTo.documentInfo?.name ?? "Document"}</span>
         {:else if replyTo.type === "gif"}
           <img
             src={isOwn ? "/icons/gif-light.svg" : "/icons/gif.svg"}

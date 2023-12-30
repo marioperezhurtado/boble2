@@ -41,7 +41,7 @@
 >
   <div class="relative py-4 px-5 w-full bg-white rounded-md border shadow-md">
     <div class="flex gap-5 justify-between mb-5">
-      <h1 class="text-lg sm:text-xl font-bold">{title}</h1>
+      <h1 class="text-lg font-bold sm:text-xl">{title}</h1>
 
       {#if backTo}
         <ActionIconLink href={backTo} title="Close" icon="/icons/close.svg" />
