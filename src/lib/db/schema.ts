@@ -82,7 +82,7 @@ export const linkPreview = sqliteTable("link_preview", {
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
 });
 
-export const documentInfo = sqliteTable("document", {
+export const documentInfo = sqliteTable("document_info", {
   url: text("url").primaryKey(),
   name: text("name").notNull(),
   size: integer("size").notNull(),

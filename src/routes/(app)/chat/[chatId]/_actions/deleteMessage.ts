@@ -5,6 +5,7 @@ import { getMessages } from "$lib/db/message/getMessages";
 import { removeMessage } from "$lib/socket/client";
 import { deleteMessage as deleteMessageDb } from "$lib/db/message/deleteMessage";
 import { deleteFile } from "$lib/file-upload/deleteFile";
+import { deleteDocumentInfo } from "$lib/db/documentInfo/deleteDocumentInfo";
 import type { RequestEvent } from "../$types";
 
 export async function deleteMessage({ request, params, locals }: RequestEvent) {
@@ -39,8 +40,14 @@ export async function deleteMessage({ request, params, locals }: RequestEvent) {
 
   const isMedia = message.type === "image" || message.type === "video" || message.type === "document" || message.type === "audio";
 
+  // Delete the file from s3 bucket
   if (isMedia && message.text) {
     await deleteFile(message.text);
+  }
+
+  // Delete document info from db
+  if (message.type === "document" && message.text) {
+    await deleteDocumentInfo(message.text);
   }
 
   redirect(302, `/chat/${params.chatId}`);
