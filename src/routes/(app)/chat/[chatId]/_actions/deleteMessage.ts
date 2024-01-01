@@ -41,13 +41,13 @@ export async function deleteMessage({ request, params, locals }: RequestEvent) {
   const isMedia = message.type === "image" || message.type === "video" || message.type === "document" || message.type === "audio";
 
   // Delete the file from s3 bucket
-  if (isMedia && message.text) {
-    await deleteFile(message.text);
+  if (isMedia && message.source) {
+    await deleteFile(message.source);
   }
 
   // Delete document info from db
-  if (message.type === "document" && message.text) {
-    await deleteDocumentInfo(message.text);
+  if (message.type === "document" && message.source) {
+    await deleteDocumentInfo(message.source);
   }
 
   redirect(302, `/chat/${params.chatId}`);

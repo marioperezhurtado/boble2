@@ -15,13 +15,19 @@
   const isMedia = message.type !== "text" && message.type !== "link";
 
   function handleCopy() {
-    if (isMedia && message.type !== "sticker" && message.type !== "gif") {
-      navigator.clipboard.writeText(getFileUrl(message.text ?? ""));
+    if (message.text) {
+      navigator.clipboard.writeText(message.text);
       isOpen = false;
       return;
     }
 
-    navigator.clipboard.writeText(message.text ?? "");
+    if (message.type === "gif" || message.type === "sticker") {
+      navigator.clipboard.writeText(message.text ?? "");
+      isOpen = false;
+      return;
+    }
+
+    navigator.clipboard.writeText(getFileUrl(message.source ?? ""));
     isOpen = false;
   }
 
@@ -31,24 +37,26 @@
   }
 
   function handleOpenInNewTab() {
-    if (!message.text) return;
-
-    if (message.type === "gif" || message.type == "sticker") {
-      window.open(message.text);
+    if (message.type === "text") {
+      window.open(message.text ?? "");
       isOpen = false;
       return;
     }
 
-    window.open(getFileUrl(message.text));
+    if (message.type === "gif" || message.type == "sticker") {
+      window.open(message.text ?? "");
+      isOpen = false;
+      return;
+    }
+
+    window.open(getFileUrl(message.source ?? ""));
     isOpen = false;
   }
 
   function handleDownload(message: Message) {
-    if (!message.text) return;
-
     if (message.type === "gif" || message.type == "sticker") {
       downloadFile({
-        url: message.text,
+        url: message.text ?? "",
         type: message.type,
         createdAt: new Date(message.createdAt),
       });
@@ -57,7 +65,7 @@
     }
 
     downloadFile({
-      url: getFileUrl(message.text),
+      url: getFileUrl(message.source ?? ""),
       type: message.type,
       createdAt: new Date(message.createdAt),
     });

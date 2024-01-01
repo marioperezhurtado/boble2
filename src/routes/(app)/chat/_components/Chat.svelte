@@ -25,14 +25,9 @@
     >
       <Avatar user={chat.user} />
 
-      <div class="flex overflow-hidden flex-col w-full">
+  <div class="flex-grow">
+      <div class="flex gap-4 items-center justify-between">
         <p class="font-medium">{chat.user.alias || chat.user.name}</p>
-        <LastMessage {chat} />
-      </div>
-
-      <div
-        class="flex flex-col gap-1.5 justify-between items-end py-1 min-w-fit"
-      >
         <time
           class="text-xs"
           class:text-zinc-700={chat.unreadCount === 0}
@@ -45,13 +40,22 @@
             {formatLastMessageAt(new Date(chat.createdAt))}
           {/if}
         </time>
-        {#if chat.unreadCount > 0}
-          <p
-            class="px-1.5 pt-0.5 font-mono text-xs text-center text-cyan-50 bg-cyan-600 rounded-full"
-          >
-            {chat.unreadCount}
-          </p>
-        {/if}
+      </div>
+
+      <div class="flex gap-4 items-center justify-between">
+        <LastMessage {chat} />
+        <div
+          class="flex flex-col gap-1.5 justify-between items-end py-1 min-w-fit"
+        >
+          {#if chat.unreadCount > 0}
+            <p
+              class="px-1.5 pt-0.5 font-mono text-xs text-center text-cyan-50 bg-cyan-600 rounded-full"
+            >
+              {chat.unreadCount}
+            </p>
+          {/if}
+        </div>
+      </div>
       </div>
     </a>
   </button>

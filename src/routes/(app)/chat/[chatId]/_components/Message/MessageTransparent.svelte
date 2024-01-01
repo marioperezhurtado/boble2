@@ -18,7 +18,7 @@
   <slot />
 
   <div
-    class="w-fit ml-auto rounded-md p-1 pl-1.5 pt-0.5"
+    class="p-1 pt-0.5 pl-1.5 ml-auto rounded-md w-fit"
     class:bg-cyan-700={isOwn}
     class:bg-white={!isOwn}
   >

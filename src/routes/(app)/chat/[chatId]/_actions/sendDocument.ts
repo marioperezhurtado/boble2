@@ -28,6 +28,7 @@ export async function sendDocument({ request, params, locals }: RequestEvent) {
   }
 
   const replyToId = formData.get('replyToId') as string | null;
+  const caption = formData.get('caption') as string | null;
 
   const uploadedDocumentId = await uploadDocument(documentFile);
 
@@ -35,14 +36,14 @@ export async function sendDocument({ request, params, locals }: RequestEvent) {
     url: uploadedDocumentId,
     name: documentFile.name,
     size: documentFile.size,
-    extension: documentFile.name.split('.').pop() ?? null,
   });
 
   const newMessage = await createMessage({
     chatId: params.chatId,
     senderId: session.user.id,
     replyToId: replyToId ?? null,
-    text: uploadedDocumentId,
+    text: caption ?? null,
+    source: uploadedDocumentId,
     type: "document",
   });
 

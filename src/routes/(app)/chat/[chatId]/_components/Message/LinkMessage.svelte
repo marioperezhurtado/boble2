@@ -14,7 +14,12 @@
 <MessageBubble {message} {isOwn} {isFirst}>
   <div class="max-w-xs">
     {#if linkPreview}
-      <div class={`rounded-md mb-1 ${isOwn ? "bg-cyan-800" : "bg-zinc-100"}`}>
+      <a
+        href={message.source}
+        target="_blank"
+        rel="noopener noreferrer"
+        class={`block rounded-md mb-1 ${isOwn ? "bg-cyan-800" : "bg-zinc-100"}`}
+      >
         {#if linkPreview.image}
           <img
             src={linkPreview.image}
@@ -30,23 +35,28 @@
         {#if linkPreview.description}
           <p class="p-2 text-xs">{linkPreview.description}</p>
         {/if}
-      </div>
+      </a>
     {/if}
 
     <div class="flex flex-wrap justify-between items-end">
-      <a
-        href={message.text}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="px-1"
-      >
-        <img
-          src={isOwn ? "/icons/link-light.svg" : "/icons/link.svg"}
-          alt="Link"
-          class="inline -mt-0.5 w-3.5 h-3.5"
-        />
-        <span class="underline break-all">{message.text}</span>
-      </a>
+      {#if message.text}
+        <p class="break-all">
+          {#each message.text.split(" ") as word}
+            {#if word.match(/^https?:\/\/\S+$/)}
+              <a
+                href={word}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="underline"
+              >
+              {word}{" "}
+              </a>
+            {:else}
+              {word}{" "}
+            {/if}
+          {/each}
+        </p>
+      {/if}
 
       <MessageStatus {message} {lastReadAt} {isOwn} />
     </div>

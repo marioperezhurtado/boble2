@@ -37,7 +37,7 @@
 
 <li
   id={message.id}
-  class={`relative select-none md:select-auto
+  class={`relative select-none md:select-auto max-w-[90%]
       ${isOwn ? "self-end text-white" : "self-start"}
       ${isFirst ? "mt-3" : "mt-1"}`}
 >

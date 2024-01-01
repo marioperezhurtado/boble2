@@ -32,6 +32,7 @@ export const message = sqliteTable("message", {
   senderId: text("sender_id").references(() => user.id).notNull(),
   replyToId: text("reply_to_id"),
   text: text("text"),
+  source: text("source"),
   type: text("type", { enum: VALID_MESSAGE_TYPES }).notNull(),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
 });
@@ -86,7 +87,6 @@ export const documentInfo = sqliteTable("document_info", {
   url: text("url").primaryKey(),
   name: text("name").notNull(),
   size: integer("size").notNull(),
-  extension: text("extension"),
 });
 
 // auth tables (lucia)

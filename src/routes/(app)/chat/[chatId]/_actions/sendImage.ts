@@ -3,7 +3,7 @@ import { getSessionRequired } from "$lib/auth/auth";
 import { isBlockedInChat } from "$lib/db/block/isBlockedInChat";
 import { createMessage } from "$lib/db/message/createMessage";
 import { sendMessage } from "$lib/socket/client";
-import { uploadImage, IMAGE_UPLOAD_MAX_FILE_SIZE} from "$lib/file-upload/uploadFile";
+import { uploadImage, IMAGE_UPLOAD_MAX_FILE_SIZE } from "$lib/file-upload/uploadFile";
 import type { RequestEvent } from "../$types";
 
 export async function sendImage({ request, params, locals }: RequestEvent) {
@@ -30,6 +30,7 @@ export async function sendImage({ request, params, locals }: RequestEvent) {
   }
 
   const replyToId = formData.get('replyToId') as string | null;
+  const caption = formData.get('caption') as string | null;
 
   const uploadedImageId = await uploadImage(image);
 
@@ -37,7 +38,8 @@ export async function sendImage({ request, params, locals }: RequestEvent) {
     chatId: params.chatId,
     senderId: session.user.id,
     replyToId: replyToId ?? null,
-    text: uploadedImageId,
+    text: caption ?? null,
+    source: uploadedImageId,
     type: "image",
   });
   sendMessage({ ...newMessage, linkPreview: null, documentInfo: null });

@@ -27,7 +27,7 @@
     {#if documentInfo}
       <button
         on:click={handleDownloadDocument}
-        class={`text-left flex items-center gap-2 p-2 rounded-md mb-0.5 pr-5
+        class={`text-left flex items-center gap-2 p-2 rounded-md mb-0.5 pr-5 w-full
           ${isOwn ? "bg-cyan-800 text-white" : "bg-zinc-100"}
         `}
       >
@@ -39,8 +39,8 @@
         <div>
           <p class="font-medium break-all">{documentInfo.name}</p>
           <p class="text-xs">
-            {#if documentInfo.extension}
-              {documentInfo.extension.toUpperCase()} ·
+            {#if documentInfo.name.includes(".")}
+              {documentInfo.name.split(".").pop()?.toUpperCase()} ·{" "}
             {/if}
             {formatFileSize(documentInfo.size)}
           </p>
@@ -48,6 +48,9 @@
       </button>
     {/if}
 
-    <MessageStatus {message} {lastReadAt} {isOwn} />
+    <div class="flex flex-wrap justify-between items-end max-w-lg">
+      <p class="px-1 break-all">{message.text}</p>
+      <MessageStatus {message} {lastReadAt} {isOwn} />
+    </div>
   </div>
 </MessageBubble>

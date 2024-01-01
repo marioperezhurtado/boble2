@@ -14,21 +14,28 @@
 
 <MessageBubble {message} {isOwn} {isFirst}>
   <div class="overflow-hidden relative rounded-md">
-    <div
-      class="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t to-transparent pointer-events-none from-black/40"
-    />
-    {#if message.text}
+    {#if message.source}
       <Image
-        src={getFileUrl(message.text)}
+        src={getFileUrl(message.source)}
         alt="Image sent by {message.senderId}"
-        class="object-contain max-w-xs max-h-80 bg-zinc-100"
+        class="object-contain max-w-xs max-h-80 rounded-md bg-zinc-100"
         draggable={false}
         bind:brokenFile
       />
     {/if}
 
-    <div class="absolute right-1 bottom-1">
-      <MessageStatus {message} {lastReadAt} {isOwn} />
-    </div>
+    {#if message.text}
+      <div class="flex flex-wrap justify-between items-end mt-1 max-w-lg">
+        <p class="px-1 break-all">{message.text}</p>
+        <MessageStatus {message} {lastReadAt} {isOwn} />
+      </div>
+    {:else}
+      <div
+        class="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t to-transparent pointer-events-none from-black/40"
+      />
+      <div class="absolute right-1 bottom-1">
+        <MessageStatus {message} {lastReadAt} {isOwn} />
+      </div>
+    {/if}
   </div>
 </MessageBubble>

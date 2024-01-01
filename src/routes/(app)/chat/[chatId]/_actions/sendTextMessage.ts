@@ -5,7 +5,6 @@ import { generateLinkPreview } from "$lib/db/linkPreview/generateLinkPreview";
 import { getLinkPreview } from "$lib/db/linkPreview/getLinkPreview";
 import { createMessage } from "$lib/db/message/createMessage";
 import { sendMessage } from "$lib/socket/client";
-import { isValidUrl } from "$lib/utils/url";
 import { diffInDays } from "$lib/utils/date";
 import type { RequestEvent } from "../$types";
 
@@ -32,8 +31,11 @@ export async function sendTextMessage({ request, params, locals }: RequestEvent)
 
   const replyToId = formData.get('replyToId') as string | null;
 
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const match = message.match(urlRegex);
+
   // Text message
-  if (!isValidUrl(message)) {
+  if (!match?.length) {
     const newMessage = await createMessage({
       chatId: params.chatId,
       senderId: session.user.id,
@@ -47,14 +49,15 @@ export async function sendTextMessage({ request, params, locals }: RequestEvent)
   }
 
   // Link message
-  const url = new URL(message);
+  const url = new URL(match[0]);
   const existingLinkPreview = await getLinkPreview(url);
 
   const newMessage = await createMessage({
     chatId: params.chatId,
     senderId: session.user.id,
     replyToId: replyToId ?? null,
-    text: url.toString(),
+    text: message,
+    source: url.toString(),
     type: "link",
   });
 

@@ -34,10 +34,14 @@
           alt="Photo icon"
           class="mr-0.5 w-3.5 h-3.5"
         />
-        <span>Photo</span>
+        <p class="break-all max-w-[36ch] text-ellipsis line-clamp-1">
+          {message.text || "Photo"}
+        </p>
       {:else if message.type === "video"}
         <img src="/icons/video.svg" alt="Video icon" class="mr-0.5 w-4 h-4" />
-        <span>Video</span>
+        <p class="break-all max-w-[36ch] text-ellipsis line-clamp-1">
+          {message.text || "Video"}
+        </p>
       {:else if message.type === "audio"}
         <img
           src="/icons/microphone.svg"
@@ -51,7 +55,9 @@
           alt="Document icon"
           class="mr-0.5 w-4 h-4"
         />
-        <span>{message.documentInfo?.name ?? "Document"}</span>
+        <p class="break-all max-w-[36ch] text-ellipsis line-clamp-1">
+          {message.text || message.documentInfo?.name || "Document"}
+        </p>
       {:else if message.type === "gif"}
         <img src="/icons/gif.svg" alt="GIF icon" class="mr-0.5 w-4 h-4" />
         <span>GIF</span>
@@ -77,13 +83,13 @@
 
   {#if message?.type === "image"}
     <img
-      src={getFileUrl(message.text ?? "")}
+      src={getFileUrl(message.source ?? "")}
       alt="Reply to"
       class="object-cover w-[46px] h-[46px] bg-zinc-100"
     />
   {:else if message?.type === "video"}
     <video class="object-cover w-[46px] h-[46px]" muted>
-      <source src={getFileUrl(message.text ?? "")} />
+      <source src={getFileUrl(message.source ?? "")} />
     </video>
   {:else if message?.type === "gif"}
     <video class="object-cover w-[46px] h-[46px]" muted>

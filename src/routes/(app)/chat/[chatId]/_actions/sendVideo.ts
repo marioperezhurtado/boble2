@@ -30,6 +30,7 @@ export async function sendVideo({ request, params, locals }: RequestEvent) {
   }
 
   const replyToId = formData.get('replyToId') as string | null;
+  const caption = formData.get('caption') as string | null;
 
   const uploadedVideoId = await uploadVideo(video);
 
@@ -37,7 +38,8 @@ export async function sendVideo({ request, params, locals }: RequestEvent) {
     chatId: params.chatId,
     senderId: session.user.id,
     replyToId: replyToId ?? null,
-    text: uploadedVideoId,
+    text: caption ?? null,
+    source: uploadedVideoId,
     type: "video",
   });
   sendMessage({ ...newMessage, linkPreview: null, documentInfo: null });

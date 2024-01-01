@@ -37,7 +37,7 @@ export async function sendAudio({ request, params, locals }: RequestEvent) {
     chatId: params.chatId,
     senderId: session.user.id,
     replyToId: replyToId ?? null,
-    text: uploadedAudioId,
+    source: uploadedAudioId,
     type: "audio",
   });
   sendMessage({ ...newMessage, linkPreview: null, documentInfo: null });

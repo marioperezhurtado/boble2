@@ -34,17 +34,23 @@
             alt="Photo icon"
             class="mr-0.5 w-3.5 h-3.5"
           />
-          <span>Photo</span>
+          <p class="break-all max-w-[36ch] text-ellipsis line-clamp-1">
+            {replyTo.text || "Photo"}
+          </p>
         {:else if replyTo.type === "video"}
           <img
             src={isOwn ? "/icons/video-light.svg" : "/icons/video.svg"}
             alt="Video icon"
             class="mr-0.5 w-4 h-4"
           />
-          <span>Video</span>
-        {:else if replyTo.type === "audio"}
+          <p class="break-all max-w-[36ch] text-ellipsis line-clamp-1">
+            {replyTo.text || "Video"}
+          </p>
+       {:else if replyTo.type === "audio"}
           <img
-            src={isOwn ? "/icons/microphone-light.svg" : "/icons/microphone.svg"}
+            src={isOwn
+              ? "/icons/microphone-light.svg"
+              : "/icons/microphone.svg"}
             alt="Audio icon"
             class="mr-0.5 w-4 h-4"
           />
@@ -55,7 +61,7 @@
             alt="Document icon"
             class="mr-0.5 w-4 h-4"
           />
-          <span>{replyTo.documentInfo?.name ?? "Document"}</span>
+          <span>{replyTo.text || replyTo.documentInfo?.name || "Document"}</span>
         {:else if replyTo.type === "gif"}
           <img
             src={isOwn ? "/icons/gif-light.svg" : "/icons/gif.svg"}
@@ -92,13 +98,13 @@
 
   {#if replyTo?.type === "image"}
     <Image
-      src={getFileUrl(replyTo.text ?? "")}
+      src={getFileUrl(replyTo.source ?? "")}
       alt="Reply to"
       class="object-cover w-[46px] h-[46px] bg-zinc-100"
     />
   {:else if replyTo?.type === "video"}
     <video class="object-cover w-[46px] h-[46px]" muted>
-      <source src={getFileUrl(replyTo.text ?? "")} />
+      <source src={getFileUrl(replyTo.source ?? "")} />
     </video>
   {:else if replyTo?.type === "gif"}
     <video class="object-cover w-[46px] h-[46px]" muted>

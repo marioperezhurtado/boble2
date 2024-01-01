@@ -1,0 +1,1 @@
+ALTER TABLE `document_info` DROP COLUMN `extension`;

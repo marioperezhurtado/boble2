@@ -10,6 +10,7 @@ export function getMessages(chatId: string) {
       senderId: message.senderId,
       replyToId: message.replyToId,
       text: message.text,
+      source: message.source,
       type: message.type,
       createdAt: message.createdAt,
       linkPreview,
@@ -21,12 +22,12 @@ export function getMessages(chatId: string) {
     // join link preview metadata to link messages
     .leftJoin(linkPreview, and(
       eq(message.type, "link"),
-      eq(message.text, linkPreview.url)
+      eq(message.source, linkPreview.url)
     ))
     // join document info to document messages
     .leftJoin(documentInfo, and(
       eq(message.type, "document"),
-      eq(message.text, documentInfo.url)
+      eq(message.source, documentInfo.url)
     ))
 }
 
