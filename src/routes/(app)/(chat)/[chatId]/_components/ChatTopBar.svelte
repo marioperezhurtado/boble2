@@ -8,7 +8,7 @@
 
 <div class="flex gap-2 justify-between items-center p-2 border-b bg-zinc-50">
   <a
-    href="/chat/{chat.id}?info"
+    href="/{chat.id}?info"
     class="flex flex-grow gap-3 items-center text-left"
   >
     <Avatar user={chat.user} size="small" />

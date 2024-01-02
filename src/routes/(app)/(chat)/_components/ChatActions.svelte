@@ -8,7 +8,7 @@
   export let isOpen: boolean;
 
   function handleOpenInNewTab() {
-    window.open(`/chat/${chat.id}`);
+    window.open(`/${chat.id}`);
     isOpen = false;
   }
 </script>

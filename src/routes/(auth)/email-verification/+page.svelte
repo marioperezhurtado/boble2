@@ -11,7 +11,7 @@
 </script>
 
 <svelte:head>
-  <title>Verify your email address | BOBLE Web Chat</title>
+  <title>Verify your email address | Boble Web Chat</title>
 </svelte:head>
 
 <h1 class="pb-3 text-xl font-bold">Email verification</h1>

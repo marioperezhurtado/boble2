@@ -21,7 +21,7 @@ export const load: PageServerLoad = async ({ params, parent }) => {
 
   const chat = chats.find((chat) => chat.id === params.chatId);
   if (!chat) {
-    redirect(302, '/chat');
+    redirect(302, '/');
   }
 
   await readChat(params.chatId, user.id);

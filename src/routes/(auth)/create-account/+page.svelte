@@ -15,7 +15,7 @@
 </script>
 
 <svelte:head>
-  <title>Create Account | BOBLE Web Chat</title>
+  <title>Create Account | Boble Web Chat</title>
 </svelte:head>
 
 <h1 class="pb-3 text-xl font-bold">Create your account</h1>

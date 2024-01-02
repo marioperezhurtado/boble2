@@ -14,7 +14,7 @@
 </script>
 
 <svelte:head>
-  <title>Reset password | BOBLE Web Chat</title>
+  <title>Reset password | Boble Web Chat</title>
 </svelte:head>
 
 <h1 class="pb-3 text-xl font-bold">Reset your password</h1>

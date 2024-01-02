@@ -37,11 +37,11 @@
   export let resetUrl: string;
 </script>
 
-<EmailLayout preview="BOBLE reset your password" title="Reset your password">
+<EmailLayout preview="Boble Web Chat - Reset your password" title="Reset your password">
   <Section>
     <Text style={text}>Hi {name},</Text>
     <Text style={text}>
-      Someone recently requested a password change for your BOBLE account. If
+      Someone recently requested a password change for your Boble account. If
       this was you, you can set a new password here:
     </Text>
     <Button style={button} href={resetUrl}>Reset password</Button>

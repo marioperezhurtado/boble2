@@ -50,5 +50,5 @@ export async function deleteMessage({ request, params, locals }: RequestEvent) {
     await deleteDocumentInfo(message.source);
   }
 
-  redirect(302, `/chat/${params.chatId}`);
+  redirect(302, `/${params.chatId}`);
 }

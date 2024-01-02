@@ -21,7 +21,7 @@
   </div>
 
   <form
-    action="/chat?/deleteChat"
+    action="/?/deleteChat"
     use:enhance={() => {
       isDeleting = true;
 

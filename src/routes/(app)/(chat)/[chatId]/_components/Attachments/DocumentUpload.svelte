@@ -53,7 +53,7 @@
 
   {#if selectedFile}
     <Modal title="Upload document" {onClose}>
-      <div class="flex mb-5 gap-2 p-2 pr-4 rounded-md border bg-zinc-100">
+      <div class="flex gap-2 p-2 pr-4 mb-5 rounded-md border bg-zinc-100">
         <img src="/icons/document.svg" alt="Document icon" class="w-10 h-10" />
         <div>
           <p class="font-medium break-all">{selectedFile.name}</p>

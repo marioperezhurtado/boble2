@@ -27,12 +27,12 @@ export const actions = {
 
     const existingChat = await getChatByParticipants(session.user.id, contactId);
     if (existingChat) {
-      redirect(302, `/chat/${existingChat.id}`);
+      redirect(302, `/${existingChat.id}`);
     }
 
     const newChat = await createChat(session.user.id, contactId);
 
-    redirect(302, `/chat/${newChat.id}`);
+    redirect(302, `/${newChat.id}`);
   },
 
 } satisfies Actions;  

@@ -16,5 +16,5 @@
 </script>
 
 <Hr style={hr} />
-<Text style={footer}>&copy;{currentYear} BOBLE</Text>
+<Text style={footer}>&copy;{currentYear} Boble</Text>
 <Text style={footer}>Chat with friends and family from any device.</Text>

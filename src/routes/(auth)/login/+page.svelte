@@ -15,7 +15,7 @@
 </script>
 
 <svelte:head>
-  <title>Login | BOBLE Web Chat</title>
+  <title>Login | Boble Web Chat</title>
 </svelte:head>
 
 <h1 class="pb-3 text-xl font-bold">Login to your account</h1>

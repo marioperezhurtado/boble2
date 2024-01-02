@@ -37,7 +37,7 @@
   };
 </script>
 
-<EmailLayout preview="BOBLE verify your account" title="Verify your account">
+<EmailLayout preview="Boble Web Chat - Verify your account" title="Verify your account">
   <Section>
     <Text style={text}>Hi, {name}!</Text>
     <Text style={text}>

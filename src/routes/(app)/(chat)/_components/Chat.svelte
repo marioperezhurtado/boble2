@@ -19,14 +19,14 @@
     class="w-full text-left"
   >
     <a
-      href={`/chat/${chat.id}`}
+      href="/{chat.id}"
       class="flex items-center gap-3 p-2 border-b border-r-[3px] border-r-transparent
     {isSelected ? 'bg-zinc-100 !border-r-cyan-600' : ''}"
     >
       <Avatar user={chat.user} />
 
   <div class="flex-grow">
-      <div class="flex gap-4 items-center justify-between">
+      <div class="flex gap-4 justify-between items-center">
         <p class="font-medium">{chat.user.alias || chat.user.name}</p>
         <time
           class="text-xs"
@@ -42,7 +42,7 @@
         </time>
       </div>
 
-      <div class="flex gap-4 items-center justify-between">
+      <div class="flex gap-4 justify-between items-center">
         <LastMessage {chat} />
         <div
           class="flex flex-col gap-1.5 justify-between items-end py-1 min-w-fit"

@@ -2,7 +2,7 @@
   import { page } from "$app/stores";
   import AppHeader from "../_components/AppHeader.svelte";
   import ContactList from "./_components/ContactList.svelte";
-  import Sidebar from "../chat/_components/Sidebar.svelte";
+  import Sidebar from "../_components/Sidebar.svelte";
   import NewContact from "./_components/NewContact.svelte";
   import DeleteContactConfirm from "./_components/DeleteContactConfirm.svelte";
   import EditContact from "./_components/EditContact.svelte";
@@ -19,7 +19,7 @@
 </script>
 
 <svelte:head>
-  <title>BOBLE Web Chat</title>
+  <title>Boble Web Chat</title>
 </svelte:head>
 
 <div class="flex flex-col h-screen bg-zinc-200">

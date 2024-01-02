@@ -32,13 +32,17 @@
   <Preview {preview} />
   <Body style={main}>
     <Container style={container}>
-      <Img
-        src={`${PUBLIC_SITE_URL}/boble.svg`}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
         width="40"
         height="33"
-        style={{ margin: "0 0 30px 0" }}
-        alt="BOBLE"
-      />
+        viewBox="0 0 24 24"
+        fill="none"
+      >
+        <circle cx="17" cy="8" r="4" stroke="#0e7490" stroke-width="2" />
+        <circle cx="12" cy="17" r="3" stroke="#0e7490" stroke-width="2" />
+        <circle cx="6.5" cy="9.5" r="2.5" stroke="#0e7490" stroke-width="2" />
+      </svg>
       <Heading style={heading}>{title}</Heading>
       <slot />
       <Footer />

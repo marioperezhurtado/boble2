@@ -3,7 +3,7 @@
   import type { LayoutData } from "./$types";
   import AppHeader from "../_components/AppHeader.svelte";
   import ChatList from "./_components/ChatList.svelte";
-  import Sidebar from "./_components/Sidebar.svelte";
+  import Sidebar from "../_components/Sidebar.svelte";
   import DeleteChatConfirm from "./_components/DeleteChatConfirm.svelte";
 
   $: data = $page.data as LayoutData;
