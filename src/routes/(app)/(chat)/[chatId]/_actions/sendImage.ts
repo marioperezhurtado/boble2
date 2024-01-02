@@ -32,19 +32,19 @@ export async function sendImage({ request, params, locals }: RequestEvent) {
   const replyToId = formData.get('replyToId') as string | null;
   const caption = formData.get('caption') as string | null;
 
-  try{
-  const uploadedImageId = await uploadImage(image);
+  try {
+    const uploadedImageId = await uploadImage(image);
 
-  const newMessage = await createMessage({
-    chatId: params.chatId,
-    senderId: session.user.id,
-    replyToId: replyToId ?? null,
-    text: caption ?? null,
-    source: uploadedImageId,
-    type: "image",
-  });
-  sendMessage({ ...newMessage, linkPreview: null, documentInfo: null });
+    const newMessage = await createMessage({
+      chatId: params.chatId,
+      senderId: session.user.id,
+      replyToId: replyToId ?? null,
+      text: caption ?? null,
+      source: uploadedImageId,
+      type: "image",
+    });
+    sendMessage({ ...newMessage, linkPreview: null, documentInfo: null });
   } catch (e) {
-    return fail(500, { error: "Error uploading image. Please try again later." });
+    return fail(500, { error: "Error uploading image" });
   }
 }

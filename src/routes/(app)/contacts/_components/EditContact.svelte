@@ -2,6 +2,7 @@
   import { page } from "$app/stores";
   import { enhance } from "$app/forms";
   import type { Contact } from "$lib/db/contact/getContacts";
+  import type { SubmitFunction, ActionData } from "../$types";
   import Button from "$lib/ui/Button.svelte";
   import Label from "$lib/ui/Label.svelte";
   import Input from "$lib/ui/Input.svelte";
@@ -13,6 +14,21 @@
 
   let isEditing = false;
   let alias = contact.alias;
+  let editError: string | null = null;
+
+  const handleEnhance: SubmitFunction = () => {
+    isEditing = true;
+
+    return async ({ update, result }) => {
+      await update();
+      isEditing = false;
+
+      if (result.type === "failure") {
+        editError = (result.data as ActionData)?.error ?? null;
+        return;
+      }
+    };
+  };
 </script>
 
 <Modal title="Delete contact" backTo={$page.url.pathname}>
@@ -20,14 +36,7 @@
 
   <form
     action="/contacts?/editContact"
-    use:enhance={() => {
-      isEditing = true;
-
-      return async ({ update }) => {
-        await update();
-        isEditing = false;
-      };
-    }}
+    use:enhance={handleEnhance}
     method="POST"
     class="flex flex-col gap-6 pt-8"
   >
@@ -58,9 +67,9 @@
     </div>
 
     <input type="hidden" name="contactId" value={contact.id} />
-  
-    {#if $page.form?.error}
-      <FormError message={$page.form.error} />
+
+    {#if editError}
+      <FormError message={editError} />
     {/if}
 
     <Button isLoading={isEditing} type="submit" class="ml-auto">

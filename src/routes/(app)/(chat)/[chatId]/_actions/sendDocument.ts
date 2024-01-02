@@ -50,6 +50,6 @@ export async function sendDocument({ request, params, locals }: RequestEvent) {
 
     sendMessage({ ...newMessage, linkPreview: null, documentInfo });
   } catch (e) {
-    return fail(500, { error: "Error uploading document. Please try again later." });
+    return fail(500, { error: "Error uploading document" });
   }
 }

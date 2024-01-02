@@ -23,6 +23,7 @@
     text="Edit contact"
     icon="/icons/edit.svg"
     href="{$page.url.pathname}?editContact={contact.id}"
+    on:click={() => isOpen = false}
   />
   <ContextMenuItem
     text="Share"
@@ -32,6 +33,7 @@
     text="Delete contact"
     icon="/icons/delete-danger.svg"
     href="{$page.url.pathname}?deleteContact={contact.id}"
+    on:click={() => isOpen = false}
     danger
   />
 </ContextMenu>

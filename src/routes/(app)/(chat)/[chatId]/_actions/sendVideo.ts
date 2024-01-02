@@ -45,6 +45,6 @@ export async function sendVideo({ request, params, locals }: RequestEvent) {
     });
     sendMessage({ ...newMessage, linkPreview: null, documentInfo: null });
   } catch (e) {
-    return fail(500, { error: "Error uploading video. Please try again later." });
+    return fail(500, { error: "Error uploading video" });
   }
 }

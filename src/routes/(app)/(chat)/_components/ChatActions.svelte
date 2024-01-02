@@ -37,6 +37,7 @@
     text="Delete chat"
     icon="/icons/delete-danger.svg"
     href="{$page.url.pathname}?deleteChat={chat.id}"
+    on:click={() => (isOpen = false)}
     danger
   />
 </ContextMenu>

@@ -56,6 +56,8 @@ export const actions = {
       return fail(400, { error: 'Chat not found' });
     }
 
+    return fail(400, { error: "something went wrong" });
+
     await deleteChat(chatId);
   },
 } satisfies Actions;
