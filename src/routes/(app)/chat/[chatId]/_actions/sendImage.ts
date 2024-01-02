@@ -32,6 +32,7 @@ export async function sendImage({ request, params, locals }: RequestEvent) {
   const replyToId = formData.get('replyToId') as string | null;
   const caption = formData.get('caption') as string | null;
 
+  try{
   const uploadedImageId = await uploadImage(image);
 
   const newMessage = await createMessage({
@@ -43,4 +44,7 @@ export async function sendImage({ request, params, locals }: RequestEvent) {
     type: "image",
   });
   sendMessage({ ...newMessage, linkPreview: null, documentInfo: null });
+  } catch (e) {
+    return fail(500, { error: "Error uploading image. Please try again later." });
+  }
 }

@@ -1,19 +1,37 @@
 <script lang="ts">
+  import { enhance } from "$app/forms";
   import { onMount } from "svelte";
   import { replyingTo } from "../stores";
   import { formatFileSize } from "$lib/utils/file";
+  import type { ActionData, SubmitFunction } from "../../$types";
   import Button from "$lib/ui/Button.svelte";
   import Modal from "$lib/ui/Modal.svelte";
   import Input from "$lib/ui/Input.svelte";
-  import { enhance } from "$app/forms";
+  import FormError from "$lib/ui/FormError.svelte";
 
   export let onClose: () => void;
 
   let selectedFile: File | null = null;
   let fileInput: HTMLInputElement;
   let isUploading = false;
+  let uploadError: string | null = null;
 
-  $: fileExtension = selectedFile?.name.split(".").pop();
+  const handleEnhance: SubmitFunction = () => {
+    isUploading = true;
+
+    return async ({ update, result }) => {
+      await update();
+      isUploading = false;
+
+      if (result.type === "failure") {
+        uploadError = (result.data as ActionData)?.error ?? null;
+        return;
+      }
+
+      $replyingTo = null;
+      onClose();
+    };
+  };
 
   onMount(() => fileInput.click());
 </script>
@@ -22,16 +40,7 @@
   method="post"
   action="?/sendDocument"
   enctype="multipart/form-data"
-  use:enhance={() => {
-    isUploading = true;
-
-    return async ({ update }) => {
-      await update();
-      isUploading = false;
-      $replyingTo = null;
-      onClose();
-    };
-  }}
+  use:enhance={handleEnhance}
 >
   <input
     bind:this={fileInput}
@@ -44,7 +53,7 @@
 
   {#if selectedFile}
     <Modal title="Upload document" {onClose}>
-      <div class="flex gap-2 p-2 pr-4 rounded-md border bg-zinc-100">
+      <div class="flex mb-5 gap-2 p-2 pr-4 rounded-md border bg-zinc-100">
         <img src="/icons/document.svg" alt="Document icon" class="w-10 h-10" />
         <div>
           <p class="font-medium break-all">{selectedFile.name}</p>
@@ -56,6 +65,10 @@
           </p>
         </div>
       </div>
+
+      {#if uploadError}
+        <FormError message={uploadError} />
+      {/if}
 
       <div class="flex gap-2 mt-5">
         <Input placeholder="Add a caption" name="caption" id="caption" />

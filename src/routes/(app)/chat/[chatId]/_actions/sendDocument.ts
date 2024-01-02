@@ -30,22 +30,26 @@ export async function sendDocument({ request, params, locals }: RequestEvent) {
   const replyToId = formData.get('replyToId') as string | null;
   const caption = formData.get('caption') as string | null;
 
-  const uploadedDocumentId = await uploadDocument(documentFile);
+  try {
+    const uploadedDocumentId = await uploadDocument(documentFile);
 
-  const documentInfo = await createDocumentInfo({
-    url: uploadedDocumentId,
-    name: documentFile.name,
-    size: documentFile.size,
-  });
+    const documentInfo = await createDocumentInfo({
+      url: uploadedDocumentId,
+      name: documentFile.name,
+      size: documentFile.size,
+    });
 
-  const newMessage = await createMessage({
-    chatId: params.chatId,
-    senderId: session.user.id,
-    replyToId: replyToId ?? null,
-    text: caption ?? null,
-    source: uploadedDocumentId,
-    type: "document",
-  });
+    const newMessage = await createMessage({
+      chatId: params.chatId,
+      senderId: session.user.id,
+      replyToId: replyToId ?? null,
+      text: caption ?? null,
+      source: uploadedDocumentId,
+      type: "document",
+    });
 
-  sendMessage({ ...newMessage, linkPreview: null, documentInfo });
+    sendMessage({ ...newMessage, linkPreview: null, documentInfo });
+  } catch (e) {
+    return fail(500, { error: "Error uploading document. Please try again later." });
+  }
 }
