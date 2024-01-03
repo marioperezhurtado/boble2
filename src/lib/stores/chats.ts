@@ -1,14 +1,12 @@
-import { writable } from "svelte/store";
+import { writable } from 'svelte/store';
 import type { Chat } from "$lib/db/chat/getChats";
-import type { Message } from "$lib/db/message/getMessages";
+import type { Message } from '$lib/db/message/getMessages';
 
 // Adding a `deleted` property to be able to display lastMessage as deleted
 export type DisplayChat = Omit<Chat, "lastMessage"> & {
-  lastMessage:
-    | (Chat["lastMessage"] & {
-        deleted?: boolean;
-      })
-    | null;
+  lastMessage: Chat["lastMessage"] & {
+    deleted?: boolean;
+  } | null;
 };
 
 function createChatStore(initialChats: DisplayChat[]) {

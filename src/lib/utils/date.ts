@@ -2,7 +2,7 @@ export function diffInDays(date1: Date, date2: Date) {
   return Math.floor(
     (Date.UTC(date1.getFullYear(), date1.getMonth(), date1.getDate()) -
       Date.UTC(date2.getFullYear(), date2.getMonth(), date2.getDate())) /
-      (1000 * 60 * 60 * 24),
+    (1000 * 60 * 60 * 24)
   );
 }
 
@@ -53,10 +53,10 @@ export function formatLastMessageAt(date: Date) {
   const today = new Date();
 
   if (!areDatesInSameWeek(date, today)) {
-    return date.toLocaleDateString("en-US", {
-      day: "numeric",
-      month: "numeric",
-      year: "numeric",
+    return date.toLocaleDateString('en-US', {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric'
     });
   }
 
@@ -65,11 +65,11 @@ export function formatLastMessageAt(date: Date) {
   }
 
   if (isYesterday(date)) {
-    return "Yesterday";
+    return 'Yesterday';
   }
 
-  return date.toLocaleDateString("en-US", {
-    weekday: "long",
+  return date.toLocaleDateString('en-US', {
+    weekday: 'long'
   });
 }
 

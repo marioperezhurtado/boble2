@@ -8,10 +8,10 @@ export const AUDIO_UPLOAD_MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 export const DOCUMENT_UPLOAD_MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB
 
 type UploadFile = {
-  file: File;
-  key: string;
-  contentType: "image/" | "audio/" | "video/" | "*/";
-  sizeLimit: number;
+  file: File
+  key: string
+  contentType: "image/" | "audio/" | "video/" | "*/"
+  sizeLimit: number
 };
 
 async function uploadFile({ file, key, contentType, sizeLimit }: UploadFile) {
@@ -51,10 +51,9 @@ export async function uploadImage(file: File) {
   const imageId = `img_${nanoid(24)}`;
 
   await uploadFile({
-    file,
-    key: imageId,
+    file, key: imageId,
     contentType: "image/",
-    sizeLimit: IMAGE_UPLOAD_MAX_FILE_SIZE,
+    sizeLimit: IMAGE_UPLOAD_MAX_FILE_SIZE
   });
 
   return imageId;
@@ -64,10 +63,9 @@ export async function uploadVideo(file: File) {
   const videoId = `video_${nanoid(24)}`;
 
   await uploadFile({
-    file,
-    key: videoId,
+    file, key: videoId,
     contentType: "video/",
-    sizeLimit: VIDEO_UPLOAD_MAX_FILE_SIZE,
+    sizeLimit: VIDEO_UPLOAD_MAX_FILE_SIZE
   });
 
   return videoId;
@@ -77,10 +75,9 @@ export async function uploadAudio(file: File) {
   const audioId = `audio_${nanoid(24)}`;
 
   await uploadFile({
-    file,
-    key: audioId,
+    file, key: audioId,
     contentType: "audio/",
-    sizeLimit: AUDIO_UPLOAD_MAX_FILE_SIZE,
+    sizeLimit: AUDIO_UPLOAD_MAX_FILE_SIZE
   });
 
   return audioId;
@@ -90,10 +87,9 @@ export async function uploadDocument(file: File) {
   const documentId = `doc_${nanoid(24)}`;
 
   await uploadFile({
-    file,
-    key: documentId,
+    file, key: documentId,
     contentType: "*/",
-    sizeLimit: DOCUMENT_UPLOAD_MAX_FILE_SIZE,
+    sizeLimit: DOCUMENT_UPLOAD_MAX_FILE_SIZE
   });
 
   return documentId;

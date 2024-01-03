@@ -16,15 +16,14 @@ export type ServerToClientEvents = {
 
 const app = express();
 const server = createServer(app);
-const io = new WebSocketServer<ClientToServerEvents, ServerToClientEvents>(
-  server,
-  {
-    // Allow CORS
-    cors: {
-      origin: "http://localhost:5173",
-    },
+const io = new WebSocketServer<
+  ClientToServerEvents, ServerToClientEvents
+>(server, {
+  // Allow CORS
+  cors: {
+    origin: "http://localhost:5173",
   },
-);
+});
 
 io.on("connection", (socket) => {
   console.log("> Client connected");

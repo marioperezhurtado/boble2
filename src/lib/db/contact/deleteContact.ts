@@ -10,5 +10,8 @@ type DeleteContactParams = {
 export function deleteContact({ userId, contactId }: DeleteContactParams) {
   return db
     .delete(contact)
-    .where(and(eq(contact.userId, userId), eq(contact.contactId, contactId)));
+    .where(and(
+      eq(contact.userId, userId),
+      eq(contact.contactId, contactId)
+    ));
 }

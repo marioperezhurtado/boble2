@@ -1,7 +1,7 @@
-import { fail } from "@sveltejs/kit";
-import { auth, getSessionRequired } from "$lib/auth/auth";
-import { deleteChat } from "$lib/db/chat/deleteChat";
-import { getChats } from "$lib/db/chat/getChats";
+import { fail } from '@sveltejs/kit';
+import { auth, getSessionRequired } from '$lib/auth/auth';
+import { deleteChat } from '$lib/db/chat/deleteChat';
+import { getChats } from '$lib/db/chat/getChats';
 import { createBlock } from "$lib/db/block/createBlock";
 import { removeBlock } from "$lib/db/block/removeBlock";
 import type { Actions } from "./$types";
@@ -45,15 +45,15 @@ export const actions = {
     const session = await getSessionRequired(locals.auth);
 
     const formData = await request.formData();
-    const chatId = formData.get("chatId") as string;
+    const chatId = formData.get('chatId') as string;
     if (!chatId) {
-      return fail(400, { error: "Chat id not found" });
+      return fail(400, { error: 'Chat id not found' });
     }
 
     const chats = await getChats(session.user.id);
     const chat = chats.find((chat) => chat.id === chatId);
     if (!chat) {
-      return fail(400, { error: "Chat not found" });
+      return fail(400, { error: 'Chat not found' });
     }
 
     return fail(400, { error: "something went wrong" });

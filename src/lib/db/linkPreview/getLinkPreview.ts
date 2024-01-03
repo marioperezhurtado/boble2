@@ -6,7 +6,9 @@ export async function getLinkPreview(url: URL) {
   const linkPreviewData = await db
     .select()
     .from(linkPreview)
-    .where(eq(linkPreview.url, url.toString()));
+    .where(
+      eq(linkPreview.url, url.toString())
+    )
 
   return linkPreviewData[0];
 }

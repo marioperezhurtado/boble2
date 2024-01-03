@@ -9,22 +9,18 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
     httpOnly: true,
     secure: !dev,
     path: "/",
-    maxAge: 60 * 60,
+    maxAge: 60 * 60
   });
-  cookies.set(
-    "github_oauth_redirect",
-    url.href.split("redirectTo=")[1] ?? "/",
-    {
+  cookies.set("github_oauth_redirect", url.href.split("redirectTo=")[1] ?? "/", {
       httpOnly: true,
       secure: !dev,
       path: "/",
-      maxAge: 60 * 60,
-    },
-  );
+      maxAge: 60 * 60
+    });
   return new Response(null, {
     status: 302,
     headers: {
-      Location: githubUrl.toString(),
-    },
+      Location: githubUrl.toString()
+    }
   });
 };

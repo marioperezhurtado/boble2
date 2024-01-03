@@ -18,34 +18,28 @@ Chat with your friends and family from any device.
 ## Tech and tools
 
 **App**
-
 - [Svelte](https://svelte.dev/): Front-end library that compiles declarative components into fast and lean web apps.
-- [SvelteKit](https://kit.svelte.dev/): Framework for rapidly developing robust, performant web applications using Svelte.
+- [SvelteKit](https://kit.svelte.dev/): Framework for rapidly developing robust, performant web applications using Svelte. 
 - [TailwindCSS](https://tailwindcss.com/): Utility-first, component driven CSS framework.
 
 **WebSocket**
-
 - [Socket.io](https://socket.io/): Library that enables low-latency, bidirectional and event-based communication between a client and a server.
 
 **Database**
-
 - [SQLite](https://www.sqlite.org/): Small, fast, self-contained, high-reliability, full-featured, SQL database engine.
 - [Better-sqlite3](https://github.com/WiseLibs/better-sqlite3): The fastest and simplest library for SQLite3 in Node.js.
 - [DrizzleORM](https://orm.drizzle.team/): TypeScript ORM that feels like writing SQL.
 
 **Authentication**
-
 - [Lucia](https://lucia-auth.com/): Simple and flexible auth library for TypeScript.
 
 **Email**
-
 - [Nodemailer](https://nodemailer.com/): Send emails from Node.js.
 - [Svelte-email](https://svelte-email.vercel.app/docs/overview/svelte-email): Build emails using Svelte components.
 
 **Testing**
-
 - [Vitest](https://vitest.dev/): Next generation testing framework powered by Vite.
-- [Playwright](https://playwright.dev/): Reliable end-to-end testing for modern web apps.
+- [Playwright](https://playwright.dev/): Reliable end-to-end testing for modern web apps. 
 
 ## External services
 
@@ -74,7 +68,7 @@ Chat with your friends and family from any device.
 │   │   ├── db/
 │   │   │   └── Database config, schemas and queries using drizzle.
 │   │   ├── socket/
-│   │   │   └── WebSocket server using socket.io.
+│   │   │   └── WebSocket server using socket.io. 
 │   │   ├── email/
 │   │   │   └── Email config, templates and functions.
 │   │   ├── file-upload/
@@ -89,7 +83,7 @@ Chat with your friends and family from any device.
 │   │       └── Helper functions.
 │   └── routes/
 │       └── Routes of your application and co-located components and files.
-│
+│   
 └── Config files.
 ```
 
@@ -186,8 +180,8 @@ If you choose a different provider, you might need to change the email config at
 
 ## Developing
 
-Once you've created a project and installed dependencies with npm install _(or
-pnpm, yarn, bun etc)_, populated your environment variables and followed the
+Once you've created a project and installed dependencies with npm install *(or
+pnpm, yarn, bun etc)*, populated your environment variables and followed the
 previous steps,
 
 Start a development server:
@@ -214,19 +208,19 @@ TBD...
 
 ## List of commands
 
-| Command          | Description                                           |
-| ---------------- | ----------------------------------------------------- |
-| dev              | Start a development server on port 5173               |
-| socket           | Start a websocket server on port 8000                 |
-| s3               | Start a fake S3 server on port 5000                   |
-| build            | Create a production version of your app               |
-| preview          | Preview your production build                         |
-| check            | Run diagnostic checks                                 |
-| lint             | Lint your project                                     |
-| format           | Format your project                                   |
-| db:generate      | Generate a SQL migration file                         |
-| db:push          | Push your changes to your database                    |
-| db:studio        | Launch a visual editor for your database on port 4983 |
-| test             | Run all tests                                         |
-| test:unit        | Run unit tests                                        |
-| test:integration | Run integration tests                                 |
+| Command | Description | 
+| -------- | -------- | 
+| dev | Start a development server on port 5173 | 
+| socket | Start a websocket server on port 8000 |
+| s3 | Start a fake S3 server on port 5000 |
+| build | Create a production version of your app |
+| preview | Preview your production build |
+| check | Run diagnostic checks |
+| lint | Lint your project |
+| format | Format your project |
+| db:generate | Generate a SQL migration file |
+| db:push | Push your changes to your database |
+| db:studio | Launch a visual editor for your database on port 4983 |
+| test | Run all tests |
+| test:unit | Run unit tests |
+| test:integration | Run integration tests |

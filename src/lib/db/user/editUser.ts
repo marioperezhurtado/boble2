@@ -9,8 +9,7 @@ type EditUserParams = {
 };
 
 export function editUser({ name, status, id }: EditUserParams) {
-  return db
-    .update(user)
+  return db.update(user)
     .set({
       name,
       status,

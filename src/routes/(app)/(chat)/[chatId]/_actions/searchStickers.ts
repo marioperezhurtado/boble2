@@ -7,7 +7,7 @@ export async function searchStickers({ request, locals }: RequestEvent) {
   await getSessionRequired(locals.auth);
 
   const formData = await request.formData();
-  const query = formData.get("search") as string;
+  const query = formData.get('search') as string;
 
   if (!query) {
     return fail(400, { error: "Search query is required" });

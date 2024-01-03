@@ -35,8 +35,12 @@
           "name": "block_user_id_user_id_fk",
           "tableFrom": "block",
           "tableTo": "user",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -44,15 +48,22 @@
           "name": "block_blocked_user_id_user_id_fk",
           "tableFrom": "block",
           "tableTo": "user",
-          "columnsFrom": ["blocked_user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "blocked_user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
         "block_user_id_blocked_user_id_pk": {
-          "columns": ["blocked_user_id", "user_id"],
+          "columns": [
+            "blocked_user_id",
+            "user_id"
+          ],
           "name": "block_user_id_blocked_user_id_pk"
         }
       },
@@ -119,8 +130,12 @@
           "name": "contact_user_id_user_id_fk",
           "tableFrom": "contact",
           "tableTo": "user",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -128,15 +143,22 @@
           "name": "contact_contact_id_user_id_fk",
           "tableFrom": "contact",
           "tableTo": "user",
-          "columnsFrom": ["contact_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "contact_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
         "contact_user_id_contact_id_pk": {
-          "columns": ["contact_id", "user_id"],
+          "columns": [
+            "contact_id",
+            "user_id"
+          ],
           "name": "contact_user_id_contact_id_pk"
         }
       },
@@ -214,7 +236,9 @@
       "indexes": {
         "email_verification_token_token_unique": {
           "name": "email_verification_token_token_unique",
-          "columns": ["token"],
+          "columns": [
+            "token"
+          ],
           "isUnique": true
         }
       },
@@ -223,8 +247,12 @@
           "name": "email_verification_token_user_id_user_id_fk",
           "tableFrom": "email_verification_token",
           "tableTo": "user",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -263,8 +291,12 @@
           "name": "user_key_user_id_user_id_fk",
           "tableFrom": "user_key",
           "tableTo": "user",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -382,8 +414,12 @@
           "name": "message_chat_id_chat_id_fk",
           "tableFrom": "message",
           "tableTo": "chat",
-          "columnsFrom": ["chat_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "chat_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -391,8 +427,12 @@
           "name": "message_sender_id_user_id_fk",
           "tableFrom": "message",
           "tableTo": "user",
-          "columnsFrom": ["sender_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "sender_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -438,8 +478,12 @@
           "name": "participant_chat_id_chat_id_fk",
           "tableFrom": "participant",
           "tableTo": "chat",
-          "columnsFrom": ["chat_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "chat_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -447,15 +491,22 @@
           "name": "participant_user_id_user_id_fk",
           "tableFrom": "participant",
           "tableTo": "user",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
         "participant_chat_id_user_id_pk": {
-          "columns": ["chat_id", "user_id"],
+          "columns": [
+            "chat_id",
+            "user_id"
+          ],
           "name": "participant_chat_id_user_id_pk"
         }
       },
@@ -499,8 +550,12 @@
           "name": "password_reset_token_user_id_user_id_fk",
           "tableFrom": "password_reset_token",
           "tableTo": "user",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -546,8 +601,12 @@
           "name": "user_session_user_id_user_id_fk",
           "tableFrom": "user_session",
           "tableTo": "user",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -604,7 +663,9 @@
       "indexes": {
         "user_email_unique": {
           "name": "user_email_unique",
-          "columns": ["email"],
+          "columns": [
+            "email"
+          ],
           "isUnique": true
         }
       },

@@ -9,9 +9,9 @@ export async function sendGif({ request, params, locals }: RequestEvent) {
   const session = await getSessionRequired(locals.auth);
   const formData = await request.formData();
 
-  const gif = formData.get("gif") as string | null;
+  const gif = formData.get('gif') as string | null;
   if (!gif) {
-    return fail(400, { error: "GIF is required" });
+    return fail(400, { error: 'GIF is required' });
   }
 
   const blocked = await isBlockedInChat({
@@ -22,7 +22,7 @@ export async function sendGif({ request, params, locals }: RequestEvent) {
     return fail(400, { error: "You can't send messages in this chat" });
   }
 
-  const replyToId = formData.get("replyToId") as string | null;
+  const replyToId = formData.get('replyToId') as string | null;
 
   const newMessage = await createMessage({
     chatId: params.chatId,

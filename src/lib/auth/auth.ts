@@ -4,7 +4,7 @@ import { lucia } from "lucia";
 import { sveltekit } from "lucia/middleware";
 import { betterSqlite3 } from "@lucia-auth/adapter-sqlite";
 import { sqliteDatabase } from "$lib/db/db";
-import { github } from "@lucia-auth/oauth/providers";
+import { github } from "@lucia-auth/oauth/providers"
 import { GITHUB_ID, GITHUB_SECRET } from "$env/static/private";
 import type { AuthRequest } from "lucia";
 

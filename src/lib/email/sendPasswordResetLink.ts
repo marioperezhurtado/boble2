@@ -9,11 +9,7 @@ type SendPasswordResetLinkProps = {
   token: string;
 };
 
-export async function sendPasswordResetLink({
-  name,
-  email,
-  token,
-}: SendPasswordResetLinkProps) {
+export async function sendPasswordResetLink({ name, email, token }: SendPasswordResetLinkProps) {
   const resetUrl = `${PUBLIC_SITE_URL}/forgot-password/${token}`;
 
   return sendEmail({
@@ -27,4 +23,4 @@ export async function sendPasswordResetLink({
       },
     }),
   });
-}
+};

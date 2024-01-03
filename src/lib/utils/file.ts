@@ -5,9 +5,7 @@ type DownloadFile = {
 };
 
 export async function downloadFile({ url, type, createdAt }: DownloadFile) {
-  const dateInfo = `${createdAt.getFullYear()}-${
-    createdAt.getMonth() + 1
-  }-${createdAt.getDate()}`;
+  const dateInfo = `${createdAt.getFullYear()}-${createdAt.getMonth() + 1}-${createdAt.getDate()}`;
   const timeInfo = `${createdAt.getHours()}-${createdAt.getMinutes()}-${createdAt.getSeconds()}`;
 
   // format: boble_<type>_<year>-<month>-<day>_<hour>-<minute>-<second>

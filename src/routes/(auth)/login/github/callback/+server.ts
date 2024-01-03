@@ -12,7 +12,7 @@ export const GET: RequestHandler = async ({ url, cookies, locals }) => {
   // validate state
   if (!storedState || !state || storedState !== state || !code) {
     return new Response(null, {
-      status: 400,
+      status: 400
     });
   }
 
@@ -36,13 +36,13 @@ export const GET: RequestHandler = async ({ url, cookies, locals }) => {
       if (existingUserWithEmail) {
         if (!existingUserWithEmail.image) {
           await auth.updateUserAttributes(existingUserWithEmail.id, {
-            image: githubUser.avatar_url,
+            image: githubUser.avatar_url
           });
         }
         // transform `UserSchema` to `User`
         const user = auth.transformDatabaseUser({
           ...existingUserWithEmail,
-          emailVerified: Number(existingUserWithEmail.emailVerified),
+          emailVerified: Number(existingUserWithEmail.emailVerified)
         });
         await createKey(user.userId);
         return user;
@@ -56,7 +56,7 @@ export const GET: RequestHandler = async ({ url, cookies, locals }) => {
           emailVerified: Number(true),
           image: githubUser.avatar_url,
           status: null,
-        },
+        }
       });
       return user;
     };
@@ -64,14 +64,14 @@ export const GET: RequestHandler = async ({ url, cookies, locals }) => {
     const user = await getUser();
     const session = await auth.createSession({
       userId: user.userId,
-      attributes: {},
+      attributes: {}
     });
     locals.auth.setSession(session);
     return new Response(null, {
       status: 302,
       headers: {
-        Location: redirectTo ?? "/",
-      },
+        Location: redirectTo ?? "/"
+      }
     });
   } catch (e) {
     console.error(e);
@@ -79,12 +79,12 @@ export const GET: RequestHandler = async ({ url, cookies, locals }) => {
     if (e instanceof OAuthRequestError) {
       // invalid code
       return new Response(null, {
-        status: 400,
+        status: 400
       });
     }
 
     return new Response(null, {
-      status: 500,
+      status: 500
     });
   }
 };

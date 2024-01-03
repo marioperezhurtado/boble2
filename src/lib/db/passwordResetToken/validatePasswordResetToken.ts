@@ -9,7 +9,7 @@ export async function validatePasswordResetToken(token: string) {
     .from(passwordResetToken)
     .where(eq(passwordResetToken.token, token));
 
-  if (!storedToken.length) throw new Error("Invalid token");
+  if (!storedToken.length) throw new Error('Invalid token');
 
   await db
     .delete(passwordResetToken)
@@ -18,7 +18,7 @@ export async function validatePasswordResetToken(token: string) {
   const tokenExpires = Number(storedToken[0].expires);
 
   if (!isWithinExpiration(tokenExpires)) {
-    throw new Error("Expired token");
+    throw new Error('Expired token');
   }
   return storedToken[0].userId;
-}
+};

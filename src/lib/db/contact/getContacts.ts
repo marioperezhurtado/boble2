@@ -23,19 +23,19 @@ export async function getContacts(userId: string) {
     // join contact
     .innerJoin(user, eq(contact.contactId, user.id))
     // join if is blocked
-    .leftJoin(
-      block,
-      and(eq(block.userId, userId), eq(block.blockedUserId, contact.contactId)),
-    )
+    .leftJoin(block, and(
+      eq(block.userId, userId),
+      eq(block.blockedUserId, contact.contactId),
+    ))
     // join if user blocked me
-    .leftJoin(
-      ownBlock,
-      and(eq(ownBlock.userId, user.id), eq(ownBlock.blockedUserId, userId)),
-    )
-    .orderBy(desc(contact.alias));
+    .leftJoin(ownBlock, and(
+      eq(ownBlock.userId, user.id),
+      eq(ownBlock.blockedUserId, userId)
+    ))
+    .orderBy(desc(contact.alias))
 
   // Hide user info if blocked me
-  return contacts.map((contact) => {
+  return contacts.map(contact => {
     if (contact.blockedMe) {
       contact.image = null;
       contact.status = null;
@@ -44,9 +44,5 @@ export async function getContacts(userId: string) {
   });
 }
 
-export type Contacts = typeof getContacts extends (
-  ...args: any
-) => Promise<infer T>
-  ? T
-  : never;
-export type Contact = Contacts[number];
+export type Contacts = typeof getContacts extends (...args: any) => Promise<infer T> ? T : never
+export type Contact = Contacts[number]

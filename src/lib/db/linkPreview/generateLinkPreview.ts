@@ -11,15 +11,9 @@ export async function generateLinkPreview(url: URL) {
   const decodedHtml = decodeHtml(html);
 
   const title = decodedHtml.match(/<title>(.*?)<\/title>/)?.[1];
-  const description = decodedHtml.match(
-    /<meta name="description" content="(.*?)">/,
-  )?.[1];
-  const image = decodedHtml.match(
-    /<meta property="og:image" content="(.*?)">/,
-  )?.[1];
-  const siteName = decodedHtml.match(
-    /<meta property="og:site_name" content="(.*?)">/,
-  )?.[1];
+  const description = decodedHtml.match(/<meta name="description" content="(.*?)">/)?.[1];
+  const image = decodedHtml.match(/<meta property="og:image" content="(.*?)">/)?.[1];
+  const siteName = decodedHtml.match(/<meta property="og:site_name" content="(.*?)">/)?.[1];
 
   const newLinkPreview = await db
     .insert(linkPreview)
