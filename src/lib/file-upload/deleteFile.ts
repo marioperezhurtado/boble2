@@ -6,6 +6,6 @@ export async function deleteFile(key: string) {
     new DeleteObjectCommand({
       Bucket: "boble-files",
       Key: key,
-    })
+    }),
   );
 }

@@ -9,7 +9,11 @@ type SendEmailVerificationLinkProps = {
   token: string;
 };
 
-export async function sendEmailVerificationLink({ name, email, token }: SendEmailVerificationLinkProps) {
+export async function sendEmailVerificationLink({
+  name,
+  email,
+  token,
+}: SendEmailVerificationLinkProps) {
   const verificationUrl = `${PUBLIC_SITE_URL}/email-verification/${token}`;
 
   return sendEmail({

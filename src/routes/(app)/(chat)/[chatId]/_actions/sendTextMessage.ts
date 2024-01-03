@@ -12,13 +12,17 @@ function isLinkPreviewStale(createdAt: Date) {
   return diffInDays(createdAt, new Date()) > 1;
 }
 
-export async function sendTextMessage({ request, params, locals }: RequestEvent) {
+export async function sendTextMessage({
+  request,
+  params,
+  locals,
+}: RequestEvent) {
   const session = await getSessionRequired(locals.auth);
   const formData = await request.formData();
 
-  const message = formData.get('message') as string;
+  const message = formData.get("message") as string;
   if (!message) {
-    return fail(400, { error: 'Message is required' });
+    return fail(400, { error: "Message is required" });
   }
 
   const blocked = await isBlockedInChat({
@@ -29,7 +33,7 @@ export async function sendTextMessage({ request, params, locals }: RequestEvent)
     return fail(400, { error: "You can't send messages in this chat" });
   }
 
-  const replyToId = formData.get('replyToId') as string | null;
+  const replyToId = formData.get("replyToId") as string | null;
 
   const urlRegex = /(https?:\/\/[^\s]+)/g;
   const match = message.match(urlRegex);
@@ -62,15 +66,26 @@ export async function sendTextMessage({ request, params, locals }: RequestEvent)
   });
 
   // If link preview data exists and its not stale, use it
-  if (existingLinkPreview && !isLinkPreviewStale(existingLinkPreview.createdAt)) {
-    sendMessage({ ...newMessage, documentInfo: null, linkPreview: existingLinkPreview });
+  if (
+    existingLinkPreview &&
+    !isLinkPreviewStale(existingLinkPreview.createdAt)
+  ) {
+    sendMessage({
+      ...newMessage,
+      documentInfo: null,
+      linkPreview: existingLinkPreview,
+    });
     return;
   }
 
   // Otherwise, generate new link preview data
   try {
     const newLinkPreview = await generateLinkPreview(url);
-    sendMessage({ ...newMessage, documentInfo: null, linkPreview: newLinkPreview });
+    sendMessage({
+      ...newMessage,
+      documentInfo: null,
+      linkPreview: newLinkPreview,
+    });
   } catch (e) {
     sendMessage({ ...newMessage, documentInfo: null, linkPreview: null });
   }

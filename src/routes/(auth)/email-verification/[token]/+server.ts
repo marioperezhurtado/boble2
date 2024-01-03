@@ -1,7 +1,7 @@
-import { auth } from '$lib/auth/auth';
-import { validateEmailVerificationToken } from '$lib/db/emailVerificationToken/validateEmailVerificationToken';
+import { auth } from "$lib/auth/auth";
+import { validateEmailVerificationToken } from "$lib/db/emailVerificationToken/validateEmailVerificationToken";
 
-import type { RequestHandler } from './$types';
+import type { RequestHandler } from "./$types";
 
 export const GET: RequestHandler = async ({ params, locals }) => {
   const { token } = params;
@@ -10,22 +10,22 @@ export const GET: RequestHandler = async ({ params, locals }) => {
     const user = await auth.getUser(userId);
     await auth.invalidateAllUserSessions(user.userId);
     await auth.updateUserAttributes(user.userId, {
-      emailVerified: Number(true)
+      emailVerified: Number(true),
     });
     const session = await auth.createSession({
       userId: user.userId,
-      attributes: {}
+      attributes: {},
     });
     locals.auth.setSession(session);
     return new Response(null, {
       status: 302,
       headers: {
-        Location: '/'
-      }
+        Location: "/",
+      },
     });
   } catch {
-    return new Response('Invalid email verification link', {
-      status: 400
+    return new Response("Invalid email verification link", {
+      status: 400,
     });
   }
 };

@@ -3,22 +3,25 @@ import { getSessionRequired } from "$lib/auth/auth";
 import { isBlockedInChat } from "$lib/db/block/isBlockedInChat";
 import { createMessage } from "$lib/db/message/createMessage";
 import { sendMessage } from "$lib/socket/client";
-import { uploadAudio, AUDIO_UPLOAD_MAX_FILE_SIZE } from "$lib/file-upload/uploadFile";
+import {
+  uploadAudio,
+  AUDIO_UPLOAD_MAX_FILE_SIZE,
+} from "$lib/file-upload/uploadFile";
 import type { RequestEvent } from "../$types";
 
 export async function sendAudio({ request, params, locals }: RequestEvent) {
   const session = await getSessionRequired(locals.auth);
   const formData = await request.formData();
 
-  const audio = formData.get('audio') as File | null;
+  const audio = formData.get("audio") as File | null;
   if (!audio) {
-    return fail(400, { error: 'Audio is required' });
+    return fail(400, { error: "Audio is required" });
   }
-  if (!audio.type.startsWith('audio/')) {
-    return fail(400, { error: 'File must be an audio' });
+  if (!audio.type.startsWith("audio/")) {
+    return fail(400, { error: "File must be an audio" });
   }
   if (audio.size > AUDIO_UPLOAD_MAX_FILE_SIZE) {
-    return fail(400, { error: 'Audio is too large' });
+    return fail(400, { error: "Audio is too large" });
   }
 
   const blocked = await isBlockedInChat({
@@ -29,7 +32,7 @@ export async function sendAudio({ request, params, locals }: RequestEvent) {
     return fail(400, { error: "You can't send messages in this chat" });
   }
 
-  const replyToId = formData.get('replyToId') as string | null;
+  const replyToId = formData.get("replyToId") as string | null;
 
   const uploadedAudioId = await uploadAudio(audio);
 

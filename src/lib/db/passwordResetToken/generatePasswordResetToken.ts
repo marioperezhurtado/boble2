@@ -20,12 +20,10 @@ export async function generatePasswordResetToken(userId: string) {
     if (reusableStoredToken) return reusableStoredToken.token;
   }
   const token = generateRandomString(63);
-  await db
-    .insert(passwordResetToken)
-    .values({
-      token,
-      userId,
-      expires: new Date(Date.now() + EXPIRES_IN),
-    })
+  await db.insert(passwordResetToken).values({
+    token,
+    userId,
+    expires: new Date(Date.now() + EXPIRES_IN),
+  });
   return token;
-};
+}

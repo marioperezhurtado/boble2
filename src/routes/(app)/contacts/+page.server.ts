@@ -32,7 +32,7 @@ export const actions = {
 
     const existingContact = await getContactByEmail({
       userId: session.user.id,
-      contactEmail: email
+      contactEmail: email,
     });
     if (existingContact) {
       return fail(400, { error: "Contact already exists" });
@@ -82,5 +82,5 @@ export const actions = {
     });
 
     redirect(302, `/contacts/${contactId}`);
-  }
+  },
 } satisfies Actions;

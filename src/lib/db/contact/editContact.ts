@@ -16,10 +16,5 @@ export function editContact({
   return db
     .update(contact)
     .set({ alias: newAlias })
-    .where(
-      and(
-        eq(contact.userId, userId),
-        eq(contact.contactId, contactId)
-      )
-    );
+    .where(and(eq(contact.userId, userId), eq(contact.contactId, contactId)));
 }

@@ -1,19 +1,35 @@
-import { integer, text, sqliteTable, primaryKey, blob } from "drizzle-orm/sqlite-core";
+import {
+  integer,
+  text,
+  sqliteTable,
+  primaryKey,
+  blob,
+} from "drizzle-orm/sqlite-core";
 import { nanoid } from "./nanoid";
 
 export const chat = sqliteTable("chat", {
-  id: text("id").primaryKey().$defaultFn(() => `c_${nanoid(12)}`),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => `c_${nanoid(12)}`),
   createdAt: integer("created_at", { mode: "timestamp" }),
 });
 
-export const participant = sqliteTable("participant", {
-  chatId: text("chat_id").references(() => chat.id, { onDelete: "cascade" }).notNull(),
-  userId: text("user_id").references(() => user.id, { onDelete: "cascade" }).notNull(),
-  joinedAt: integer("joined_at", { mode: "timestamp" }),
-  lastReadAt: integer("last_read_at", { mode: "timestamp" }),
-}, (p) => ({
-  pk: primaryKey({ columns: [p.chatId, p.userId] }),
-}));
+export const participant = sqliteTable(
+  "participant",
+  {
+    chatId: text("chat_id")
+      .references(() => chat.id, { onDelete: "cascade" })
+      .notNull(),
+    userId: text("user_id")
+      .references(() => user.id, { onDelete: "cascade" })
+      .notNull(),
+    joinedAt: integer("joined_at", { mode: "timestamp" }),
+    lastReadAt: integer("last_read_at", { mode: "timestamp" }),
+  },
+  (p) => ({
+    pk: primaryKey({ columns: [p.chatId, p.userId] }),
+  }),
+);
 
 export const VALID_MESSAGE_TYPES = [
   "text",
@@ -23,13 +39,19 @@ export const VALID_MESSAGE_TYPES = [
   "sticker",
   "video",
   "audio",
-  "document"
+  "document",
 ] as const;
 
 export const message = sqliteTable("message", {
-  id: text("id").primaryKey().$defaultFn(() => `msg_${nanoid(16)}`),
-  chatId: text("chat_id").references(() => chat.id, { onDelete: "cascade" }).notNull(),
-  senderId: text("sender_id").references(() => user.id).notNull(),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => `msg_${nanoid(16)}`),
+  chatId: text("chat_id")
+    .references(() => chat.id, { onDelete: "cascade" })
+    .notNull(),
+  senderId: text("sender_id")
+    .references(() => user.id)
+    .notNull(),
   replyToId: text("reply_to_id"),
   text: text("text"),
   source: text("source"),
@@ -37,41 +59,59 @@ export const message = sqliteTable("message", {
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
 });
 
-export const contact = sqliteTable("contact", {
-  userId: text("user_id").references(() => user.id, { onDelete: "cascade" }).notNull(),
-  contactId: text("contact_id")
-    .references(() => user.id, { onDelete: "cascade" }).notNull(),
-  alias: text("alias").notNull(),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
-}, (p) => ({
-  pk: primaryKey({ columns: [p.userId, p.contactId] }),
-}));
+export const contact = sqliteTable(
+  "contact",
+  {
+    userId: text("user_id")
+      .references(() => user.id, { onDelete: "cascade" })
+      .notNull(),
+    contactId: text("contact_id")
+      .references(() => user.id, { onDelete: "cascade" })
+      .notNull(),
+    alias: text("alias").notNull(),
+    createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+  },
+  (p) => ({
+    pk: primaryKey({ columns: [p.userId, p.contactId] }),
+  }),
+);
 
-export const block = sqliteTable("block", {
-  userId: text("user_id").references(() => user.id, { onDelete: "cascade" }).notNull(),
-  blockedUserId: text("blocked_user_id")
-    .references(() => user.id, { onDelete: "cascade" }).notNull(),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
-}, (p) => ({
-  pk: primaryKey({ columns: [p.userId, p.blockedUserId] }),
-}));
+export const block = sqliteTable(
+  "block",
+  {
+    userId: text("user_id")
+      .references(() => user.id, { onDelete: "cascade" })
+      .notNull(),
+    blockedUserId: text("blocked_user_id")
+      .references(() => user.id, { onDelete: "cascade" })
+      .notNull(),
+    createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+  },
+  (p) => ({
+    pk: primaryKey({ columns: [p.userId, p.blockedUserId] }),
+  }),
+);
 
 export const emailVerificationToken = sqliteTable("email_verification_token", {
-  id: text("id").primaryKey().$defaultFn(() => `evtk_${nanoid(16)}`),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => `evtk_${nanoid(16)}`),
   userId: text("user_id")
     .references(() => user.id, { onDelete: "cascade" })
     .notNull(),
   token: text("token").notNull().unique(),
-  expires: integer("expires", { mode: "timestamp" }).notNull()
+  expires: integer("expires", { mode: "timestamp" }).notNull(),
 });
 
 export const passwordResetToken = sqliteTable("password_reset_token", {
-  id: text("id").primaryKey().$defaultFn(() => `prtk_${nanoid(16)}`),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => `prtk_${nanoid(16)}`),
   userId: text("user_id")
     .references(() => user.id, { onDelete: "cascade" })
     .notNull(),
   token: text("token").notNull(),
-  expires: integer("expires", { mode: "timestamp" }).notNull()
+  expires: integer("expires", { mode: "timestamp" }).notNull(),
 });
 
 export const linkPreview = sqliteTable("link_preview", {
@@ -107,11 +147,11 @@ export const session = sqliteTable("user_session", {
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
   activeExpires: blob("active_expires", {
-    mode: "bigint"
+    mode: "bigint",
   }).notNull(),
   idleExpires: blob("idle_expires", {
-    mode: "bigint"
-  }).notNull()
+    mode: "bigint",
+  }).notNull(),
 });
 
 export const key = sqliteTable("user_key", {
@@ -119,5 +159,5 @@ export const key = sqliteTable("user_key", {
   userId: text("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
-  hashedPassword: text("hashed_password")
+  hashedPassword: text("hashed_password"),
 });

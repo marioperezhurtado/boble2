@@ -41,4 +41,4 @@ export const EMOJI_CATEGORIES = [
   },
 ] as const;
 
-export type Category = typeof EMOJI_CATEGORIES[number];
+export type Category = (typeof EMOJI_CATEGORIES)[number];

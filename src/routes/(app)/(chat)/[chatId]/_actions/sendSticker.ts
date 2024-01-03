@@ -9,9 +9,9 @@ export async function sendSticker({ request, params, locals }: RequestEvent) {
   const session = await getSessionRequired(locals.auth);
   const formData = await request.formData();
 
-  const sticker = formData.get('sticker') as string | null;
+  const sticker = formData.get("sticker") as string | null;
   if (!sticker) {
-    return fail(400, { error: 'Sticker is required' });
+    return fail(400, { error: "Sticker is required" });
   }
 
   const blocked = await isBlockedInChat({
@@ -22,7 +22,7 @@ export async function sendSticker({ request, params, locals }: RequestEvent) {
     return fail(400, { error: "You can't send messages in this chat" });
   }
 
-  const replyToId = formData.get('replyToId') as string | null;
+  const replyToId = formData.get("replyToId") as string | null;
 
   const newMessage = await createMessage({
     chatId: params.chatId,

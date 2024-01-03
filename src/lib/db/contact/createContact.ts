@@ -7,13 +7,15 @@ type CreateContactParams = {
   alias: string;
 };
 
-export function createContact({ userId, contactId, alias }: CreateContactParams) {
-  return db
-    .insert(contact)
-    .values({
-      userId,
-      contactId,
-      alias,
-      createdAt: new Date(),
-    })
+export function createContact({
+  userId,
+  contactId,
+  alias,
+}: CreateContactParams) {
+  return db.insert(contact).values({
+    userId,
+    contactId,
+    alias,
+    createdAt: new Date(),
+  });
 }

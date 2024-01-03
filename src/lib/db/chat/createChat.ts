@@ -9,8 +9,8 @@ export async function createChat(user1Id: string, user2Id: string) {
       createdAt: new Date(),
     })
     .returning({
-      id: chat.id
-    })
+      id: chat.id,
+    });
 
   // Create both participants
   await Promise.all([

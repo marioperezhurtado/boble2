@@ -22,13 +22,11 @@ export async function generateEmailVerificationToken(userId: string) {
 
   const token = generateRandomString(63);
 
-  await db
-    .insert(emailVerificationToken)
-    .values({
-      token,
-      userId,
-      expires: new Date(Date.now() + EXPIRES_IN),
-    })
+  await db.insert(emailVerificationToken).values({
+    token,
+    userId,
+    expires: new Date(Date.now() + EXPIRES_IN),
+  });
 
   return token;
-};
+}

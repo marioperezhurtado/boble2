@@ -12,7 +12,7 @@ export async function deleteMessage({ request, params, locals }: RequestEvent) {
   const session = await getSessionRequired(locals.auth);
 
   const formData = await request.formData();
-  const messageId = formData.get('messageId') as string;
+  const messageId = formData.get("messageId") as string;
   if (!messageId) {
     return fail(400, { error: "Message is required" });
   }
@@ -38,7 +38,11 @@ export async function deleteMessage({ request, params, locals }: RequestEvent) {
   await deleteMessageDb(messageId);
   removeMessage(messageId, params.chatId);
 
-  const isMedia = message.type === "image" || message.type === "video" || message.type === "document" || message.type === "audio";
+  const isMedia =
+    message.type === "image" ||
+    message.type === "video" ||
+    message.type === "document" ||
+    message.type === "audio";
 
   // Delete the file from s3 bucket
   if (isMedia && message.source) {

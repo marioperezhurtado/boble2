@@ -8,8 +8,5 @@ export function readChat(chatId: string, userId: string) {
     .set({
       lastReadAt: new Date(),
     })
-    .where(and(
-      eq(participant.chatId, chatId),
-      eq(participant.userId, userId)
-    ));
+    .where(and(eq(participant.chatId, chatId), eq(participant.userId, userId)));
 }
