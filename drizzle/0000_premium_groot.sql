@@ -1,7 +1,16 @@
+CREATE TABLE `audio_info` (
+	`url` text PRIMARY KEY NOT NULL,
+	`duration` integer NOT NULL,
+	`transcript` text,
+	`volume_spikes` text NOT NULL,
+	`message_id` text NOT NULL,
+	FOREIGN KEY (`message_id`) REFERENCES `message`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
 CREATE TABLE `block` (
 	`user_id` text NOT NULL,
 	`blocked_user_id` text NOT NULL,
-	`created_at` integer,
+	`created_at` integer NOT NULL,
 	PRIMARY KEY(`blocked_user_id`, `user_id`),
 	FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade,
 	FOREIGN KEY (`blocked_user_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade
@@ -16,10 +25,18 @@ CREATE TABLE `contact` (
 	`user_id` text NOT NULL,
 	`contact_id` text NOT NULL,
 	`alias` text NOT NULL,
-	`created_at` integer,
+	`created_at` integer NOT NULL,
 	PRIMARY KEY(`contact_id`, `user_id`),
 	FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade,
 	FOREIGN KEY (`contact_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
+CREATE TABLE `document_info` (
+	`url` text PRIMARY KEY NOT NULL,
+	`name` text NOT NULL,
+	`size` integer NOT NULL,
+	`message_id` text NOT NULL,
+	FOREIGN KEY (`message_id`) REFERENCES `message`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
 CREATE TABLE `email_verification_token` (
@@ -37,14 +54,24 @@ CREATE TABLE `user_key` (
 	FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
+CREATE TABLE `link_preview` (
+	`url` text PRIMARY KEY NOT NULL,
+	`title` text,
+	`description` text,
+	`image` text,
+	`site_name` text,
+	`created_at` integer NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE `message` (
 	`id` text PRIMARY KEY NOT NULL,
 	`chat_id` text NOT NULL,
 	`sender_id` text NOT NULL,
 	`reply_to_id` text,
 	`text` text,
+	`source` text,
 	`type` text NOT NULL,
-	`created_at` integer,
+	`created_at` integer NOT NULL,
 	FOREIGN KEY (`chat_id`) REFERENCES `chat`(`id`) ON UPDATE no action ON DELETE cascade,
 	FOREIGN KEY (`sender_id`) REFERENCES `user`(`id`) ON UPDATE no action ON DELETE no action
 );

@@ -82,3 +82,10 @@ export function formatDateTime(date: Date) {
     minute: "2-digit",
   });
 }
+
+export function formatMinuteSeconds(seconds: number) {
+  const minutes = Math.floor(seconds / 60).toString();
+  const remainingSeconds = Math.floor(seconds % 60).toString().padStart(2, "0");
+
+  return `${minutes}:${remainingSeconds}`;
+}

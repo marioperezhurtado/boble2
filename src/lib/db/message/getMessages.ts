@@ -1,6 +1,6 @@
 import { asc, eq, and } from "drizzle-orm";
 import { db } from "$lib/db/db";
-import { message, linkPreview, documentInfo } from "$lib/db/schema";
+import { message, linkPreview, documentInfo, audioInfo } from "$lib/db/schema";
 
 export function getMessages(chatId: string) {
   return db
@@ -15,6 +15,7 @@ export function getMessages(chatId: string) {
       createdAt: message.createdAt,
       linkPreview,
       documentInfo,
+      audioInfo,
     })
     .from(message)
     .where(eq(message.chatId, chatId))
@@ -28,6 +29,11 @@ export function getMessages(chatId: string) {
     .leftJoin(documentInfo, and(
       eq(message.type, "document"),
       eq(message.source, documentInfo.url)
+    ))
+    // join audio info to audio messages
+    .leftJoin(audioInfo, and(
+      eq(message.type, "audio"),
+      eq(message.source, audioInfo.url)
     ))
 }
 

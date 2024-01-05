@@ -5,7 +5,6 @@ import { getMessages } from "$lib/db/message/getMessages";
 import { removeMessage } from "$lib/socket/client";
 import { deleteMessage as deleteMessageDb } from "$lib/db/message/deleteMessage";
 import { deleteFile } from "$lib/file-upload/deleteFile";
-import { deleteDocumentInfo } from "$lib/db/documentInfo/deleteDocumentInfo";
 import type { RequestEvent } from "../$types";
 
 export async function deleteMessage({ request, params, locals }: RequestEvent) {
@@ -43,11 +42,6 @@ export async function deleteMessage({ request, params, locals }: RequestEvent) {
   // Delete the file from s3 bucket
   if (isMedia && message.source) {
     await deleteFile(message.source);
-  }
-
-  // Delete document info from db
-  if (message.type === "document" && message.source) {
-    await deleteDocumentInfo(message.source);
   }
 
   redirect(302, `/${params.chatId}`);

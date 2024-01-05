@@ -33,12 +33,6 @@ export async function sendDocument({ request, params, locals }: RequestEvent) {
   try {
     const uploadedDocumentId = await uploadDocument(documentFile);
 
-    const documentInfo = await createDocumentInfo({
-      url: uploadedDocumentId,
-      name: documentFile.name,
-      size: documentFile.size,
-    });
-
     const newMessage = await createMessage({
       chatId: params.chatId,
       senderId: session.user.id,
@@ -48,7 +42,14 @@ export async function sendDocument({ request, params, locals }: RequestEvent) {
       type: "document",
     });
 
-    sendMessage({ ...newMessage, linkPreview: null, documentInfo });
+    const documentInfo = await createDocumentInfo({
+      url: uploadedDocumentId,
+      name: documentFile.name,
+      size: documentFile.size,
+      messageId: newMessage.id,
+    });
+
+    sendMessage({ ...newMessage, linkPreview: null, audioInfo: null, documentInfo });
   } catch (e) {
     return fail(500, { error: "Error uploading document" });
   }

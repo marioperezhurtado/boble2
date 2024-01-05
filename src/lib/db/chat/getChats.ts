@@ -1,7 +1,7 @@
 import { and, desc, eq, gt, ne, sql } from "drizzle-orm";
 import { alias } from "drizzle-orm/sqlite-core";
 import { db } from "$lib/db/db";
-import { chat, participant, message, user, contact, block, documentInfo } from "$lib/db/schema";
+import { chat, participant, message, user, contact, block, documentInfo, audioInfo } from "$lib/db/schema";
 
 export async function getChats(userId: string) {
   const unreadMessage = alias(message, "unreadMessage");
@@ -32,6 +32,7 @@ export async function getChats(userId: string) {
         senderId: message.senderId,
       },
       documentName: documentInfo.name,
+      audioDuration: audioInfo.duration,
       unreadCount: sql<number>`cast(count(${unreadMessage.id}) as integer)`,
     })
     .from(chat)
@@ -70,6 +71,10 @@ export async function getChats(userId: string) {
     .leftJoin(documentInfo, and(
       eq(message.type, "document"),
       eq(documentInfo.url, message.source)
+    ))
+    .leftJoin(audioInfo, and(
+      eq(message.type, "audio"),
+      eq(audioInfo.url, message.source)
     ))
     .orderBy(desc(message.createdAt));
 

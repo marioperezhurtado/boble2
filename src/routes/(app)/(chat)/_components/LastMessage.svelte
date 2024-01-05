@@ -1,5 +1,6 @@
 <script lang="ts">
   import { chats } from "$lib/stores/chats";
+  import { formatMinuteSeconds } from "$lib/utils/date";
 
   export let chat: (typeof $chats)[number];
 
@@ -68,7 +69,11 @@
         alt="Audio icon"
         class="mr-0.5 w-4 h-4"
       />
-      <span>Voice message</span>
+      {#if chat.audioDuration}
+        <span>{formatMinuteSeconds(chat.audioDuration)}</span>
+      {:else}
+        <span>Audio</span>
+      {/if}
     {:else if chat.lastMessage.type === "document"}
       <img
         src="/icons/document.svg"

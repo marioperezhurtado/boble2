@@ -1,1 +1,0 @@
-ALTER TABLE message ADD `media_url` text;

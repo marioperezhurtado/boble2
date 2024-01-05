@@ -44,7 +44,12 @@ export async function sendTextMessage({ request, params, locals }: RequestEvent)
       type: "text",
     });
 
-    sendMessage({ ...newMessage, documentInfo: null, linkPreview: null });
+    sendMessage({
+      ...newMessage,
+      documentInfo: null,
+      linkPreview: null,
+      audioInfo: null
+    });
     return;
   }
 
@@ -63,15 +68,30 @@ export async function sendTextMessage({ request, params, locals }: RequestEvent)
 
   // If link preview data exists and its not stale, use it
   if (existingLinkPreview && !isLinkPreviewStale(existingLinkPreview.createdAt)) {
-    sendMessage({ ...newMessage, documentInfo: null, linkPreview: existingLinkPreview });
+    sendMessage({
+      ...newMessage,
+      linkPreview: existingLinkPreview,
+      documentInfo: null,
+      audioInfo: null
+    });
     return;
   }
 
   // Otherwise, generate new link preview data
   try {
     const newLinkPreview = await generateLinkPreview(url);
-    sendMessage({ ...newMessage, documentInfo: null, linkPreview: newLinkPreview });
+    sendMessage({
+      ...newMessage,
+      linkPreview: newLinkPreview,
+      documentInfo: null,
+      audioInfo: null
+    });
   } catch (e) {
-    sendMessage({ ...newMessage, documentInfo: null, linkPreview: null });
+    sendMessage({
+      ...newMessage,
+      documentInfo: null,
+      linkPreview: null,
+      audioInfo: null
+    });
   }
 }

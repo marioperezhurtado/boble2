@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { formatMinuteSeconds } from "$lib/utils/date";
 
   let timeElapsed = 0;
 
@@ -12,6 +13,6 @@
   });
 </script>
 
-<p class="font-mono text-lg font-semibold text-zinc-500">
-  {Math.floor(timeElapsed / 60)}:{(timeElapsed % 60).toString().padStart(2, "0")}
+<p class="font-mono text-zinc-500">
+  {formatMinuteSeconds(timeElapsed)}
 </p>

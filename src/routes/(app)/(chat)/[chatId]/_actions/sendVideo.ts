@@ -43,7 +43,7 @@ export async function sendVideo({ request, params, locals }: RequestEvent) {
       source: uploadedVideoId,
       type: "video",
     });
-    sendMessage({ ...newMessage, linkPreview: null, documentInfo: null });
+    sendMessage({ ...newMessage, linkPreview: null, documentInfo: null, audioInfo: null });
   } catch (e) {
     return fail(500, { error: "Error uploading video" });
   }

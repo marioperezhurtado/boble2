@@ -5,71 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1702292944301,
-      "tag": "0000_neat_tombstone",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1702994417715,
-      "tag": "0001_hot_warpath",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1702995478292,
-      "tag": "0002_burly_ink",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1703949095021,
-      "tag": "0003_warm_ghost_rider",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "5",
-      "when": 1704025124952,
-      "tag": "0004_slimy_pandemic",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "5",
-      "when": 1704129374399,
-      "tag": "0005_lowly_human_robot",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "5",
-      "when": 1704130205126,
-      "tag": "0006_lean_karma",
-      "breakpoints": true
-    },
-    {
-      "idx": 7,
-      "version": "5",
-      "when": 1704130227817,
-      "tag": "0007_illegal_cardiac",
-      "breakpoints": true
-    },
-    {
-      "idx": 8,
-      "version": "5",
-      "when": 1704132584510,
-      "tag": "0008_boring_magik",
-      "breakpoints": true
-    },
-    {
-      "idx": 9,
-      "version": "5",
-      "when": 1704133009874,
-      "tag": "0009_bright_mephistopheles",
+      "when": 1704462157865,
+      "tag": "0000_premium_groot",
       "breakpoints": true
     }
   ]

@@ -10,36 +10,39 @@
   export let onClose: () => void;
 
   let chunks: BlobPart[] = [];
+
   let mediaRecorder: MediaRecorder | null = null;
-  let audioBlob: Blob | null = null; let audioUrl: string | null = null;
+  let speechRecognition: SpeechRecognition | null = null;
+
+  let audioBlob: Blob | null = null; 
+  let audioUrl: string | null = null;
+  let transcript: string | null = null;
   let isUploading = false;
 
   let accessDenied = false;
   let deviceNotFound = false;
 
-  function handleStart() {
-    mediaRecorder?.start();
-  }
-
   function handleStop() {
+    speechRecognition?.stop();
     mediaRecorder?.stop();
   }
 
   function handleDelete() {
     mediaRecorder?.stop();
-    audioUrl = null;
+    speechRecognition?.stop();
     onClose();
   }
 
-  $: if (audioBlob) handleSend();
+  $: if (audioBlob) sendAudio();
 
-  async function handleSend() {
+  async function sendAudio() {
     if (!audioBlob) return;
 
     const formData = new FormData();
     const audioFile = new File([audioBlob], "audio", { type: "audio/ogg" });
     formData.append("audio", audioFile);
     formData.append("replyToId", $replyingTo?.id ?? "");
+    formData.append("transcript", transcript ?? "");
 
     isUploading = true;
 
@@ -57,6 +60,10 @@
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       mediaRecorder = new MediaRecorder(stream);
+      speechRecognition = new webkitSpeechRecognition() || new SpeechRecognition();
+
+      speechRecognition.interimResults = true;
+      speechRecognition.continuous = true;
 
       mediaRecorder.ondataavailable = (e) => {
         chunks.push(e.data);
@@ -69,7 +76,12 @@
         chunks = [];
       };
 
-      handleStart();
+      speechRecognition.onresult = (e) => {
+        transcript = e.results[0][0].transcript;
+      };
+
+      mediaRecorder.start();
+      speechRecognition.start();
     } catch (e) {
       if ((e as DOMException).name === "NotFoundError") {
         deviceNotFound = true;

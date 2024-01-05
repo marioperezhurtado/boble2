@@ -43,7 +43,7 @@ export async function sendImage({ request, params, locals }: RequestEvent) {
       source: uploadedImageId,
       type: "image",
     });
-    sendMessage({ ...newMessage, linkPreview: null, documentInfo: null });
+    sendMessage({ ...newMessage, linkPreview: null, documentInfo: null, audioInfo: null });
   } catch (e) {
     return fail(500, { error: "Error uploading image" });
   }

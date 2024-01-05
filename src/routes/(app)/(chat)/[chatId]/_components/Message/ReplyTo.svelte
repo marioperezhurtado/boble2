@@ -1,6 +1,7 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import { getFileUrl } from "$lib/utils/url";
+  import { formatMinuteSeconds } from "$lib/utils/date";
   import type { PageData } from "../../$types";
   import type { Message } from "$lib/db/message/getMessages";
   import Image from "$lib/ui/Image.svelte";
@@ -46,7 +47,7 @@
           <p class="break-all max-w-[36ch] text-ellipsis line-clamp-1">
             {replyTo.text || "Video"}
           </p>
-       {:else if replyTo.type === "audio"}
+        {:else if replyTo.type === "audio"}
           <img
             src={isOwn
               ? "/icons/microphone-light.svg"
@@ -54,14 +55,19 @@
             alt="Audio icon"
             class="mr-0.5 w-4 h-4"
           />
-          <span>Voice message</span>
+          {#if replyTo.audioInfo?.duration}
+            <span>{formatMinuteSeconds(replyTo.audioInfo.duration)}</span>
+          {:else}
+            <span>Audio</span>
+          {/if}
         {:else if replyTo.type === "document"}
           <img
             src={isOwn ? "/icons/document-light.svg" : "/icons/document.svg"}
             alt="Document icon"
             class="mr-0.5 w-4 h-4"
           />
-          <span>{replyTo.text || replyTo.documentInfo?.name || "Document"}</span>
+          <span>{replyTo.text || replyTo.documentInfo?.name || "Document"}</span
+          >
         {:else if replyTo.type === "gif"}
           <img
             src={isOwn ? "/icons/gif-light.svg" : "/icons/gif.svg"}

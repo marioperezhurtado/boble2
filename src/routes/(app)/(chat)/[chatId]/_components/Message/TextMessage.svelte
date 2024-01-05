@@ -10,7 +10,7 @@
 </script>
 
 <MessageBubble {message} {isOwn} {isFirst}>
-  <div class="flex flex-wrap justify-between items-end max-w-lg">
+  <div class="flex flex-wrap gap-1 justify-between items-end max-w-lg">
     <p class="px-1 break-all">{message.text}</p>
     <MessageStatus {message} {lastReadAt} {isOwn} />
   </div>

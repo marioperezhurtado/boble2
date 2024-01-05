@@ -87,6 +87,15 @@ export const documentInfo = sqliteTable("document_info", {
   url: text("url").primaryKey(),
   name: text("name").notNull(),
   size: integer("size").notNull(),
+  messageId: text("message_id").references(() => message.id, { onDelete: "cascade" }).notNull(),
+});
+
+export const audioInfo = sqliteTable("audio_info", {
+  url: text("url").primaryKey(),
+  duration: integer("duration").notNull(),
+  transcript: text("transcript"),
+  volumeSpikes: text("volume_spikes").notNull(),
+  messageId: text("message_id").references(() => message.id, { onDelete: "cascade" }).notNull(),
 });
 
 // auth tables (lucia)

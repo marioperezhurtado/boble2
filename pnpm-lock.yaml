@@ -70,6 +70,9 @@ devDependencies:
   '@types/better-sqlite3':
     specifier: ^7.6.8
     version: 7.6.8
+  '@types/dom-speech-recognition':
+    specifier: ^0.0.4
+    version: 0.0.4
   '@types/express':
     specifier: ^4.17.21
     version: 4.17.21
@@ -2364,6 +2367,10 @@ packages:
     dependencies:
       '@types/node': 20.10.5
     dev: false
+
+  /@types/dom-speech-recognition@0.0.4:
+    resolution: {integrity: sha512-zf2GwV/G6TdaLwpLDcGTIkHnXf8JEf/viMux+khqKQKDa8/8BAUtXXZS563GnvJ4Fg0PBLGAaFf2GekEVSZ6GQ==}
+    dev: true
 
   /@types/estree@1.0.5:
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}

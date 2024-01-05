@@ -1,6 +1,7 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import { getFileUrl } from "$lib/utils/url";
+  import { formatMinuteSeconds } from "$lib/utils/date";
   import type { PageData } from "../$types";
   import type { Message } from "$lib/db/message/getMessages";
 
@@ -48,7 +49,11 @@
           alt="Audio icon"
           class="mr-0.5 w-4 h-4"
         />
-        <span>Voice message</span>
+        {#if message.audioInfo?.duration}
+          <span>{formatMinuteSeconds(message.audioInfo.duration)}</span>
+        {:else}
+          <span>Audio</span>
+        {/if}
       {:else if message.type === "document"}
         <img
           src="/icons/document.svg"
