@@ -14,7 +14,7 @@
   let mediaRecorder: MediaRecorder | null = null;
   let speechRecognition: SpeechRecognition | null = null;
 
-  let audioBlob: Blob | null = null; 
+  let audioBlob: Blob | null = null;
   let audioUrl: string | null = null;
   let transcript: string | null = null;
   let isUploading = false;
@@ -60,10 +60,6 @@
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       mediaRecorder = new MediaRecorder(stream);
-      speechRecognition = new webkitSpeechRecognition() || new SpeechRecognition();
-
-      speechRecognition.interimResults = true;
-      speechRecognition.continuous = true;
 
       mediaRecorder.ondataavailable = (e) => {
         chunks.push(e.data);
@@ -76,12 +72,7 @@
         chunks = [];
       };
 
-      speechRecognition.onresult = (e) => {
-        transcript = e.results[0][0].transcript;
-      };
-
       mediaRecorder.start();
-      speechRecognition.start();
     } catch (e) {
       if ((e as DOMException).name === "NotFoundError") {
         deviceNotFound = true;
@@ -91,7 +82,29 @@
     }
   }
 
-  onMount(() => setupRecorder());
+  function setupSpeechRecognition() {
+    try {
+      if (window.webkitSpeechRecognition) {
+        speechRecognition = new webkitSpeechRecognition();
+      } else {
+        speechRecognition = new SpeechRecognition();
+      }
+
+      speechRecognition.interimResults = true;
+      speechRecognition.continuous = true;
+
+      speechRecognition.onresult = (e) => {
+        transcript = e.results[0][0].transcript;
+      };
+
+      speechRecognition.start();
+    } catch (e) {}
+  }
+
+  onMount(() => {
+    setupRecorder();
+    setupSpeechRecognition();
+  });
 </script>
 
 <div class="flex gap-5 justify-center items-center h-14">

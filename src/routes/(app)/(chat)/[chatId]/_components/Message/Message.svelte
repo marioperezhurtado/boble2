@@ -5,7 +5,7 @@
   import TextMessage from "./TextMessage.svelte";
   import ImageMessage from "./ImageMessage.svelte";
   import VideoMessage from "./VideoMessage.svelte";
-  import AudioMessage from "./AudioMessage.svelte";
+  import AudioMessage from "./AudioMessage/AudioMessage.svelte";
   import DocumentMessage from "./DocumentMessage.svelte";
   import GifMessage from "./GifMessage.svelte";
   import StickerMessage from "./StickerMessage.svelte";
