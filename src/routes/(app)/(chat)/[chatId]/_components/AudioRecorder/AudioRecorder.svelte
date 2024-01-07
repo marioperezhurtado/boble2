@@ -2,10 +2,11 @@
   import { onMount } from "svelte";
   import { scale } from "svelte/transition";
   import { replyingTo } from "../stores";
+  import { VOLUME_SPIKE_COUNT, summarizeVolumeSpikes } from "./volumeSpikes";
   import TimeElapsed from "./TimeElapsed.svelte";
   import VolumeMeter from "./VolumeMeter.svelte";
-  import Modal from "$lib/ui/Modal.svelte";
-  import Button from "$lib/ui/Button.svelte";
+  import AccessDeniedModal from "./AccessDeniedModal.svelte";
+  import DeviceNotFoundModal from "./DeviceNotFoundModal.svelte";
 
   export let onClose: () => void;
 
@@ -18,19 +19,17 @@
   let audioUrl: string | null = null;
   let transcript: string | null = null;
   let isUploading = false;
+  let duration = 0;
+
+  let volumeSpikes = new Array(VOLUME_SPIKE_COUNT).fill(0);
 
   let accessDenied = false;
   let deviceNotFound = false;
 
   function handleStop() {
+    if (duration < 1) return;
     speechRecognition?.stop();
     mediaRecorder?.stop();
-  }
-
-  function handleDelete() {
-    mediaRecorder?.stop();
-    speechRecognition?.stop();
-    onClose();
   }
 
   $: if (audioBlob) sendAudio();
@@ -43,6 +42,11 @@
     formData.append("audio", audioFile);
     formData.append("replyToId", $replyingTo?.id ?? "");
     formData.append("transcript", transcript ?? "");
+    formData.append("duration", duration.toString());
+    formData.append(
+      "volumeSpikes",
+      summarizeVolumeSpikes(volumeSpikes.slice(VOLUME_SPIKE_COUNT)).join(","),
+    );
 
     isUploading = true;
 
@@ -104,19 +108,21 @@
   onMount(() => {
     setupRecorder();
     setupSpeechRecognition();
+
+    const durationInterval = setInterval(() => (duration += 0.5), 500);
+
+    return () => {
+      mediaRecorder?.stop();
+      speechRecognition?.stop();
+      clearInterval(durationInterval);
+    };
   });
 </script>
 
 <div class="flex gap-5 justify-center items-center h-14">
   {#if accessDenied}
     <img in:scale src="/icons/block.svg" alt="Access denied" class="w-9 h-9" />
-
-    <Modal title="Unable to access microphone" {onClose}>
-      <p class="text-sm text-zinc-500">
-        You need to grant access to your microphone to send voice messages.
-      </p>
-      <Button on:click={onClose} class="mt-5 ml-auto">Close</Button>
-    </Modal>
+    <AccessDeniedModal {onClose} />
   {:else if deviceNotFound}
     <img
       in:scale
@@ -124,17 +130,10 @@
       alt="Microphone not found"
       class="w-9 h-9"
     />
-
-    <Modal title="Microphone not found" {onClose}>
-      <div class="flex flex-col gap-2 text-sm text-zinc-500">
-        <p>No microphone was found on your device.</p>
-        <p>Please make sure you have a microphone connected and try again.</p>
-        <Button on:click={onClose} class="mt-5 ml-auto">Close</Button>
-      </div></Modal
-    >
+    <DeviceNotFoundModal {onClose} />
   {:else if mediaRecorder?.stream}
     <button
-      on:click={handleDelete}
+      on:click={onClose}
       class="flex justify-center items-center h-10 rounded-full border transition bg-zinc-100 min-w-10 hover:bg-zinc-200 hover:border-zinc-300"
     >
       <img
@@ -146,7 +145,7 @@
 
     <TimeElapsed />
 
-    <VolumeMeter stream={mediaRecorder.stream} />
+    <VolumeMeter stream={mediaRecorder.stream} bind:volumeSpikes />
 
     <button
       on:click={handleStop}

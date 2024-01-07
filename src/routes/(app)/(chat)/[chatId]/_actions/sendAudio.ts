@@ -30,6 +30,16 @@ export async function sendAudio({ request, params, locals }: RequestEvent) {
     return fail(400, { error: "You can't send messages in this chat" });
   }
 
+  const duration = Number(formData.get('duration'));
+  if (isNaN(duration)) {
+    return fail(400, { error: 'Invalid duration' });
+  }
+
+  const volumeSpikes = formData.get('volumeSpikes') as string | null;
+  if (!volumeSpikes) {
+    return fail(400, { error: 'Invalid volume spikes' });
+  }
+
   const replyToId = formData.get('replyToId') as string | null;
   const transcript = formData.get('transcript') as string | null;
 
@@ -44,16 +54,11 @@ export async function sendAudio({ request, params, locals }: RequestEvent) {
       type: "audio",
     });
 
-    // TODO: get duration and volume spikes
-
     const audioInfo = await createAudioInfo({
       url: uploadedAudioId,
-      duration: 5,
+      duration,
       transcript: transcript ?? null,
-      volumeSpikes: new Array(50)
-        .fill(0)
-        .map(() => Math.floor(Math.random() * 10))
-        .join(','),
+      volumeSpikes,
       messageId: newMessage.id,
     });
 

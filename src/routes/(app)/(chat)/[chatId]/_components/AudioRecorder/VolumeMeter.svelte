@@ -1,9 +1,10 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { VOLUME_SPIKE_COUNT } from "./volumeSpikes";
 
   export let stream: MediaStream;
+  export let volumeSpikes: number[];
 
-  let volumeSpikes = new Array(50).fill(0);
   let volume = 0;
 
   onMount(() => {
@@ -22,23 +23,29 @@
         sumSquares += amplitude * amplitude;
       }
 
-      volume = Math.sqrt(sumSquares / pcmData.length) * 5;
+      volume = Math.sqrt(sumSquares / pcmData.length) * 80;
       window.requestAnimationFrame(onFrame);
     };
 
     window.requestAnimationFrame(onFrame);
 
-    setInterval(() => {
-      volumeSpikes = [...volumeSpikes.slice(1), volume];
+    const volumeUpdateInterval = setInterval(() => {
+      volumeSpikes = [...volumeSpikes, volume];
     }, 100);
+
+    return () => {
+      mediaStreamAudioSourceNode.disconnect();
+      analyserNode.disconnect();
+      clearInterval(volumeUpdateInterval);
+    };
   });
 </script>
 
 <div class="flex relative gap-0.5 items-center h-10">
-  {#each volumeSpikes as spike}
+  {#each volumeSpikes.slice(-VOLUME_SPIKE_COUNT) as spike}
     <div
       class="w-0.5 rounded-full bg-zinc-400"
-      style="height: {Math.max(5, Number(spike) * 100)}%"
+      style="height: {Math.min(Math.max(Number(spike) * 10, 5), 100)}%"
     />
   {/each}
 
