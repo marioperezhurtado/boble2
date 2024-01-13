@@ -1,55 +1,48 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import { enhance } from "$app/forms";
+  import { goto, invalidateAll } from "$app/navigation";
+  import { trpc } from "$lib/trpc/client";
   import type { Contact } from "$lib/db/contact/getContacts";
-  import type { SubmitFunction, ActionData } from "../$types";
   import Button from "$lib/ui/Button.svelte";
   import Label from "$lib/ui/Label.svelte";
   import Input from "$lib/ui/Input.svelte";
   import Modal from "$lib/ui/Modal.svelte";
   import FormError from "$lib/ui/FormError.svelte";
   import Avatar from "$lib/ui/Avatar.svelte";
-
   export let contact: Contact;
 
   let isEditing = false;
   let alias = contact.alias;
-  let editError: string | null = null;
 
-  const handleEnhance: SubmitFunction = () => {
+  async function handleEditContact() {
     isEditing = true;
 
-    return async ({ update, result }) => {
-      await update();
-      isEditing = false;
+    try {
+      await trpc($page).contact.edit.mutate({
+        contactId: contact.id,
+        alias,
+      });
+      await invalidateAll();
+      goto(`/contacts/${contact.id}`);
+    } catch (error) {
+      console.error(error);
+    }
 
-      if (result.type === "failure") {
-        editError = (result.data as ActionData)?.error ?? null;
-        return;
-      }
-    };
-  };
+    isEditing = false;
+  }
 </script>
 
 <Modal title="Delete contact" backTo={$page.url.pathname}>
   <p class="text-sm text-zinc-500">Change the details of your contact.</p>
 
   <form
-    action="/contacts?/editContact"
-    use:enhance={handleEnhance}
-    method="POST"
+    on:submit|preventDefault={handleEditContact}
     class="flex flex-col gap-6 pt-8"
   >
     <div>
       <Label for="alias">
         Alias
-        <Input
-          value={alias}
-          on:input={(input) => (alias = input.detail)}
-          id="alias"
-          name="alias"
-          type="text"
-        />
+        <Input bind:value={alias} name="alias" type="text" />
       </Label>
       <p class="pt-2 text-xs font-normal text-zinc-500">
         This is the name that will appear in your contact list.
@@ -66,11 +59,11 @@
       </div>
     </div>
 
-    <input type="hidden" name="contactId" value={contact.id} />
-
+    <!--
     {#if editError}
       <FormError message={editError} />
     {/if}
+    -->
 
     <Button isLoading={isEditing} type="submit" class="ml-auto">
       Save changes

@@ -16,15 +16,15 @@ import { searchStickers } from './_actions/searchStickers';
 
 import type { PageServerLoad, Actions } from './$types';
 
-export const load: PageServerLoad = async ({ params, parent }) => {
-  const { user, chats } = await parent();
+export const load: PageServerLoad = async ({ locals, params, parent }) => {
+  const { chats } = await parent();
 
   const chat = chats.find((chat) => chat.id === params.chatId);
   if (!chat) {
     redirect(302, '/');
   }
 
-  await readChat(params.chatId, user.id);
+  await readChat(params.chatId, locals.session.user.id);
 
   const messages = await getMessages(params.chatId);
 

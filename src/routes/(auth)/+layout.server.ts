@@ -6,16 +6,13 @@ export const load: LayoutServerLoad = async ({ locals, url }) => {
 
   if (session) {
     // If user is not verified, redirect to email verification page
-    // Do not if user is already there
     if (!session.user.emailVerified && url.pathname !== "/email-verification") {
       redirect(302, "/email-verification");
     }
 
-    // If user is verified, redirect to home page
+    // If user is already verified, redirect to home page
     if (session.user.emailVerified) {
       redirect(302, "/");
     }
   }
-
-  return {};
 };

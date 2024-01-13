@@ -1,6 +1,8 @@
 <script lang="ts">
 	import Input from './Input.svelte';
 
+  export let value = "";
+
 	let showPassword = false;
 </script>
 
@@ -8,6 +10,7 @@
 	<Input 
     type={showPassword ? 'text' : 'password'}
     {...$$restProps} 
+    bind:value
   />
 	<button
 		type="button"

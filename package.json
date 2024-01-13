@@ -26,6 +26,8 @@
     "@aws-sdk/s3-request-presigner": "^3.477.0",
     "@lucia-auth/adapter-sqlite": "^2.0.1",
     "@lucia-auth/oauth": "^3.5.0",
+    "@trpc/client": "^10.45.0",
+    "@trpc/server": "^10.45.0",
     "better-sqlite3": "^9.2.2",
     "drizzle-orm": "^0.29.1",
     "express": "^4.18.2",
@@ -36,7 +38,9 @@
     "s3rver": "^3.7.1",
     "socket.io": "^4.7.2",
     "socket.io-client": "^4.7.2",
-    "svelte-email": "^0.0.4"
+    "svelte-email": "^0.0.4",
+    "trpc-sveltekit": "^3.5.22",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@playwright/test": "^1.40.1",

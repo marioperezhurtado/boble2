@@ -4,18 +4,8 @@ import { SqliteError } from 'better-sqlite3';
 import { generateEmailVerificationToken } from '$lib/db/emailVerificationToken/generateEmailVerificationToken';
 import { isValidEmail } from '$lib/email/email';
 import { sendEmailVerificationLink } from '$lib/email/sendEmailVerificationLink';
-
-import type { PageServerLoad, Actions } from './$types';
 import { nanoid } from '$lib/db/nanoid';
-
-export const load: PageServerLoad = async ({ locals }) => {
-  const session = await locals.auth.validate();
-  if (session) {
-    if (!session.user.emailVerified) redirect(302, '/email-verification');
-    redirect(302, '/');
-  }
-  return {};
-};
+import type { Actions } from './$types';
 
 export const actions: Actions = {
   createAccount: async ({ request, locals }) => {
