@@ -11,25 +11,24 @@
   import Avatar from "$lib/ui/Avatar.svelte";
   export let contact: Contact;
 
-  let isEditing = false;
   let alias = contact.alias;
 
-  async function handleEditContact() {
-    isEditing = true;
-
-    try {
-      await trpc($page).contact.edit.mutate({
-        contactId: contact.id,
-        alias,
-      });
+  const editContact = trpc($page).contact.edit.createMutation({
+    retry: false,
+    onSuccess: async () => {
       await invalidateAll();
       goto(`/contacts/${contact.id}`);
-    } catch (error) {
-      console.error(error);
-    }
+    },
+  });
 
-    isEditing = false;
+  function handleEditContact() {
+    $editContact.mutate({
+      contactId: contact.id,
+      alias,
+    });
   }
+
+  $: console.log($editContact.error?.data?.zodError?.fieldErrors.alias?.[0]);
 </script>
 
 <Modal title="Delete contact" backTo={$page.url.pathname}>
@@ -42,11 +41,13 @@
     <div>
       <Label for="alias">
         Alias
-        <Input bind:value={alias} name="alias" type="text" />
+        <Input
+          bind:value={alias}
+          name="alias"
+          type="text"
+          info="This is the name that will appear in your contact list."
+        />
       </Label>
-      <p class="pt-2 text-xs font-normal text-zinc-500">
-        This is the name that will appear in your contact list.
-      </p>
     </div>
 
     <div class="flex gap-3 items-center">
@@ -59,13 +60,11 @@
       </div>
     </div>
 
-    <!--
-    {#if editError}
-      <FormError message={editError} />
+    {#if $editContact.isError}
+      <FormError message={$editContact.error.message} />
     {/if}
-    -->
 
-    <Button isLoading={isEditing} type="submit" class="ml-auto">
+    <Button isLoading={$editContact.isPending} type="submit" class="ml-auto">
       Save changes
     </Button>
   </form>

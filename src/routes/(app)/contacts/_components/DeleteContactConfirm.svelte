@@ -10,43 +10,42 @@
 
   export let contact: Contact;
 
-  let isDeleting = false;
-
-  async function handleAddContact() {
-    isDeleting = true;
-
-    try {
-      await trpc($page).contact.delete.mutate({
-        contactId: contact.id,
-      });
+  const deleteContact = trpc($page).contact.delete.createMutation({
+    retry: false,
+    onSuccess: async () => {
       await invalidateAll();
       goto("/contacts");
-    } catch (error) {
-      console.error(error);
-    }
+    },
+  });
 
-    isDeleting = false;
+  function handleDeleteContact() {
+    $deleteContact.mutate({ contactId: contact.id });
   }
 </script>
 
 <Modal title="Delete contact" backTo={$page.url.pathname}>
-  <form on:submit|preventDefault={handleAddContact} class="flex flex-col gap-3">
+  <form
+    on:submit|preventDefault={handleDeleteContact}
+    class="flex flex-col gap-3"
+  >
     <p class="text-sm text-zinc-500">
       Are you sure you want to remove <strong>“{contact.alias}”</strong> from your
       contact list?
     </p>
 
-    <!--
-    {#if deleteError}
-      <FormError message={deleteError} />
+    {#if $deleteContact.isError}
+      <FormError message={$deleteContact.error.message} />
     {/if}
-  -->
 
     <div class="flex gap-4 justify-end mt-5">
       <ButtonLink intent="secondary" href={$page.url.pathname}>
         Cancel
       </ButtonLink>
-      <Button isLoading={isDeleting} type="submit" intent="danger">
+      <Button
+        isLoading={$deleteContact.isPending}
+        type="submit"
+        intent="danger"
+      >
         Delete contact
       </Button>
     </div>

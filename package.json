@@ -26,6 +26,7 @@
     "@aws-sdk/s3-request-presigner": "^3.477.0",
     "@lucia-auth/adapter-sqlite": "^2.0.1",
     "@lucia-auth/oauth": "^3.5.0",
+    "@tanstack/svelte-query": "^5.17.10",
     "@trpc/client": "^10.45.0",
     "@trpc/server": "^10.45.0",
     "better-sqlite3": "^9.2.2",
@@ -39,6 +40,7 @@
     "socket.io": "^4.7.2",
     "socket.io-client": "^4.7.2",
     "svelte-email": "^0.0.4",
+    "trpc-svelte-query-adapter": "^2.2.2",
     "trpc-sveltekit": "^3.5.22",
     "zod": "^3.22.4"
   },

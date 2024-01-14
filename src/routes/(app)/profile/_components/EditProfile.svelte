@@ -55,30 +55,23 @@
           id="name"
           name="name"
           type="text"
+          info="This is not your username or PIN. This name will be visible to other users."
         />
       </Label>
-      <p class="pt-2 text-xs font-normal text-zinc-500">
-        This is not your username or PIN. This name will be visible to other
-        users.
-      </p>
     </div>
-    <div>
-      <Label for="status">
-        Status
-        <Textarea
-          value={status}
-          on:input={(input) => (status = input.detail)}
-          maxLength={150}
-          id="status"
-          name="status"
-          rows="3"
-          placeholder="What are you up to?"
-        />
-      </Label>
-      <p class="pt-2 text-xs font-normal text-zinc-500">
-        Let other users know what you are up to.
-      </p>
-    </div>
+    <Label for="status">
+      Status
+      <Textarea
+        value={status}
+        on:input={(input) => (status = input.detail)}
+        maxLength={150}
+        id="status"
+        name="status"
+        rows="3"
+        placeholder="What are you up to?"
+        info="Let other users know what you are up to."
+      />
+    </Label>
 
     {#if $page.form?.error}
       <FormError message={$page.form.error} />

@@ -8,25 +8,22 @@
   import Modal from "$lib/ui/Modal.svelte";
   import FormError from "$lib/ui/FormError.svelte";
 
-  let isAdding = false;
   let newContactEmail = $page.url.searchParams.get("createContact") || "";
   let alias = "";
 
-  async function handleAddContact() {
-    isAdding = true;
-
-    try {
-      const newContactId = await trpc($page).contact.add.mutate({
-        email: newContactEmail,
-        alias,
-      });
+  const addContact = trpc($page).contact.add.createMutation({
+    retry: false,
+    onSuccess: async (newContactId) => {
       await invalidateAll();
       goto(`/contacts/${newContactId}`);
-    } catch (error) {
-      console.error(error);
-    }
+    },
+  });
 
-    isAdding = false;
+  function handleAddContact() {
+    $addContact.mutate({
+      email: newContactEmail,
+      alias,
+    });
   }
 </script>
 
@@ -40,11 +37,14 @@
     <div>
       <Label for="alias">
         Alias
-        <Input bind:value={alias} name="alias" type="text" autofocus />
+        <Input
+          bind:value={alias}
+          name="alias"
+          type="text"
+          autofocus
+          info="This is the name that will appear in your contact list."
+        />
       </Label>
-      <p class="pt-2 text-xs font-normal text-zinc-500">
-        This is the name that will appear in your contact list.
-      </p>
     </div>
 
     <Label for="email">
@@ -57,13 +57,11 @@
       />
     </Label>
 
-    <!--
-    {#if $page.form?.error}
-      <FormError message={$page.form.error} />
+    {#if $addContact.isError}
+      <FormError message={$addContact.error.message} />
     {/if}
-    -->
 
-    <Button isLoading={isAdding} type="submit" class="ml-auto">
+    <Button isLoading={$addContact.isPending} type="submit" class="ml-auto">
       Save contact
     </Button>
   </form>

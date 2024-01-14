@@ -4,6 +4,7 @@
 
   export let maxLength: number;
   export let value: string;
+  export let info: string | null = null;
 
   const dispatch = createEventDispatcher();
 </script>
@@ -28,3 +29,9 @@
     {value.length}/{maxLength}
   </span>
 </div>
+
+{#if info}
+  <p class="pt-2 text-xs font-normal text-zinc-500">
+    {info}
+  </p>
+{/if}
