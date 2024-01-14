@@ -21,6 +21,8 @@
   function handleDeleteContact() {
     $deleteContact.mutate({ contactId: contact.id });
   }
+
+  $: error = $deleteContact.error?.data?.error;
 </script>
 
 <Modal title="Delete contact" backTo={$page.url.pathname}>
@@ -33,8 +35,8 @@
       contact list?
     </p>
 
-    {#if $deleteContact.isError}
-      <FormError message={$deleteContact.error.message} />
+    {#if error}
+      <FormError message={error} />
     {/if}
 
     <div class="flex gap-4 justify-end mt-5">

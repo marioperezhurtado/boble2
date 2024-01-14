@@ -1,6 +1,7 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import { enhance } from "$app/forms";
+  import { trpc } from "$lib/trpc/client";
+  import { invalidateAll } from "$app/navigation";
   import Label from "$lib/ui/Label.svelte";
   import Input from "$lib/ui/Input.svelte";
   import Textarea from "$lib/ui/Textarea.svelte";
@@ -11,12 +12,29 @@
   import type { PageData } from "../$types";
 
   $: data = $page.data as PageData;
-  $: name = data.user.name;
-  $: status = data.user.status ?? "";
-  $: untouched = name === data.user.name && status === data.user.status;
+  let name = $page.data.user.name;
+  let status = $page.data.user.status ?? "";
+  $: untouched = name === data.user.name && status === (data.user.status ?? "");
 
-  let isUpdating = false;
-  let success = false;
+  const updateProfile = trpc($page).user.edit.createMutation({
+    retry: false,
+    onSuccess: async () => {
+      await invalidateAll();
+    },
+  });
+
+  function handleUpdateProfile() {
+    $updateProfile.mutate({ name, status: !!status ? status : null });
+  }
+
+  function handleCancel() {
+    name = data.user.name;
+    status = data.user.status ?? "";
+    $updateProfile.reset();
+  }
+
+  $: validationErrors = $updateProfile.error?.data?.validationErrors;
+  $: error = $updateProfile.error?.data?.error;
 </script>
 
 <section
@@ -32,51 +50,38 @@
   </div>
 
   <form
-    use:enhance={() => {
-      isUpdating = true;
-      success = false;
-
-      return async ({ update }) => {
-        await update({ reset: false });
-        isUpdating = false;
-        success = true;
-      };
-    }}
-    action="?/editProfile"
-    method="POST"
+    on:submit|preventDefault={handleUpdateProfile}
     class="flex flex-col gap-3"
   >
-    <div>
-      <Label for="name">
-        Name
-        <Input
-          value={name}
-          on:input={(input) => (name = input.detail)}
-          id="name"
-          name="name"
-          type="text"
-          info="This is not your username or PIN. This name will be visible to other users."
-        />
-      </Label>
-    </div>
+    <Label for="name">
+      Name
+      <Input
+        bind:value={name}
+        id="name"
+        name="name"
+        type="text"
+        info="This is not your username or PIN. This name will be visible to other users."
+        errors={validationErrors?.name}
+      />
+    </Label>
     <Label for="status">
       Status
       <Textarea
-        value={status}
-        on:input={(input) => (status = input.detail)}
+        bind:value={status}
         maxLength={150}
         id="status"
         name="status"
         rows="3"
         placeholder="What are you up to?"
         info="Let other users know what you are up to."
+        errors={validationErrors?.status}
       />
     </Label>
 
-    {#if $page.form?.error}
-      <FormError message={$page.form.error} />
+    {#if error}
+      <FormError message={error} />
     {/if}
-    {#if success && !isUpdating && untouched}
+    {#if $updateProfile.isSuccess && untouched}
       <FormSuccess message="Your profile has been updated." />
     {/if}
 
@@ -89,8 +94,15 @@
       />
     {/if}
 
-    <Button isLoading={isUpdating} type="submit" class="ml-auto">
-      Save changes
-    </Button>
+    {#if !untouched}
+      <div class="flex gap-2 justify-end">
+        <Button on:click={handleCancel} type="button" intent="secondary">
+          Cancel
+        </Button>
+        <Button isLoading={$updateProfile.isPending} type="submit">
+          Save changes
+        </Button>
+      </div>
+    {/if}
   </form>
 </section>

@@ -25,6 +25,9 @@
       alias,
     });
   }
+
+  $: validationErrors = $addContact.error?.data?.validationErrors;
+  $: error = $addContact.error?.data?.error;
 </script>
 
 <Modal title="New contact" backTo={$page.url.pathname}>
@@ -43,6 +46,7 @@
           type="text"
           autofocus
           info="This is the name that will appear in your contact list."
+          errors={validationErrors?.alias}
         />
       </Label>
     </div>
@@ -54,11 +58,12 @@
         name="email"
         type="email"
         placeholder="your-friend@email.com"
+        errors={validationErrors?.email}
       />
     </Label>
 
-    {#if $addContact.isError}
-      <FormError message={$addContact.error.message} />
+    {#if error}
+      <FormError message={error} />
     {/if}
 
     <Button isLoading={$addContact.isPending} type="submit" class="ml-auto">

@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm";
 
 type EditUserParams = {
   name: string;
-  status: string;
+  status: string | null;
   id: string;
 };
 

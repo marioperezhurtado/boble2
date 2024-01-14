@@ -41,13 +41,14 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
       ...shape,
       data: {
         ...shape.data,
-        zodError:
-          error.cause instanceof ZodError ? error.cause.flatten() : null,
+        validationErrors:
+          error.cause instanceof ZodError ? error.cause.flatten().fieldErrors : null,
+        error:
+          error.cause instanceof ZodError ? null : error.message,
       },
     };
   },
 });
-
 
 /**
  * 3. ROUTER & PROCEDURE (THE IMPORTANT BIT)

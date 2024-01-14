@@ -28,11 +28,12 @@
     });
   }
 
-  $: console.log($editContact.error?.data?.zodError?.fieldErrors.alias?.[0]);
+  $: validationErrors = $editContact.error?.data?.validationErrors;
+  $: error = $editContact.error?.data?.error;
 </script>
 
-<Modal title="Delete contact" backTo={$page.url.pathname}>
-  <p class="text-sm text-zinc-500">Change the details of your contact.</p>
+<Modal title="Edit contact" backTo={$page.url.pathname}>
+  <p class="text-sm text-zinc-500">Modify the details of your contact.</p>
 
   <form
     on:submit|preventDefault={handleEditContact}
@@ -46,6 +47,7 @@
           name="alias"
           type="text"
           info="This is the name that will appear in your contact list."
+          errors={validationErrors?.alias}
         />
       </Label>
     </div>
@@ -60,8 +62,8 @@
       </div>
     </div>
 
-    {#if $editContact.isError}
-      <FormError message={$editContact.error.message} />
+    {#if error}
+      <FormError message={error} />
     {/if}
 
     <Button isLoading={$editContact.isPending} type="submit" class="ml-auto">

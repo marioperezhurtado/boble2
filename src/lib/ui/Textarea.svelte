@@ -1,24 +1,18 @@
 <script lang="ts">
-  import { createEventDispatcher } from "svelte";
-  import { capitalize } from "$lib/utils/text";
+  import FormError from "./FormError.svelte";
 
   export let maxLength: number;
   export let value: string;
   export let info: string | null = null;
-
-  const dispatch = createEventDispatcher();
+  export let errors: string[] | null = null;
 </script>
 
 <div class="relative">
   <textarea
-    {value}
-    on:input={(e) => {
-      value = capitalize(e.currentTarget.value);
-      dispatch("input", capitalize(e.currentTarget.value));
-    }}
+    bind:value
     class="block py-1.5 px-2 w-full rounded-md border shadow-sm
   placeholder:text-zinc-400 focus:outline-cyan-600 {$$restProps.class}"
-    class:focus:outline-red-500={value.length > maxLength}
+    class:focus:outline-red-500={value?.length > maxLength}
     {...$$restProps}
   />
   <span
@@ -34,4 +28,12 @@
   <p class="pt-2 text-xs font-normal text-zinc-500">
     {info}
   </p>
+{/if}
+
+{#if errors}
+  <div class="flex flex-col gap-1 pt-2">
+    {#each errors as error}
+      <FormError message={error} />
+    {/each}
+  </div>
 {/if}

@@ -1,6 +1,9 @@
 <script lang="ts">
+  import FormError from "./FormError.svelte";
+
   export let value = "";
   export let info: string | null = null;
+  export let errors: string[] | null = null;
 </script>
 
 <input
@@ -15,4 +18,12 @@
   <p class="pt-2 text-xs font-normal text-zinc-500">
     {info}
   </p>
+{/if}
+
+{#if errors}
+  <div class="flex flex-col gap-1 pt-2">
+    {#each errors as error}
+      <FormError message={error} />
+    {/each}
+  </div>
 {/if}
