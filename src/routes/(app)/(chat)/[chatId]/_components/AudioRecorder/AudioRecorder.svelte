@@ -1,7 +1,10 @@
 <script lang="ts">
+  import { page } from "$app/stores";
+  import { trpc } from "$lib/trpc/client";
   import { onMount } from "svelte";
   import { scale } from "svelte/transition";
   import { replyingTo } from "../stores";
+  import { uploadFileFromClient } from "$lib/utils/file";
   import { VOLUME_SPIKE_COUNT, summarizeVolumeSpikes } from "./volumeSpikes";
   import TimeElapsed from "./TimeElapsed.svelte";
   import VolumeMeter from "./VolumeMeter.svelte";
@@ -11,14 +14,12 @@
   export let onClose: () => void;
 
   let chunks: BlobPart[] = [];
-
   let mediaRecorder: MediaRecorder | null = null;
   let speechRecognition: SpeechRecognition | null = null;
 
   let audioBlob: Blob | null = null;
   let audioUrl: string | null = null;
   let transcript: string | null = null;
-  let isUploading = false;
   let duration = 0;
 
   let volumeSpikes = new Array(VOLUME_SPIKE_COUNT).fill(0);
@@ -32,32 +33,50 @@
     mediaRecorder?.stop();
   }
 
-  $: if (audioBlob) sendAudio();
+  const sendAudio = trpc($page).message.sendAudio.createMutation({
+    retry: false,
+    onSuccess: () => {
+      $replyingTo = null;
+      onClose();
+    },
+  });
 
-  async function sendAudio() {
+  const createPresignedPost = trpc(
+    $page,
+  ).createPresignedPost.audio.createMutation({
+    retry: false,
+  });
+
+  $: if (audioBlob) handleSendAudio();
+
+  async function handleSendAudio() {
     if (!audioBlob) return;
 
-    const formData = new FormData();
     const audioFile = new File([audioBlob], "audio", { type: "audio/ogg" });
-    formData.append("audio", audioFile);
-    formData.append("replyToId", $replyingTo?.id ?? "");
-    formData.append("transcript", transcript ?? "");
-    formData.append("duration", duration.toString());
-    formData.append(
-      "volumeSpikes",
-      summarizeVolumeSpikes(volumeSpikes.slice(VOLUME_SPIKE_COUNT)).join(","),
-    );
 
-    isUploading = true;
+    const presignedPostData = await $createPresignedPost.mutateAsync();
 
-    await fetch(`?/sendAudio`, {
-      method: "POST",
-      body: formData,
+    try {
+      await uploadFileFromClient({
+        file: audioFile,
+        presignedPostData,
+      });
+    } catch (e) {
+      $replyingTo = null;
+      onClose();
+      return;
+    }
+
+    $sendAudio.mutate({
+      audioId: presignedPostData.fields.key,
+      chatId: $page.params.chatId,
+      replyToId: $replyingTo?.id ?? "",
+      transcript: transcript ?? "",
+      duration,
+      volumeSpikes: summarizeVolumeSpikes(
+        volumeSpikes.slice(VOLUME_SPIKE_COUNT),
+      ),
     });
-
-    isUploading = false;
-    $replyingTo = null;
-    onClose();
   }
 
   async function setupRecorder() {

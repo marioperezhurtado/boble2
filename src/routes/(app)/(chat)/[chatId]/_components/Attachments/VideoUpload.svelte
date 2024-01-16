@@ -3,11 +3,11 @@
   import { trpc } from "$lib/trpc/client";
   import { onMount } from "svelte";
   import { replyingTo } from "../stores";
-  import { formatFileSize, uploadFileFromClient } from "$lib/utils/file";
   import Button from "$lib/ui/Button.svelte";
   import Modal from "$lib/ui/Modal.svelte";
   import Input from "$lib/ui/Input.svelte";
   import FormError from "$lib/ui/FormError.svelte";
+  import { uploadFileFromClient } from "$lib/utils/file";
 
   export let onClose: () => void;
 
@@ -15,7 +15,7 @@
   let selectedFile: File | null = null;
   let caption = "";
 
-  const sendDocument = trpc($page).message.sendDocument.createMutation({
+  const sendVideo = trpc($page).message.sendVideo.createMutation({
     retry: false,
     onSuccess: () => {
       $replyingTo = null;
@@ -25,11 +25,11 @@
 
   const createPresignedPost = trpc(
     $page,
-  ).createPresignedPost.document.createMutation({
+  ).createPresignedPost.video.createMutation({
     retry: false,
   });
 
-  async function handleSendDocument() {
+  async function handleSendVideo() {
     if (!selectedFile) return;
 
     const presignedPostData = await $createPresignedPost.mutateAsync();
@@ -45,45 +45,41 @@
       return;
     }
 
-    $sendDocument.mutate({
-      documentId: presignedPostData.fields.key,
-      name: selectedFile.name,
-      size: selectedFile.size,
+    $sendVideo.mutate({
+      videoId: presignedPostData.fields.key,
       chatId: $page.params.chatId,
       replyToId: $replyingTo?.id,
       caption,
     });
   }
 
-  $: isUploading = $sendDocument.isPending || $createPresignedPost.isPending;
+  $: isUploading = $sendVideo.isPending || $createPresignedPost.isPending;
   $: error =
-    $sendDocument.error?.data?.error || $createPresignedPost.error?.data?.error;
+    $sendVideo.error?.data?.error || $createPresignedPost.error?.data?.error;
 
   onMount(() => fileInput.click());
 </script>
 
-<form on:submit|preventDefault={handleSendDocument}>
+<form on:submit|preventDefault={handleSendVideo}>
   <input
     bind:this={fileInput}
     on:input={() => (selectedFile = fileInput?.files?.[0] ?? null)}
     type="file"
-    name="document"
+    name="video"
+    accept="video/*"
     hidden
   />
 
   {#if selectedFile}
-    <Modal title="Upload document" {onClose}>
-      <div class="flex gap-2 p-2 pr-4 mb-5 rounded-md border bg-zinc-100">
-        <img src="/icons/document.svg" alt="Document icon" class="w-10 h-10" />
-        <div>
-          <p class="font-medium break-all">{selectedFile.name}</p>
-          <p class="text-xs text-zinc-500">
-            {#if selectedFile.name.includes(".")}
-              {selectedFile.name.split(".").pop()?.toUpperCase()} ·{" "}
-            {/if}
-            {formatFileSize(selectedFile.size)}
-          </p>
-        </div>
+    <Modal title="Upload video" {onClose}>
+      <div class="p-2 mb-5 w-full h-56 rounded-md border bg-zinc-100">
+        <!-- svelte-ignore a11y-media-has-caption -->
+        <video controls class="object-contain mx-auto w-full h-full">
+          <source
+            src={URL.createObjectURL(selectedFile)}
+            type={selectedFile.type}
+          />
+        </video>
       </div>
 
       {#if error}

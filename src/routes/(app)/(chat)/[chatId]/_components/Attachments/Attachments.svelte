@@ -2,12 +2,14 @@
   import { clickOutside } from "$lib/actions/clickOutside";
   import { fly } from "svelte/transition";
   import AttachmentItem from "./AttachmentItem.svelte";
-  import ImageVideoUpload from "./ImageVideoUpload.svelte";
+  import ImageUpload from "./ImageUpload.svelte";
+  import VideoUpload from "./VideoUpload.svelte";
   import DocumentUpload from "./DocumentUpload.svelte";
 
   let isOpen = false;
   let openAttachment:
-    | "photo-video"
+    | "image"
+    | "video"
     | "document"
     | "location"
     | "contact"
@@ -41,9 +43,14 @@
       class="flex absolute bottom-12 z-20 flex-col flex-1 w-44 text-sm font-medium bg-white rounded-md border shadow-md text-zinc-600"
     >
       <AttachmentItem
-        onOpen={() => handleOpenAttachment("photo-video")}
-        text="Photo or Video"
+        onOpen={() => handleOpenAttachment("image")}
+        text="Photo"
         icon="/icons/image.svg"
+      />
+      <AttachmentItem
+        onOpen={() => handleOpenAttachment("video")}
+        text="Video"
+        icon="/icons/video.svg"
       />
       <AttachmentItem
         onOpen={() => handleOpenAttachment("document")}
@@ -58,8 +65,10 @@
     </ul>
   {/if}
 
-  {#if openAttachment === "photo-video"}
-    <ImageVideoUpload onClose={() => (openAttachment = null)} />
+  {#if openAttachment === "image"}
+    <ImageUpload onClose={() => (openAttachment = null)} />
+  {:else if openAttachment === "video"}
+    <VideoUpload onClose={() => (openAttachment = null)} />
   {:else if openAttachment === "document"}
     <DocumentUpload onClose={() => (openAttachment = null)} />
   {/if}
