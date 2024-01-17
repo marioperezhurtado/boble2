@@ -28,14 +28,16 @@
     );
   }
 
-  $: imageSource = !!user.image ? user.image : generateIdenticon(user.email);
+  $: imageSource = user.image ?? generateIdenticon(user.email);
 </script>
 
 <img
   src={imageSource}
   alt={user.name}
   class="object-cover rounded-full border shadow-sm {SIZES[size]} 
-    aspect-square bg-white"
+    aspect-square"
+  class:bg-zinc-100={user.image}
+  class:bg-white={!user.image}
   draggable={false}
 />
 

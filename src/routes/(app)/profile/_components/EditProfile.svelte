@@ -11,9 +11,10 @@
   import FormSuccess from "$lib/ui/FormSuccess.svelte";
   import type { PageData } from "../$types";
 
-  $: data = $page.data as PageData;
   let name = $page.data.user.name;
   let status = $page.data.user.status ?? "";
+
+  $: data = $page.data as PageData;
   $: untouched = name === data.user.name && status === (data.user.status ?? "");
 
   const updateProfile = trpc($page).user.edit.createMutation({

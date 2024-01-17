@@ -5,6 +5,7 @@ import { auth } from "$lib/auth/auth";
 import { redirect, type Handle } from "@sveltejs/kit";
 
 const APP_ROUTES = [
+  "/k",
   "/profile",
   "/contacts",
   "/settings",

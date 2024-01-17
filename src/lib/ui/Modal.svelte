@@ -18,13 +18,7 @@
   }
 </script>
 
-<svelte:window
-  on:keydown={(e) => {
-    if (e.key === "Escape") {
-      handleClose();
-    }
-  }}
-/>
+<svelte:window on:keydown={(e) => e.key === "Escape" && handleClose()} />
 
 <div
   on:click|stopPropagation={handleClose}

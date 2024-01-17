@@ -2,37 +2,40 @@
   import { page } from "$app/stores";
   import { trpc } from "$lib/trpc/client";
   import { goto, invalidateAll } from "$app/navigation";
-  import type { Contact } from "$lib/db/contact/getContacts";
+  import type { Chat } from "$lib/db/chat/getChats";
   import Button from "$lib/ui/Button.svelte";
   import ButtonLink from "$lib/ui/ButtonLink.svelte";
   import Modal from "$lib/ui/Modal.svelte";
   import FormError from "$lib/ui/FormError.svelte";
 
-  export let contact: Contact;
+  export let chat: Chat;
 
-  const deleteContact = trpc($page).contact.delete.createMutation({
+  const deleteChat = trpc($page).chat.delete.createMutation({
     retry: false,
     onSuccess: async () => {
       await invalidateAll();
-      goto("/contacts");
+
+      if ($page.params.chatId === chat.id) {
+        goto("/k");
+      }
     },
   });
 
-  function handleDeleteContact() {
-    $deleteContact.mutate({ contactId: contact.id });
+  function handleDeleteChat() {
+    $deleteChat.mutate({ chatId: $page.params.chatId });
   }
 
-  $: error = $deleteContact.error?.data?.error;
+  $: error = $deleteChat.error?.data?.error;
 </script>
 
-<Modal title="Delete contact" backTo={$page.url.pathname}>
-  <div
-    class="flex flex-col gap-3"
-  >
-    <p class="text-sm text-zinc-500">
-      Are you sure you want to remove <strong>“{contact.alias}”</strong> from your
-      contact list?
-    </p>
+<Modal title="Delete chat" backTo={$page.url.pathname}>
+  <div class="flex flex-col gap-3">
+    <div class="flex flex-col gap-2 text-sm text-zinc-500">
+      <p>Are you sure you want to delete this chat?</p>
+      <p>
+        All messages will be <strong>permanently</strong> deleted.
+      </p>
+    </div>
 
     {#if error}
       <FormError message={error} />
@@ -43,12 +46,12 @@
         Cancel
       </ButtonLink>
       <Button
-        on:click={handleDeleteContact}
-        isLoading={$deleteContact.isPending}
+        on:click={handleDeleteChat}
+        isLoading={$deleteChat.isPending}
         type="submit"
         intent="danger"
       >
-        Delete contact
+        Delete chat
       </Button>
     </div>
   </div>

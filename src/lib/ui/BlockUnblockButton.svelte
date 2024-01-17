@@ -1,56 +1,49 @@
 <script lang="ts">
-  import { enhance } from "$app/forms";
+  import { page } from "$app/stores";
+  import { trpc } from "$lib/trpc/client";
+  import { invalidateAll } from "$app/navigation";
   import Button from "./Button.svelte";
 
   export let userId: string;
   export let isBlocked: boolean;
 
-  let pending = false;
+  const blockUser = trpc($page).user.block.createMutation({
+    retry: false,
+    onSuccess: invalidateAll,
+  });
+
+  const unblockUser = trpc($page).user.unblock.createMutation({
+    retry: false,
+    onSuccess: invalidateAll,
+  });
+
+  function handleBlockUser() {
+    $blockUser.mutate({ blockUserId: userId });
+  }
+
+  function handleUnblockUser() {
+    $unblockUser.mutate({ unblockUserId: userId });
+  }
 </script>
 
 {#if isBlocked}
-  <form
-    use:enhance={() => {
-      pending = true;
-
-      return async ({ update }) => {
-        await update();
-        pending = false;
-      };
-    }}
-    action="/?/unblockUser"
-    method="post"
-    class="w-full"
+  <Button
+    on:click={handleUnblockUser}
+    isLoading={$unblockUser.isPending}
+    intent="secondary"
+    fullWidth
   >
-    <Button isLoading={pending} type="submit" intent="secondary" fullWidth>
-      <img src="/icons/unblock.svg" alt="Unblock user" class="w-4 h-4" />
-      Unblock user
-    </Button>
-    <input type="hidden" name="unblockUserId" value={userId} />
-  </form>
+    <img src="/icons/unblock.svg" alt="Unblock user" class="w-4 h-4" />
+    Unblock user
+  </Button>
 {:else}
-  <form
-    use:enhance={() => {
-      pending = true;
-
-      return async ({ update }) => {
-        await update();
-        pending = false;
-      };
-    }}
-    action="/?/blockUser"
-    method="post"
-    class="w-full"
+  <Button
+    on:click={handleBlockUser}
+    isLoading={$blockUser.isPending}
+    intent="dangerSecondary"
+    fullWidth
   >
-    <Button
-      isLoading={pending}
-      type="submit"
-      intent="dangerSecondary"
-      fullWidth
-    >
-      <img src="/icons/block.svg" alt="Block user" class="w-4 h-4" />
-      Block user
-    </Button>
-    <input type="hidden" name="blockUserId" value={userId} />
-  </form>
+    <img src="/icons/block.svg" alt="Block user" class="w-4 h-4" />
+    Block user
+  </Button>
 {/if}

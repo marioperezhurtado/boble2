@@ -17,7 +17,7 @@
     </a>
     <div class="flex gap-2">
      <ActionIconLink
-        href="/"
+        href="/k"
         title="Chats"
         icon="/icons/chat.svg"
       />

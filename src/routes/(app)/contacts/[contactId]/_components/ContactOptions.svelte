@@ -1,13 +1,23 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import { enhance } from "$app/forms";
+  import { trpc } from "$lib/trpc/client";
   import Button from "$lib/ui/Button.svelte";
   import ButtonLink from "$lib/ui/ButtonLink.svelte";
   import type { Contact } from "$lib/db/contact/getContacts";
+  import { goto } from "$app/navigation";
 
   export let contact: Contact;
 
-  let isOpeningChat = false;
+  const openChat = trpc($page).chat.open.createMutation({
+    retry: false,
+    onSuccess: (chatId) => {
+      goto(`/k/${chatId}`);
+    },
+  });
+
+  function handleOpenChat() {
+    $openChat.mutate({ contactId: contact.id });
+  }
 </script>
 
 <div class="flex flex-row flex-wrap gap-2">
@@ -20,29 +30,13 @@
     Edit contact
   </ButtonLink>
 
-  <form
-    use:enhance={() => {
-      isOpeningChat = true;
-
-      return async ({ update }) => {
-        await update();
-        isOpeningChat = false;
-      };
-    }}
-    action="?/openChat"
-    method="POST"
-    use:enhance
+  <Button
+    on:click={handleOpenChat}
+    isLoading={$openChat.isPending}
+    intent="primary"
+    size="small"
   >
-    <input type="hidden" name="contactId" value={contact.id} />
-
-    <Button
-      isLoading={isOpeningChat}
-      type="submit"
-      intent="primary"
-      size="small"
-    >
-      <img src="/icons/chat-light.svg" alt="Open chat" class="w-4 h-4" />
-      Open chat
-    </Button>
-  </form>
+    <img src="/icons/chat-light.svg" alt="Open chat" class="w-4 h-4" />
+    Open chat
+  </Button>
 </div>

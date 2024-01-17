@@ -4,15 +4,14 @@ import { protectedProcedure } from "$lib/trpc/trpc";
 import { checkCanSendMessage } from "./shared";
 import { z } from "zod";
 
-const sendVideoSchema = z.object({
-  videoId: z.string(),
-  replyToId: z.string().optional(),
-  caption: z.string().optional(),
+const sendGifSchema = z.object({
+  gif: z.string(),
   chatId: z.string(),
+  replyToId: z.string().optional(),
 });
 
-export const sendVideo = protectedProcedure
-  .input(sendVideoSchema)
+export const sendGif = protectedProcedure
+  .input(sendGifSchema)
   .mutation(async ({ ctx, input }) => {
     await checkCanSendMessage({
       userId: ctx.session.user.id,
@@ -23,15 +22,14 @@ export const sendVideo = protectedProcedure
       chatId: input.chatId,
       senderId: ctx.session.user.id,
       replyToId: input.replyToId,
-      text: input.caption,
-      source: input.videoId,
-      type: "video",
+      text: input.gif,
+      type: "gif",
     });
 
     sendMessage({
       ...newMessage,
       linkPreview: null,
       documentInfo: null,
-      audioInfo: null,
+      audioInfo: null
     });
   });

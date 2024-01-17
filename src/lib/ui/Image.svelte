@@ -19,6 +19,8 @@
   }
 </script>
 
+<svelte:window on:keydown={(e) => e.key === "Escape" && (isExpanded = false)} />
+
 <div
   role="button"
   tabindex="0"
