@@ -1,3 +1,5 @@
+import { type PresignedPost } from "@aws-sdk/s3-presigned-post";
+
 type DownloadFile = {
   url: string;
   type: string;
@@ -35,4 +37,32 @@ export function formatFileSize(sizeInBytes: number) {
   const i = Math.floor(Math.log(sizeInBytes) / Math.log(1024));
 
   return `${Math.round(sizeInBytes / Math.pow(1024, i))} ${units[i]}`;
+}
+
+type UploadFile = {
+  file: File;
+  presignedPostData: PresignedPost;
+};
+
+export async function uploadFileFromClient({ file, presignedPostData }: UploadFile) {
+  // Add presigned post data to form data
+  const { url, fields } = presignedPostData;
+
+  const data: Record<string, any> = {
+    ...fields,
+    "Content-Type": file.type,
+    file,
+  };
+
+  const formData = new FormData();
+
+  for (const name in data) {
+    formData.append(name, data[name]);
+  }
+
+  // Upload file
+  await fetch(url, {
+    method: "POST",
+    body: formData,
+  });
 }

@@ -1,58 +1,72 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import { enhance } from "$app/forms";
+  import { trpc } from "$lib/trpc/client";
+  import { goto, invalidateAll } from "$app/navigation";
   import Button from "$lib/ui/Button.svelte";
   import Label from "$lib/ui/Label.svelte";
   import Input from "$lib/ui/Input.svelte";
   import Modal from "$lib/ui/Modal.svelte";
   import FormError from "$lib/ui/FormError.svelte";
 
-  let isAdding = false;
   let newContactEmail = $page.url.searchParams.get("createContact") || "";
+  let alias = "";
+
+  const addContact = trpc($page).contact.add.createMutation({
+    retry: false,
+    onSuccess: async (newContactId) => {
+      await invalidateAll();
+      goto(`/contacts/${newContactId}`);
+    },
+  });
+
+  function handleAddContact() {
+    $addContact.mutate({
+      email: newContactEmail,
+      alias,
+    });
+  }
+
+  $: validationErrors = $addContact.error?.data?.validationErrors;
+  $: error = $addContact.error?.data?.error;
 </script>
 
 <Modal title="New contact" backTo={$page.url.pathname}>
   <p class="text-sm text-zinc-500">Add a new contact to your list.</p>
 
   <form
-    action="/contacts?/addContact"
-    use:enhance={() => {
-      isAdding = true;
-
-      return async ({ update }) => {
-        await update();
-        isAdding = false;
-      };
-    }}
-    method="POST"
+    on:submit|preventDefault={handleAddContact}
     class="flex flex-col gap-3 pt-8"
   >
     <div>
       <Label for="alias">
         Alias
-        <Input id="alias" name="alias" type="text" autofocus />
+        <Input
+          bind:value={alias}
+          name="alias"
+          type="text"
+          autofocus
+          info="This is the name that will appear in your contact list."
+          errors={validationErrors?.alias}
+        />
       </Label>
-      <p class="pt-2 text-xs font-normal text-zinc-500">
-        This is the name that will appear in your contact list.
-      </p>
     </div>
 
     <Label for="email">
       Email address
       <Input
         bind:value={newContactEmail}
-        id="email"
         name="email"
         type="email"
         placeholder="your-friend@email.com"
+        errors={validationErrors?.email}
       />
     </Label>
 
-    {#if $page.form?.error}
-      <FormError message={$page.form.error} />
+    {#if error}
+      <FormError message={error} />
     {/if}
 
-    <Button isLoading={isAdding} type="submit" class="ml-auto">
+    <Button isLoading={$addContact.isPending} type="submit" class="ml-auto">
       Save contact
     </Button>
   </form>

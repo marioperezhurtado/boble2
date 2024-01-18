@@ -21,13 +21,13 @@ Chat with your friends and family from any device.
 - [Svelte](https://svelte.dev/): Front-end library that compiles declarative components into fast and lean web apps.
 - [SvelteKit](https://kit.svelte.dev/): Framework for rapidly developing robust, performant web applications using Svelte. 
 - [TailwindCSS](https://tailwindcss.com/): Utility-first, component driven CSS framework.
+- [tRPC](https://trpc.io/): End-to-end typesafe APIs made easy.
 
 **WebSocket**
 - [Socket.io](https://socket.io/): Library that enables low-latency, bidirectional and event-based communication between a client and a server.
 
 **Database**
 - [SQLite](https://www.sqlite.org/): Small, fast, self-contained, high-reliability, full-featured, SQL database engine.
-- [Better-sqlite3](https://github.com/WiseLibs/better-sqlite3): The fastest and simplest library for SQLite3 in Node.js.
 - [DrizzleORM](https://orm.drizzle.team/): TypeScript ORM that feels like writing SQL.
 
 **Authentication**
@@ -51,36 +51,36 @@ Chat with your friends and family from any device.
 
 ```
 /
-├── doc/
-│   └── Documentation images.
 ├── drizzle/
 │   └── SQL migrations.
 ├── tests/
 │   └── Tests.
 ├── s3/
-│   └── Fake S3 server for development.
+│   └── Fake S3 server used for development.
 ├── static/
 │   └── Static assets to be served.
+│   
 ├── src/
 │   ├── lib/
 │   │   ├── auth/
 │   │   │   └── Authentication using lucia.
 │   │   ├── db/
 │   │   │   └── Database config, schemas and queries using drizzle.
+│   │   ├── trpc/
+│   │   │   └── tRPC config, routers and procedures.
 │   │   ├── socket/
 │   │   │   └── WebSocket server using socket.io. 
 │   │   ├── email/
 │   │   │   └── Email config, templates and functions.
 │   │   ├── file-upload/
-│   │   │   └── File uploads using Amazon S3.
-│   │   ├── mood/
-│   │   │   └── GIF and sticker search using Giphy.
+│   │   │   └── File uploads using Amazon S3 SDK.
 │   │   ├── ui/
 │   │   │   └── Reusable UI components.
 │   │   ├── actions/
 │   │   │   └── Reusable element behaviors.
 │   │   └── utils/
 │   │       └── Helper functions.
+│   │
 │   └── routes/
 │       └── Routes of your application and co-located components and files.
 │   
@@ -157,8 +157,6 @@ You can check your tables and data using drizzle studio:
 ```
 npm run db:studio
 ```
-
-![Database diagram](./doc/db-diagram.png)
 
 ## Email setup
 

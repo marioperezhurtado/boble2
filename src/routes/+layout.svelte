@@ -1,5 +1,7 @@
 <script>
   import "../app.css";
+  import { QueryClientProvider } from "@tanstack/svelte-query";
+  import { queryClient } from "$lib/trpc/client";
 </script>
 
 <svelte:head>
@@ -18,4 +20,6 @@
   <meta name="author" content="Mario Pérez Hurtado" />
 </svelte:head>
 
-<slot />
+<QueryClientProvider client={queryClient}>
+  <slot />
+</QueryClientProvider>

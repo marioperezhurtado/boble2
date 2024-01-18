@@ -1,8 +1,8 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import { enhance } from "$app/forms";
+  import { trpc } from "$lib/trpc/client";
+  import { goto, invalidateAll } from "$app/navigation";
   import type { Contact } from "$lib/db/contact/getContacts";
-  import type { ActionData, SubmitFunction } from "../$types";
   import Button from "$lib/ui/Button.svelte";
   import ButtonLink from "$lib/ui/ButtonLink.svelte";
   import Modal from "$lib/ui/Modal.svelte";
@@ -10,49 +10,46 @@
 
   export let contact: Contact;
 
-  let isDeleting = false;
-  let deleteError: string | null = null;
+  const deleteContact = trpc($page).contact.delete.createMutation({
+    retry: false,
+    onSuccess: async () => {
+      await invalidateAll();
+      goto("/contacts");
+    },
+  });
 
-  const handleEnhance: SubmitFunction = () => {
-    isDeleting = true;
+  function handleDeleteContact() {
+    $deleteContact.mutate({ contactId: contact.id });
+  }
 
-    return async ({ update, result }) => {
-      await update();
-      isDeleting = false;
-
-      if (result.type === "failure") {
-        deleteError = (result.data as ActionData)?.error ?? null;
-        return;
-      }
-    };
-  };
+  $: error = $deleteContact.error?.data?.error;
 </script>
 
 <Modal title="Delete contact" backTo={$page.url.pathname}>
-  <form
-    method="POST"
-    action="/contacts?/removeContact"
-    use:enhance={handleEnhance}
+  <div
     class="flex flex-col gap-3"
   >
-    <input type="hidden" name="contactId" value={contact.id} />
-
     <p class="text-sm text-zinc-500">
       Are you sure you want to remove <strong>“{contact.alias}”</strong> from your
       contact list?
     </p>
 
-    {#if deleteError}
-      <FormError message={deleteError} />
+    {#if error}
+      <FormError message={error} />
     {/if}
 
     <div class="flex gap-4 justify-end mt-5">
       <ButtonLink intent="secondary" href={$page.url.pathname}>
         Cancel
       </ButtonLink>
-      <Button isLoading={isDeleting} type="submit" intent="danger">
+      <Button
+        on:click={handleDeleteContact}
+        isLoading={$deleteContact.isPending}
+        type="submit"
+        intent="danger"
+      >
         Delete contact
       </Button>
     </div>
-  </form>
+  </div>
 </Modal>

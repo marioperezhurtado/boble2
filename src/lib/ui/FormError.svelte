@@ -2,7 +2,7 @@
   export let message: string;
 </script>
 
-<div
-  class="py-1.5 px-2 text-sm text-red-700 bg-red-50 rounded-sm border-l-2 border-red-700">
-  <p>{message}</p>
-</div>
+<p
+  class="py-1.5 px-2 text-sm font-medium text-red-700 bg-red-50 rounded-sm border-l-2 border-red-700">
+  {message}
+</p>

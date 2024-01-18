@@ -38,15 +38,11 @@
 >
   <Label for="email">
     Email
-    <Input id="email" name="email" type="email" autocomplete="email" />
+    <Input name="email" type="email" autocomplete="email" />
   </Label>
   <Label for="password">
     Password
-    <PasswordInput
-      id="password"
-      name="password"
-      autocomplete="current-password"
-    />
+    <PasswordInput name="password" autocomplete="current-password" />
   </Label>
 
   <div
