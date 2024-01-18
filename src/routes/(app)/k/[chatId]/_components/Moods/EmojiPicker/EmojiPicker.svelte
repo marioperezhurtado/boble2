@@ -1,10 +1,16 @@
 <script lang="ts">
+  import { page } from "$app/stores";
+  import { trpc } from "$lib/trpc/client";
   import { EMOJI_CATEGORIES } from "./categories";
   import { capitalize } from "$lib/utils/text";
-  import { hoveredEmoji, parseUnicodeEmoji } from "./store";
-  import { text } from "../../stores";
+  import { hoveredEmoji, parseUnicodeEmoji, type EmojiData } from "./store";
+  import { text } from "$lib/stores/store";
   import Category from "./Category.svelte";
   import FilterEmojis from "./FilterEmojis.svelte";
+
+  const getEmojis = trpc($page).mood.emoji.getAll.createQuery();
+
+  let filteredEmojis: EmojiData | null = null;
 
   function handlePick(emoji: string) {
     $text += parseUnicodeEmoji(emoji);
@@ -18,7 +24,8 @@
   }
 </script>
 
-<FilterEmojis />
+<FilterEmojis initialEmojis={$getEmojis.data ?? null} bind:filteredEmojis />
+
 <div class="flex justify-around items-center px-2 pt-1 border-b">
   {#each EMOJI_CATEGORIES as category}
     <button
@@ -34,9 +41,17 @@
 </div>
 
 <section id="emoji-list" class="overflow-y-scroll h-96">
-  {#each EMOJI_CATEGORIES as category}
-    <Category {category} onPick={handlePick} />
-  {/each}
+  {#if $getEmojis.isLoading}
+    <p class="font-medium text-zinc-500 text-sm">Loading...</p>
+  {:else if $getEmojis.data}
+    {#each EMOJI_CATEGORIES as category}
+      <Category
+        {category}
+        emojis={filteredEmojis ?? $getEmojis.data}
+        onPick={handlePick}
+      />
+    {/each}
+  {/if}
 </section>
 
 {#if $hoveredEmoji}

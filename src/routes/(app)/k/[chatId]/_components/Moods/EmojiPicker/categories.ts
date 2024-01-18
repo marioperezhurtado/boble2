@@ -1,10 +1,5 @@
 export const EMOJI_CATEGORIES = [
   {
-    title: "Recent",
-    icon: "/icons/emojis/recent.svg",
-    slug: "recent",
-  },
-  {
     title: "Smileys & People",
     icon: "/icons/emojis/smileys-and-people.svg",
     slug: "smileys-and-people",

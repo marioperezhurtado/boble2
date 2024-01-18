@@ -1,5 +1,7 @@
 <script lang="ts">
-  import type { Gif } from "$lib/mood/types";
+  import type { RouterOutputs } from "$lib/trpc/trpc";
+
+  type Gif = RouterOutputs["mood"]["gif"]["getTrending"][number];
 
   export let onPick: (url: string) => void;
   export let gifs: Gif[] = [];

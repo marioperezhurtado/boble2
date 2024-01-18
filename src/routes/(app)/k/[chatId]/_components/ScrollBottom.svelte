@@ -1,6 +1,6 @@
 <script lang="ts">
   import { scale } from "svelte/transition";
-  import { replyingTo } from "./stores";
+  import { replyingTo } from "$lib/stores/store";
 
   export let onScrollBottom: () => void;
   export let unreadCount: number;

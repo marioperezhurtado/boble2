@@ -1,8 +1,7 @@
 <script>
   import "../app.css";
-  import { QueryClient, QueryClientProvider } from "@tanstack/svelte-query";
-
-  const queryClient = new QueryClient();
+  import { QueryClientProvider } from "@tanstack/svelte-query";
+  import { queryClient } from "$lib/trpc/client";
 </script>
 
 <svelte:head>

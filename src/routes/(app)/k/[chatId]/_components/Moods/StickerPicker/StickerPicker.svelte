@@ -1,11 +1,12 @@
 <script lang="ts">
   import { page } from "$app/stores";
+  import { trpc } from "$lib/trpc/client";
   import { isOpen } from "../store";
-  import { replyingTo } from "../../stores";
-  import type { PageData, ActionData } from "../../../$types";
+  import { replyingTo } from "$lib/stores/store";
   import SearchStickers from "./SearchStickers.svelte";
   import StickerList from "./StickerList.svelte";
-  import { trpc } from "$lib/trpc/client";
+
+  let search = "";
 
   const sendSticker = trpc($page).message.sendSticker.createMutation({
     retry: false,
@@ -13,6 +14,13 @@
       $replyingTo = null;
       $isOpen = false;
     },
+  });
+
+  const getTrendingStickers =
+    trpc($page).mood.sticker.getTrending.createQuery();
+
+  $: searchStickers = trpc($page).mood.sticker.search.createQuery(search, {
+    enabled: !!search,
   });
 
   function handleSendSticker(sticker: string) {
@@ -23,23 +31,27 @@
     });
   }
 
-  $: data = $page.data as PageData;
-  $: searchData = $page.form as ActionData;
+  function handleSearchStickers(query: string) {
+    search = query;
+    $searchStickers.refetch();
+  }
 </script>
 
-<SearchStickers />
+<SearchStickers onSearch={handleSearchStickers} />
 
 <div class="overflow-auto p-2 h-96">
-  {#if searchData?.stickerResults}
+  {#if search && $searchStickers.data}
+    {#if $searchStickers.data.length}
+      <StickerList stickers={$searchStickers.data} onPick={handleSendSticker} />
+    {:else}
+      <p class="font-medium text-zinc-500 text-sm">No stickers found.</p>
+    {/if}
+  {:else if $getTrendingStickers.isLoading}
+    <p class="font-medium text-zinc-500 text-sm">Loading...</p>
+  {:else}
     <StickerList
-      stickers={searchData.stickerResults}
+      stickers={$getTrendingStickers.data}
       onPick={handleSendSticker}
     />
-  {:else}
-    {#await data.trendingStickers}
-      <p>Loading...</p>
-    {:then trendingStickers}
-      <StickerList stickers={trendingStickers} onPick={handleSendSticker} />
-    {/await}
   {/if}
 </div>

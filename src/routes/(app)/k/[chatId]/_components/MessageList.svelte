@@ -6,7 +6,7 @@
     unsubscribeFromMessages,
   } from "$lib/socket/client";
   import { chats } from "$lib/stores/chats";
-  import { messages } from "./stores";
+  import { messages } from "$lib/stores/store";
   import type { Messages } from "$lib/db/message/getMessages";
   import Message from "./Message/Message.svelte";
   import AddContactPrompt from "./AddContactPrompt.svelte";

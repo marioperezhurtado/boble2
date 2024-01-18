@@ -1,7 +1,7 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import { trpc } from "$lib/trpc/client";
-  import { text, replyingTo } from "./stores";
+  import { text, replyingTo } from "$lib/stores/store";
   import Attachments from "./Attachments/Attachments.svelte";
   import Moods from "./Moods/Moods.svelte";
 

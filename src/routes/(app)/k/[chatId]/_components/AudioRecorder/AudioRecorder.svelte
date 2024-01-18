@@ -3,7 +3,7 @@
   import { trpc } from "$lib/trpc/client";
   import { onMount } from "svelte";
   import { scale } from "svelte/transition";
-  import { replyingTo } from "../stores";
+  import { replyingTo } from "$lib/stores/store";
   import { uploadFileFromClient } from "$lib/utils/file";
   import { VOLUME_SPIKE_COUNT, summarizeVolumeSpikes } from "./volumeSpikes";
   import TimeElapsed from "./TimeElapsed.svelte";

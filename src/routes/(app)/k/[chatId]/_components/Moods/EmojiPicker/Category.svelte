@@ -1,8 +1,9 @@
 <script lang="ts">
-  import { filteredEmojis, hoveredEmoji, parseUnicodeEmoji } from './store';
+  import { hoveredEmoji, parseUnicodeEmoji, type EmojiData } from './store';
 	import type { Category } from './categories';
 
 	export let category: Category;
+  export let emojis: EmojiData;
 	export let onPick: (emoji: string) => void;
 </script>
 
@@ -11,9 +12,9 @@
 >
 	{category.title}
 </h2>
-{#if $filteredEmojis[category.slug].length > 0}
+{#if emojis[category.slug].length > 0}
 	<ul id={category.slug} class="grid grid-cols-9 gap-1.5 p-2">
-		{#each $filteredEmojis[category.slug] as emoji}
+		{#each emojis[category.slug] as emoji}
 			<li class="flex justify-center items-center">
 				<button
 					on:click={() => onPick(emoji.u)}

@@ -2,7 +2,7 @@
   import { page } from "$app/stores";
   import { trpc } from "$lib/trpc/client";
   import { onMount } from "svelte";
-  import { replyingTo } from "../stores";
+  import { replyingTo } from "$lib/stores/store";
   import { formatFileSize, uploadFileFromClient } from "$lib/utils/file";
   import Button from "$lib/ui/Button.svelte";
   import Modal from "$lib/ui/Modal.svelte";

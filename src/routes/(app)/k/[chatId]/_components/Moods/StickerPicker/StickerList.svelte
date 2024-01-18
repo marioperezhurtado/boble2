@@ -1,5 +1,7 @@
 <script lang="ts">
-  import type { Sticker } from "$lib/mood/types";
+  import type { RouterOutputs } from "$lib/trpc/trpc";
+
+  type Sticker = RouterOutputs["mood"]["sticker"]["getTrending"][number];
 
   export let onPick: (url: string) => void;
   export let stickers: Sticker[] = [];

@@ -1,12 +1,8 @@
 import { redirect } from '@sveltejs/kit';
 import { getMessages } from '$lib/db/message/getMessages';
 import { readChat } from '$lib/db/chat/readChat';
-import { getTrendingGifs } from '$lib/mood/gif/getTrendingGifs';
-import { getTrendingStickers } from '$lib/mood/sticker/getTrendingStickers';
-import { searchGifs } from './_actions/searchGifs';
-import { searchStickers } from './_actions/searchStickers';
 
-import type { PageServerLoad, Actions } from './$types';
+import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals, params, parent }) => {
   const { chats } = await parent();
@@ -23,12 +19,5 @@ export const load: PageServerLoad = async ({ locals, params, parent }) => {
   return {
     chat,
     messages,
-    trendingGifs: getTrendingGifs(),
-    trendingStickers: getTrendingStickers(),
   };
 }
-
-export const actions = {
-  searchGifs,
-  searchStickers,
-} satisfies Actions;

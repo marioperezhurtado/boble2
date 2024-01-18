@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import { replyingTo } from "../stores";
+  import { replyingTo } from "$lib/stores/store";
   import { downloadFile } from "$lib/utils/file";
   import { getFileUrl } from "$lib/utils/url";
   import type { Message } from "$lib/db/message/getMessages";

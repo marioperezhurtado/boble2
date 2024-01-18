@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { messages } from "../stores";
+  import { messages } from "$lib/stores/store";
   import type { Message } from "$lib/db/message/getMessages";
   import ReplyTo from "./ReplyTo.svelte";
 

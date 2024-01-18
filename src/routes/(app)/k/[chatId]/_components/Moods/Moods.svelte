@@ -2,16 +2,22 @@
   import { fly } from "svelte/transition";
   import { clickOutside } from "$lib/actions/clickOutside";
   import { isOpen, selectedMood } from "./store";
+  import { hoveredEmoji } from "./EmojiPicker/store";
   import EmojiPicker from "./EmojiPicker/EmojiPicker.svelte";
   import GifPicker from "./GifPicker/GifPicker.svelte";
   import StickerPicker from "./StickerPicker/StickerPicker.svelte";
   import Mood from "./Mood.svelte";
+
+  function handleClose() {
+    $hoveredEmoji = null;
+    $isOpen = false;
+  }
 </script>
 
-<svelte:window on:keydown={(e) => e.key === "Escape" && ($isOpen = false)} />
+<svelte:window on:keydown={(e) => e.key === "Escape" && handleClose()} />
 
 <div
-  use:clickOutside={() => ($isOpen = false)}
+  use:clickOutside={handleClose}
   class="flex relative items-center min-w-fit"
 >
   <button

@@ -1,31 +1,32 @@
 <script lang="ts">
-  import emojis from "./emojis.json";
-  import { filteredEmojis } from "./store";
+  import type { EmojiData } from "./store";
+
+  export let initialEmojis: EmojiData | null = null;
+  export let filteredEmojis: EmojiData | null = null;
 
   let search = "";
+
   $: trimmedSearch = search.trim();
 
   function filterBySearch(search: string) {
-    const newEmojis = Object.fromEntries(
-      Object.entries(emojis).map(([category, emojis]) => [
+    if (!initialEmojis) return;
+
+    filteredEmojis = Object.fromEntries(
+      Object.entries(initialEmojis).map(([category, emojis]) => [
         category,
         emojis.filter((emoji) =>
           emoji.n.some((name) =>
-            name.toLowerCase().includes(search.toLowerCase())
-          )
+            name.toLowerCase().includes(search.toLowerCase()),
+          ),
         ),
-      ])
-    );
-
-    $filteredEmojis = newEmojis as typeof emojis;
+      ]),
+    ) as EmojiData;
   }
 
-  $: {
-    if (trimmedSearch === "") {
-      $filteredEmojis = emojis;
-    } else {
-      filterBySearch(trimmedSearch);
-    }
+  $: if (trimmedSearch === "") {
+    filteredEmojis = initialEmojis;
+  } else {
+    filterBySearch(trimmedSearch);
   }
 </script>
 

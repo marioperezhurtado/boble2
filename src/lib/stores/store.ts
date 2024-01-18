@@ -5,4 +5,4 @@ export const replyingTo = writable<Message | null>(null);
 
 export const messages = writable<Message[]>([]);
 
-export const text = writable<string>('');
+export const text = writable("");

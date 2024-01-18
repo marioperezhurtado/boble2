@@ -1,7 +1,7 @@
 <script lang="ts">
   import { slide } from "svelte/transition";
   import { page } from "$app/stores";
-  import { replyingTo } from "./stores";
+  import { replyingTo } from "$lib/stores/store";
   import type { PageData } from "../$types";
   import MessageOverview from "./MessageOverview.svelte";
 

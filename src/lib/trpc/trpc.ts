@@ -88,3 +88,19 @@ const enforceIsAuthenticated = t.middleware(async ({ ctx, next }) => {
  * @see https://trpc.io/docs/procedures
  */
 export const protectedProcedure = t.procedure.use(enforceIsAuthenticated);
+
+import type { inferRouterOutputs, inferRouterInputs} from "@trpc/server";
+import type { Router } from "./root";
+/**
+ * Inference helper for inputs.
+ *
+ * @example type HelloInput = RouterInputs['example']['hello']
+ */
+export type RouterInputs = inferRouterInputs<Router>;
+
+/**
+ * Inference helper for outputs.
+ *
+ * @example type HelloOutput = RouterOutputs['example']['hello']
+ */
+export type RouterOutputs = inferRouterOutputs<Router>;

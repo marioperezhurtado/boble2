@@ -41,14 +41,16 @@
 
 <FilterChats initialChats={$chats} bind:filteredChats />
 
-{#if filteredChats.length > 0}
-  <ul class="border-t">
-    {#each filteredChats as chat}
-      <Chat {chat} isSelected={chat.id === $page.params.chatId} />
-    {/each}
-  </ul>
-{:else if $chats.length > 0}
-  <p class="p-2 font-medium border-t text-zinc-500">No chats found.</p>
-{:else}
-  <p class="p-2 font-medium border-t text-zinc-500">No chats yet.</p>
-{/if}
+<div class="border-t">
+  {#if filteredChats.length > 0}
+    <ul>
+      {#each filteredChats as chat}
+        <Chat {chat} isSelected={chat.id === $page.params.chatId} />
+      {/each}
+    </ul>
+  {:else if $chats.length > 0}
+    <p class="p-2 font-medium text-zinc-500">No chats found.</p>
+  {:else}
+    <p class="p-2 font-medium text-zinc-500">No chats yet.</p>
+  {/if}
+</div>
