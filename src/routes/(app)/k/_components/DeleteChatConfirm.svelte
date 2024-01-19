@@ -22,7 +22,8 @@
   });
 
   function handleDeleteChat() {
-    $deleteChat.mutate({ chatId: $page.params.chatId });
+    console.log("delete chat", chat.id);
+    $deleteChat.mutate({ chatId: chat.id });
   }
 
   $: error = $deleteChat.error?.data?.error;

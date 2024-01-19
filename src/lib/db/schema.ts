@@ -18,13 +18,15 @@ export const participant = sqliteTable("participant", {
 export const VALID_MESSAGE_TYPES = [
   "text",
   "link",
-  "image",
   "gif",
   "sticker",
+  "image",
   "video",
   "audio",
   "document"
 ] as const;
+
+export const MEDIA_TYPES = ["image", "video", "audio", "document"];
 
 export const message = sqliteTable("message", {
   id: text("id").primaryKey().$defaultFn(() => `msg_${nanoid(16)}`),

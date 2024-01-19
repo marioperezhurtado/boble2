@@ -1,6 +1,7 @@
 import { protectedProcedure } from "$lib/trpc/trpc";
-import { getChatFromUser } from "$lib/db/chat/getChatFromUser";
+import { getChatWithMedia } from "$lib/db/chat/getChatWithMedia";
 import { deleteChat as deleteChatDb } from "$lib/db/chat/deleteChat";
+import { deleteFile } from "$lib/file-upload/deleteFile";
 import { TRPCError } from "@trpc/server";
 import z from "zod";
 
@@ -11,7 +12,7 @@ const deleteChatSchema = z.object({
 export const deleteChat = protectedProcedure
   .input(deleteChatSchema)
   .mutation(async ({ ctx, input }) => {
-    const chat = await getChatFromUser({
+    const chat = await getChatWithMedia({
       userId: ctx.session.user.id,
       chatId: input.chatId,
     });
@@ -23,5 +24,8 @@ export const deleteChat = protectedProcedure
       });
     }
 
-    await deleteChatDb(input.chatId);
+    return Promise.all([
+      deleteChatDb(input.chatId),
+      ...chat.messages.map((source) => deleteFile(source!)),
+    ]);
   });

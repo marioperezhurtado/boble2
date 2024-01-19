@@ -1,12 +1,11 @@
 import { removeMessage } from "$lib/socket/client";
 import { deleteMessage as deleteMessageDb } from "$lib/db/message/deleteMessage";
 import { protectedProcedure } from "$lib/trpc/trpc";
-import { TRPCError } from "@trpc/server";
 import { deleteFile } from "$lib/file-upload/deleteFile";
 import { getMessageById } from "$lib/db/message/getMessageById";
+import { MEDIA_TYPES } from "$lib/db/schema";
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-
-const MEDIA_TYPES = ["image", "video", "document", "audio"];
 
 const deleteMessageSchema = z.object({
   messageId: z.string(),
