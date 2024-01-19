@@ -6,7 +6,7 @@
   import ReplyingInfo from "./_components/ReplyingInfo.svelte";
   import SendMessage from "./_components/SendMessage.svelte";
   import AudioRecorder from "./_components/AudioRecorder/AudioRecorder.svelte";
-  import ChatInfo from "./_components/ChatInfo.svelte";
+  import ChatInfo from "./_components/ChatInfo/ChatInfo.svelte";
   import DeleteMessageConfirm from "./_components/DeleteMessageConfirm.svelte";
 
   export let data;
@@ -43,7 +43,7 @@
       </p>
     {:else}
       <ReplyingInfo />
-      
+
       {#if isRecording}
         <AudioRecorder onClose={() => (isRecording = false)} />
       {:else}

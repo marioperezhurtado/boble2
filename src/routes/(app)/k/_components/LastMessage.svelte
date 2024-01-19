@@ -50,7 +50,7 @@
         class="mr-0.5 w-3.5 h-3.5"
       />
       <span
-        class="line-clamp-1 overflow-ellipsis"
+        class="break-all line-clamp-1 overflow-ellipsis"
         title={chat.lastMessage.text ?? ""}
       >
         {chat.lastMessage.text || "Photo"}
@@ -58,7 +58,7 @@
     {:else if chat.lastMessage.type === "video"}
       <img src="/icons/video.svg" alt="Video icon" class="mr-0.5 w-4 h-4" />
       <span
-        class="line-clamp-1 overflow-ellipsis"
+        class="break-all line-clamp-1 overflow-ellipsis"
         title={chat.lastMessage.text ?? ""}
       >
         {chat.lastMessage.text || "Video"}
@@ -80,7 +80,7 @@
         alt="Document icon"
         class="mr-0.5 w-4 h-4"
       />
-      <span class="line-clamp-1 overflow-ellipsis">
+      <span class="break-all line-clamp-1 overflow-ellipsis">
         {chat.lastMessage.text || chat.documentName || "Document"}
       </span>
     {:else if chat.lastMessage.type === "gif"}
@@ -92,14 +92,14 @@
     {:else if chat.lastMessage.type === "link"}
       <img src="/icons/link.svg" alt="Link icon" class="mr-0.5 w-4 h-4" />
       <span
-        class="line-clamp-1 overflow-ellipsis"
+        class="break-all line-clamp-1 overflow-ellipsis"
         title={chat.lastMessage.text ?? ""}
       >
         {chat.lastMessage.text}
       </span>
     {:else}
       <span
-        class="line-clamp-1 overflow-ellipsis"
+        class="break-all line-clamp-1 overflow-ellipsis"
         title={chat.lastMessage.text ?? ""}
       >
         {chat.lastMessage.text}

@@ -38,6 +38,6 @@ export const actions: Actions = {
     }
 
     // make sure you don't throw inside a try/catch block!
-    redirect(302, '/chat');
+    redirect(302, '/k');
   }
 };

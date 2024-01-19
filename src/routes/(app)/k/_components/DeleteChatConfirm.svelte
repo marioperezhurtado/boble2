@@ -22,7 +22,6 @@
   });
 
   function handleDeleteChat() {
-    console.log("delete chat", chat.id);
     $deleteChat.mutate({ chatId: chat.id });
   }
 

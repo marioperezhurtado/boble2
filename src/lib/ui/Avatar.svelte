@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { minidenticon } from "minidenticons";
+  import { generateIdenticon } from "$lib/utils/identicon";
   import ExpandedImage from "./ExpandedImage.svelte";
 
   type User = {
@@ -12,21 +12,11 @@
   export let size: keyof typeof SIZES = "medium";
   export let expanded = false;
 
-  const SATURATION = 60;
-  const LIGHTNESS = 50;
-
   const SIZES = {
     small: "w-10 h-10",
     medium: "w-12 h-12",
-    large: "w-20 h-20",
+    large: "w-24 h-24",
   };
-
-  function generateIdenticon(str: string) {
-    return (
-      "data:image/svg+xml;utf8," +
-      encodeURIComponent(minidenticon(str, SATURATION, LIGHTNESS))
-    );
-  }
 
   $: imageSource = user.image ?? generateIdenticon(user.email);
 </script>
