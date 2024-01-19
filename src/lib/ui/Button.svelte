@@ -41,6 +41,6 @@
 >
   <slot />
   {#if showSpinner}
-    <Spinner class="w-3.5 h-3.5 ml-0.5" />
+    <Spinner class="ml-0.5 w-3.5 h-3.5" />
   {/if}
 </button>

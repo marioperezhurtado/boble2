@@ -4,6 +4,7 @@
   import { isOpen } from "../store";
   import { replyingTo } from "$lib/stores/store";
   import SearchStickers from "./SearchStickers.svelte";
+  import StickersSkeleton from "./StickersSkeleton.svelte";
   import StickerList from "./StickerList.svelte";
 
   let search = "";
@@ -44,10 +45,10 @@
     {#if $searchStickers.data.length}
       <StickerList stickers={$searchStickers.data} onPick={handleSendSticker} />
     {:else}
-      <p class="font-medium text-zinc-500 text-sm">No stickers found.</p>
+      <p class="text-sm font-medium text-zinc-500">No stickers found.</p>
     {/if}
   {:else if $getTrendingStickers.isLoading}
-    <p class="font-medium text-zinc-500 text-sm">Loading...</p>
+    <StickersSkeleton />
   {:else}
     <StickerList
       stickers={$getTrendingStickers.data}

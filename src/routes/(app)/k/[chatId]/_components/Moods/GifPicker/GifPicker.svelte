@@ -4,6 +4,7 @@
   import { isOpen } from "../store";
   import { replyingTo } from "$lib/stores/store";
   import SearchGifs from "./SearchGifs.svelte";
+  import GifsSkeleton from "./GifsSkeleton.svelte";
   import GifList from "./GifList.svelte";
 
   let search = ""
@@ -43,10 +44,10 @@
     {#if $searchGifs.data.length}
       <GifList gifs={$searchGifs.data} onPick={handleSendGif} />
     {:else}
-      <p class="font-medium text-zinc-500 text-sm">No GIFs found.</p>
+      <p class="text-sm font-medium text-zinc-500">No GIFs found.</p>
     {/if}
   {:else if $getTrendingGifs.isLoading}
-    <p class="font-medium text-zinc-500 text-sm">Loading...</p>
+    <GifsSkeleton />
   {:else}
     <GifList gifs={$getTrendingGifs.data} onPick={handleSendGif} />
   {/if}

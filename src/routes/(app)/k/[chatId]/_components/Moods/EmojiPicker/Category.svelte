@@ -8,7 +8,7 @@
 </script>
 
 <h2
-	class="sticky top-0 py-2 px-2 text-xs font-bold tracking-wider uppercase bg-white border-b text-zinc-400"
+	class="sticky top-0 p-2 text-xs font-bold tracking-wider uppercase bg-white border-b text-zinc-400"
 >
 	{category.title}
 </h2>

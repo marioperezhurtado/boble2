@@ -5,6 +5,7 @@
   import { capitalize } from "$lib/utils/text";
   import { hoveredEmoji, parseUnicodeEmoji, type EmojiData } from "./store";
   import { text } from "$lib/stores/store";
+  import EmojisSkeleton from "./EmojisSkeleton.svelte";
   import Category from "./Category.svelte";
   import FilterEmojis from "./FilterEmojis.svelte";
 
@@ -42,7 +43,7 @@
 
 <section id="emoji-list" class="overflow-y-scroll h-96">
   {#if $getEmojis.isLoading}
-    <p class="font-medium text-zinc-500 text-sm">Loading...</p>
+    <EmojisSkeleton />
   {:else if $getEmojis.data}
     {#each EMOJI_CATEGORIES as category}
       <Category
