@@ -7,7 +7,7 @@
   export let isBlocked: boolean;
 </script>
 
-<div class="flex flex-col gap-2 mt-auto p-4 pt-14">
+<div class="flex flex-col gap-2 p-4 pt-14 mt-auto">
   <BlockUnblockButton {userId} {isBlocked} />
   <ButtonLink
     href={$page.url.pathname + "?deleteChat=" + $page.params.chatId}

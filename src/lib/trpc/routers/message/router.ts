@@ -7,6 +7,7 @@ import { sendAudio } from "./sendAudio";
 import { sendGif } from "./sendGif";
 import { sendSticker } from "./sendSticker";
 import { deleteMessage } from "./deleteMessage";
+import { getMediaMessages } from "./getMediaMessages";
 
 export const messageRouter = createTRPCRouter({
   sendText,
@@ -17,4 +18,5 @@ export const messageRouter = createTRPCRouter({
   sendGif,
   sendSticker,
   delete: deleteMessage,
+  getMediaMessages,
 });

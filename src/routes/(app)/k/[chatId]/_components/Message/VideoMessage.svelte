@@ -15,9 +15,10 @@
     {#if message.source}
       <!-- svelte-ignore a11y-media-has-caption -->
       <video
-        controls
         class="object-contain max-w-xs max-h-80 rounded-md bg-zinc-100"
         draggable={false}
+        playsinline
+        controls
       >
         <source src={getFileUrl(message.source)} />
       </video>

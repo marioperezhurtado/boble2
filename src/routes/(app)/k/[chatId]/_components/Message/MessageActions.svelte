@@ -98,7 +98,7 @@
     icon="/icons/copy.svg"
     on:click={handleCopy}
   />
-  <ContextMenuItem text="Pin message" icon="/icons/pin.svg" />
+  <ContextMenuItem text="Add to favorites" icon="/icons/star.svg" />
 
   {#if isOwn}
     <ContextMenuItem

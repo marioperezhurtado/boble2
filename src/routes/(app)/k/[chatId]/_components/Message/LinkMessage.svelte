@@ -40,7 +40,7 @@
 
     <div class="flex flex-wrap justify-between items-end">
       {#if message.text}
-        <p class="break-all">
+        <p class="px-1 break-all">
           {#each message.text.split(" ") as word}
             {#if word.match(/^https?:\/\/\S+$/)}
               <a

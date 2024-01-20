@@ -9,15 +9,14 @@
   $: user = data.chat.user;
 </script>
 
-<div class="flex flex-col items-center relative bg-white">
+<div class="flex relative flex-col items-center bg-white">
   <img
     src={user.image ?? generateIdenticon(user.email)}
     alt="User avatar"
-    class="aspect-square w-full bg-white"
+    class="w-full bg-white aspect-square"
   />
   <div
-    class="absolute flex items-end justify-between bottom-0 left-0 w-full h-20
-    bg-gradient-to-t to-transparent from-black/40 text-white text-left px-4 pb-2"
+    class="flex absolute bottom-0 left-0 justify-between items-end px-4 pb-2 w-full h-20 text-left text-white bg-gradient-to-t to-transparent from-black/40"
   >
     <div>
       <h2 class="pt-2 font-semibold">{user.alias ?? user.name}</h2>
@@ -35,7 +34,7 @@
       {:else}
         <a
           title="Add contact"
-          href="/contacts?createContact&email={user.email}"
+          href="/contacts?createContact={user.email}"
         >
           <img
             src="/icons/add-contact-light.svg"

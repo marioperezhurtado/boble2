@@ -17,8 +17,8 @@
     {#if message.source}
       <Image
         src={getFileUrl(message.source)}
-        alt="Image sent by {message.senderId}"
-        class="object-contain max-w-xs max-h-80 rounded-md bg-zinc-100"
+        alt="Image sent at {message.createdAt}"
+        class="object-contain w-full max-w-xs max-h-80 rounded-md bg-zinc-100"
         draggable={false}
         bind:brokenFile
       />

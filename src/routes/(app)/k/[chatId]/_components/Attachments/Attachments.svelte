@@ -45,7 +45,7 @@
       <AttachmentItem
         onOpen={() => handleOpenAttachment("image")}
         text="Photo"
-        icon="/icons/image.svg"
+        icon="/icons/camera.svg"
       />
       <AttachmentItem
         onOpen={() => handleOpenAttachment("video")}

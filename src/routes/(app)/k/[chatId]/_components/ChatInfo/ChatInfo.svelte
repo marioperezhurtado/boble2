@@ -10,7 +10,7 @@
   $: user = data.chat.user;
 </script>
 
-<ChatInfoMenu title="Chat info">
+<ChatInfoMenu title="Chat info" backTo={$page.url.pathname}>
   <ContactDetails />
   <ChatOptions />
   <ChatDangerActions userId={user.id} isBlocked={!!user.isBlocked} />

@@ -23,11 +23,11 @@
 </script>
 
 <MessageBubble {message} {isOwn} {isFirst}>
-  <div class="max-w-xs">
+  <div class="max-w-sm">
     {#if documentInfo}
       <button
         on:click={handleDownloadDocument}
-        class={`text-left flex items-center gap-2 p-2 rounded-md mb-0.5 pr-5 w-full
+        class={`text-left flex items-center gap-2 p-2 rounded-md mb-1 pr-5 w-full
           ${isOwn ? "bg-cyan-800 text-white" : "bg-zinc-100"}
         `}
       >
@@ -37,10 +37,12 @@
           class="w-8 h-8"
         />
         <div>
-          <p class="font-medium break-all">{documentInfo.name}</p>
-          <p class="text-xs">
+          <p class="text-xs font-medium break-all">
+            {documentInfo.name.split(".").shift()}
+          </p>
+          <p class="mt-0.5 text-xs uppercase">
             {#if documentInfo.name.includes(".")}
-              {documentInfo.name.split(".").pop()?.toUpperCase()} ·{" "}
+              {documentInfo.name.split(".").pop()} ·{" "}
             {/if}
             {formatFileSize(documentInfo.size)}
           </p>

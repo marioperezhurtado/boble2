@@ -89,3 +89,11 @@ export function formatMinuteSeconds(seconds: number) {
 
   return `${minutes}:${remainingSeconds}`;
 }
+
+export function formatDateShort(date: Date) {
+  return new Date(date).toLocaleDateString("en-US", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+}
