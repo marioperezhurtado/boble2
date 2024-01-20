@@ -1,5 +1,6 @@
 <script lang="ts">
   import { page } from "$app/stores";
+  import { invalidateAll } from "$app/navigation";
   import { trpc } from "$lib/trpc/client";
   import { text, replyingTo } from "$lib/stores/store";
   import Attachments from "./Attachments/Attachments.svelte";
@@ -16,6 +17,7 @@
     onSuccess: () => {
       $replyingTo = null;
       $text = "";
+      invalidateAll();
     },
   });
 
