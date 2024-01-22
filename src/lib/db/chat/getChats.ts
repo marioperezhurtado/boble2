@@ -23,6 +23,7 @@ export async function getChats(userId: string) {
         lastReadAt: otherParticipant.lastReadAt,
         isBlocked: block.blockedUserId,
         blockedMe: ownBlock.blockedUserId,
+        publicKey: user.publicKey,
       },
       lastMessage: {
         id: message.id,

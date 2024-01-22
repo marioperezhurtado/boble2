@@ -6,8 +6,10 @@ import type { Message } from '$lib/db/message/getMessages';
 export type DisplayChat = Omit<Chat, "lastMessage"> & {
   lastMessage: Chat["lastMessage"] & {
     deleted?: boolean;
-  } | null;
-};
+  } | null
+} & {
+  derivedKey: string;
+}
 
 function createChatStore(initialChats: DisplayChat[]) {
   const { subscribe, set, update } = writable<DisplayChat[]>(initialChats);

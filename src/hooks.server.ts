@@ -19,9 +19,6 @@ const AUTH_ROUTES = [
 ]
 
 function pathRequiresAuth(path: string) {
-  if (path === "/") {
-    return true;
-  }
   return APP_ROUTES.some(route => path.startsWith(route));
 }
 
@@ -47,7 +44,9 @@ export const handle: Handle = async ({ event, resolve }) => {
   if (pathRequiresNoAuth(event.url.pathname)) {
     if (session) {
       // If user is not verified, redirect to email verification page
-      if (!session.user.emailVerified && event.url.pathname !== "/email-verification") {
+      if (!session.user.emailVerified && 
+          !event.url.pathname.startsWith("/email-verification")
+         ) {
         redirect(302, "/email-verification");
       }
 

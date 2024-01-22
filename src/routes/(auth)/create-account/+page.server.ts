@@ -15,6 +15,8 @@ export const actions: Actions = {
     const password = formData.get('password');
     const confirmPassword = formData.get('confirmPassword');
     const terms = formData.get('terms');
+    const publicKey = formData.get('publicKey') as string;
+    const encryptedSecret = formData.get('encryptedSecret') as string;
 
     if (terms !== "on") {
       return fail(400, { error: 'You must agree to the terms and conditions' });
@@ -49,6 +51,8 @@ export const actions: Actions = {
           emailVerified: Number(false),
           image: null,
           status: null,
+          publicKey,
+          encryptedSecret
         }
       });
       const session = await auth.createSession({
@@ -60,12 +64,14 @@ export const actions: Actions = {
       const token = await generateEmailVerificationToken(user.userId);
       await sendEmailVerificationLink({ name, email, token });
     } catch (e) {
+      console.error(e);
       // check for unique constraint error in user table
       if (e instanceof SqliteError && e.code === 'SQLITE_CONSTRAINT_UNIQUE') {
         return fail(400, { error: 'This email is already in use' });
       }
       return fail(500, { error: 'An unknown error occurred' });
     }
+
     // redirect to
     // make sure you don't throw inside a try/catch block!
     redirect(302, '/email-verification');

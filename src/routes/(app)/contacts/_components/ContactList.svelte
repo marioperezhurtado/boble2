@@ -19,12 +19,14 @@
   />
 </div>
 
-{#if filteredContacts.length > 0}
-  <ul class="border-t">
-    {#each filteredContacts as contact}
-      <Contact {contact} isSelected={contact.id === $page.params.contactId} />
-    {/each}
-  </ul>
-{:else}
-  <p class="py-1 pl-3 font-medium border-t">No contacts found.</p>
-{/if}
+<div class="border-t">
+  {#if filteredContacts.length > 0}
+    <ul>
+      {#each filteredContacts as contact}
+        <Contact {contact} isSelected={contact.id === $page.params.contactId} />
+      {/each}
+    </ul>
+  {:else}
+    <p class="p-2 font-medium text-zinc-500">No contacts found.</p>
+  {/if}
+</div>

@@ -104,12 +104,14 @@ export const audioInfo = sqliteTable("audio_info", {
 
 export const user = sqliteTable("user", {
   id: text("id").primaryKey(),
-  // other user attributes
   email: text("email").notNull().unique(),
   emailVerified: integer("emailVerified", { mode: "boolean" }).notNull(),
   name: text("name").notNull(),
   image: text("image"),
   status: text("status"),
+  publicKey: text("publicKey").notNull(),
+  // secret key encrypted with password
+  encryptedSecret: text("encryptedSecret").notNull(),
 });
 
 export const session = sqliteTable("user_session", {

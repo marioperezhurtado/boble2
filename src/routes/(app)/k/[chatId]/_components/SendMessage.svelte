@@ -4,6 +4,7 @@
   import { text, replyingTo } from "$lib/stores/store";
   import Attachments from "./Attachments/Attachments.svelte";
   import Moods from "./Moods/Moods.svelte";
+    import { encrypt } from "$lib/utils/encryption";
 
   export let onStartRecording: () => void;
 
@@ -19,11 +20,16 @@
     },
   });
 
-  function handleSendMessage() {
+  async function handleSendMessage() {
     if (!$text) return;
 
+    const storedDerivedKey = localStorage.getItem(`dk_${$page.params.chatId}`);
+    if (!storedDerivedKey) return;
+
+    const encryptedText = await encrypt($text, storedDerivedKey);
+
     $sendTextMessage.mutate({
-      text: $text,
+      text: encryptedText,
       chatId: $page.params.chatId,
       replyToId: $replyingTo?.id,
     });

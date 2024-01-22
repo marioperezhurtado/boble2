@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { enhance } from "$app/forms";
+  import { goto } from "$app/navigation";
+  import { encryptWithPassword, generateKeys } from "$lib/utils/encryption";
   import type { ActionData } from "./$types";
   import Link from "$lib/ui/Link.svelte";
   import Label from "$lib/ui/Label.svelte";
@@ -11,7 +12,40 @@
 
   export let form: ActionData;
 
+  let name = "";
+  let email = "";
+  let password = "";
+  let confirmPassword = "";
   let isCreating = false;
+  let terms = false;
+
+  async function handleCreateAccount() {
+    isCreating = true;
+
+    const { publicKey, privateKey } = await generateKeys();
+
+    localStorage.setItem("sk", privateKey);
+
+    const encryptedSecret = await encryptWithPassword(privateKey, password);
+
+    const formData = new FormData();
+
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("confirmPassword", confirmPassword);
+    formData.append("publicKey", publicKey);
+    formData.append("encryptedSecret", encryptedSecret);
+    formData.append("terms", terms ? "on" : "off");
+
+    await fetch("?/createAccount", {
+      method: "POST",
+      body: formData,
+    });
+
+    isCreating = false;
+    goto("/");
+  }
 </script>
 
 <svelte:head>
@@ -25,39 +59,53 @@
 </p>
 
 <form
-  action="?/createAccount"
-  method="post"
-  use:enhance={() => {
-    isCreating = true;
-    return async ({ update }) => {
-      await update();
-      isCreating = false;
-    };
-  }}
+  on:submit|preventDefault={handleCreateAccount}
   class="flex flex-col gap-3 pt-8"
 >
-  <Label for="name"
-    >Name
-    <Input id="name" name="name" type="text" />
+  <Label for="name">
+    Name
+    <Input bind:value={name} id="name" name="name" type="text" />
   </Label>
-  <Label for="email"
-    >Email
-    <Input id="email" name="email" type="email" />
+  <Label for="email">
+    Email
+    <Input
+      bind:value={email}
+      id="email"
+      name="email"
+      type="email"
+      autocomplete="email"
+    />
   </Label>
-  <Label for="password"
-    >Password
-    <PasswordInput id="password" name="password" />
+  <Label for="password">
+    Password
+    <PasswordInput
+      bind:value={password}
+      id="password"
+      name="password"
+      autocomplete="new-password"
+    />
   </Label>
   <Label for="confirmPassword">
     Confirm password
-    <PasswordInput id="confirmPassword" name="confirmPassword" />
+    <PasswordInput
+      bind:value={confirmPassword}
+      id="confirmPassword"
+      name="confirmPassword"
+      autocomplete="new-password"
+    />
   </Label>
 
   <div
     class="flex justify-between items-center text-xs font-medium text-zinc-500"
   >
     <div class="flex gap-1.5 items-center">
-      <input type="checkbox" id="terms" name="terms" class="mb-0.5" checked />
+      <input
+        bind:checked={terms}
+        type="checkbox"
+        id="terms"
+        name="terms"
+        class="mb-0.5"
+      />
       <label for="terms">
         I agree to the{" "}
         <Link href="/terms-of-service">Terms of Service</Link>

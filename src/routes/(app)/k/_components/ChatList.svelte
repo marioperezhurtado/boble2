@@ -11,6 +11,7 @@
   import { chats } from "$lib/stores/chats";
   import FilterChats from "./FilterChats.svelte";
   import Chat from "./Chat.svelte";
+    import { decrypt } from "$lib/utils/encryption";
 
   let filteredChats = $chats;
 
@@ -24,8 +25,17 @@
     });
   }
 
-  onMessage((message) => {
-    chats.updateLastMessage(message.chatId, message);
+  onMessage(async (message) => {
+    const chat = $chats.find((chat) => chat.id === message.chatId);
+
+    const decryptedText = message.text
+      ? await decrypt(message.text, chat!.derivedKey)
+      : null;
+
+    chats.updateLastMessage(message.chatId, {
+      ...message,
+      text: decryptedText,
+    });
   });
 
   onDeleteMessage((messageId, chatId) => {
