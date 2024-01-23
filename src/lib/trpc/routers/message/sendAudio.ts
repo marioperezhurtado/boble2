@@ -34,7 +34,6 @@ export const sendAudio = protectedProcedure
     const audioInfo = await createAudioInfo({
       url: input.audioId,
       duration: input.duration,
-      transcript: input.transcript,
       volumeSpikes: input.volumeSpikes.join(','),
       messageId: newMessage.id,
     });

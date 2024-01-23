@@ -1,17 +1,47 @@
 <script lang="ts">
-  import { enhance } from "$app/forms";
-  import type { ActionData } from "./$types";
+  import { goto } from "$app/navigation";
+  import { decryptWithPassword } from "$lib/utils/encryption";
   import Link from "$lib/ui/Link.svelte";
   import Label from "$lib/ui/Label.svelte";
   import Input from "$lib/ui/Input.svelte";
   import PasswordInput from "$lib/ui/PasswordInput.svelte";
   import Button from "$lib/ui/Button.svelte";
-  import SocialProviders from "../_components/SocialProviders.svelte";
-  import FormError from "$lib/ui/FormError.svelte";
 
-  export let form: ActionData;
-
+  let email = "";
+  let password = "";
   let isLoggingIn = false;
+
+  async function handleLogin() {
+    isLoggingIn = true;
+
+    const formData = new FormData();
+
+    formData.append("email", email);
+    formData.append("password", password);
+
+    const res = await fetch("?/login", {
+      method: "POST",
+      body: formData,
+    });
+    const { data } = await res.json();
+
+    // For some reason, response is wrapped in brackets and quotes
+    const encryptedSecret = data.slice(2, -2);
+
+    // Store private key locally
+    const privateKey = await decryptWithPassword(encryptedSecret, password);
+    localStorage.setItem("sk", privateKey);
+
+    // Delete every derived key from other sessions
+    for (const key in localStorage) {
+      if (key.startsWith("dk_")) {
+        localStorage.removeItem(key);
+      }
+    }
+
+    isLoggingIn = false;
+    goto("/");
+  }
 </script>
 
 <svelte:head>
@@ -24,25 +54,18 @@
   <Link href="/create-account">Sign up.</Link>
 </p>
 
-<form
-  action="?/login"
-  method="post"
-  use:enhance={() => {
-    isLoggingIn = true;
-    return async ({ update }) => {
-      await update();
-      isLoggingIn = false;
-    };
-  }}
-  class="flex flex-col gap-3 pt-8"
->
+<form on:submit|preventDefault={handleLogin} class="flex flex-col gap-3 pt-8">
   <Label for="email">
     Email
-    <Input name="email" type="email" autocomplete="email" />
+    <Input bind:value={email} name="email" type="email" autocomplete="email" />
   </Label>
   <Label for="password">
     Password
-    <PasswordInput name="password" autocomplete="current-password" />
+    <PasswordInput
+      bind:value={password}
+      name="password"
+      autocomplete="current-password"
+    />
   </Label>
 
   <div
@@ -63,9 +86,9 @@
 
   <Button isLoading={isLoggingIn} type="submit" fullWidth>Login</Button>
 
+  <!--
   {#if form?.error}
     <FormError message={form.error} />
   {/if}
+  -->
 </form>
-
-<SocialProviders />

@@ -1,23 +1,18 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { encryptWithPassword, generateKeys } from "$lib/utils/encryption";
-  import type { ActionData } from "./$types";
   import Link from "$lib/ui/Link.svelte";
   import Label from "$lib/ui/Label.svelte";
   import Input from "$lib/ui/Input.svelte";
   import PasswordInput from "$lib/ui/PasswordInput.svelte";
   import Button from "$lib/ui/Button.svelte";
-  import SocialProviders from "../_components/SocialProviders.svelte";
-  import FormError from "$lib/ui/FormError.svelte";
-
-  export let form: ActionData;
 
   let name = "";
   let email = "";
   let password = "";
   let confirmPassword = "";
-  let isCreating = false;
   let terms = false;
+  let isCreating = false;
 
   async function handleCreateAccount() {
     isCreating = true;
@@ -116,9 +111,9 @@
 
   <Button isLoading={isCreating} type="submit" fullWidth>Create account</Button>
 
+<!--
   {#if form?.error}
     <FormError message={form.error} />
   {/if}
+-->
 </form>
-
-<SocialProviders />

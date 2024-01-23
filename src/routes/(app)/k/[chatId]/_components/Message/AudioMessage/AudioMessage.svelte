@@ -57,7 +57,7 @@
           <ChangePlaybackRate bind:playbackRate {isOwn} />
         {/if}
 
-        {#if message.audioInfo?.transcript}
+        {#if message?.text}
           <ToggleTranscript bind:showTranscript {isOwn} />
         {/if}
 
