@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { goto } from "$app/navigation";
+  import { invalidateAll } from "$app/navigation";
   import { decryptWithPassword } from "$lib/utils/encryption";
   import Link from "$lib/ui/Link.svelte";
   import Label from "$lib/ui/Label.svelte";
@@ -40,7 +40,7 @@
     }
 
     isLoggingIn = false;
-    goto("/");
+    invalidateAll();
   }
 </script>
 
