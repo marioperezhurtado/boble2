@@ -1,3 +1,45 @@
+// Encrypt and decrypt text using ECDH and AES-GCM
+
+type MessageFieldsEncryption = {
+  text: string | null;
+  source: string | null;
+};
+
+export async function encryptMessage<T extends MessageFieldsEncryption>(
+  message: T,
+  chatId: string
+) {
+  const storedDerivedKey = localStorage.getItem(`dk_${chatId}`);
+  if (!storedDerivedKey) return message;
+
+  if (message.text) {
+    message.text = await encrypt(message.text, storedDerivedKey);
+  }
+  if (message.source) {
+    message.source = await encrypt(message.source, storedDerivedKey);
+  }
+
+  return message;
+}
+
+export async function decryptMessage<T extends MessageFieldsEncryption>(
+  message: T,
+  chatId: string
+) {
+  const storedDerivedKey = localStorage.getItem(`dk_${chatId}`);
+  if (!storedDerivedKey) return message;
+
+  if (message.text) {
+    message.text = await decrypt(message.text, storedDerivedKey);
+  }
+  if (message.source) {
+    message.source = await decrypt(message.source, storedDerivedKey);
+  }
+
+  return message;
+}
+
+
 export async function generateKeys() {
   const keyPair = await crypto.subtle.generateKey(
     {
@@ -54,7 +96,7 @@ export async function deriveKey(publicKey: string, privateKey: string) {
   return btoa(String.fromCharCode(...new Uint8Array(exportedDerivedKey)));
 }
 
-export async function encrypt(text: string, key: string) {
+async function encrypt(text: string, key: string) {
   const iv = crypto.getRandomValues(new Uint8Array(12));
 
   const encodedPlaintext = new TextEncoder().encode(text);
@@ -79,7 +121,7 @@ export async function encrypt(text: string, key: string) {
   return encryptedText + "|" + ivText;
 }
 
-export async function decrypt(encryptedText: string, key: string) {
+async function decrypt(encryptedText: string, key: string) {
   const [encrypted, iv] = encryptedText.split("|");
 
   const secretKey = await crypto.subtle.importKey(

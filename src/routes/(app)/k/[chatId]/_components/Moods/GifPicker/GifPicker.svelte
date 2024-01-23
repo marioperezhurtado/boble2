@@ -3,11 +3,12 @@
   import { trpc } from "$lib/trpc/client";
   import { isOpen } from "../store";
   import { replyingTo } from "$lib/stores/store";
+  import { encryptMessage } from "$lib/utils/encryption";
   import SearchGifs from "./SearchGifs.svelte";
   import GifsSkeleton from "./GifsSkeleton.svelte";
   import GifList from "./GifList.svelte";
 
-  let search = ""
+  let search = "";
 
   const sendGif = trpc($page).message.sendGif.createMutation({
     retry: false,
@@ -23,9 +24,14 @@
     enabled: !!search,
   });
 
-  function handleSendGif(gif: string) {
+  async function handleSendGif(gif: string) {
+    const { text } = await encryptMessage(
+      { text: gif, source: null },
+      $page.params.chatId,
+    );
+
     $sendGif.mutate({
-      gif,
+      gif: text,
       chatId: $page.params.chatId,
       replyToId: $replyingTo?.id,
     });

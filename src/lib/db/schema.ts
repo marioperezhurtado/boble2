@@ -95,7 +95,6 @@ export const documentInfo = sqliteTable("document_info", {
 export const audioInfo = sqliteTable("audio_info", {
   url: text("url").primaryKey(),
   duration: integer("duration").notNull(),
-  transcript: text("transcript"),
   volumeSpikes: text("volume_spikes").notNull(),
   messageId: text("message_id").references(() => message.id, { onDelete: "cascade" }).notNull(),
 });

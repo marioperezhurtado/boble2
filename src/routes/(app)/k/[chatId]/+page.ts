@@ -1,4 +1,4 @@
-import { decrypt } from '$lib/utils/encryption';
+import { decryptMessage } from '$lib/utils/encryption';
 
 import type { PageLoad } from './$types';
 
@@ -6,25 +6,13 @@ import type { PageLoad } from './$types';
 /* and decrypts chat messages
 */
 
-export const load: PageLoad = async ({ parent, data }) => {
-  const parentData = await parent();
-
-  const chat = parentData.chats.find((chat) => chat.id === data.chat.id);
-
-  const decryptedMessages = await Promise.all(data.messages.map(async (message) => {
-    if (!message.text) return message;
-
-    const decryptedText = await decrypt(message.text, chat!.derivedKey);
-
-    return {
-      ...message,
-      text: decryptedText
-    };
-  }));
+export const load: PageLoad = async ({ data }) => {
+  const decryptedMessages = await Promise.all(
+    data.messages.map((message) => decryptMessage(message, data.chat.id))
+  );
 
   return {
     ...data,
-    chat: chat!,
     messages: decryptedMessages
   };
 }

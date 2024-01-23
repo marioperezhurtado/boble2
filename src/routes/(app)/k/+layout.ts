@@ -1,4 +1,4 @@
-import { deriveKey, decrypt } from '$lib/utils/encryption';
+import { deriveKey, decryptMessage } from '$lib/utils/encryption';
 import type { LayoutLoad } from './$types';
 
 
@@ -16,14 +16,11 @@ export const load: LayoutLoad = async ({ data }) => {
 
     localStorage.setItem(`dk_${chat.id}`, derivedKey);
 
-    if (chat.lastMessage?.text) {
-      chat.lastMessage.text = await decrypt(chat.lastMessage.text, derivedKey);
+    if (chat.lastMessage) {
+      chat.lastMessage = await decryptMessage(chat.lastMessage, chat.id);
     }
 
-    return {
-      ...chat,
-      derivedKey
-    }
+    return chat;
   }));
 
   return {

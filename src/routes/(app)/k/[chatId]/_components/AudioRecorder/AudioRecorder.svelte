@@ -6,6 +6,7 @@
   import { replyingTo } from "$lib/stores/store";
   import { uploadFileFromClient } from "$lib/utils/file";
   import { VOLUME_SPIKE_COUNT, summarizeVolumeSpikes } from "./volumeSpikes";
+  import { encryptMessage } from "$lib/utils/encryption";
   import TimeElapsed from "./TimeElapsed.svelte";
   import VolumeMeter from "./VolumeMeter.svelte";
   import AccessDeniedModal from "./AccessDeniedModal.svelte";
@@ -18,7 +19,6 @@
   let speechRecognition: SpeechRecognition | null = null;
 
   let audioBlob: Blob | null = null;
-  let audioUrl: string | null = null;
   let transcript: string | null = null;
   let duration = 0;
 
@@ -67,11 +67,19 @@
       return;
     }
 
+    const { text, source } = await encryptMessage(
+      {
+        text: transcript,
+        source: presignedPostData.fields.key,
+      },
+      $page.params.chatId,
+    );
+
     $sendAudio.mutate({
-      audioId: presignedPostData.fields.key,
+      audioId: source,
+      transcript: text,
       chatId: $page.params.chatId,
       replyToId: $replyingTo?.id ?? "",
-      transcript: transcript ?? "",
       duration,
       volumeSpikes: summarizeVolumeSpikes(
         volumeSpikes.slice(VOLUME_SPIKE_COUNT),
@@ -91,7 +99,6 @@
       mediaRecorder.onstop = () => {
         const blob = new Blob(chunks, { type: "audio/ogg" });
         audioBlob = blob;
-        audioUrl = URL.createObjectURL(blob);
         chunks = [];
       };
 

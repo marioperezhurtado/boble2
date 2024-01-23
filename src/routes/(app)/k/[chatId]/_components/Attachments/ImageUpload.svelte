@@ -3,11 +3,12 @@
   import { trpc } from "$lib/trpc/client";
   import { onMount } from "svelte";
   import { replyingTo } from "$lib/stores/store";
+  import { encryptMessage } from "$lib/utils/encryption";
+  import { uploadFileFromClient } from "$lib/utils/file";
   import Button from "$lib/ui/Button.svelte";
   import Modal from "$lib/ui/Modal.svelte";
   import Input from "$lib/ui/Input.svelte";
   import FormError from "$lib/ui/FormError.svelte";
-  import { uploadFileFromClient } from "$lib/utils/file";
 
   export let onClose: () => void;
 
@@ -45,11 +46,19 @@
       return;
     }
 
+    const { text, source } = await encryptMessage(
+      {
+        text: caption,
+        source: presignedPostData.fields.key,
+      },
+      $page.params.chatId,
+    );
+
     $sendImage.mutate({
-      imageId: presignedPostData.fields.key,
+      imageId: source,
+      caption: text ?? null,
       chatId: $page.params.chatId,
       replyToId: $replyingTo?.id,
-      caption,
     });
   }
 

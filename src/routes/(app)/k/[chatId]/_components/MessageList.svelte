@@ -1,13 +1,11 @@
 <script lang="ts">
-  import { page } from "$app/stores";
   import { onDestroy, tick } from "svelte";
   import {
     onDeleteMessage,
     onMessage,
     unsubscribeFromMessages,
   } from "$lib/socket/client";
-  import type { PageData } from "../$types";
-  import { decrypt } from "$lib/utils/encryption";
+  import { decryptMessage } from "$lib/utils/encryption";
   import { chats } from "$lib/stores/chats";
   import { messages } from "$lib/stores/store";
   import type { Messages } from "$lib/db/message/getMessages";
@@ -21,7 +19,6 @@
   export let userId: string;
   export let isSavedContact: boolean;
 
-  $: data = $page.data as PageData;
   $: chat = $chats.find((chat) => chat.id === chatId);
 
   let messageContainer: HTMLElement;
@@ -59,11 +56,9 @@
   onMessage(async (message) => {
     if (message.chatId !== chatId) return;
 
-    const decryptedText = message.text
-      ? await decrypt(message.text, data.chat!.derivedKey)
-      : null;
+    const decryptedMessage = await decryptMessage(message, chatId);
 
-    $messages = [...$messages, { ...message, text: decryptedText }];
+    $messages = [...$messages, decryptedMessage];
     await tick();
 
     // Scroll bottom if message is own or user is near bottom

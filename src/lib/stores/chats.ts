@@ -7,8 +7,6 @@ export type DisplayChat = Omit<Chat, "lastMessage"> & {
   lastMessage: Chat["lastMessage"] & {
     deleted?: boolean;
   } | null
-} & {
-  derivedKey: string;
 }
 
 function createChatStore(initialChats: DisplayChat[]) {

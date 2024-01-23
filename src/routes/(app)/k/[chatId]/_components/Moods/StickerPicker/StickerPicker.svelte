@@ -3,6 +3,7 @@
   import { trpc } from "$lib/trpc/client";
   import { isOpen } from "../store";
   import { replyingTo } from "$lib/stores/store";
+  import { encryptMessage } from "$lib/utils/encryption";
   import SearchStickers from "./SearchStickers.svelte";
   import StickersSkeleton from "./StickersSkeleton.svelte";
   import StickerList from "./StickerList.svelte";
@@ -24,9 +25,14 @@
     enabled: !!search,
   });
 
-  function handleSendSticker(sticker: string) {
+  async function handleSendSticker(sticker: string) {
+    const { text } = await encryptMessage(
+      { text: sticker, source: null },
+      $page.params.chatId,
+    );
+
     $sendSticker.mutate({
-      sticker,
+      sticker: text,
       chatId: $page.params.chatId,
       replyToId: $replyingTo?.id,
     });

@@ -2,9 +2,9 @@
   import { page } from "$app/stores";
   import { trpc } from "$lib/trpc/client";
   import { text, replyingTo } from "$lib/stores/store";
+  import { encryptMessage } from "$lib/utils/encryption";
   import Attachments from "./Attachments/Attachments.svelte";
   import Moods from "./Moods/Moods.svelte";
-    import { encrypt } from "$lib/utils/encryption";
 
   export let onStartRecording: () => void;
 
@@ -23,10 +23,10 @@
   async function handleSendMessage() {
     if (!$text) return;
 
-    const storedDerivedKey = localStorage.getItem(`dk_${$page.params.chatId}`);
-    if (!storedDerivedKey) return;
-
-    const encryptedText = await encrypt($text, storedDerivedKey);
+    const { text: encryptedText } = await encryptMessage(
+      { text: $text, source: null },
+      $page.params.chatId,
+    );
 
     $sendTextMessage.mutate({
       text: encryptedText,
@@ -64,16 +64,18 @@
       >
         <img src="/icons/send.svg" alt="Send message" class="w-7 h-7" />
       </button>
-    {:else}
-      <button
-        on:click={onStartRecording}
-        type="button"
-        title="Record audio"
-        aria-label="Record audio"
-        class="p-0.5 rounded-md min-w-fit focus:outline-cyan-600"
-      >
-        <img src="/icons/microphone.svg" alt="Record audio" class="w-7 h-7" />
-      </button>
     {/if}
   </form>
+
+  {#if !$text.length}
+    <button
+      on:click={onStartRecording}
+      type="button"
+      title="Record audio"
+      aria-label="Record audio"
+      class="p-0.5 rounded-md min-w-fit focus:outline-cyan-600"
+    >
+      <img src="/icons/microphone.svg" alt="Record audio" class="w-7 h-7" />
+    </button>
+  {/if}
 </div>
