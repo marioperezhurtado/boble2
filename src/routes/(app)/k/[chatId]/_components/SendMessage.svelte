@@ -2,7 +2,7 @@
   import { page } from "$app/stores";
   import { trpc } from "$lib/trpc/client";
   import { text, replyingTo } from "$lib/stores/store";
-  import { encryptMessage } from "$lib/utils/encryption";
+  import { encryptMessageField } from "$lib/utils/encryption";
   import Attachments from "./Attachments/Attachments.svelte";
   import Moods from "./Moods/Moods.svelte";
 
@@ -23,10 +23,7 @@
   async function handleSendMessage() {
     if (!$text) return;
 
-    const { text: encryptedText } = await encryptMessage(
-      { text: $text, source: null },
-      $page.params.chatId,
-    );
+    const encryptedText = await encryptMessageField($text, $page.params.chatId);
 
     $sendTextMessage.mutate({
       text: encryptedText,

@@ -3,7 +3,7 @@
   import { trpc } from "$lib/trpc/client";
   import { isOpen } from "../store";
   import { replyingTo } from "$lib/stores/store";
-  import { encryptMessage } from "$lib/utils/encryption";
+  import { encryptMessageField } from "$lib/utils/encryption";
   import SearchGifs from "./SearchGifs.svelte";
   import GifsSkeleton from "./GifsSkeleton.svelte";
   import GifList from "./GifList.svelte";
@@ -25,13 +25,13 @@
   });
 
   async function handleSendGif(gif: string) {
-    const { text } = await encryptMessage(
-      { text: gif, source: null },
+    const encryptedGif = await encryptMessageField(
+      gif,
       $page.params.chatId,
     );
 
     $sendGif.mutate({
-      gif: text,
+      gif: encryptedGif,
       chatId: $page.params.chatId,
       replyToId: $replyingTo?.id,
     });

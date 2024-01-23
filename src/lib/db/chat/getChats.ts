@@ -28,7 +28,6 @@ export async function getChats(userId: string) {
       lastMessage: {
         id: message.id,
         text: message.text,
-        source: message.source,
         type: message.type,
         createdAt: message.createdAt,
         senderId: message.senderId,

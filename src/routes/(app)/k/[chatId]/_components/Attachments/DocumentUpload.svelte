@@ -4,7 +4,7 @@
   import { onMount } from "svelte";
   import { replyingTo } from "$lib/stores/store";
   import { formatFileSize, uploadFileFromClient } from "$lib/utils/file";
-  import { encryptMessage } from "$lib/utils/encryption";
+  import { encryptMessageField } from "$lib/utils/encryption";
   import Button from "$lib/ui/Button.svelte";
   import Modal from "$lib/ui/Modal.svelte";
   import Input from "$lib/ui/Input.svelte";
@@ -46,18 +46,23 @@
       return;
     }
 
-    const { text, source } = await encryptMessage(
-      {
-        text: caption,
-        source: presignedPostData.fields.key,
-      },
+    const encryptedDocumentId = await encryptMessageField(
+      presignedPostData.fields.key,
+      $page.params.chatId,
+    );
+    const encryptedCaption = await encryptMessageField(
+      caption,
+      $page.params.chatId,
+    );
+    const encryptedDocumentName = await encryptMessageField(
+      selectedFile.name,
       $page.params.chatId,
     );
 
     $sendDocument.mutate({
-      documentId: source,
-      caption: text,
-      name: selectedFile.name,
+      documentId: encryptedDocumentId,
+      caption: encryptedCaption,
+      name: encryptedDocumentName,
       size: selectedFile.size,
       chatId: $page.params.chatId,
       replyToId: $replyingTo?.id,

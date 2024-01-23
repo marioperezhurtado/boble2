@@ -1,32 +1,42 @@
 // Encrypt and decrypt text using ECDH and AES-GCM
 
-type MessageFieldsEncryption = {
-  text: string | null;
-  source: string | null;
-};
-
-export async function encryptMessage<T extends MessageFieldsEncryption>(
-  message: T,
+export async function encryptMessageField<T extends string | null>(
+  field: T,
   chatId: string
 ) {
+  if (!field) return field;
+
   const storedDerivedKey = localStorage.getItem(`dk_${chatId}`);
-  if (!storedDerivedKey) return message;
+  if (!storedDerivedKey) return field;
 
-  if (message.text) {
-    message.text = await encrypt(message.text, storedDerivedKey);
-  }
-  if (message.source) {
-    message.source = await encrypt(message.source, storedDerivedKey);
-  }
-
-  return message;
+  return encrypt(field, storedDerivedKey);
 }
 
-export async function decryptMessage<T extends MessageFieldsEncryption>(
-  message: T,
+export async function decryptMessageField<T extends string | null>(
+  field: T,
   chatId: string
 ) {
+  if (!field) return field;
+
   const storedDerivedKey = localStorage.getItem(`dk_${chatId}`);
+  if (!storedDerivedKey) return field;
+
+  return decrypt(field, storedDerivedKey);
+}
+
+type MessageFieldsToDecrypt = {
+  text: string | null;
+  source: string | null;
+  documentInfo: {
+    name: string | null;
+  } | null;
+}
+
+export async function decryptMessage<T extends MessageFieldsToDecrypt>(
+  message: T, 
+  chatId: string
+) {
+ const storedDerivedKey = localStorage.getItem(`dk_${chatId}`);
   if (!storedDerivedKey) return message;
 
   if (message.text) {
@@ -35,10 +45,15 @@ export async function decryptMessage<T extends MessageFieldsEncryption>(
   if (message.source) {
     message.source = await decrypt(message.source, storedDerivedKey);
   }
+  if (message.documentInfo?.name) {
+    message.documentInfo.name = await decrypt(
+      message.documentInfo.name,
+      storedDerivedKey
+    );
+  }
 
   return message;
 }
-
 
 export async function generateKeys() {
   const keyPair = await crypto.subtle.generateKey(

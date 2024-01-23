@@ -3,7 +3,7 @@
   import { trpc } from "$lib/trpc/client";
   import { isOpen } from "../store";
   import { replyingTo } from "$lib/stores/store";
-  import { encryptMessage } from "$lib/utils/encryption";
+  import { encryptMessageField } from "$lib/utils/encryption";
   import SearchStickers from "./SearchStickers.svelte";
   import StickersSkeleton from "./StickersSkeleton.svelte";
   import StickerList from "./StickerList.svelte";
@@ -26,13 +26,13 @@
   });
 
   async function handleSendSticker(sticker: string) {
-    const { text } = await encryptMessage(
-      { text: sticker, source: null },
+    const encryptedSticker = await encryptMessageField(
+      sticker,
       $page.params.chatId,
     );
 
     $sendSticker.mutate({
-      sticker: text,
+      sticker: encryptedSticker,
       chatId: $page.params.chatId,
       replyToId: $replyingTo?.id,
     });

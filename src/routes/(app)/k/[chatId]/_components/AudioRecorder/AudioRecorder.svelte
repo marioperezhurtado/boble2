@@ -6,7 +6,7 @@
   import { replyingTo } from "$lib/stores/store";
   import { uploadFileFromClient } from "$lib/utils/file";
   import { VOLUME_SPIKE_COUNT, summarizeVolumeSpikes } from "./volumeSpikes";
-  import { encryptMessage } from "$lib/utils/encryption";
+  import { encryptMessageField } from "$lib/utils/encryption";
   import TimeElapsed from "./TimeElapsed.svelte";
   import VolumeMeter from "./VolumeMeter.svelte";
   import AccessDeniedModal from "./AccessDeniedModal.svelte";
@@ -67,17 +67,19 @@
       return;
     }
 
-    const { text, source } = await encryptMessage(
-      {
-        text: transcript,
-        source: presignedPostData.fields.key,
-      },
+    const encryptedAudioId = await encryptMessageField(
+      presignedPostData.fields.key,
+      $page.params.chatId,
+    );
+
+    const encryptedTranscript = await encryptMessageField(
+      transcript,
       $page.params.chatId,
     );
 
     $sendAudio.mutate({
-      audioId: source,
-      transcript: text,
+      audioId: encryptedAudioId,
+      transcript: encryptedTranscript,
       chatId: $page.params.chatId,
       replyToId: $replyingTo?.id ?? "",
       duration,

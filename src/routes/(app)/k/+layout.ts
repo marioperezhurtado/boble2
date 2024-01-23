@@ -1,5 +1,5 @@
 import { goto } from '$app/navigation';
-import { deriveKey, decryptMessage } from '$lib/utils/encryption';
+import { deriveKey, decryptMessageField } from '$lib/utils/encryption';
 import type { LayoutLoad } from './$types';
 
 /* Retrieves or generates derived key for each chat
@@ -26,9 +26,17 @@ export const load: LayoutLoad = async ({ data, fetch }) => {
 
     localStorage.setItem(`dk_${chat.id}`, derivedKey);
 
-    if (chat.lastMessage) {
-      chat.lastMessage = await decryptMessage(chat.lastMessage, chat.id);
+    if (chat.lastMessage?.text) {
+      chat.lastMessage.text = await decryptMessageField(
+        chat.lastMessage.text,
+        chat.id
+      );
     }
+
+    chat.documentName = await decryptMessageField(
+      chat.documentName,
+      chat.id
+    );
 
     return chat;
   }));
