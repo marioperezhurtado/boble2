@@ -17,18 +17,14 @@
   let caption = "";
 
   const sendDocument = trpc($page).message.sendDocument.createMutation({
-    retry: false,
     onSuccess: () => {
       $replyingTo = null;
       onClose();
     },
   });
 
-  const createPresignedPost = trpc(
-    $page,
-  ).createPresignedPost.document.createMutation({
-    retry: false,
-  });
+  const createPresignedPost =
+    trpc($page).createPresignedPost.document.createMutation();
 
   async function handleSendDocument() {
     if (!selectedFile) return;

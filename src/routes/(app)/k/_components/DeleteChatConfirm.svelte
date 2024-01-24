@@ -11,7 +11,6 @@
   export let chat: Chat;
 
   const deleteChat = trpc($page).chat.delete.createMutation({
-    retry: false,
     onSuccess: async () => {
       await invalidateAll();
 

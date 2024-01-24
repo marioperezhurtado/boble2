@@ -12,10 +12,7 @@
   export let message: Message;
 
   const deleteMessage = trpc($page).message.delete.createMutation({
-    retry: false,
-    onSuccess() {
-      goto($page.url.pathname);
-    },
+    onSuccess: () => goto($page.url.pathname)
   });
 
   function handleDeleteMessage() {

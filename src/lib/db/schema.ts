@@ -77,26 +77,31 @@ export const passwordResetToken = sqliteTable("password_reset_token", {
 });
 
 export const linkPreview = sqliteTable("link_preview", {
-  url: text("url").primaryKey(),
+  messageId: text("message_id")
+    .primaryKey()
+    .references(() => message.id, { onDelete: "cascade" }),
   title: text("title"),
   description: text("description"),
   image: text("image"),
   siteName: text("site_name"),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
 });
 
 export const documentInfo = sqliteTable("document_info", {
-  url: text("url").primaryKey(),
+  messageId: text("message_id")
+    .primaryKey()
+    .references(() => message.id, { onDelete: "cascade" })
+    .notNull(),
   name: text("name").notNull(),
   size: integer("size").notNull(),
-  messageId: text("message_id").references(() => message.id, { onDelete: "cascade" }).notNull(),
 });
 
 export const audioInfo = sqliteTable("audio_info", {
-  url: text("url").primaryKey(),
+  messageId: text("message_id")
+    .primaryKey()
+    .references(() => message.id, { onDelete: "cascade" })
+    .notNull(),
   duration: integer("duration").notNull(),
   volumeSpikes: text("volume_spikes").notNull(),
-  messageId: text("message_id").references(() => message.id, { onDelete: "cascade" }).notNull(),
 });
 
 // auth tables (lucia)

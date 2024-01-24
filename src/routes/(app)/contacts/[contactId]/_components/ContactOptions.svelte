@@ -9,10 +9,7 @@
   export let contact: Contact;
 
   const openChat = trpc($page).chat.open.createMutation({
-    retry: false,
-    onSuccess: (chatId) => {
-      goto(`/k/${chatId}`);
-    },
+    onSuccess: (chatId) => goto(`/k/${chatId}`)
   });
 
   function handleOpenChat() {

@@ -14,7 +14,6 @@
   let alias = contact.alias;
 
   const editContact = trpc($page).contact.edit.createMutation({
-    retry: false,
     onSuccess: async () => {
       await invalidateAll();
       goto(`/contacts/${contact.id}`);

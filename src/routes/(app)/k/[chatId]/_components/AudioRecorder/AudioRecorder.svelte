@@ -34,18 +34,14 @@
   }
 
   const sendAudio = trpc($page).message.sendAudio.createMutation({
-    retry: false,
     onSuccess: () => {
       $replyingTo = null;
       onClose();
     },
   });
 
-  const createPresignedPost = trpc(
-    $page,
-  ).createPresignedPost.audio.createMutation({
-    retry: false,
-  });
+  const createPresignedPost =
+    trpc($page).createPresignedPost.audio.createMutation();
 
   $: if (audioBlob) handleSendAudio();
 

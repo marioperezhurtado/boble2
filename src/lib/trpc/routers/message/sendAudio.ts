@@ -32,10 +32,9 @@ export const sendAudio = protectedProcedure
     });
 
     const audioInfo = await createAudioInfo({
-      url: input.audioId,
+      messageId: newMessage.id,
       duration: input.duration,
       volumeSpikes: input.volumeSpikes.join(','),
-      messageId: newMessage.id,
     });
 
     sendMessage({

@@ -17,18 +17,14 @@
   let caption = "";
 
   const sendVideo = trpc($page).message.sendVideo.createMutation({
-    retry: false,
     onSuccess: () => {
       $replyingTo = null;
       onClose();
     },
   });
 
-  const createPresignedPost = trpc(
-    $page,
-  ).createPresignedPost.video.createMutation({
-    retry: false,
-  });
+  const createPresignedPost =
+    trpc($page).createPresignedPost.video.createMutation();
 
   async function handleSendVideo() {
     if (!selectedFile) return;

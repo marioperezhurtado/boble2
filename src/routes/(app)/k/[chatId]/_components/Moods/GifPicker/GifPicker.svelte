@@ -11,8 +11,7 @@
   let search = "";
 
   const sendGif = trpc($page).message.sendGif.createMutation({
-    retry: false,
-    onSuccess() {
+    onSuccess: () => {
       $replyingTo = null;
       $isOpen = false;
     },
@@ -25,10 +24,7 @@
   });
 
   async function handleSendGif(gif: string) {
-    const encryptedGif = await encryptMessageField(
-      gif,
-      $page.params.chatId,
-    );
+    const encryptedGif = await encryptMessageField(gif, $page.params.chatId);
 
     $sendGif.mutate({
       gif: encryptedGif,

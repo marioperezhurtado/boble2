@@ -23,17 +23,17 @@ export function getMessages(chatId: string) {
     // join link preview metadata to link messages
     .leftJoin(linkPreview, and(
       eq(message.type, "link"),
-      eq(message.source, linkPreview.url)
+      eq(message.id, linkPreview.messageId)
     ))
     // join document info to document messages
     .leftJoin(documentInfo, and(
       eq(message.type, "document"),
-      eq(message.source, documentInfo.url)
+      eq(message.id, documentInfo.messageId)
     ))
     // join audio info to audio messages
     .leftJoin(audioInfo, and(
       eq(message.type, "audio"),
-      eq(message.source, audioInfo.url)
+      eq(message.id, audioInfo.messageId)
     ))
 }
 

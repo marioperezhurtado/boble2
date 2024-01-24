@@ -32,10 +32,9 @@ export const sendDocument = protectedProcedure
     });
 
     const documentInfo = await createDocumentInfo({
-      url: input.documentId,
+      messageId: newMessage.id,
       name: input.name,
       size: input.size,
-      messageId: newMessage.id,
     });
 
     sendMessage({

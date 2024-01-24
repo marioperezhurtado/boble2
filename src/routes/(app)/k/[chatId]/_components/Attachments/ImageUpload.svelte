@@ -17,18 +17,14 @@
   let caption = "";
 
   const sendImage = trpc($page).message.sendImage.createMutation({
-    retry: false,
     onSuccess: () => {
       $replyingTo = null;
       onClose();
     },
   });
 
-  const createPresignedPost = trpc(
-    $page,
-  ).createPresignedPost.image.createMutation({
-    retry: false,
-  });
+  const createPresignedPost =
+    trpc($page).createPresignedPost.image.createMutation();
 
   async function handleSendImage() {
     if (!selectedFile) return;

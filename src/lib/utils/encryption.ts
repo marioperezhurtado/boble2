@@ -20,7 +20,7 @@ export async function decryptMessageField<T extends string | null>(
 
   const storedDerivedKey = localStorage.getItem(`dk_${chatId}`);
   if (!storedDerivedKey) return field;
-
+  
   return decrypt(field, storedDerivedKey);
 }
 
@@ -29,6 +29,12 @@ type MessageFieldsToDecrypt = {
   source: string | null;
   documentInfo: {
     name: string | null;
+  } | null;
+  linkPreview: {
+    title: string | null;
+    description: string | null;
+    image: string | null;
+    siteName: string | null;
   } | null;
 }
 
@@ -48,6 +54,30 @@ export async function decryptMessage<T extends MessageFieldsToDecrypt>(
   if (message.documentInfo?.name) {
     message.documentInfo.name = await decrypt(
       message.documentInfo.name,
+      storedDerivedKey
+    );
+  }
+  if (message.linkPreview?.title) {
+    message.linkPreview.title = await decrypt(
+      message.linkPreview.title,
+      storedDerivedKey
+    );
+  }
+  if (message.linkPreview?.description) {
+    message.linkPreview.description = await decrypt(
+      message.linkPreview.description,
+      storedDerivedKey
+    );
+  }
+  if (message.linkPreview?.image) {
+    message.linkPreview.image = await decrypt(
+      message.linkPreview.image,
+      storedDerivedKey
+    );
+  }
+  if (message.linkPreview?.siteName) {
+    message.linkPreview.siteName = await decrypt(
+      message.linkPreview.siteName,
       storedDerivedKey
     );
   }

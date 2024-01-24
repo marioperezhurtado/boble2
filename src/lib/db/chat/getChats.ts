@@ -71,11 +71,11 @@ export async function getChats(userId: string) {
     ))
     .leftJoin(documentInfo, and(
       eq(message.type, "document"),
-      eq(documentInfo.url, message.source)
+      eq(message.id, documentInfo.messageId)
     ))
     .leftJoin(audioInfo, and(
       eq(message.type, "audio"),
-      eq(audioInfo.url, message.source)
+      eq(message.id, documentInfo.messageId)
     ))
     .orderBy(desc(message.createdAt));
 

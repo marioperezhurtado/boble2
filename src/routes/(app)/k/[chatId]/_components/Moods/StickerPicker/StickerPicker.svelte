@@ -11,8 +11,7 @@
   let search = "";
 
   const sendSticker = trpc($page).message.sendSticker.createMutation({
-    retry: false,
-    onSuccess() {
+    onSuccess: () => {
       $replyingTo = null;
       $isOpen = false;
     },
