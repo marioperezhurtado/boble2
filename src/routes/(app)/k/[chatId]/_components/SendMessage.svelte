@@ -1,47 +1,44 @@
-<script lang="ts">
-  import { page } from "$app/stores";
-  import { trpc } from "$lib/trpc/client";
-  import { text, replyingTo } from "$lib/stores/store";
-  import {
-    decryptMessageField,
-    encryptMessageField,
-  } from "$lib/utils/encryption";
-  import Attachments from "./Attachments/Attachments.svelte";
-  import Moods from "./Moods/Moods.svelte";
-
-  export let onStartRecording: () => void;
-
-  let textInput: HTMLInputElement | undefined = undefined;
-
-  $: if ($replyingTo) textInput?.focus();
-
-  function onSuccess() {
-    $replyingTo = null;
-    $text = "";
-  }
-
-  const sendTextMessage = trpc($page).message.sendText.createMutation({
-    onSuccess,
-  });
-
-  const sendLinkMessage = trpc($page).message.sendLink.createMutation({
-    onSuccess,
-  });
-
-  const generateLinkPreview =
+<script lang="ts">                                                                             
+  import { page } from "$app/stores";                                                          
+  import { trpc } from "$lib/trpc/client";                                                     
+  import { text, replyingTo } from "$lib/stores/store";                                        
+  import { encryptMessageField } from "$lib/utils/encryption";                                 
+  import Attachments from "./Attachments/Attachments.svelte";                                  
+  import Moods from "./Moods/Moods.svelte";                                                    
+                                                                                               
+  export let onStartRecording: () => void;                                                     
+                                                                                               
+  let textInput: HTMLInputElement | undefined = undefined;                                     
+                                                                                               
+  $: if ($replyingTo) textInput?.focus();                                                      
+                                                                                               
+  function onSuccess() {                                                                       
+    $replyingTo = null;                                                                        
+    $text = "";                                                                                
+  }                                                                                            
+                                                                                               
+  const sendTextMessage = trpc($page).message.sendText.createMutation({                        
+    onSuccess,                                                                                 
+  });                                                                                          
+                                                                                               
+  const sendLinkMessage = trpc($page).message.sendLink.createMutation({                        
+    onSuccess,                                                                                 
+  });                                                                                          
+                                                                                               
+  const generateLinkPreview =                                                                  
     trpc($page).message.generateLinkPreview.createMutation();
-
-  async function handleSendMessage() {
-    if (!$text) return;
-
-    const encryptedText = await encryptMessageField($text, $page.params.chatId);
-
-    const url = $text.match(/(https?:\/\/[^\s]+)/)?.[0] ?? "";
-
-    // Text message
-    if (!url) {
-      $sendTextMessage.mutate({
-        text: encryptedText,
+  
+   async function handleSendMessage() {                                                         
+    if (!$text) return;                                                                        
+                                                                                               
+    const encryptedText = await encryptMessageField($text, $page.params.chatId);               
+                                                                                               
+    const url = $text.match(/(https?:\/\/[^\s]+)/)?.[0] ?? "";                                 
+                                                                                               
+    // Text message                                                                            
+    if (!url) {                                                                                
+      $sendTextMessage.mutate({                                                                
+        text: encryptedText,                                                                   
         chatId: $page.params.chatId,
         replyToId: $replyingTo?.id,
       });
@@ -95,7 +92,8 @@
       name="message"
       type="text"
       placeholder="Type a message"
-      class="block py-1.5 px-2 ml-1 w-full rounded-md border shadow-sm placeholder:text-zinc-400 focus:outline-cyan-600"
+      class="block py-1.5 px-2 ml-1 w-full rounded-md border shadow-sm placeholder:text-zinc-40
+0 focus:outline-cyan-600"
       autocomplete="off"
     />
     {#if $text.length}
