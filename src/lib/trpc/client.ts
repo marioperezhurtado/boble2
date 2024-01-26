@@ -8,9 +8,12 @@ let browserClient: ReturnType<typeof svelteQueryWrapper<Router>>;
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      retry: process.env.NODE_ENV === 'production',
+      retry: false,
       refetchOnWindowFocus: false,
       staleTime: 1000 * 60 * 60, // 1 hour
+    },
+    mutations: {
+      retry: false,
     },
   },
 });

@@ -20,6 +20,8 @@ declare global {
       emailVerified: number; // 0/1
       image: string | null;
       status: string | null;
+      publicKey: string;
+      encryptedSecret: string;
     };
     type DatabaseSessionAttributes = {};
   }

@@ -1,6 +1,6 @@
 import { auth } from '$lib/auth/auth';
 import { LuciaError } from 'lucia';
-import { fail, redirect } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 
 import type { Actions } from './$types';
 
@@ -17,27 +17,28 @@ export const actions: Actions = {
       return fail(400, { error: 'Invalid password' });
     }
     try {
-      // find user by key
-      // and validate password
+      // Find user by key and validate password
       const key = await auth.useKey('email', email.toLowerCase(), password);
       const session = await auth.createSession({
         userId: key.userId,
         attributes: {}
       });
-      locals.auth.setSession(session); // set session cookie
+
+      // Set session cookie
+      locals.auth.setSession(session);
+      
+      // Return encrypted secret so that the client can decrypt it
+      // and store it locally.
+      return session.user.encryptedSecret;
     } catch (e) {
       if (
         e instanceof LuciaError &&
         (e.message === 'AUTH_INVALID_KEY_ID' || e.message === 'AUTH_INVALID_PASSWORD')
       ) {
-        // user does not exist
-        // or invalid password
+        // User does not exist or invalid password
         return fail(400, { error: "Email or password doesn't match" });
       }
       return fail(500, { error: 'An unknown error occurred' });
     }
-
-    // make sure you don't throw inside a try/catch block!
-    redirect(302, '/k');
   }
 };

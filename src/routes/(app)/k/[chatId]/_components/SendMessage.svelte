@@ -1,33 +1,77 @@
-<script lang="ts">
-  import { page } from "$app/stores";
-  import { invalidateAll } from "$app/navigation";
-  import { trpc } from "$lib/trpc/client";
-  import { text, replyingTo } from "$lib/stores/store";
-  import Attachments from "./Attachments/Attachments.svelte";
-  import Moods from "./Moods/Moods.svelte";
+<script lang="ts">                                                                             
+  import { page } from "$app/stores";                                                          
+  import { trpc } from "$lib/trpc/client";                                                     
+  import { text, replyingTo } from "$lib/stores/store";                                        
+  import { encryptMessageField } from "$lib/utils/encryption";                                 
+  import Attachments from "./Attachments/Attachments.svelte";                                  
+  import Moods from "./Moods/Moods.svelte";                                                    
+                                                                                               
+  export let onStartRecording: () => void;                                                     
+                                                                                               
+  let textInput: HTMLInputElement | undefined = undefined;                                     
+                                                                                               
+  $: if ($replyingTo) textInput?.focus();                                                      
+                                                                                               
+  function onSuccess() {                                                                       
+    $replyingTo = null;                                                                        
+    $text = "";                                                                                
+  }                                                                                            
+                                                                                               
+  const sendTextMessage = trpc($page).message.sendText.createMutation({                        
+    onSuccess,                                                                                 
+  });                                                                                          
+                                                                                               
+  const sendLinkMessage = trpc($page).message.sendLink.createMutation({                        
+    onSuccess,                                                                                 
+  });                                                                                          
+                                                                                               
+  const generateLinkPreview =                                                                  
+    trpc($page).message.generateLinkPreview.createMutation();
+  
+   async function handleSendMessage() {                                                         
+    if (!$text) return;                                                                        
+                                                                                               
+    const encryptedText = await encryptMessageField($text, $page.params.chatId);               
+                                                                                               
+    const url = $text.match(/(https?:\/\/[^\s]+)/)?.[0] ?? "";                                 
+                                                                                               
+    // Text message                                                                            
+    if (!url) {                                                                                
+      $sendTextMessage.mutate({                                                                
+        text: encryptedText,                                                                   
+        chatId: $page.params.chatId,
+        replyToId: $replyingTo?.id,
+      });
+    }
 
-  export let onStartRecording: () => void;
+    // Link message
+    const linkPreview = await $generateLinkPreview.mutateAsync(url);
 
-  let textInput: HTMLInputElement | undefined = undefined;
+    const [
+      encryptedUrl,
+      encryptedTitle,
+      encryptedDescription,
+      encryptedImage,
+      encryptedSiteName,
+    ] = await Promise.all([
+      encryptMessageField(url, $page.params.chatId),
+      encryptMessageField(linkPreview.title, $page.params.chatId),
+      encryptMessageField(linkPreview.description, $page.params.chatId),
+      encryptMessageField(linkPreview.image, $page.params.chatId),
+      encryptMessageField(linkPreview.siteName, $page.params.chatId),
+    ]);
 
-  $: if ($replyingTo) textInput?.focus();
-
-  const sendTextMessage = trpc($page).message.sendText.createMutation({
-    retry: false,
-    onSuccess: () => {
-      $replyingTo = null;
-      $text = "";
-      invalidateAll();
-    },
-  });
-
-  function handleSendMessage() {
-    if (!$text) return;
-
-    $sendTextMessage.mutate({
-      text: $text,
+    $sendLinkMessage.mutate({
+      text: encryptedText,
       chatId: $page.params.chatId,
       replyToId: $replyingTo?.id,
+      url: encryptedUrl,
+      linkPreview: {
+        title: encryptedTitle,
+        description: encryptedDescription,
+        image: encryptedImage,
+        siteName: encryptedSiteName,
+      },
     });
   }
 </script>
@@ -48,7 +92,8 @@
       name="message"
       type="text"
       placeholder="Type a message"
-      class="block py-1.5 px-2 ml-1 w-full rounded-md border shadow-sm placeholder:text-zinc-400 focus:outline-cyan-600"
+      class="block py-1.5 px-2 ml-1 w-full rounded-md border shadow-sm placeholder:text-zinc-40
+0 focus:outline-cyan-600"
       autocomplete="off"
     />
     {#if $text.length}
@@ -60,16 +105,18 @@
       >
         <img src="/icons/send.svg" alt="Send message" class="w-7 h-7" />
       </button>
-    {:else}
-      <button
-        on:click={onStartRecording}
-        type="button"
-        title="Record audio"
-        aria-label="Record audio"
-        class="p-0.5 rounded-md min-w-fit focus:outline-cyan-600"
-      >
-        <img src="/icons/microphone.svg" alt="Record audio" class="w-7 h-7" />
-      </button>
     {/if}
   </form>
+
+  {#if !$text.length}
+    <button
+      on:click={onStartRecording}
+      type="button"
+      title="Record audio"
+      aria-label="Record audio"
+      class="p-0.5 rounded-md min-w-fit focus:outline-cyan-600"
+    >
+      <img src="/icons/microphone.svg" alt="Record audio" class="w-7 h-7" />
+    </button>
+  {/if}
 </div>

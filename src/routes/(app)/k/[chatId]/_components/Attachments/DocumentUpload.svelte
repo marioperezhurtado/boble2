@@ -4,6 +4,7 @@
   import { onMount } from "svelte";
   import { replyingTo } from "$lib/stores/store";
   import { formatFileSize, uploadFileFromClient } from "$lib/utils/file";
+  import { encryptMessageField } from "$lib/utils/encryption";
   import Button from "$lib/ui/Button.svelte";
   import Modal from "$lib/ui/Modal.svelte";
   import Input from "$lib/ui/Input.svelte";
@@ -16,18 +17,14 @@
   let caption = "";
 
   const sendDocument = trpc($page).message.sendDocument.createMutation({
-    retry: false,
     onSuccess: () => {
       $replyingTo = null;
       onClose();
     },
   });
 
-  const createPresignedPost = trpc(
-    $page,
-  ).createPresignedPost.document.createMutation({
-    retry: false,
-  });
+  const createPresignedPost =
+    trpc($page).createPresignedPost.document.createMutation();
 
   async function handleSendDocument() {
     if (!selectedFile) return;
@@ -45,13 +42,26 @@
       return;
     }
 
+    const encryptedDocumentId = await encryptMessageField(
+      presignedPostData.fields.key,
+      $page.params.chatId,
+    );
+    const encryptedCaption = await encryptMessageField(
+      caption,
+      $page.params.chatId,
+    );
+    const encryptedDocumentName = await encryptMessageField(
+      selectedFile.name,
+      $page.params.chatId,
+    );
+
     $sendDocument.mutate({
-      documentId: presignedPostData.fields.key,
-      name: selectedFile.name,
+      documentId: encryptedDocumentId,
+      caption: encryptedCaption,
+      name: encryptedDocumentName,
       size: selectedFile.size,
       chatId: $page.params.chatId,
       replyToId: $replyingTo?.id,
-      caption,
     });
   }
 

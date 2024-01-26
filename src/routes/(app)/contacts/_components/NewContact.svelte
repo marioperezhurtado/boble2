@@ -12,7 +12,6 @@
   let alias = "";
 
   const addContact = trpc($page).contact.add.createMutation({
-    retry: false,
     onSuccess: async (newContactId) => {
       await invalidateAll();
       goto(`/contacts/${newContactId}`);

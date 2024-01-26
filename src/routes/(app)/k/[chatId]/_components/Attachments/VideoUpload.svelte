@@ -3,11 +3,12 @@
   import { trpc } from "$lib/trpc/client";
   import { onMount } from "svelte";
   import { replyingTo } from "$lib/stores/store";
+  import { uploadFileFromClient } from "$lib/utils/file";
+  import { encryptMessageField } from "$lib/utils/encryption";
   import Button from "$lib/ui/Button.svelte";
   import Modal from "$lib/ui/Modal.svelte";
   import Input from "$lib/ui/Input.svelte";
   import FormError from "$lib/ui/FormError.svelte";
-  import { uploadFileFromClient } from "$lib/utils/file";
 
   export let onClose: () => void;
 
@@ -16,18 +17,14 @@
   let caption = "";
 
   const sendVideo = trpc($page).message.sendVideo.createMutation({
-    retry: false,
     onSuccess: () => {
       $replyingTo = null;
       onClose();
     },
   });
 
-  const createPresignedPost = trpc(
-    $page,
-  ).createPresignedPost.video.createMutation({
-    retry: false,
-  });
+  const createPresignedPost =
+    trpc($page).createPresignedPost.video.createMutation();
 
   async function handleSendVideo() {
     if (!selectedFile) return;
@@ -45,11 +42,20 @@
       return;
     }
 
+    const encryptedVideoId = await encryptMessageField(
+      presignedPostData.fields.key,
+      $page.params.chatId,
+    );
+    const encryptedCaption = await encryptMessageField(
+      caption,
+      $page.params.chatId,
+    );
+
     $sendVideo.mutate({
-      videoId: presignedPostData.fields.key,
+      videoId: encryptedVideoId,
+      caption: encryptedCaption,
       chatId: $page.params.chatId,
       replyToId: $replyingTo?.id,
-      caption,
     });
   }
 

@@ -77,39 +77,45 @@ export const passwordResetToken = sqliteTable("password_reset_token", {
 });
 
 export const linkPreview = sqliteTable("link_preview", {
-  url: text("url").primaryKey(),
+  messageId: text("message_id")
+    .primaryKey()
+    .references(() => message.id, { onDelete: "cascade" }),
   title: text("title"),
   description: text("description"),
   image: text("image"),
   siteName: text("site_name"),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
 });
 
 export const documentInfo = sqliteTable("document_info", {
-  url: text("url").primaryKey(),
+  messageId: text("message_id")
+    .primaryKey()
+    .references(() => message.id, { onDelete: "cascade" })
+    .notNull(),
   name: text("name").notNull(),
   size: integer("size").notNull(),
-  messageId: text("message_id").references(() => message.id, { onDelete: "cascade" }).notNull(),
 });
 
 export const audioInfo = sqliteTable("audio_info", {
-  url: text("url").primaryKey(),
+  messageId: text("message_id")
+    .primaryKey()
+    .references(() => message.id, { onDelete: "cascade" })
+    .notNull(),
   duration: integer("duration").notNull(),
-  transcript: text("transcript"),
   volumeSpikes: text("volume_spikes").notNull(),
-  messageId: text("message_id").references(() => message.id, { onDelete: "cascade" }).notNull(),
 });
 
 // auth tables (lucia)
 
 export const user = sqliteTable("user", {
   id: text("id").primaryKey(),
-  // other user attributes
   email: text("email").notNull().unique(),
   emailVerified: integer("emailVerified", { mode: "boolean" }).notNull(),
   name: text("name").notNull(),
   image: text("image"),
   status: text("status"),
+  publicKey: text("publicKey").notNull(),
+  // secret key encrypted with password
+  encryptedSecret: text("encryptedSecret").notNull(),
 });
 
 export const session = sqliteTable("user_session", {

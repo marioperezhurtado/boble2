@@ -5,10 +5,12 @@
     onMessage,
     unsubscribeFromMessages,
   } from "$lib/socket/client";
+  import { decryptMessage } from "$lib/utils/encryption";
   import { chats } from "$lib/stores/chats";
   import { messages } from "$lib/stores/store";
   import type { Messages } from "$lib/db/message/getMessages";
   import Message from "./Message/Message.svelte";
+  import EncryptionPrompt from "./EncryptionPrompt.svelte";
   import AddContactPrompt from "./AddContactPrompt.svelte";
   import ScrollBottom from "./ScrollBottom.svelte";
 
@@ -52,10 +54,24 @@
     );
   }
 
+  function handleScroll() {
+    if (isNearEnoughToBottom(10)) {
+      showScrollBottom = false;
+      chats.readChat(chatId);
+      return;
+    }
+    showScrollBottom = true;
+
+    // Close message actions context menu
+    messageContainer.click();
+  }
+
   onMessage(async (message) => {
     if (message.chatId !== chatId) return;
 
-    $messages = [...$messages, message];
+    const decryptedMessage = await decryptMessage(message, chatId);
+
+    $messages = [...$messages, decryptedMessage];
     await tick();
 
     // Scroll bottom if message is own or user is near bottom
@@ -74,23 +90,15 @@
 </script>
 
 <section
-  on:scroll={() => {
-    if (isNearEnoughToBottom(10)) {
-      showScrollBottom = false;
-      chats.readChat(chatId);
-      return;
-    }
-    showScrollBottom = true;
-
-    // Close message actions context menu
-    messageContainer.click();
-  }}
+  on:scroll={handleScroll}
   bind:this={messageContainer}
   class="overflow-y-scroll px-4 h-full flex flex-col bg-stone-100 bg-repeat
   bg-[url('/pattern.png')] scroll-smooth"
 >
+  <EncryptionPrompt />
+
   {#if $messages.length === 0}
-    <div class="pt-10 text-center">
+    <div class="my-auto text-center">
       <p class="mb-4 text-lg font-bold">No messages yet</p>
       <p>Start the conversation to see your messages here.</p>
     </div>

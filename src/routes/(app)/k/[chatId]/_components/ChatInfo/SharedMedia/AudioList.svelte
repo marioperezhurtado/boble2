@@ -19,7 +19,7 @@
             class="w-6 h-6"
           />
 
-          <p class="text-sm text-zinc-600 pr-2 font-medium">
+          <p class="pr-2 text-sm font-medium text-zinc-600">
             {formatMinuteSeconds(message.audioInfo.duration)}
           </p>
 
@@ -31,7 +31,7 @@
             disabled
           />
         </div>
-        <p class="text-xs text-right mt-1">
+        <p class="mt-1 text-xs text-right">
           {formatDateShort(new Date(message.createdAt))}
         </p>
       </li>

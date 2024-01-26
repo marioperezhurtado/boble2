@@ -23,6 +23,8 @@ export const auth = lucia({
     emailVerified: user.emailVerified,
     image: user.image,
     status: user.status,
+    publicKey: user.publicKey,
+    encryptedSecret: user.encryptedSecret,
   }),
 });
 

@@ -8,12 +8,10 @@
   export let isBlocked: boolean;
 
   const blockUser = trpc($page).user.block.createMutation({
-    retry: false,
     onSuccess: invalidateAll,
   });
 
   const unblockUser = trpc($page).user.unblock.createMutation({
-    retry: false,
     onSuccess: invalidateAll,
   });
 

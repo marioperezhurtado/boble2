@@ -1,5 +1,6 @@
 <script lang="ts">
   import { page } from "$app/stores";
+  import { messages } from "$lib/stores/store";
   import BlockUnblockButton from "$lib/ui/BlockUnblockButton.svelte";
   import ChatTopBar from "./_components/ChatTopBar.svelte";
   import MessageList from "./_components/MessageList.svelte";
@@ -14,7 +15,7 @@
   let isRecording = false;
 
   $: isInfoOpen = $page.url.searchParams.has("info");
-  $: deletingMessage = data.messages.find(
+  $: deletingMessage = $messages.find(
     (message) => message.id === $page.url.searchParams.get("deleteMessage"),
   );
 </script>

@@ -9,9 +9,8 @@ const sendAudioSchema = z.object({
   audioId: z.string(),
   duration: z.number(),
   volumeSpikes: z.array(z.number()),
-  transcript: z.string().optional(),
+  transcript: z.string().nullable().optional(),
   replyToId: z.string().optional(),
-  caption: z.string().optional(),
   chatId: z.string(),
 });
 
@@ -27,17 +26,15 @@ export const sendAudio = protectedProcedure
       chatId: input.chatId,
       senderId: ctx.session.user.id,
       replyToId: input.replyToId,
-      text: input.caption,
+      text: input.transcript,
       source: input.audioId,
       type: "audio",
     });
 
     const audioInfo = await createAudioInfo({
-      url: input.audioId,
-      duration: input.duration,
-      transcript: input.transcript,
-      volumeSpikes: input.volumeSpikes.join(','),
       messageId: newMessage.id,
+      duration: input.duration,
+      volumeSpikes: input.volumeSpikes.join(','),
     });
 
     sendMessage({

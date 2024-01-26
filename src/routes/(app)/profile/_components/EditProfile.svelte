@@ -18,10 +18,7 @@
   $: untouched = name === data.user.name && status === (data.user.status ?? "");
 
   const updateProfile = trpc($page).user.edit.createMutation({
-    retry: false,
-    onSuccess: async () => {
-      await invalidateAll();
-    },
+    onSuccess: invalidateAll
   });
 
   function handleUpdateProfile() {

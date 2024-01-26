@@ -28,7 +28,7 @@
   bind:paused={isPaused}
   bind:playbackRate
   on:ended={() => (currentTime = 0)}
-  src={getFileUrl(message.audioInfo?.url ?? "")}
+  src={getFileUrl(message.source ?? "")}
   hidden
 />
 
@@ -47,8 +47,8 @@
       {/if}
     </div>
 
-    {#if showTranscript && message.audioInfo?.transcript}
-      <i class="p-1 pb-0.5">“{capitalize(message.audioInfo.transcript)}.”</i>
+    {#if showTranscript && message.text}
+      <i class="p-1 pb-0.5">“{capitalize(message.text)}.”</i>
     {/if}
 
     <div class="flex justify-between items-end pl-1 mt-1 h-5">
@@ -57,7 +57,7 @@
           <ChangePlaybackRate bind:playbackRate {isOwn} />
         {/if}
 
-        {#if message.audioInfo?.transcript}
+        {#if message?.text}
           <ToggleTranscript bind:showTranscript {isOwn} />
         {/if}
 

@@ -3,6 +3,7 @@
   import { trpc } from "$lib/trpc/client";
   import { isOpen } from "../store";
   import { replyingTo } from "$lib/stores/store";
+  import { encryptMessageField } from "$lib/utils/encryption";
   import SearchStickers from "./SearchStickers.svelte";
   import StickersSkeleton from "./StickersSkeleton.svelte";
   import StickerList from "./StickerList.svelte";
@@ -10,8 +11,7 @@
   let search = "";
 
   const sendSticker = trpc($page).message.sendSticker.createMutation({
-    retry: false,
-    onSuccess() {
+    onSuccess: () => {
       $replyingTo = null;
       $isOpen = false;
     },
@@ -24,9 +24,14 @@
     enabled: !!search,
   });
 
-  function handleSendSticker(sticker: string) {
-    $sendSticker.mutate({
+  async function handleSendSticker(sticker: string) {
+    const encryptedSticker = await encryptMessageField(
       sticker,
+      $page.params.chatId,
+    );
+
+    $sendSticker.mutate({
+      sticker: encryptedSticker,
       chatId: $page.params.chatId,
       replyToId: $replyingTo?.id,
     });

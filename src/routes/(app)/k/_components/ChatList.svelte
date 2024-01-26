@@ -1,7 +1,6 @@
 <script lang="ts">
   import { onDestroy } from "svelte";
   import { page } from "$app/stores";
-  import type { PageData } from "../$types";
   import {
     joinChat,
     onMessage,
@@ -9,6 +8,8 @@
     unsubscribeFromMessages,
   } from "$lib/socket/client";
   import { chats } from "$lib/stores/chats";
+  import { decryptMessage } from "$lib/utils/encryption";
+  import type { PageData } from "../$types";
   import FilterChats from "./FilterChats.svelte";
   import Chat from "./Chat.svelte";
 
@@ -24,8 +25,10 @@
     });
   }
 
-  onMessage((message) => {
-    chats.updateLastMessage(message.chatId, message);
+  onMessage(async (message) => {
+    const decryptedMessage = await decryptMessage(message, message.chatId);
+
+    chats.updateLastMessage(message.chatId, decryptedMessage);
   });
 
   onDeleteMessage((messageId, chatId) => {
