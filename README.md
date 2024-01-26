@@ -99,7 +99,7 @@ read the messages, not even the server.
 
 This project uses the native [Web Crypto
 API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API) to
-implement end-to-end encryption. You can find the implementation at `src/lib/email/email.ts`.
+implement end-to-end encryption. You can find the implementation at `src/lib/utils/encryption.ts`.
 
 ### [ECDH](https://en.wikipedia.org/wiki/Elliptic-curve_Diffie%E2%80%93Hellman)
 
@@ -187,7 +187,7 @@ cp .env.example .env
 
 ## Database setup
 
-This project uses [SQLite](https://www.sqlite.org/index.html) with [better-sqlite3](https://www.sqlite.org/index.html), and [DrizzleORM](https://orm.drizzle.team/).
+This project uses [SQLite](https://www.sqlite.org/index.html) and [DrizzleORM](https://orm.drizzle.team/).
 
 Your database will be stored in a single `sqlite.db` file at the root of your project, and your SQL migrations will be stored under the `drizzle/` folder.
 
@@ -271,7 +271,7 @@ TBD...
 | format | Format your project |
 | db:generate | Generate a SQL migration file |
 | db:push | Push your changes to your database |
-| db:studio | Launch a visual editor for your database on port 4983 |
+| db:studio | Launch a visual editor for your database on local.drizzle.studio |
 | test | Run all tests |
 | test:unit | Run unit tests |
 | test:integration | Run integration tests |
