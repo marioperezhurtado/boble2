@@ -7,6 +7,7 @@ Chat with your friends and family from any device.
 - [Tech and tools](#tech-and-tools)
 - [External services](#external-services)
 - [Project structure](#project-structure)
+- [End-to-end encryption](#end-to-end-encryption)
 - [Installation](#installation)
 - [Environment variables](#environment-variables)
 - [Database setup](#database-setup)
@@ -88,6 +89,58 @@ Chat with your friends and family from any device.
 ```
 
 [Reference](https://kit.svelte.dev/docs/project-structure)
+
+## End-to-end encryption
+
+End-to-End Encryption (E2EE) ensures that only the intended participants can
+access the content of a conversation. Because the content of the messages is
+encrypted using a shared secret that only both ends know, no one else can
+read the messages, not even the server.
+
+This project uses the native [Web Crypto
+API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API) to
+implement end-to-end encryption. You can find the implementation at `src/lib/email/email.ts`.
+
+### [ECDH](https://en.wikipedia.org/wiki/Elliptic-curve_Diffie%E2%80%93Hellman)
+
+Elliptic-curve Diffie–Hellman (ECDH) is an anonymous key agreement protocol that allows two parties, each having an elliptic-curve public–private key pair, to establish a shared secret over an insecure channel.
+
+We use the [P-256](https://neuromancer.sk/std/nist/P-256) curve, which is the most widely supported curve in browsers, and has a good balance between security and performance.
+
+### [AES-GCM](https://en.wikipedia.org/wiki/Galois/Counter_Mode)
+
+AES-GCM is an authenticated encryption with associated data (AEAD) cipher. It is
+based on the Advanced Encryption Standard (AES) algorithm and the Galois/Counter
+Mode (GCM) block mode. It provides both encryption and message authentication.
+
+The simplistic implementation of end-to-end encryption in this project is based on the
+following steps:
+
+1. User generates a public/private key pair.
+
+2. User sends their public key, and the private key encrypted with their
+password, to the server. Account is created.
+
+3. User logs in. Server sends the encrypted private key to the user.
+
+4. User decrypts the private key with their password.
+
+5. User generates a shared secret using their private key and the other user's
+public key. (Diffie-Hellman key exchange)
+
+6. User stores shared secrets locally. (localStorage)
+
+7. Both users in chat encrypt and decrypt messages using the shared secret.
+
+8. User logs out. Private and shared keys are deleted from localStorage.
+
+This implementation is not perfect, and it has some flaws:
+
+- One private key per account.
+- One shared secret per chat.
+- No key rotation.
+- No forward secrecy.
+
 
 ## Installation
 
