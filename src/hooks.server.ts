@@ -1,6 +1,3 @@
-import { createTRPCContext } from "$lib/trpc/trpc";
-import { createTRPCHandle } from "trpc-sveltekit";
-import { router } from "$lib/trpc/root";
 import { auth } from "$lib/auth/auth";
 import { redirect, type Handle } from "@sveltejs/kit";
 
@@ -57,13 +54,6 @@ export const handle: Handle = async ({ event, resolve }) => {
     }
   }
 
-  return createTRPCHandle({
-    router: router,
-    createContext: createTRPCContext,
-    onError: ({ type, path, error }) => {
-      console.error(`Encountered error while trying to process ${type} @ ${path}`)
-      console.error(error)
-    }
-  })({ event, resolve });
+  return resolve(event);
 };
 

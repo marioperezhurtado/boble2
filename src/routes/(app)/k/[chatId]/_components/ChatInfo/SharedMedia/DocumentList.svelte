@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { RouterOutputs } from "$lib/trpc/trpc";
   import { formatFileSize } from "$lib/utils/file";
   import { formatDateShort } from "$lib/utils/date";
+  import type { RouterOutputs } from "$lib/trpc/server/trpc";
 
   type Message = RouterOutputs["message"]["getMediaMessages"][number];
 

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { trpc } from "$lib/trpc/client";
   import { goto } from "$app/navigation";
   import { encryptWithPassword, generateKeys } from "$lib/utils/encryption";
   import Link from "$lib/ui/Link.svelte";
@@ -6,6 +7,7 @@
   import Input from "$lib/ui/Input.svelte";
   import PasswordInput from "$lib/ui/PasswordInput.svelte";
   import Button from "$lib/ui/Button.svelte";
+  import FormError from "$lib/ui/FormError.svelte";
 
   let name = "";
   let email = "";
@@ -14,33 +16,32 @@
   let terms = false;
   let isCreating = false;
 
-  async function handleCreateAccount() {
-    isCreating = true;
+  const createAccount = trpc.auth.createAccount.createMutation({
+    onSuccess() {
+      goto("/");
+    },
+  });
 
+  async function handleCreateAccount() {
     const { publicKey, privateKey } = await generateKeys();
 
     localStorage.setItem("sk", privateKey);
 
     const encryptedSecret = await encryptWithPassword(privateKey, password);
 
-    const formData = new FormData();
-
-    formData.append("name", name);
-    formData.append("email", email);
-    formData.append("password", password);
-    formData.append("confirmPassword", confirmPassword);
-    formData.append("publicKey", publicKey);
-    formData.append("encryptedSecret", encryptedSecret);
-    formData.append("terms", terms ? "on" : "off");
-
-    await fetch("?/createAccount", {
-      method: "POST",
-      body: formData,
+    $createAccount.mutate({
+      name,
+      email,
+      password,
+      confirmPassword,
+      terms,
+      publicKey,
+      encryptedSecret,
     });
-
-    isCreating = false;
-    goto("/");
   }
+
+  $: validationErrors = $createAccount.error?.data?.validationErrors;
+  $: error = $createAccount.error?.data?.error;
 </script>
 
 <svelte:head>
@@ -59,7 +60,13 @@
 >
   <Label for="name">
     Name
-    <Input bind:value={name} id="name" name="name" type="text" />
+    <Input
+      bind:value={name}
+      id="name"
+      name="name"
+      type="text"
+      errors={validationErrors?.name}
+    />
   </Label>
   <Label for="email">
     Email
@@ -69,6 +76,7 @@
       name="email"
       type="email"
       autocomplete="email"
+      errors={validationErrors?.email}
     />
   </Label>
   <Label for="password">
@@ -78,6 +86,7 @@
       id="password"
       name="password"
       autocomplete="new-password"
+      errors={validationErrors?.password}
     />
   </Label>
   <Label for="confirmPassword">
@@ -87,6 +96,7 @@
       id="confirmPassword"
       name="confirmPassword"
       autocomplete="new-password"
+      errors={validationErrors?.confirmPassword}
     />
   </Label>
 
@@ -109,11 +119,13 @@
     <Link href="/support">Need help?</Link>
   </div>
 
+  {#if validationErrors?.terms}
+    <FormError message={validationErrors?.terms[0]} />
+  {/if}
+
   <Button isLoading={isCreating} type="submit" fullWidth>Create account</Button>
 
-<!--
-  {#if form?.error}
-    <FormError message={form.error} />
+  {#if error}
+    <FormError message={error} />
   {/if}
--->
 </form>

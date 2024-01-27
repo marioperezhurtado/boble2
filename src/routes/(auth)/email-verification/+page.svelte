@@ -1,13 +1,17 @@
 <script lang="ts">
-  import { enhance } from "$app/forms";
+  import { trpc } from "$lib/trpc/client";
   import Button from "$lib/ui/Button.svelte";
   import FormError from "$lib/ui/FormError.svelte";
   import FormSuccess from "$lib/ui/FormSuccess.svelte";
-  import type { ActionData } from "./$types";
 
-  export let form: ActionData;
+  const startEmailVerification =
+    trpc.auth.startEmailVerification.createMutation();
 
-  let pending = false;
+  function handleStartEmailVerification() {
+    $startEmailVerification.mutate();
+  }
+
+  $: error = $startEmailVerification.error?.data?.error;
 </script>
 
 <svelte:head>
@@ -19,26 +23,20 @@
   Follow the link we sent to your email address to verify your account.
 </p>
 
-<form
-  method="post"
-  use:enhance={() => {
-    pending = true;
-    return async ({ update }) => {
-      await update();
-      pending = false;
-    };
-  }}
-  class="flex flex-col gap-3 pt-8"
->
-  <Button isLoading={pending} type="submit" fullWidth>
+<div class="flex flex-col gap-3 pt-8">
+  <Button
+    on:click={handleStartEmailVerification}
+    isLoading={$startEmailVerification.isPending}
+    fullWidth
+  >
     Resend verification email
   </Button>
 
-  {#if form?.error}
-    <FormError message={form.error} />
+  {#if error}
+    <FormError message={error} />
   {/if}
 
-  {#if form?.success}
+  {#if $startEmailVerification.isSuccess}
     <FormSuccess message="Your verification link was resent." />
   {/if}
-</form>
+</div>

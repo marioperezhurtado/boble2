@@ -16,15 +16,14 @@
   let selectedFile: File | null = null;
   let caption = "";
 
-  const sendImage = trpc($page).message.sendImage.createMutation({
+  const sendImage = trpc.message.sendImage.createMutation({
     onSuccess: () => {
       $replyingTo = null;
       onClose();
     },
   });
 
-  const createPresignedPost =
-    trpc($page).createPresignedPost.image.createMutation();
+  const createPresignedPost = trpc.createPresignedPost.image.createMutation();
 
   async function handleSendImage() {
     if (!selectedFile) return;

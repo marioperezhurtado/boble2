@@ -1,6 +1,6 @@
 <script lang="ts">
   import { formatDateShort } from "$lib/utils/date";
-  import type { RouterOutputs } from "$lib/trpc/trpc";
+  import type { RouterOutputs } from "$lib/trpc/server/trpc";
   import Image from "$lib/ui/Image.svelte";
 
   type Message = RouterOutputs["message"]["getMediaMessages"][number];

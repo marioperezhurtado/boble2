@@ -16,7 +16,7 @@
   let selectedFile: File | null = null;
   let caption = "";
 
-  const sendDocument = trpc($page).message.sendDocument.createMutation({
+  const sendDocument = trpc.message.sendDocument.createMutation({
     onSuccess: () => {
       $replyingTo = null;
       onClose();
@@ -24,7 +24,7 @@
   });
 
   const createPresignedPost =
-    trpc($page).createPresignedPost.document.createMutation();
+    trpc.createPresignedPost.document.createMutation();
 
   async function handleSendDocument() {
     if (!selectedFile) return;

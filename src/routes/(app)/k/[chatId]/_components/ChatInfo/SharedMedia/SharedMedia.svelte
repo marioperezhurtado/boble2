@@ -11,7 +11,7 @@
 
   let selectedTab = MEDIA_TABS[0] as (typeof MEDIA_TABS)[number];
 
-  const getMediaMessages = trpc($page).message.getMediaMessages.createQuery({
+  const getMediaMessages = trpc.message.getMediaMessages.createQuery({
     chatId: $page.params.chatId,
   });
 

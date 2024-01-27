@@ -30,8 +30,12 @@ export const MEDIA_TYPES = ["image", "video", "audio", "document"];
 
 export const message = sqliteTable("message", {
   id: text("id").primaryKey().$defaultFn(() => `msg_${nanoid(16)}`),
-  chatId: text("chat_id").references(() => chat.id, { onDelete: "cascade" }).notNull(),
-  senderId: text("sender_id").references(() => user.id).notNull(),
+  chatId: text("chat_id")
+    .references(() => chat.id, { onDelete: "cascade" })
+    .notNull(),
+  senderId: text("sender_id")
+    .references(() => user.id, { onDelete: "cascade" })
+    .notNull(),
   replyToId: text("reply_to_id"),
   text: text("text"),
   source: text("source"),
@@ -40,40 +44,56 @@ export const message = sqliteTable("message", {
 });
 
 export const contact = sqliteTable("contact", {
-  userId: text("user_id").references(() => user.id, { onDelete: "cascade" }).notNull(),
+  userId: text("user_id")
+    .references(() => user.id, { onDelete: "cascade" })
+    .notNull(),
   contactId: text("contact_id")
-    .references(() => user.id, { onDelete: "cascade" }).notNull(),
+    .references(() => user.id, { onDelete: "cascade" })
+    .notNull(),
   alias: text("alias").notNull(),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" })
+    .notNull(),
 }, (p) => ({
   pk: primaryKey({ columns: [p.userId, p.contactId] }),
 }));
 
 export const block = sqliteTable("block", {
-  userId: text("user_id").references(() => user.id, { onDelete: "cascade" }).notNull(),
+  userId: text("user_id")
+    .references(() => user.id, { onDelete: "cascade" })
+    .notNull(),
   blockedUserId: text("blocked_user_id")
-    .references(() => user.id, { onDelete: "cascade" }).notNull(),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+    .references(() => user.id, { onDelete: "cascade" })
+    .notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" })
+    .notNull(),
 }, (p) => ({
   pk: primaryKey({ columns: [p.userId, p.blockedUserId] }),
 }));
 
 export const emailVerificationToken = sqliteTable("email_verification_token", {
-  id: text("id").primaryKey().$defaultFn(() => `evtk_${nanoid(16)}`),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => `evtk_${nanoid(16)}`),
   userId: text("user_id")
     .references(() => user.id, { onDelete: "cascade" })
     .notNull(),
-  token: text("token").notNull().unique(),
-  expires: integer("expires", { mode: "timestamp" }).notNull()
+  token: text("token")
+    .unique()
+    .notNull(),
+  expires: integer("expires", { mode: "timestamp" })
+    .notNull()
 });
 
 export const passwordResetToken = sqliteTable("password_reset_token", {
-  id: text("id").primaryKey().$defaultFn(() => `prtk_${nanoid(16)}`),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => `prtk_${nanoid(16)}`),
   userId: text("user_id")
     .references(() => user.id, { onDelete: "cascade" })
     .notNull(),
   token: text("token").notNull(),
-  expires: integer("expires", { mode: "timestamp" }).notNull()
+  expires: integer("expires", { mode: "timestamp" })
+    .notNull()
 });
 
 export const linkPreview = sqliteTable("link_preview", {
@@ -108,8 +128,11 @@ export const audioInfo = sqliteTable("audio_info", {
 
 export const user = sqliteTable("user", {
   id: text("id").primaryKey(),
-  email: text("email").notNull().unique(),
-  emailVerified: integer("emailVerified", { mode: "boolean" }).notNull(),
+  email: text("email")
+    .unique()
+    .notNull(),
+  emailVerified: integer("emailVerified", { mode: "boolean" })
+    .notNull(),
   name: text("name").notNull(),
   image: text("image"),
   status: text("status"),
@@ -123,12 +146,10 @@ export const session = sqliteTable("user_session", {
   userId: text("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
-  activeExpires: blob("active_expires", {
-    mode: "bigint"
-  }).notNull(),
-  idleExpires: blob("idle_expires", {
-    mode: "bigint"
-  }).notNull()
+  activeExpires: blob("active_expires", { mode: "bigint" })
+    .notNull(),
+  idleExpires: blob("idle_expires", { mode: "bigint" })
+    .notNull()
 });
 
 export const key = sqliteTable("user_key", {

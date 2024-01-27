@@ -11,7 +11,7 @@
   let newContactEmail = $page.url.searchParams.get("createContact") || "";
   let alias = "";
 
-  const addContact = trpc($page).contact.add.createMutation({
+  const addContact = trpc.contact.add.createMutation({
     onSuccess: async (newContactId) => {
       await invalidateAll();
       goto(`/contacts/${newContactId}`);

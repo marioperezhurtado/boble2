@@ -6,7 +6,7 @@
 <div class="flex flex-col h-screen">
   <Header />
   <main
-    class="flex flex-col flex-grow gap-14 justify-center items-center px-4 pt-10 lg:flex-row lg:gap-10 lg:items-start lg:pt-20"
+    class="flex flex-col flex-grow gap-14 items-center px-4 pt-10 lg:flex-row lg:gap-10 lg:justify-center lg:items-start lg:pt-20"
   >
     <section
       class="flex flex-col justify-center p-6 w-full max-w-md bg-white rounded-md border shadow-md"

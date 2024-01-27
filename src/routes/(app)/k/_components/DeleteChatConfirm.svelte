@@ -10,7 +10,7 @@
 
   export let chat: Chat;
 
-  const deleteChat = trpc($page).chat.delete.createMutation({
+  const deleteChat = trpc.chat.delete.createMutation({
     onSuccess: async () => {
       await invalidateAll();
 

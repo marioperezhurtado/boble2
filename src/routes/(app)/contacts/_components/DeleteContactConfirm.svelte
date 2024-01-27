@@ -10,7 +10,7 @@
 
   export let contact: Contact;
 
-  const deleteContact = trpc($page).contact.delete.createMutation({
+  const deleteContact = trpc.contact.delete.createMutation({
     onSuccess: async () => {
       await invalidateAll();
       goto("/contacts");

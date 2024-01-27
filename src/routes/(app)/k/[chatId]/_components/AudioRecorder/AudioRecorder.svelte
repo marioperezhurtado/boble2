@@ -33,15 +33,14 @@
     mediaRecorder?.stop();
   }
 
-  const sendAudio = trpc($page).message.sendAudio.createMutation({
+  const sendAudio = trpc.message.sendAudio.createMutation({
     onSuccess: () => {
       $replyingTo = null;
       onClose();
     },
   });
 
-  const createPresignedPost =
-    trpc($page).createPresignedPost.audio.createMutation();
+  const createPresignedPost = trpc.createPresignedPost.audio.createMutation();
 
   $: if (audioBlob) handleSendAudio();
 

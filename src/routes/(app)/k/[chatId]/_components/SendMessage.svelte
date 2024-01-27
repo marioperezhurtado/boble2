@@ -17,16 +17,16 @@
     $text = "";
   }
 
-  const sendTextMessage = trpc($page).message.sendText.createMutation({
+  const sendTextMessage = trpc.message.sendText.createMutation({
     onSuccess,
   });
 
-  const sendLinkMessage = trpc($page).message.sendLink.createMutation({
+  const sendLinkMessage = trpc.message.sendLink.createMutation({
     onSuccess,
   });
 
   const generateLinkPreview =
-    trpc($page).message.generateLinkPreview.createMutation();
+    trpc.message.generateLinkPreview.createMutation();
 
   async function handleSendMessage() {
     if (!$text) return;

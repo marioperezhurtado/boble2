@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { page } from "$app/stores";
   import { trpc } from "$lib/trpc/client";
   import { EMOJI_CATEGORIES } from "./categories";
   import { capitalize } from "$lib/utils/text";
@@ -9,7 +8,7 @@
   import Category from "./Category.svelte";
   import FilterEmojis from "./FilterEmojis.svelte";
 
-  const getEmojis = trpc($page).mood.emoji.getAll.createQuery();
+  const getEmojis = trpc.mood.emoji.getAll.createQuery();
 
   let filteredEmojis: EmojiData | null = null;
 

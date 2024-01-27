@@ -10,8 +10,7 @@
 
 <a
   href="{$page.url.pathname}?{DETAILS_PARAM}"
-  class="flex flex-wrap gap-1 justify-center items-center py-1.5 px-2.5
-      mx-auto mt-2 text-xs bg-white rounded-md shadow-sm w-fit"
+  class="flex flex-wrap gap-1 justify-center items-center py-1.5 px-2.5 mx-auto mt-2 text-xs bg-white rounded-md shadow-sm w-fit"
 >
   <img src="/icons/lock.svg" alt="Lock icon" class="-mt-0.5 w-3 h-3" />
   <p>Messages are end-to-end encrypted.</p>
@@ -28,7 +27,7 @@
         following:
       </p>
 
-      <ul class="flex flex-col gap-3 text-sm text-zinc-500 font-medium">
+      <ul class="flex flex-col gap-3 text-sm font-medium text-zinc-500">
         <li class="flex gap-2.5 items-center">
           <img src="/icons/chat.svg" alt="Message icon" class="w-5 h-5" />
           <p>Text messages and links</p>
@@ -47,7 +46,7 @@
         </li>
       </ul>
 
-      <div class="flex gap-3 flex-wrap xs:flex-nowrap">
+      <div class="flex flex-wrap gap-3 xs:flex-nowrap">
         <ButtonLink intent="secondary" href={$page.url.pathname} fullWidth>
         Got it
         </ButtonLink>

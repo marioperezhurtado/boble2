@@ -11,7 +11,7 @@
 
   export let message: Message;
 
-  const deleteMessage = trpc($page).message.delete.createMutation({
+  const deleteMessage = trpc.message.delete.createMutation({
     onSuccess: () => goto($page.url.pathname)
   });
 

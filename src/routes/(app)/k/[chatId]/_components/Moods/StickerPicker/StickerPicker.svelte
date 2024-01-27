@@ -10,17 +10,16 @@
 
   let search = "";
 
-  const sendSticker = trpc($page).message.sendSticker.createMutation({
+  const sendSticker = trpc.message.sendSticker.createMutation({
     onSuccess: () => {
       $replyingTo = null;
       $isOpen = false;
     },
   });
 
-  const getTrendingStickers =
-    trpc($page).mood.sticker.getTrending.createQuery();
+  const getTrendingStickers = trpc.mood.sticker.getTrending.createQuery();
 
-  $: searchStickers = trpc($page).mood.sticker.search.createQuery(search, {
+  $: searchStickers = trpc.mood.sticker.search.createQuery(search, {
     enabled: !!search,
   });
 

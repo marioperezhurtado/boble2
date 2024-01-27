@@ -10,16 +10,16 @@
 
   let search = "";
 
-  const sendGif = trpc($page).message.sendGif.createMutation({
+  const sendGif = trpc.message.sendGif.createMutation({
     onSuccess: () => {
       $replyingTo = null;
       $isOpen = false;
     },
   });
 
-  const getTrendingGifs = trpc($page).mood.gif.getTrending.createQuery();
+  const getTrendingGifs = trpc.mood.gif.getTrending.createQuery();
 
-  $: searchGifs = trpc($page).mood.gif.search.createQuery(search, {
+  $: searchGifs = trpc.mood.gif.search.createQuery(search, {
     enabled: !!search,
   });
 

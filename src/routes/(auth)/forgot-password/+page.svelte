@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { enhance } from "$app/forms";
-  import type { ActionData } from "./$types";
+  import { trpc } from "$lib/trpc/client";
+  import { invalidateAll } from "$app/navigation";
   import Link from "$lib/ui/Link.svelte";
   import Label from "$lib/ui/Label.svelte";
   import Input from "$lib/ui/Input.svelte";
@@ -8,9 +8,21 @@
   import FormSuccess from "$lib/ui/FormSuccess.svelte";
   import FormError from "$lib/ui/FormError.svelte";
 
-  export let form: ActionData;
+  let email = "";
 
-  let pending = false;
+  const startPasswordReset = trpc.auth.startPasswordReset.createMutation({
+    onSuccess: () => {
+      email = "";
+      invalidateAll();
+    },
+  });
+
+  function handleStartPasswordReset() {
+    $startPasswordReset.mutate({ email });
+  }
+
+  $: validationErrors = $startPasswordReset.error?.data?.validationErrors;
+  $: error = $startPasswordReset.error?.data?.error;
 </script>
 
 <svelte:head>
@@ -24,32 +36,32 @@
 </p>
 
 <form
-  action="?/startResetPassword"
-  method="post"
-  use:enhance={() => {
-    pending = true;
-    return async ({ update }) => {
-      await update();
-      pending = false;
-    };
-  }}
+  on:submit|preventDefault={handleStartPasswordReset}
   class="flex flex-col gap-3 pt-8"
 >
-  <Label for="email"
-    >Email
-    <Input id="email" name="email" type="email" />
+  <Label for="email">
+    Email
+    <Input
+      bind:value={email}
+      name="email"
+      type="email"
+      errors={validationErrors?.email}
+    />
   </Label>
 
   <span class="text-xs font-medium text-right text-zinc-500">
     <Link href="/support">Need help?</Link>
   </span>
 
-  <Button isLoading={pending} type="submit" fullWidth>Send reset email</Button>
+  <Button isLoading={$startPasswordReset.isPending} type="submit" fullWidth>
+    Send reset email
+  </Button>
 
-  {#if form?.error}
-    <FormError message={form.error} />
+  {#if error}
+    <FormError message={error} />
   {/if}
-  {#if form?.success}
+
+  {#if $startPasswordReset?.isSuccess}
     <FormSuccess message="Your password reset email has been sent." />
   {/if}
 </form>

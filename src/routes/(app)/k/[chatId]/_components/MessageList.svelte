@@ -98,7 +98,7 @@
   <EncryptionPrompt />
 
   {#if $messages.length === 0}
-    <div class="my-auto text-center">
+    <div class="mt-16 text-center">
       <p class="mb-4 text-lg font-bold">No messages yet</p>
       <p>Start the conversation to see your messages here.</p>
     </div>

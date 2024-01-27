@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { page } from "$app/stores";
   import { trpc } from "$lib/trpc/client";
   import { invalidateAll } from "$app/navigation";
   import Button from "./Button.svelte";
@@ -7,11 +6,11 @@
   export let userId: string;
   export let isBlocked: boolean;
 
-  const blockUser = trpc($page).user.block.createMutation({
+  const blockUser = trpc.user.block.createMutation({
     onSuccess: invalidateAll,
   });
 
-  const unblockUser = trpc($page).user.unblock.createMutation({
+  const unblockUser = trpc.user.unblock.createMutation({
     onSuccess: invalidateAll,
   });
 

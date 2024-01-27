@@ -16,15 +16,14 @@
   let selectedFile: File | null = null;
   let caption = "";
 
-  const sendVideo = trpc($page).message.sendVideo.createMutation({
+  const sendVideo = trpc.message.sendVideo.createMutation({
     onSuccess: () => {
       $replyingTo = null;
       onClose();
     },
   });
 
-  const createPresignedPost =
-    trpc($page).createPresignedPost.video.createMutation();
+  const createPresignedPost = trpc.createPresignedPost.video.createMutation();
 
   async function handleSendVideo() {
     if (!selectedFile) return;
