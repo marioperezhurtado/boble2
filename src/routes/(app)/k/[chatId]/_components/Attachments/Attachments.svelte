@@ -58,6 +58,11 @@
         icon="/icons/document.svg"
       />
       <AttachmentItem
+        onOpen={() => handleOpenAttachment("location")}
+        text="Location"
+        icon="/icons/location.svg"
+      />
+      <AttachmentItem
         onOpen={() => handleOpenAttachment("contact")}
         text="Contact"
         icon="/icons/contact.svg"
