@@ -12,8 +12,6 @@
 
 <p
   class="flex gap-0.5 items-end ml-auto leading-3 text-[10px] min-w-fit w-fit"
-  class:text-white={isOwn}
-  class:text-zinc-600={!isOwn}
 >
   {formatTime(createdAt)}
   {#if isOwn}

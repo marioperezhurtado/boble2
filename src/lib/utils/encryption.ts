@@ -1,3 +1,5 @@
+import type { Message } from "$lib/db/message/getMessages";
+
 // Encrypt and decrypt text using ECDH and AES-GCM
 
 export async function encryptMessageField<T extends string | null>(
@@ -12,74 +14,66 @@ export async function encryptMessageField<T extends string | null>(
   return encrypt(field, storedDerivedKey);
 }
 
-export async function decryptMessageField<T extends string | null>(
+export async function decryptMessageField<T extends string | null | undefined>(
   field: T,
   chatId: string
 ) {
-  if (!field) return field;
+  if (!field) return field ?? null;
 
   const storedDerivedKey = localStorage.getItem(`dk_${chatId}`);
   if (!storedDerivedKey) return field;
-  
-  return decrypt(field, storedDerivedKey);
+
+  try {
+    const decrypted = await decrypt(field, storedDerivedKey);
+    return decrypted;
+  } catch (e) {
+    return field;
+  }
 }
 
-type MessageFieldsToDecrypt = {
-  text: string | null;
-  source: string | null;
-  documentInfo: {
-    name: string | null;
-  } | null;
-  linkPreview: {
-    title: string | null;
-    description: string | null;
-    image: string | null;
-    siteName: string | null;
-  } | null;
-}
 
-export async function decryptMessage<T extends MessageFieldsToDecrypt>(
-  message: T, 
+function decryptMessageFieldIfDefined<T extends string | null | undefined>(
+  field: T,
   chatId: string
 ) {
- const storedDerivedKey = localStorage.getItem(`dk_${chatId}`);
-  if (!storedDerivedKey) return message;
+  if (!field) return field ?? null;
+  return decryptMessageField(field, chatId);
+}
 
-  if (message.text) {
-    message.text = await decrypt(message.text, storedDerivedKey);
+export async function decryptMessage<T extends Message>(
+  message: T,
+  chatId: string
+) {
+  const [
+    decryptedText,
+    decryptedSource,
+    decryptedDocumentName,
+    decryptedLinkPreviewTitle,
+    decryptedLinkPreviewDescription,
+    decryptedLinkPreviewImage,
+    decryptedLinkPreviewSiteName,
+  ]
+    = await Promise.all([
+      decryptMessageField(message.text, chatId),
+      decryptMessageField(message.source, chatId),
+      decryptMessageField(message.documentInfo?.name, chatId),
+      decryptMessageFieldIfDefined(message.linkPreview?.title, chatId),
+      decryptMessageFieldIfDefined(message.linkPreview?.description, chatId),
+      decryptMessageFieldIfDefined(message.linkPreview?.image, chatId),
+      decryptMessageFieldIfDefined(message.linkPreview?.siteName, chatId),
+    ]);
+
+  message.text = decryptedText;
+  message.source = decryptedSource;
+
+  if (message.documentInfo && decryptedDocumentName) {
+    message.documentInfo.name = decryptedDocumentName;
   }
-  if (message.source) {
-    message.source = await decrypt(message.source, storedDerivedKey);
-  }
-  if (message.documentInfo?.name) {
-    message.documentInfo.name = await decrypt(
-      message.documentInfo.name,
-      storedDerivedKey
-    );
-  }
-  if (message.linkPreview?.title) {
-    message.linkPreview.title = await decrypt(
-      message.linkPreview.title,
-      storedDerivedKey
-    );
-  }
-  if (message.linkPreview?.description) {
-    message.linkPreview.description = await decrypt(
-      message.linkPreview.description,
-      storedDerivedKey
-    );
-  }
-  if (message.linkPreview?.image) {
-    message.linkPreview.image = await decrypt(
-      message.linkPreview.image,
-      storedDerivedKey
-    );
-  }
-  if (message.linkPreview?.siteName) {
-    message.linkPreview.siteName = await decrypt(
-      message.linkPreview.siteName,
-      storedDerivedKey
-    );
+  if (message.linkPreview) {
+    message.linkPreview.title = decryptedLinkPreviewTitle;
+    message.linkPreview.description = decryptedLinkPreviewDescription;
+    message.linkPreview.image = decryptedLinkPreviewImage;
+    message.linkPreview.siteName = decryptedLinkPreviewSiteName;
   }
 
   return message;

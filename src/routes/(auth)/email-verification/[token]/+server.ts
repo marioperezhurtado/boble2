@@ -1,11 +1,10 @@
 import { auth } from '$lib/auth/auth';
 import { validateEmailVerificationToken } from '$lib/db/emailVerificationToken/validateEmailVerificationToken';
-
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async ({ params, locals }) => {
   const { token } = params;
-  console.log('token', token);
+
   try {
     const userId = await validateEmailVerificationToken(token);
     const user = await auth.getUser(userId);
@@ -25,7 +24,6 @@ export const GET: RequestHandler = async ({ params, locals }) => {
       }
     });
   } catch(e) {
-    console.error(e);
     return new Response('Invalid email verification link', {
       status: 400
     });

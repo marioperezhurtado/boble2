@@ -33,7 +33,7 @@
       <div
         class="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t to-transparent pointer-events-none from-black/40"
       />
-      <div class="absolute right-1 bottom-1">
+      <div class="absolute right-1 bottom-1 text-white">
         <MessageStatus {message} {lastReadAt} {isOwn} />
       </div>
     {/if}

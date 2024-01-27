@@ -60,7 +60,7 @@
       </div>
     {/if}
 
-    <div class="absolute right-1 bottom-1">
+    <div class="absolute right-1 bottom-1 text-white">
       <MessageStatus {message} {lastReadAt} {isOwn} />
     </div>
 

@@ -6,16 +6,12 @@ import type { LayoutLoad } from './$types';
 /* and decrypts the last message 
 */
 
-export const load: LayoutLoad = async ({ data, fetch }) => {
+export const load: LayoutLoad = async ({ data }) => {
   const privateKey = localStorage.getItem(`sk`);
 
   // If private key is not stored locally, log out
   if (!privateKey) {
-    await fetch('/?/logout', {
-      method: 'POST',
-      body: new FormData(),
-    });
-    goto('/login');
+    goto('/logout');
   }
 
   const decryptedChats = await Promise.all(data.chats.map(async (chat) => {
