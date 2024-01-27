@@ -10,5 +10,5 @@
   class:bg-zinc-300={!isOwn}
   class:bg-zinc-50={isRead && isOwn}
   class:bg-zinc-400={isRead && !isOwn}
-  style="height: {Math.min(Math.max(Number(spike) * 10, 5), 100)}%"
+  style="height: {Math.min(Math.max(Number(spike) * 10, 6), 100)}%"
 />

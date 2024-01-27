@@ -1,21 +1,37 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import { trpc } from "$lib/trpc/client";
+  import { decryptMessage } from "$lib/utils/encryption";
   import Spinner from "$lib/ui/Spinner.svelte";
   import MediaList from "./MediaList.svelte";
   import DocumentList from "./DocumentList.svelte";
   import LinkList from "./LinkList.svelte";
   import AudioList from "./AudioList.svelte";
+  import type { RouterOutputs } from "$lib/trpc/server/trpc";
+
+  type Messages = RouterOutputs["message"]["getMediaMessages"];
 
   const MEDIA_TABS = ["Media", "Documents", "Links", "Voice"] as const;
 
   let selectedTab = MEDIA_TABS[0] as (typeof MEDIA_TABS)[number];
+  let mediaMessages: Messages | undefined = undefined;
 
   const getMediaMessages = trpc.message.getMediaMessages.createQuery({
     chatId: $page.params.chatId,
   });
 
-  $: filteredMessages = $getMediaMessages.data?.filter((message) => {
+  $: if ($getMediaMessages.data) {
+    (async () => {
+      const decryptedMessages = await Promise.all(
+        $getMediaMessages.data.map((m) =>
+          decryptMessage(m, $page.params.chatId),
+        ),
+      );
+      mediaMessages = decryptedMessages;
+    })();
+  }
+
+  $: filteredMessages = mediaMessages?.filter((message) => {
     if (selectedTab === "Media") {
       return message.type === "image" || message.type === "video";
     }

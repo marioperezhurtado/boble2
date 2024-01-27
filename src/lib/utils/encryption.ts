@@ -40,7 +40,15 @@ function decryptMessageFieldIfDefined<T extends string | null | undefined>(
   return decryptMessageField(field, chatId);
 }
 
-export async function decryptMessage<T extends Message>(
+type MessageFieldsToDecrypt = Pick<
+  Message,
+  | "text"
+  | "source"
+  | "documentInfo"
+  | "linkPreview"
+>;
+
+export async function decryptMessage<T extends MessageFieldsToDecrypt>(
   message: T,
   chatId: string
 ) {
