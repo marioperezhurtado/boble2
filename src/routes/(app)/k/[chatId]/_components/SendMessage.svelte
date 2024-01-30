@@ -42,6 +42,7 @@
         chatId: $page.params.chatId,
         replyToId: $replyingTo?.id,
       });
+      return;
     }
 
     // Link message

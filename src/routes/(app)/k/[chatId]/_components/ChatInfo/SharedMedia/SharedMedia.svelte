@@ -11,14 +11,20 @@
 
   type Messages = RouterOutputs["message"]["getMediaMessages"];
 
-  const MEDIA_TABS = ["Media", "Documents", "Links", "Voice"] as const;
+  const MEDIA_TABS = [
+    { title: "Media", types: ["image", "video"] },
+    { title: "Documents", types: ["document"] },
+    { title: "Links", types: ["link"] },
+    { title: "Voice", types: ["audio"] },
+  ];
 
   let selectedTab = MEDIA_TABS[0] as (typeof MEDIA_TABS)[number];
   let mediaMessages: Messages | undefined = undefined;
 
-  const getMediaMessages = trpc.message.getMediaMessages.createQuery({
-    chatId: $page.params.chatId,
-  });
+  const getMediaMessages = trpc.message.getMediaMessages.createQuery(
+    { chatId: $page.params.chatId },
+    { staleTime: 0 },
+  );
 
   $: if ($getMediaMessages.data) {
     (async () => {
@@ -31,22 +37,9 @@
     })();
   }
 
-  $: filteredMessages = mediaMessages?.filter((message) => {
-    if (selectedTab === "Media") {
-      return message.type === "image" || message.type === "video";
-    }
-    if (selectedTab === "Documents") {
-      return message.type === "document";
-    }
-    if (selectedTab === "Links") {
-      return message.type === "link";
-    }
-    if (selectedTab === "Voice") {
-      return message.type === "audio";
-    }
-
-    return false;
-  });
+  $: filteredMessages = mediaMessages?.filter((message) =>
+    selectedTab.types.includes(message.type),
+  );
 </script>
 
 <div class="border-b">
@@ -60,7 +53,7 @@
           class="pt-3 pb-2 w-full"
           class:text-cyan-700={selectedTab === tab}
         >
-          {tab}
+          {tab.title}
         </button>
       </li>
     {/each}
@@ -81,13 +74,13 @@
     <Spinner class="mx-auto mt-8 w-8 h-8 border-cyan-700" />
   {:else if !filteredMessages?.length}
     <p class="p-2 text-sm font-medium text-zinc-500">No messages found.</p>
-  {:else if selectedTab === "Media"}
+  {:else if selectedTab.title === "Media"}
     <MediaList messages={filteredMessages} />
-  {:else if selectedTab === "Documents"}
+  {:else if selectedTab.title === "Documents"}
     <DocumentList messages={filteredMessages} />
-  {:else if selectedTab === "Links"}
+  {:else if selectedTab.title === "Links"}
     <LinkList messages={filteredMessages} />
-  {:else if selectedTab === "Voice"}
+  {:else if selectedTab.title === "Voice"}
     <AudioList messages={filteredMessages} />
   {/if}
 </div>

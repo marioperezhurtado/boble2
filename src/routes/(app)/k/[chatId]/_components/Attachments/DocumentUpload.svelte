@@ -100,18 +100,14 @@
       <FormError message={error} />
     {/if}
 
-    <div class="flex gap-2 mt-5">
+    <form on:submit|preventDefault={handleSendDocument} class="flex gap-2 mt-5">
       <Input bind:value={caption} placeholder="Add a caption" name="caption" />
-      <Button
-        on:click={handleSendDocument}
-        isLoading={isUploading}
-        class="min-w-fit"
-      >
+      <Button isLoading={isUploading} class="min-w-fit">
         Upload
         {#if !isUploading}
           <img src="/icons/upload-light.svg" alt="Upload" class="w-3.5 h-3.5" />
         {/if}
       </Button>
-    </div>
+    </form>
   </Modal>
 {/if}

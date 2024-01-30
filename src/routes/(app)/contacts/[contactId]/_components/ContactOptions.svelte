@@ -1,7 +1,7 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import { trpc } from "$lib/trpc/client";
-  import { goto } from "$app/navigation";
+  import { goto, invalidateAll } from "$app/navigation";
   import type { Contact } from "$lib/db/contact/getContacts";
   import Button from "$lib/ui/Button.svelte";
   import ButtonLink from "$lib/ui/ButtonLink.svelte";
@@ -9,7 +9,10 @@
   export let contact: Contact;
 
   const openChat = trpc.chat.open.createMutation({
-    onSuccess: (chatId) => goto(`/k/${chatId}`)
+    onSuccess: async (chatId) => {
+      await invalidateAll();
+      goto(`/k/${chatId}`)
+    }
   });
 
   function handleOpenChat() {
