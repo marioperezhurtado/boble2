@@ -1,18 +1,19 @@
 import { eq } from 'drizzle-orm';
 import { db } from '$lib/db/db';
 import { passwordResetToken } from "$lib/db/schema";
-import { isWithinExpiration } from 'lucia/utils';
+import { isWithinExpirationDate } from 'oslo';
 
 export async function isValidPasswordResetToken(token: string) {
-  const storedToken = await db
+  const storedToken = db
     .select()
     .from(passwordResetToken)
     .where(eq(passwordResetToken.token, token))
+    .limit(1)
+    .get();
 
-  if (!storedToken.length) return false;
+  if (!storedToken) return false;
 
-  const tokenExpires = Number(storedToken[0].expires);
-  if (!isWithinExpiration(tokenExpires)) {
+  if (!isWithinExpirationDate(storedToken.expires)) {
     return false;
   }
   return true;

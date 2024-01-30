@@ -1,26 +1,17 @@
 import { eq } from "drizzle-orm";
 import { db } from "$lib/db/db";
 import { emailVerificationToken } from "$lib/db/schema";
-import { generateRandomString, isWithinExpiration } from "lucia/utils";
+import { nanoid } from "nanoid";
 
 const EXPIRES_IN = 1000 * 60 * 60 * 2; // 2 hours
 
 export async function generateEmailVerificationToken(userId: string) {
-  const storedUserTokens = await db
-    .select()
-    .from(emailVerificationToken)
-    .where(eq(emailVerificationToken.userId, userId));
+  // Delete all previous tokens
+  await db
+    .delete(emailVerificationToken)
+    .where(eq(emailVerificationToken.userId, userId))
 
-  if (storedUserTokens.length > 0) {
-    const reusableStoredToken = storedUserTokens.find((token) => {
-      // check if expiration is within 1 hour
-      // and reuse the token if true
-      return isWithinExpiration(Number(token.expires) - EXPIRES_IN / 2);
-    });
-    if (reusableStoredToken) return reusableStoredToken.token;
-  }
-
-  const token = generateRandomString(63);
+  const token = nanoid(40);
 
   await db
     .insert(emailVerificationToken)

@@ -23,7 +23,7 @@ export const deleteMessage = protectedProcedure
       });
     }
 
-    if (message.senderId !== ctx.session.user.id) {
+    if (message.senderId !== ctx.user.id) {
       throw new TRPCError({
         code: "FORBIDDEN",
         message: "This message is not yours",

@@ -26,7 +26,7 @@ export const addContact = protectedProcedure
     }
 
     const existingContact = await getContactByEmail({
-      userId: ctx.session.user.id,
+      userId: ctx.user.id,
       contactEmail: input.email,
     });
 
@@ -38,7 +38,7 @@ export const addContact = protectedProcedure
     }
 
     await createContact({
-      userId: ctx.session.user.id,
+      userId: ctx.user.id,
       contactId: existingUser.id,
       alias: input.alias,
     });

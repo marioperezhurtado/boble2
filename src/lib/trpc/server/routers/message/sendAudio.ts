@@ -18,13 +18,13 @@ export const sendAudio = protectedProcedure
   .input(sendAudioSchema)
   .mutation(async ({ ctx, input }) => {
     await checkCanSendMessage({
-      userId: ctx.session.user.id,
+      userId: ctx.user.id,
       chatId: input.chatId,
     });
 
     const newMessage = await createMessage({
       chatId: input.chatId,
-      senderId: ctx.session.user.id,
+      senderId: ctx.user.id,
       replyToId: input.replyToId,
       text: input.transcript,
       source: input.audioId,

@@ -97,9 +97,12 @@ export const passwordResetToken = sqliteTable("password_reset_token", {
 });
 
 export const linkPreview = sqliteTable("link_preview", {
-  messageId: text("message_id")
+  id: text("id")
     .primaryKey()
-    .references(() => message.id, { onDelete: "cascade" }),
+    .$defaultFn(() => `lp_${nanoid(16)}`),
+  messageId: text("message_id")
+    .references(() => message.id, { onDelete: "cascade" })
+    .notNull(),
   title: text("title"),
   description: text("description"),
   image: text("image"),
@@ -107,8 +110,10 @@ export const linkPreview = sqliteTable("link_preview", {
 });
 
 export const documentInfo = sqliteTable("document_info", {
-  messageId: text("message_id")
+  id: text("id")
     .primaryKey()
+    .$defaultFn(() => `docinfo_${nanoid(16)}`),
+  messageId: text("message_id")
     .references(() => message.id, { onDelete: "cascade" })
     .notNull(),
   name: text("name").notNull(),
@@ -116,18 +121,23 @@ export const documentInfo = sqliteTable("document_info", {
 });
 
 export const audioInfo = sqliteTable("audio_info", {
-  messageId: text("message_id")
+  id: text("id")
     .primaryKey()
+    .$defaultFn(() => `audinfo_${nanoid(16)}`),
+  messageId: text("message_id")
     .references(() => message.id, { onDelete: "cascade" })
     .notNull(),
   duration: integer("duration").notNull(),
   volumeSpikes: text("volume_spikes").notNull(),
 });
 
-// auth tables (lucia)
+// Auth tables (lucia)
 
 export const user = sqliteTable("user", {
-  id: text("id").primaryKey(),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => `u_${nanoid(12)}`)
+    .notNull(),
   email: text("email")
     .unique()
     .notNull(),
@@ -136,9 +146,11 @@ export const user = sqliteTable("user", {
   name: text("name").notNull(),
   image: text("image"),
   status: text("status"),
+  // Used for end-to-end encryption
   publicKey: text("publicKey").notNull(),
-  // secret key encrypted with password
   encryptedSecret: text("encryptedSecret").notNull(),
+  // Used for authentication
+  hashedPassword: text("hashed_password").notNull(),
 });
 
 export const session = sqliteTable("user_session", {
@@ -146,16 +158,5 @@ export const session = sqliteTable("user_session", {
   userId: text("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
-  activeExpires: blob("active_expires", { mode: "bigint" })
-    .notNull(),
-  idleExpires: blob("idle_expires", { mode: "bigint" })
-    .notNull()
-});
-
-export const key = sqliteTable("user_key", {
-  id: text("id").primaryKey(),
-  userId: text("user_id")
-    .notNull()
-    .references(() => user.id, { onDelete: "cascade" }),
-  hashedPassword: text("hashed_password")
+  expiresAt: integer("expires_at").notNull(),
 });

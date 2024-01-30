@@ -17,7 +17,7 @@ import type { RequestEvent } from "@sveltejs/kit";
 export async function createTRPCContext(event: RequestEvent){
   return  {
     session: event.locals.session,
-    auth: event.locals.auth,
+    user: event.locals.user,
     ...event,
   }
 }

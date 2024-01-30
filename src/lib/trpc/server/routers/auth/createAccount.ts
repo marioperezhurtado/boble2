@@ -3,8 +3,8 @@ import { generateEmailVerificationToken } from "$lib/db/emailVerificationToken/g
 import { sendEmailVerificationLink } from "$lib/email/sendEmailVerificationLink";
 import { publicProcedure } from "$lib/trpc/server/trpc";
 import { TRPCError } from "@trpc/server";
-import { SqliteError } from "better-sqlite3";
-import { nanoid } from "nanoid";
+import { Argon2id } from "oslo/password";
+import { createUser } from "$lib/db/user/createUser";
 import { passwordSchema } from "./shared";
 import { z } from "zod";
 
@@ -38,35 +38,27 @@ export const createAccount = publicProcedure
       });
     }
 
+    const hashedPassword = await new Argon2id().hash(input.password);
+
     try {
-      const user = await auth.createUser({
-        userId: `u_${nanoid(8)}`,
-        key: {
-          providerId: 'email',
-          // Unique id when using "email" auth method
-          providerUserId: input.email.toLowerCase(),
-          // Hashed password by Lucia
-          password: input.password
-        },
-        attributes: {
-          name: input.name,
-          email: input.email.toLowerCase(),
-          emailVerified: Number(false),
-          image: null,
-          status: null,
-          publicKey: input.publicKey,
-          encryptedSecret: input.encryptedSecret
-        }
+      const user = await createUser({
+        ...input,
+        email: input.email.toLowerCase(),
+        hashedPassword,
       });
-      const session = await auth.createSession({
-        userId: user.userId,
-        attributes: {}
-      });
+
+      const session = await auth.createSession(user.id, {});
 
       // Set session cookie
-      ctx.locals.auth.setSession(session);
+      const sessionCookie = auth.createSessionCookie(session.id);
 
-      const token = await generateEmailVerificationToken(user.userId);
+
+      ctx.cookies.set(sessionCookie.name, sessionCookie.value, {
+        path: ".",
+        ...sessionCookie.attributes,
+      });
+
+      const token = await generateEmailVerificationToken(user.id);
 
       await sendEmailVerificationLink({
         name: input.name,
@@ -74,16 +66,10 @@ export const createAccount = publicProcedure
         token
       });
     } catch (e) {
-      // Check for unique constraint error in user table
-      if (e instanceof SqliteError && e.code === 'SQLITE_CONSTRAINT_UNIQUE') {
-        throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'This email is already in use'
-        });
-      }
+      // Db error, email taken, etc
       throw new TRPCError({
-        code: 'INTERNAL_SERVER_ERROR',
-        message: 'Something went wrong'
+        code: 'BAD_REQUEST',
+        message: 'This email is already in use'
       });
     }
   });

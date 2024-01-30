@@ -13,7 +13,7 @@ export const getMediaMessages = protectedProcedure
   .query(async ({ ctx, input }) => {
     const isParticipant = await isParticipantInChat({
       chatId: input.chatId,
-      userId: ctx.session.user.id,
+      userId: ctx.user.id,
     });
 
     if (!isParticipant) {

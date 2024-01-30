@@ -1,9 +1,10 @@
 import { auth } from "$lib/auth/auth";
 import { validatePasswordResetToken } from "$lib/db/passwordResetToken/validatePasswordResetToken";
+import { updateUserPassword } from "$lib/db/user/updateUserPassword";
 import { publicProcedure } from "$lib/trpc/server/trpc";
 import { passwordSchema } from "./shared";
 import { TRPCError } from "@trpc/server";
-import { LuciaError } from "lucia";
+import { Argon2id } from "oslo/password";
 import { z } from "zod";
 
 const resetPasswordSchema = z.object({
@@ -22,40 +23,20 @@ export const resetPassword = publicProcedure
       });
     }
 
-    try {
-      const userId = await validatePasswordResetToken(input.token);
-      let user = await auth.getUser(userId);
+    const userId = await validatePasswordResetToken(input.token);
 
-      await auth.invalidateAllUserSessions(user.userId);
+    await auth.invalidateUserSessions(userId);
 
-      await auth.updateKeyPassword(
-        'email',
-        user.email,
-        input.newPassword
-      );
+    const hashedPassword = await new Argon2id().hash(input.newPassword);
 
-      if (!user.emailVerified) {
-        user = await auth.updateUserAttributes(user.userId, {
-          emailVerified: Number(true)
-        });
-      }
-      const session = await auth.createSession({
-        userId: user.userId,
-        attributes: {}
-      });
+    await updateUserPassword({ userId, hashedPassword });
 
-      // Set session cookie
-      ctx.auth.setSession(session);
-    } catch (e) {
-      if (e instanceof LuciaError && e.message === "AUTH_INVALID_KEY_ID") {
-        throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'This account did not sign up using a password'
-        });
-      }
-      throw new TRPCError({
-        code: 'BAD_REQUEST',
-        message: 'Invalid or expired password reset link'
-      });
-    }
+    // Set session cookie
+    const session = await auth.createSession(userId, {});
+    const sessionCookie = auth.createSessionCookie(session.id);
+
+    ctx.cookies.set(sessionCookie.name, sessionCookie.value, {
+      path: ".",
+      ...sessionCookie.attributes,
+    });
   });

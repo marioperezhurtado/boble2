@@ -1,47 +1,45 @@
-import { redirect } from "@sveltejs/kit";
+import { db } from "$lib/db/db";
+import { DrizzleSQLiteAdapter } from "@lucia-auth/adapter-drizzle";
+import { user, session } from "$lib/db/schema";
+import { Lucia } from "lucia";
 import { dev } from "$app/environment";
-import { lucia } from "lucia";
-import { sveltekit } from "lucia/middleware";
-import { betterSqlite3 } from "@lucia-auth/adapter-sqlite";
-import { sqliteDatabase } from "$lib/db/db";
-import { github } from "@lucia-auth/oauth/providers"
-import { GITHUB_ID, GITHUB_SECRET } from "$env/static/private";
-import type { AuthRequest } from "lucia";
 
-export const auth = lucia({
-  env: dev ? "DEV" : "PROD",
-  middleware: sveltekit(),
-  adapter: betterSqlite3(sqliteDatabase, {
-    user: "user",
-    key: "user_key",
-    session: "user_session",
-  }),
+const adapter = new DrizzleSQLiteAdapter(db, session, user);
+
+export const auth = new Lucia(adapter, {
+  sessionCookie: {
+    attributes: {
+      // set to `true` when using HTTPS
+      secure: !dev,
+    }
+  },
   getUserAttributes: (user) => ({
     id: user.id,
     name: user.name,
     email: user.email,
     emailVerified: user.emailVerified,
-    image: user.image,
     status: user.status,
+    image: user.image,
     publicKey: user.publicKey,
     encryptedSecret: user.encryptedSecret,
   }),
 });
 
-export const githubAuth = github(auth, {
-  clientId: GITHUB_ID,
-  clientSecret: GITHUB_SECRET,
-});
-
-export type Auth = typeof auth;
-
-export async function getSessionRequired(auth: AuthRequest) {
-  const session = await auth.validate();
-  if (!session) {
-    redirect(302, "/login");
-  }
-  if (!session.user.emailVerified) {
-    redirect(302, "/email-verification");
-  }
-  return session;
+declare module "lucia" {
+	interface Register {
+		Lucia: typeof auth;
+		DatabaseUserAttributes: DatabaseUserAttributes;
+	}
 }
+
+interface DatabaseUserAttributes {
+    id: string;
+    name: string;
+    email: string;
+    emailVerified: boolean;
+    status: string | null;
+    image: string | null;
+    // Used for end-to-end encryption
+    publicKey: string;
+    encryptedSecret: string;
+  }

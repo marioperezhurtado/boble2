@@ -52,12 +52,19 @@ export const publicProcedure = t.procedure;
 import { TRPCError } from "@trpc/server";
 
 const enforceIsAuthenticated = t.middleware(async ({ ctx, next }) => {
-  if (!ctx.session || !ctx.session.user.emailVerified) {
+  if (!ctx.session || !ctx.user || !ctx.user?.emailVerified) {
     throw new TRPCError({
       code: "UNAUTHORIZED", message: "You must be logged in to do that"
     });
   }
-  return next();
+  return next({
+    ctx: {
+      ...ctx,
+      // infers that `user` and `session` are not nullable to downstream procedures
+      user: ctx.user,
+      session: ctx.session,
+    }
+  });
 });
 
 /**

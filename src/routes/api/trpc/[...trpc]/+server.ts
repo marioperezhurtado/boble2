@@ -14,9 +14,10 @@ const requestHandler = createTRPCRequestHandler<AppRouter, RouteParams, RouteId>
   router: appRouter,
   createContext: ({ event }) => {
     return {
+      ...event,
       session: event.locals.session,
-      auth: event.locals.auth,
-      ...event
+      user: event.locals.user,
+      cookies: event.cookies,
     }
   }
 })

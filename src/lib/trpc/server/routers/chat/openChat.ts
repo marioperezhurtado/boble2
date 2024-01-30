@@ -11,7 +11,7 @@ export const openChat = protectedProcedure
   .input(openChatSchema)
   .mutation(async ({ ctx, input }) => {
     const existingChat = await getChatByParticipants(
-      ctx.session.user.id,
+      ctx.user.id,
       input.contactId
     );
 
@@ -19,6 +19,6 @@ export const openChat = protectedProcedure
       return existingChat.id;
     }
 
-    const newChat = await createChat(ctx.session.user.id, input.contactId);
+    const newChat = await createChat(ctx.user.id, input.contactId);
     return newChat.id;
   });

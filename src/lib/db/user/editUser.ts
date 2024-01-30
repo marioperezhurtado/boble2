@@ -3,12 +3,12 @@ import { user } from "$lib/db/schema";
 import { eq } from "drizzle-orm";
 
 type EditUserParams = {
+  id: string;
   name: string;
   status: string | null;
-  id: string;
 };
 
-export function editUser({ name, status, id }: EditUserParams) {
+export function editUser({ id, name, status }: EditUserParams) {
   return db.update(user)
     .set({
       name,

@@ -22,13 +22,13 @@ export const sendLink = protectedProcedure
   .input(sendLinkSchema)
   .mutation(async ({ ctx, input }) => {
     await checkCanSendMessage({
-      userId: ctx.session.user.id,
+      userId: ctx.user.id,
       chatId: input.chatId,
     });
 
     const newMessage = await createMessage({
       chatId: input.chatId,
-      senderId: ctx.session.user.id,
+      senderId: ctx.user.id,
       replyToId: input.replyToId,
       text: input.text,
       source: input.url,
@@ -46,7 +46,7 @@ export const sendLink = protectedProcedure
       return;
     }
 
-    await createLinkPreview({
+    const createdLinkPreview = await createLinkPreview({
       ...input.linkPreview,
       messageId: newMessage.id,
     });
@@ -54,12 +54,8 @@ export const sendLink = protectedProcedure
     // Send message with link preview
     sendMessage({
       ...newMessage,
-      linkPreview: {
-        ...input.linkPreview,
-        messageId: newMessage.id
-      },
+      linkPreview: createdLinkPreview,
       documentInfo: null,
       audioInfo: null
     });
-
   });

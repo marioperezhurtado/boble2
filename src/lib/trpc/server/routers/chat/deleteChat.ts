@@ -13,7 +13,7 @@ export const deleteChat = protectedProcedure
   .input(deleteChatSchema)
   .mutation(async ({ ctx, input }) => {
     const chat = await getChatWithMedia({
-      userId: ctx.session.user.id,
+      userId: ctx.user.id,
       chatId: input.chatId,
     });
 

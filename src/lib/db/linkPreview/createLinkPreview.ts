@@ -13,7 +13,7 @@ export async function createLinkPreview({
   siteName,
   messageId,
 }: CreateLinkPreview) {
-  return db
+  const createdLinkPreview = await db
     .insert(linkPreview)
     .values({
       title,
@@ -22,4 +22,7 @@ export async function createLinkPreview({
       siteName,
       messageId,
     })
+    .returning();
+
+  return createdLinkPreview[0];
 }

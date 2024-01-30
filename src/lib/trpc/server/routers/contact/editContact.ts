@@ -12,7 +12,7 @@ export const editContact = protectedProcedure
   .input(editContactSchema)
   .mutation(async ({ ctx, input }) => {
     await editContactDb({
-      userId: ctx.session.user.id,
+      userId: ctx.user.id,
       contactId: input.contactId,
       newAlias: input.alias,
     });

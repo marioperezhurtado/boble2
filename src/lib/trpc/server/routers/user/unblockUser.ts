@@ -10,7 +10,7 @@ export const unblockUser = protectedProcedure
   .input(unblockUserSchema)
   .mutation(({ ctx, input }) => {
     return removeBlock({
-      userId: ctx.session.user.id,
+      userId: ctx.user.id,
       unblockUserId: input.unblockUserId,
     });
   });

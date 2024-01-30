@@ -10,7 +10,7 @@ export const deleteContact = protectedProcedure
   .input(deleteContactSchema)
   .mutation(async ({ ctx, input }) => {
     await deleteContactDb({
-      userId: ctx.session.user.id,
+      userId: ctx.user.id,
       contactId: input.contactId,
     });
   });

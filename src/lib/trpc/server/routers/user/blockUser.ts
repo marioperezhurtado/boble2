@@ -10,7 +10,7 @@ const blockUserSchema = z.object({
 export const blockUser = protectedProcedure
   .input(blockUserSchema)
   .mutation(({ ctx, input }) => {
-    if (input.blockUserId === ctx.session.user.id) {
+    if (input.blockUserId === ctx.user.id) {
       throw new TRPCError({
         code: "BAD_REQUEST",
         message: "You cannot block yourself",
@@ -18,7 +18,7 @@ export const blockUser = protectedProcedure
     }
 
     return createBlock({
-      userId: ctx.session.user.id,
+      userId: ctx.user.id,
       blockUserId: input.blockUserId,
     });
   });

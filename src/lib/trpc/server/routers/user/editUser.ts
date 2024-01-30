@@ -18,8 +18,8 @@ export const editUser = protectedProcedure
   .input(editUserSchema)
   .mutation(async ({ ctx, input }) => {
     return editUserDb({
+      id: ctx.user.id,
       name: input.name,
       status: input.status,
-      id: ctx.session.user.id,
     });
   });
