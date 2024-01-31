@@ -3,7 +3,7 @@
   import Footer from "$lib/ui/Footer.svelte";
 </script>
 
-<div class="flex flex-col h-screen">
+<div class="flex flex-col h-dvh">
   <Header />
   <main
     class="flex flex-col flex-grow gap-14 items-center px-4 pt-10 lg:flex-row lg:gap-10 lg:justify-center lg:items-start lg:pt-20"

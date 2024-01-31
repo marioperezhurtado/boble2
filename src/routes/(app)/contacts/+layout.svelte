@@ -22,7 +22,7 @@
   <title>Boble Web Chat</title>
 </svelte:head>
 
-<div class="flex flex-col h-screen bg-zinc-200">
+<div class="flex flex-col h-dvh bg-zinc-200">
   <AppHeader />
   <main
     class="flex flex-grow mx-auto w-full max-w-screen-xl md:overflow-hidden bg-zinc-200 border-x border-zinc-300"

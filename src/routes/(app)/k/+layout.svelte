@@ -12,7 +12,7 @@
   );
 </script>
 
-<div class="flex flex-col h-screen bg-zinc-200">
+<div class="flex flex-col h-dvh bg-zinc-200">
   <AppHeader />
   <main
     class="flex overflow-hidden flex-grow mx-auto w-full max-w-screen-xl bg-zinc-200 border-x border-zinc-300"
