@@ -96,6 +96,31 @@ export const passwordResetToken = sqliteTable("password_reset_token", {
     .notNull()
 });
 
+// Media message info tables
+
+export const imageInfo = sqliteTable("image_info", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => `imginfo_${nanoid(16)}`),
+  messageId: text("message_id")
+    .references(() => message.id, { onDelete: "cascade" })
+    .notNull(),
+  width: integer("width").notNull(),
+  height: integer("height").notNull(),
+});
+
+export const videoInfo = sqliteTable("video_info", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => `vidinfo_${nanoid(16)}`),
+  messageId: text("message_id")
+    .references(() => message.id, { onDelete: "cascade" })
+    .notNull(),
+  width: integer("width").notNull(),
+  height: integer("height").notNull(),
+  duration: integer("duration").notNull(),
+});
+
 export const linkPreview = sqliteTable("link_preview", {
   id: text("id")
     .primaryKey()

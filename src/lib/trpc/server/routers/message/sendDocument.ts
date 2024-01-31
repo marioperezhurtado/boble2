@@ -40,6 +40,8 @@ export const sendDocument = protectedProcedure
     sendMessage({
       ...newMessage,
       documentInfo,
+      imageInfo: null,
+      videoInfo: null,
       linkPreview: null,
       audioInfo: null,
     });

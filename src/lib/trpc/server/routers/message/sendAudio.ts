@@ -40,6 +40,8 @@ export const sendAudio = protectedProcedure
     sendMessage({
       ...newMessage,
       audioInfo,
+      imageInfo: null,
+      videoInfo: null,
       linkPreview: null,
       documentInfo: null,
     });

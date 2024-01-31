@@ -12,6 +12,12 @@
 
   export let onClose: () => void;
 
+  type VideoInfo = {
+    width: number;
+    height: number;
+    duration: number;
+  };
+
   let fileInput: HTMLInputElement;
   let selectedFile: File | null = null;
   let caption = "";
@@ -25,10 +31,27 @@
 
   const createPresignedPost = trpc.createPresignedPost.video.createMutation();
 
+  function getVideoInfo(file: File) {
+    return new Promise<VideoInfo>((resolve) => {
+      const video = document.createElement("video");
+
+      video.onloadedmetadata = () =>
+        resolve({
+          width: video.videoWidth,
+          height: video.videoHeight,
+          duration: video.duration,
+        });
+      video.src = URL.createObjectURL(file);
+    });
+  }
+
   async function handleSendVideo() {
     if (!selectedFile) return;
 
-    const presignedPostData = await $createPresignedPost.mutateAsync();
+    const [presignedPostData, videoInfo] = await Promise.all([
+      $createPresignedPost.mutateAsync(),
+      getVideoInfo(selectedFile),
+    ]);
 
     try {
       await uploadFileFromClient({
@@ -41,20 +64,19 @@
       return;
     }
 
-    const encryptedVideoId = await encryptMessageField(
-      presignedPostData.fields.key,
-      $page.params.chatId,
-    );
-    const encryptedCaption = await encryptMessageField(
-      caption,
-      $page.params.chatId,
-    );
+    const [encryptedVideoId, encryptedCaption] = await Promise.all([
+      encryptMessageField(presignedPostData.fields.key, $page.params.chatId),
+      encryptMessageField(caption, $page.params.chatId),
+    ]);
 
     $sendVideo.mutate({
       videoId: encryptedVideoId,
       caption: encryptedCaption,
       chatId: $page.params.chatId,
       replyToId: $replyingTo?.id,
+      width: videoInfo.width,
+      height: videoInfo.height,
+      duration: videoInfo.duration,
     });
   }
 
@@ -95,9 +117,7 @@
       <Input bind:value={caption} placeholder="Add a caption" name="caption" />
       <Button isLoading={isUploading} class="min-w-fit">
         Upload
-        {#if !isUploading}
-          <img src="/icons/upload-light.svg" alt="Upload" class="w-3.5 h-3.5" />
-        {/if}
+        <img src="/icons/upload-light.svg" alt="Upload" class="w-3.5 h-3.5" />
       </Button>
     </form>
   </Modal>

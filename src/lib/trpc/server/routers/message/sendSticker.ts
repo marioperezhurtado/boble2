@@ -27,6 +27,8 @@ export const sendSticker = protectedProcedure
     });
     sendMessage({
       ...newMessage,
+      imageInfo: null,
+      videoInfo: null,
       linkPreview: null,
       documentInfo: null,
       audioInfo: null

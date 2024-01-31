@@ -1,4 +1,5 @@
 import { createMessage } from "$lib/db/message/createMessage";
+import { createVideoInfo } from "$lib/db/videoInfo/createVideoInfo";
 import { sendMessage } from "$lib/socket/client";
 import { protectedProcedure } from "$lib/trpc/server/trpc";
 import { checkCanSendMessage } from "./shared";
@@ -9,6 +10,9 @@ const sendVideoSchema = z.object({
   replyToId: z.string().optional(),
   caption: z.string().optional(),
   chatId: z.string(),
+  width: z.number(),
+  height: z.number(),
+  duration: z.number(),
 });
 
 export const sendVideo = protectedProcedure
@@ -28,8 +32,17 @@ export const sendVideo = protectedProcedure
       type: "video",
     });
 
+    const videoInfo = await createVideoInfo({
+      messageId: newMessage.id,
+      width: input.width,
+      height: input.height,
+      duration: input.duration,
+    });
+
     sendMessage({
       ...newMessage,
+      videoInfo,
+      imageInfo: null,
       linkPreview: null,
       documentInfo: null,
       audioInfo: null,

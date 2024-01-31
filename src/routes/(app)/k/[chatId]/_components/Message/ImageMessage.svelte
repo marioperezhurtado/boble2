@@ -4,24 +4,45 @@
   import MessageBubble from "./MessageBubble.svelte";
   import MessageStatus from "./MessageStatus.svelte";
   import Image from "$lib/ui/Image.svelte";
+  import AspectRatio from "$lib/ui/AspectRatio.svelte";
 
   export let message: Message;
   export let lastReadAt: Date;
   export let isOwn: boolean;
   export let isFirst: boolean;
   export let brokenFile = false;
+
+  const MAX_WIDTH = 320;
+  const MAX_HEIGHT = 320;
 </script>
 
 <MessageBubble {message} {isOwn} {isFirst}>
   <div class="overflow-hidden relative rounded-md">
     {#if message.source}
-      <Image
-        src={getFileUrl(message.source)}
-        alt="Image sent at {message.createdAt}"
-        class="object-contain w-full max-w-xs max-h-80 rounded-md bg-zinc-100"
-        draggable={false}
-        bind:brokenFile
-      />
+      {#if message.imageInfo}
+        <AspectRatio
+          width={message.imageInfo.width}
+          height={message.imageInfo.height}
+          maxWidth={MAX_WIDTH}
+          maxHeight={MAX_HEIGHT}
+        >
+          <Image
+            src={getFileUrl(message.source)}
+            bind:broken={brokenFile}
+            alt="Image sent at {message.createdAt}"
+            draggable={false}
+            class="rounded-md"
+          />
+        </AspectRatio>
+      {:else}
+        <Image
+          src={getFileUrl(message.source)}
+          bind:broken={brokenFile}
+          alt="Image sent at {message.createdAt}"
+          draggable={false}
+          class="rounded-md"
+        />
+      {/if}
     {/if}
 
     {#if message.text}

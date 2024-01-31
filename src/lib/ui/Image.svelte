@@ -26,8 +26,15 @@
   tabindex="0"
   on:click={handleExpand}
   on:keydown={(e) => e.key === "Enter" && (isExpanded = true)}
+  class="bg-zinc-100 h-full w-full rounded-lg {$$restProps.class} overflow-hidden"
 >
-  <img on:error={handleError} class="rounded-lg" {src} {alt} {...$$restProps} />
+  <img
+    {src}
+    {alt}
+    {...$$restProps}
+    on:error={handleError}
+    class="object-cover w-full h-full"
+  />
 
   {#if isExpanded}
     <ExpandedImage bind:expanded={isExpanded}>

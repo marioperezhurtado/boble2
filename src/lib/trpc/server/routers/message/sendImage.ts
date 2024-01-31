@@ -1,3 +1,4 @@
+import { createImageInfo } from "$lib/db/imageInfo/createImageInfo";
 import { createMessage } from "$lib/db/message/createMessage";
 import { sendMessage } from "$lib/socket/client";
 import { protectedProcedure } from "$lib/trpc/server/trpc";
@@ -6,9 +7,11 @@ import { z } from "zod";
 
 const sendImageSchema = z.object({
   imageId: z.string(),
+  chatId: z.string(),
+  width: z.number(),
+  height: z.number(),
   replyToId: z.string().optional(),
   caption: z.string().optional(),
-  chatId: z.string(),
 });
 
 export const sendImage = protectedProcedure
@@ -28,8 +31,16 @@ export const sendImage = protectedProcedure
       type: "image",
     });
 
+    const imageInfo = await createImageInfo({
+      messageId: newMessage.id,
+      width: input.width,
+      height: input.height,
+    });
+
     sendMessage({
       ...newMessage,
+      imageInfo,
+      videoInfo: null,
       linkPreview: null,
       documentInfo: null,
       audioInfo: null,

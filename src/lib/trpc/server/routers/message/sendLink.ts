@@ -39,6 +39,8 @@ export const sendLink = protectedProcedure
     if (!input.linkPreview) {
       sendMessage({
         ...newMessage,
+        imageInfo: null,
+        videoInfo: null,
         linkPreview: null,
         documentInfo: null,
         audioInfo: null
@@ -46,7 +48,7 @@ export const sendLink = protectedProcedure
       return;
     }
 
-    const createdLinkPreview = await createLinkPreview({
+    const linkPreview = await createLinkPreview({
       ...input.linkPreview,
       messageId: newMessage.id,
     });
@@ -54,7 +56,9 @@ export const sendLink = protectedProcedure
     // Send message with link preview
     sendMessage({
       ...newMessage,
-      linkPreview: createdLinkPreview,
+      linkPreview,
+      imageInfo: null,
+      videoInfo: null,
       documentInfo: null,
       audioInfo: null
     });

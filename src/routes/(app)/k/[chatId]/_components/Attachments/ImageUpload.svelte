@@ -12,6 +12,11 @@
 
   export let onClose: () => void;
 
+  type Dimensions = {
+    width: number;
+    height: number;
+  };
+
   let fileInput: HTMLInputElement;
   let selectedFile: File | null = null;
   let caption = "";
@@ -25,10 +30,22 @@
 
   const createPresignedPost = trpc.createPresignedPost.image.createMutation();
 
+  function getImageDimensions(file: File) {
+    return new Promise<Dimensions>((resolve) => {
+      const img = new Image();
+
+      img.onload = () => resolve(img);
+      img.src = URL.createObjectURL(file);
+    });
+  }
+
   async function handleSendImage() {
     if (!selectedFile) return;
 
-    const presignedPostData = await $createPresignedPost.mutateAsync();
+    const [presignedPostData, dimensions] = await Promise.all([
+      $createPresignedPost.mutateAsync(),
+      getImageDimensions(selectedFile),
+    ]);
 
     try {
       await uploadFileFromClient({
@@ -41,20 +58,18 @@
       return;
     }
 
-    const encryptedImageId = await encryptMessageField(
-      presignedPostData.fields.key,
-      $page.params.chatId,
-    );
-    const encryptedCaption = await encryptMessageField(
-      caption,
-      $page.params.chatId,
-    );
+    const [encryptedImageId, encryptedCaption] = await Promise.all([
+      encryptMessageField(presignedPostData.fields.key, $page.params.chatId),
+      encryptMessageField(caption, $page.params.chatId),
+    ]);
 
     $sendImage.mutate({
       imageId: encryptedImageId,
       caption: encryptedCaption,
       chatId: $page.params.chatId,
       replyToId: $replyingTo?.id,
+      width: dimensions.width,
+      height: dimensions.height,
     });
   }
 
@@ -93,9 +108,7 @@
       <Input bind:value={caption} placeholder="Add a caption" name="caption" />
       <Button isLoading={isUploading} class="min-w-fit">
         Upload
-        {#if !isUploading}
-          <img src="/icons/upload-light.svg" alt="Upload" class="w-3.5 h-3.5" />
-        {/if}
+        <img src="/icons/upload-light.svg" alt="Upload" class="w-3.5 h-3.5" />
       </Button>
     </form>
   </Modal>

@@ -28,6 +28,8 @@ export const sendText = protectedProcedure
 
     sendMessage({
       ...newMessage,
+      imageInfo: null,
+      videoInfo: null,
       documentInfo: null,
       linkPreview: null,
       audioInfo: null

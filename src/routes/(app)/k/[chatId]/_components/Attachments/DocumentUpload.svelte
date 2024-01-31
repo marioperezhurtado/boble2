@@ -104,9 +104,7 @@
       <Input bind:value={caption} placeholder="Add a caption" name="caption" />
       <Button isLoading={isUploading} class="min-w-fit">
         Upload
-        {#if !isUploading}
-          <img src="/icons/upload-light.svg" alt="Upload" class="w-3.5 h-3.5" />
-        {/if}
+        <img src="/icons/upload-light.svg" alt="Upload" class="w-3.5 h-3.5" />
       </Button>
     </form>
   </Modal>
