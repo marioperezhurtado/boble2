@@ -1,7 +1,7 @@
-import { GIPHY_API_KEY } from "$env/static/private";
+import { env } from "$env/dynamic/private";
 
 export async function fetchFromGiphy(url: URL) {
-  url.searchParams.set("api_key", GIPHY_API_KEY);
+  url.searchParams.set("api_key", env.GIPHY_API_KEY);
   url.searchParams.set("limit", "25");
 
   const response = await fetch(url.toString());

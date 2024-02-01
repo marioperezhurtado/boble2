@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { PUBLIC_SITE_URL } from "$env/static/public";
+  import { env } from "$env/dynamic/public";
   import { Section, Text, Link, Button, Hr } from "svelte-email";
   import EmailLayout from "./EmailLayout.svelte";
 
@@ -53,7 +53,7 @@
     <Text style={text}>
       To keep your account secure, please don&apos;t forward this email to
       anyone. If you need help, please
-      <Link style={anchor} href={`${PUBLIC_SITE_URL}/support`}>
+      <Link style={anchor} href={`${env.PUBLIC_SITE_URL}/support`}>
         contact support.
       </Link>
     </Text>
