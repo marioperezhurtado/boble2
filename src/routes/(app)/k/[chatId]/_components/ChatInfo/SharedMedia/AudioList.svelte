@@ -1,7 +1,7 @@
 <script lang="ts">
   import { formatDateShort, formatMinuteSeconds } from "$lib/utils/date";
+  import type { RouterOutputs } from "$lib/trpc/shared";
   import VolumeSpikes from "../../Message/AudioMessage/VolumeSpikes.svelte";
-  import type { RouterOutputs } from "$lib/trpc/server/trpc";
 
   type Message = RouterOutputs["message"]["getMediaMessages"][number];
 

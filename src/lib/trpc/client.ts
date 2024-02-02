@@ -1,5 +1,6 @@
 import { createTRPCSvelte } from "@bevm0/trpc-svelte-query";
 import { httpBatchLink } from "@trpc/client";
+import { getUrl } from "$lib/trpc/shared";
 import type { AppRouter } from "$lib/trpc/server/root";
 import { QueryClient } from "@tanstack/svelte-query";
 
@@ -18,6 +19,6 @@ export const queryClient = new QueryClient({
 
 export const trpc = createTRPCSvelte<AppRouter>({
   links: [
-    httpBatchLink({ url: "http://localhost:5173/api/trpc" }),
+    httpBatchLink({ url: getUrl() }),
   ],
 });

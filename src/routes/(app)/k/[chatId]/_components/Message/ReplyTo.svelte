@@ -103,7 +103,7 @@
   </div>
 
   {#if replyTo?.type === "image"}
-    <Image
+    <img
       src={getFileUrl(replyTo.source ?? "")}
       alt="Reply to"
       class="object-cover w-[46px] h-[46px] bg-zinc-100"

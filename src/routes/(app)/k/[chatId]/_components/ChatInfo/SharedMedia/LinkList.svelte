@@ -1,7 +1,6 @@
 <script lang="ts">
   import { formatDateShort } from "$lib/utils/date";
-  import type { RouterOutputs } from "$lib/trpc/server/trpc";
-  import Image from "$lib/ui/Image.svelte";
+  import type { RouterOutputs } from "$lib/trpc/shared";
 
   type Message = RouterOutputs["message"]["getMediaMessages"][number];
 
@@ -22,10 +21,10 @@
         </a>
       {:else}
         <div class="flex gap-2 pb-1">
-          <Image
+          <img
             src={message.linkPreview.image ?? ""}
             alt={message.linkPreview.title ?? ""}
-            class="object-cover w-14 rounded-md min-w-14 aspect-square"
+            class="object-cover w-14 h-14 rounded-md min-w-14 aspect-square"
           />
           <div class="text-xs">
             <h2 class="font-semibold">

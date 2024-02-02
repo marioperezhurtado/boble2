@@ -1,5 +1,5 @@
 import { writable } from "svelte/store";
-import type { RouterOutputs } from "$lib/trpc/server/trpc";
+import type { RouterOutputs } from "$lib/trpc/shared";
 
 export type EmojiData = RouterOutputs["mood"]["emoji"]["getAll"];
 
