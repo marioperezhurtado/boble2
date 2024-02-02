@@ -11,6 +11,11 @@ services:
       - db:/app/db
     environment:
       - NODE_ENV=production
-
+  socket:
+    build:
+      context: .
+      dockerfile: Dockerfile.websocket
+    ports:
+      - "8000:8000"
 volumes:
   db:
