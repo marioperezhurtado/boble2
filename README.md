@@ -14,6 +14,7 @@ Chat with your friends and family from any device.
 - [Email setup](#email-setup)
 - [Developing](#developing)
 - [Deployment](#deployment)
+- [Visualize bundle](#visualize-bundle)
 - [List of commands](#list-of-commands)
 
 ## Tech and tools
@@ -256,6 +257,21 @@ npm run s3
 ## Deployment
 
 TBD...
+
+## Visualize bundle
+
+This project uses
+[rollup-plugin-visualizer](https://github.com/btd/rollup-plugin-visualizer) to
+analyze your bundle and see which modules are taking up space.
+
+To visualize your bundle, run:
+
+```
+npm run build
+```
+
+Then open the generated html file in your browser. You can find it
+in `.svelte-kit/output/client/stats.html`.
 
 ## List of commands
 
