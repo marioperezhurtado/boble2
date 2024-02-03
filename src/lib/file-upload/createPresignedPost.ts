@@ -3,7 +3,7 @@ import { s3Client } from "./s3Client";
 
 type GetPresignedPostData = {
   key: string
-  contentType: "image/" | "audio/" | "video/" | "*/"
+  contentType: "image" | "audio" | "video" | "*"
   sizeLimit: number
 };
 
