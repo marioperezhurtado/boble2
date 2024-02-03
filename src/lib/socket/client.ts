@@ -1,3 +1,4 @@
+import { env } from "$env/dynamic/public";
 import { io } from "socket.io-client";
 import type { Message } from "$lib/db/message/getMessages";
 import type { ServerToClientEvents, ClientToServerEvents } from "$lib/socket";
@@ -5,7 +6,7 @@ import type { Socket } from "socket.io-client";
 
 const socket: Socket<
   ServerToClientEvents, ClientToServerEvents
-> = io("http://localhost:8000");
+> = io(env.PUBLIC_SOCKET_URL);
 
 export function joinChat(chatId: string) {
   socket.emit("join", chatId);

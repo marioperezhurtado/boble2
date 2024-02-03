@@ -1,7 +1,10 @@
 import express from "express";
+import dotenv from "dotenv";
 import { createServer } from "http";
 import { Server as WebSocketServer } from "socket.io";
 import type { Message } from "$lib/db/message/getMessages";
+
+dotenv.config();
 
 export type ClientToServerEvents = {
   join: (chatId: string) => void;
@@ -21,7 +24,7 @@ const io = new WebSocketServer<
 >(server, {
   // Allow CORS
   cors: {
-    origin: "http://localhost:5173",
+    origin: process.env.PUBLIC_SITE_URL,
   },
 });
 

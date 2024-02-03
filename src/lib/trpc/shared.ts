@@ -4,8 +4,7 @@ import type { AppRouter } from "$lib/trpc/server/root";
 
 function getBaseUrl() {
   if (typeof window !== "undefined") return "";
-  if (env.PUBLIC_SITE_URL) return `https://${env.PUBLIC_SITE_URL}`;
-  return `http://localhost:${process.env.PORT ?? 3000}`;
+  return env.PUBLIC_SITE_URL;
 }
 
 export function getUrl() {
