@@ -58,7 +58,7 @@
     {:else if message.type === "gif"}
       <GifMessage {message} {lastReadAt} {isOwn} {isFirst} bind:brokenFile />
     {:else if message.type === "sticker"}
-      <StickerMessage {message} {lastReadAt} {isOwn} {isFirst} bind:brokenFile />
+      <StickerMessage {message} {lastReadAt} {isOwn} {isFirst} />
     {:else if message.type === "link"}
       <LinkMessage {message} {lastReadAt} {isOwn} {isFirst} />
     {:else}

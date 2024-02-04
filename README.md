@@ -8,6 +8,7 @@ Chat with your friends and family from any device.
 - [External services](#external-services)
 - [Project structure](#project-structure)
 - [End-to-end encryption](#end-to-end-encryption)
+- [WebSockets](#websockets)
 - [Installation](#installation)
 - [Environment variables](#environment-variables)
 - [Database setup](#database-setup)
@@ -71,7 +72,7 @@ Chat with your friends and family from any device.
 │   │   ├── trpc/
 │   │   │   └── tRPC config, routers and procedures.
 │   │   ├── socket/
-│   │   │   └── WebSocket server using socket.io. 
+│   │   │   └── WebSockets using socket.io. 
 │   │   ├── email/
 │   │   │   └── Email config, templates and functions.
 │   │   ├── file-upload/
@@ -98,8 +99,7 @@ access the content of a conversation. Because the content of the messages is
 encrypted using a shared secret that only both ends know, no one else can
 read the messages, not even the server.
 
-This project uses the native [Web Crypto
-API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API) to
+This project uses the native [Web Crypto API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API) to
 implement end-to-end encryption. You can find the implementation at `src/lib/utils/encryption.ts`.
 
 ### [ECDH](https://en.wikipedia.org/wiki/Elliptic-curve_Diffie%E2%80%93Hellman)
@@ -142,6 +142,28 @@ This implementation is not perfect, and it has some flaws:
 - No key rotation.
 - No forward secrecy.
 
+## WebSockets
+
+This project uses [Socket.io](https://socket.io/) to enable real-time, bidirectional and event-based communication between the client and the server.
+
+As of today, SvelteKit does not have native support for WebSockets.
+
+One solution is to create a separate server, but we can build a solution to
+integrate it into our SvelteKit server.
+
+### WebSockets for development
+
+In development, we use a simple vite plugin to hook into the development server.
+
+(See `vite.config.js`)
+
+### WebSockets for production
+
+With SvelteKit node adapter, we can create a [custom
+server](https://kit.svelte.dev/docs/adapter-node#custom-server) to handle WebSockets.
+
+(See `server.js`)
+
 
 ## Installation
 
@@ -164,20 +186,23 @@ To run this project, you will need to add the following environment variables to
 
 ```
 # Private
-# Oauth providers
-GITHUB_ID=""
-GITHUB_SECRET=""
-
-# Email
+# SMTP
 SENDGRID_API_KEY=""
 SENDER_ADDRESS=""
 SENDER_NAME=""
 
-# GIF search
+# GIF 
 GIPHY_API_KEY=""
+
+# S3
+S3_ACCESS_KEY_ID="S3RVER"
+S3_SECRET_ACCESS_KEY="S3RVER"
 
 # Public
 PUBLIC_SITE_URL="http://localhost:5173"
+
+PUBLIC_S3_URL="http://localhost:5000"
+PUBLIC_S3_BUCKET_URL="http://localhost:5000/<bucket-name>"
 ```
 
 You can create a copy of the `.env.example` file to `.env` and populate it with your secrets.
@@ -192,15 +217,8 @@ This project uses [SQLite](https://www.sqlite.org/index.html) and [DrizzleORM](h
 
 Your database will be stored in a single `sqlite.db` file at the root of your project, and your SQL migrations will be stored under the `drizzle/` folder.
 
-The first time you run this project, and every time you make a change in your db schema, you will need to run the following commands to apply changes:
-
-Generate a SQL migration file:
-
-```
-npm run db:generate
-```
-
-Push the changes to your database (or create one if it doesn't exist yet):
+The first time you run this project, and every time you make a change in your db
+schema, you will neeed to push the changes to your database (or create one if it doesn't exist yet):
 
 ```
 npm run db:push
@@ -242,12 +260,6 @@ Start a development server:
 npm run dev
 ```
 
-Start a WebSocket server:
-
-```
-npm run socket
-```
-
 Start a fake S3 server:
 
 ```
@@ -256,7 +268,54 @@ npm run s3
 
 ## Deployment
 
-TBD...
+This project is deployed to [Railway](https://railway.app/) with docker.
+
+### Set up your S3 bucket for production:
+
+- Create an account in AWS.
+- Create a new S3 bucket with public access.
+- Create a new IAM user with programmatic access and S3 full access.
+- Set up your bucket policy: 
+
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::<bucket-name>/*"
+        }
+    ]
+}
+```
+
+- Set up your CORS configuration:
+
+```
+[
+    {
+        "AllowedHeaders": [
+            "*"
+        ],
+        "AllowedMethods": [
+            "GET",
+            "POST",
+            "DELETE"
+        ],
+        "AllowedOrigins": [
+            "*"
+        ],
+        "ExposeHeaders": []
+    }
+]
+```
+
+- Copy your access key and secret key to your `.env` file.
+
+[Reference](https://youtu.be/_DRklnnJbig)
+
 
 ## Visualize bundle
 
@@ -278,10 +337,10 @@ in `.svelte-kit/output/client/stats.html`.
 | Command | Description | 
 | -------- | -------- | 
 | dev | Start a development server on port 5173 | 
-| socket | Start a websocket server on port 8000 |
-| s3 | Start a fake S3 server on port 5000 |
 | build | Create a production version of your app |
 | preview | Preview your production build |
+| start | Start a production server |
+| s3 | Start a fake S3 server on port 5000 |
 | check | Run diagnostic checks |
 | lint | Lint your project |
 | format | Format your project |
