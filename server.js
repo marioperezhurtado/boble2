@@ -1,10 +1,13 @@
 import express from 'express';
+import dotenv from 'dotenv';
 import { createServer } from 'http';
 import { Server as WebSocketServer } from 'socket.io';
 
+dotenv.config();
+
 import { handler } from "./build/handler.js";
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 const app = express();
 const server = createServer(app);
 
