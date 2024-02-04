@@ -2,6 +2,7 @@
   import { page } from "$app/stores";
   import { trpc } from "$lib/trpc/client";
   import { goto } from "$app/navigation";
+  import { removeMessage } from "$lib/socket/client";
   import type { Message } from "$lib/db/message/getMessages";
   import Button from "$lib/ui/Button.svelte";
   import ButtonLink from "$lib/ui/ButtonLink.svelte";
@@ -12,11 +13,12 @@
   export let message: Message;
 
   const deleteMessage = trpc.message.delete.createMutation({
-    onSuccess: () => goto($page.url.pathname)
+    onSuccess: () => goto($page.url.pathname),
   });
 
   function handleDeleteMessage() {
-    $deleteMessage.mutate({ messageId: message.id });
+    $deleteMessage.mutateAsync({ messageId: message.id });
+    removeMessage(message.id, $page.params.chatId);
   }
 
   $: error = $deleteMessage.error?.data?.error;

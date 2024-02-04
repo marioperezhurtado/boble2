@@ -1,5 +1,4 @@
 import { createMessage } from "$lib/db/message/createMessage";
-import { sendMessage } from "$lib/socket/client";
 import { createDocumentInfo } from "$lib/db/documentInfo/createDocumentInfo";
 import { protectedProcedure } from "$lib/trpc/server/trpc";
 import { checkCanSendMessage } from "./shared";
@@ -37,12 +36,8 @@ export const sendDocument = protectedProcedure
       size: input.size,
     });
 
-    sendMessage({
+    return {
       ...newMessage,
       documentInfo,
-      imageInfo: null,
-      videoInfo: null,
-      linkPreview: null,
-      audioInfo: null,
-    });
+    };
   });

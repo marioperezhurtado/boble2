@@ -1,5 +1,4 @@
 import { createMessage } from "$lib/db/message/createMessage";
-import { sendMessage } from "$lib/socket/client";
 import { createAudioInfo } from "$lib/db/audioInfo/createAudioInfo";
 import { protectedProcedure } from "$lib/trpc/server/trpc";
 import { checkCanSendMessage } from "./shared";
@@ -37,12 +36,8 @@ export const sendAudio = protectedProcedure
       volumeSpikes: input.volumeSpikes.join(','),
     });
 
-    sendMessage({
+    return {
       ...newMessage,
       audioInfo,
-      imageInfo: null,
-      videoInfo: null,
-      linkPreview: null,
-      documentInfo: null,
-    });
+    };
   });

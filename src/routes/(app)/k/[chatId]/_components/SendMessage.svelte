@@ -3,6 +3,7 @@
   import { trpc } from "$lib/trpc/client";
   import { text, replyingTo } from "$lib/stores/store";
   import { encryptMessageField } from "$lib/utils/encryption";
+  import { sendMessage } from "$lib/socket/client";
   import Attachments from "./Attachments/Attachments.svelte";
   import Moods from "./Moods/Moods.svelte";
 
@@ -25,8 +26,7 @@
     onSuccess,
   });
 
-  const generateLinkPreview =
-    trpc.message.generateLinkPreview.createMutation();
+  const generateLinkPreview = trpc.message.generateLinkPreview.createMutation();
 
   async function handleSendMessage() {
     if (!$text) return;
@@ -37,10 +37,20 @@
 
     // Text message
     if (!url) {
-      $sendTextMessage.mutate({
+      const newMessage = await $sendTextMessage.mutateAsync({
         text: encryptedText,
         chatId: $page.params.chatId,
         replyToId: $replyingTo?.id,
+      });
+
+      sendMessage({
+        ...newMessage,
+        createdAt: new Date(newMessage.createdAt),
+        imageInfo: null,
+        videoInfo: null,
+        documentInfo: null,
+        linkPreview: null,
+        audioInfo: null,
       });
       return;
     }
@@ -62,7 +72,7 @@
       encryptMessageField(linkPreview.siteName, $page.params.chatId),
     ]);
 
-    $sendLinkMessage.mutate({
+    const newMessage = await $sendLinkMessage.mutateAsync({
       text: encryptedText,
       chatId: $page.params.chatId,
       replyToId: $replyingTo?.id,
@@ -73,6 +83,16 @@
         image: encryptedImage,
         siteName: encryptedSiteName,
       },
+    });
+
+    sendMessage({
+      ...newMessage,
+      createdAt: new Date(newMessage.createdAt),
+      imageInfo: null,
+      videoInfo: null,
+      documentInfo: null,
+      linkPreview: null,
+      audioInfo: null,
     });
   }
 </script>
@@ -120,4 +140,3 @@
     </button>
   {/if}
 </div>
-

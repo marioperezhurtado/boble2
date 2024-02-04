@@ -1,6 +1,5 @@
 import { createImageInfo } from "$lib/db/imageInfo/createImageInfo";
 import { createMessage } from "$lib/db/message/createMessage";
-import { sendMessage } from "$lib/socket/client";
 import { protectedProcedure } from "$lib/trpc/server/trpc";
 import { checkCanSendMessage } from "./shared";
 import { z } from "zod";
@@ -37,12 +36,8 @@ export const sendImage = protectedProcedure
       height: input.height,
     });
 
-    sendMessage({
+    return {
       ...newMessage,
       imageInfo,
-      videoInfo: null,
-      linkPreview: null,
-      documentInfo: null,
-      audioInfo: null,
-    });
+    };
   });

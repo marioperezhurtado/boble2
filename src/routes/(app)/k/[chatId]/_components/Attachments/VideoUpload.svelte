@@ -5,6 +5,7 @@
   import { replyingTo } from "$lib/stores/store";
   import { uploadFileFromClient } from "$lib/utils/file";
   import { encryptMessageField } from "$lib/utils/encryption";
+  import { sendMessage } from "$lib/socket/client";
   import Button from "$lib/ui/Button.svelte";
   import Modal from "$lib/ui/Modal.svelte";
   import Input from "$lib/ui/Input.svelte";
@@ -69,7 +70,7 @@
       encryptMessageField(caption, $page.params.chatId),
     ]);
 
-    $sendVideo.mutate({
+    const newVideo = await $sendVideo.mutateAsync({
       videoId: encryptedVideoId,
       caption: encryptedCaption,
       chatId: $page.params.chatId,
@@ -77,6 +78,15 @@
       width: videoInfo.width,
       height: videoInfo.height,
       duration: videoInfo.duration,
+    });
+
+    sendMessage({
+      ...newVideo,
+      createdAt: new Date(newVideo.createdAt),
+      imageInfo: null,
+      documentInfo: null,
+      linkPreview: null,
+      audioInfo: null,
     });
   }
 

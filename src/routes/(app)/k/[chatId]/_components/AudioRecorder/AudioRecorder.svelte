@@ -7,6 +7,7 @@
   import { uploadFileFromClient } from "$lib/utils/file";
   import { VOLUME_SPIKE_COUNT, summarizeVolumeSpikes } from "./volumeSpikes";
   import { encryptMessageField } from "$lib/utils/encryption";
+  import { sendMessage } from "$lib/socket/client";
   import TimeElapsed from "./TimeElapsed.svelte";
   import VolumeMeter from "./VolumeMeter.svelte";
   import AccessDeniedModal from "./AccessDeniedModal.svelte";
@@ -72,7 +73,7 @@
       $page.params.chatId,
     );
 
-    $sendAudio.mutate({
+    const newMessage = await $sendAudio.mutateAsync({
       audioId: encryptedAudioId,
       transcript: encryptedTranscript,
       chatId: $page.params.chatId,
@@ -81,6 +82,15 @@
       volumeSpikes: summarizeVolumeSpikes(
         volumeSpikes.slice(VOLUME_SPIKE_COUNT),
       ),
+    });
+
+    sendMessage({
+      ...newMessage,
+      createdAt: new Date(newMessage.createdAt),
+      imageInfo: null,
+      videoInfo: null,
+      linkPreview: null,
+      documentInfo: null,
     });
   }
 

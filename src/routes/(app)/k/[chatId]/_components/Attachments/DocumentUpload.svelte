@@ -5,6 +5,7 @@
   import { replyingTo } from "$lib/stores/store";
   import { formatFileSize, uploadFileFromClient } from "$lib/utils/file";
   import { encryptMessageField } from "$lib/utils/encryption";
+  import { sendMessage } from "$lib/socket/client";
   import Button from "$lib/ui/Button.svelte";
   import Modal from "$lib/ui/Modal.svelte";
   import Input from "$lib/ui/Input.svelte";
@@ -55,13 +56,22 @@
       $page.params.chatId,
     );
 
-    $sendDocument.mutate({
+    const newDocument = await $sendDocument.mutateAsync({
       documentId: encryptedDocumentId,
       caption: encryptedCaption,
       name: encryptedDocumentName,
       size: selectedFile.size,
       chatId: $page.params.chatId,
       replyToId: $replyingTo?.id,
+    });
+
+    sendMessage({
+      ...newDocument,
+      createdAt: new Date(newDocument.createdAt),
+      imageInfo: null,
+      videoInfo: null,
+      linkPreview: null,
+      audioInfo: null,
     });
   }
 
