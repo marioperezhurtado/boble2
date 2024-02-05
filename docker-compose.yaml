@@ -8,8 +8,6 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - db:/app/db
+      - ./sqlite.db:/app/sqlite.db
     environment:
       - NODE_ENV=production
-volumes:
-  db:

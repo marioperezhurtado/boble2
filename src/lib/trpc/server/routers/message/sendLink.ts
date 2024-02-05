@@ -1,6 +1,5 @@
 import { createLinkPreview } from "$lib/db/linkPreview/createLinkPreview";
-import { createMessage } from "$lib/db/message/createMessage";
-import { protectedProcedure } from "$lib/trpc/server/trpc";
+import { createMessage } from "$lib/db/message/createMessage"; import { protectedProcedure } from "$lib/trpc/server/trpc";
 import { checkCanSendMessage } from "./shared";
 import z from "zod";
 
@@ -36,7 +35,10 @@ export const sendLink = protectedProcedure
 
     // Return message without link preview if not provided
     if (!input.linkPreview) {
-      return newMessage;
+      return {
+        ...newMessage,
+        linkPreview: null,
+      };
     }
 
     const linkPreview = await createLinkPreview({

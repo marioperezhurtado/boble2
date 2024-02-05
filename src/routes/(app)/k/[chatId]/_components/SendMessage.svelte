@@ -91,7 +91,6 @@
       imageInfo: null,
       videoInfo: null,
       documentInfo: null,
-      linkPreview: null,
       audioInfo: null,
     });
   }
