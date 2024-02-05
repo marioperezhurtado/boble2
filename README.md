@@ -30,7 +30,7 @@ Chat with your friends and family from any device.
 - [Socket.io](https://socket.io/): Library that enables low-latency, bidirectional and event-based communication between a client and a server.
 
 **Database**
-- [SQLite](https://www.sqlite.org/): Small, fast, self-contained, high-reliability, full-featured, SQL database engine.
+- [PostgreSQL](https://www.postgresql.org/): Powerfull, open source object-relational database system.
 - [DrizzleORM](https://orm.drizzle.team/): TypeScript ORM that feels like writing SQL.
 
 **Authentication**
@@ -213,9 +213,25 @@ cp .env.example .env
 
 ## Database setup
 
-This project uses [SQLite](https://www.sqlite.org/index.html) and [DrizzleORM](https://orm.drizzle.team/).
+This project uses [PostgreSQL](https://www.postgresql.org/) and [DrizzleORM](https://orm.drizzle.team/).
 
-Your database will be stored in a single `sqlite.db` file at the root of your project, and your SQL migrations will be stored under the `drizzle/` folder.
+- Install postgres in your local machine.
+
+- Log-in to and create your database.
+
+```
+sudo -u postgres psql
+```
+
+```
+CREATE DATABASE db_name;
+```
+
+- Populate your .env with your database connection string.
+
+```
+DATABASE_URL="postgres://username:password@host:port/db_name",
+```
 
 The first time you run this project, and every time you make a change in your db
 schema, you will neeed to push the changes to your database (or create one if it doesn't exist yet):
@@ -268,7 +284,7 @@ npm run s3
 
 ## Deployment
 
-This project is deployed to [Railway](https://railway.app/) with docker.
+This project is deployed to [Railway](https://railway.app/).
 
 ### Set up your S3 bucket for production:
 
@@ -315,6 +331,19 @@ This project is deployed to [Railway](https://railway.app/) with docker.
 - Copy your access key and secret key to your `.env` file.
 
 [Reference](https://youtu.be/_DRklnnJbig)
+
+### Set up your Postgres database
+
+Depending on where you deploy to, this part can be different.
+
+In Railway:
+
+- Go to your project.
+- Right click > Add New Service > Database.
+- Add PostgreSQL.
+- Click on your repository > Variables > Shared Variable.
+- Add DATABASE_URL.
+- Deploy.
 
 
 ## Visualize bundle
