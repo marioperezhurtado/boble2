@@ -20,16 +20,19 @@
         href="/k"
         title="Chats"
         icon="/icons/chat.svg"
+        isActive={$page.url.pathname.startsWith("/k")}
       />
       <ActionIconLink
         href="/contacts"
         title="Contacts"
         icon="/icons/contact.svg"
+        isActive={$page.url.pathname.startsWith("/contacts")}
       />
       <ActionIconLink
         href="/settings"
         title="Settings"
         icon="/icons/settings.svg"
+        isActive={$page.url.pathname.startsWith("/settings")}
       />
     </div>
   </div>

@@ -3,8 +3,7 @@
 
   export let title: string;
   export let icon: string;
-
-  $: isActive = $page.url.pathname.startsWith($$restProps.href);
+  export let isActive = false;
 </script>
 
 <a

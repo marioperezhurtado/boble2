@@ -5,6 +5,7 @@
   import { replyingTo } from "$lib/stores/store";
   import { encryptMessageField } from "$lib/utils/encryption";
   import { uploadFileFromClient } from "$lib/utils/file";
+  import { sendMessage } from "$lib/socket/client";
   import Button from "$lib/ui/Button.svelte";
   import Modal from "$lib/ui/Modal.svelte";
   import Input from "$lib/ui/Input.svelte";
@@ -63,13 +64,22 @@
       encryptMessageField(caption, $page.params.chatId),
     ]);
 
-    $sendImage.mutate({
+    const newImage = await $sendImage.mutateAsync({
       imageId: encryptedImageId,
       caption: encryptedCaption,
       chatId: $page.params.chatId,
       replyToId: $replyingTo?.id,
       width: dimensions.width,
       height: dimensions.height,
+    });
+
+    sendMessage({
+      ...newImage,
+      createdAt: new Date(newImage.createdAt),
+      videoInfo: null,
+      linkPreview: null,
+      documentInfo: null,
+      audioInfo: null,
     });
   }
 

@@ -2,12 +2,12 @@
   import { page } from "$app/stores";
   import { trpc } from "$lib/trpc/client";
   import { decryptMessage } from "$lib/utils/encryption";
+  import type { RouterOutputs } from "$lib/trpc/shared";
   import Spinner from "$lib/ui/Spinner.svelte";
   import MediaList from "./MediaList.svelte";
   import DocumentList from "./DocumentList.svelte";
   import LinkList from "./LinkList.svelte";
   import AudioList from "./AudioList.svelte";
-  import type { RouterOutputs } from "$lib/trpc/server/trpc";
 
   type Messages = RouterOutputs["message"]["getMediaMessages"];
 

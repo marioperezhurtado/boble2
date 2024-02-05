@@ -3,9 +3,7 @@ import type { Message } from "$lib/db/message/getMessages";
 import type { ServerToClientEvents, ClientToServerEvents } from "$lib/socket";
 import type { Socket } from "socket.io-client";
 
-const socket: Socket<
-  ServerToClientEvents, ClientToServerEvents
-> = io("http://localhost:8000");
+const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io();
 
 export function joinChat(chatId: string) {
   socket.emit("join", chatId);

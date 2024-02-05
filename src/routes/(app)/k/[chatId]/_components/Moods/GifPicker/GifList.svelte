@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { RouterOutputs } from "$lib/trpc/server/trpc";
+  import type { RouterOutputs } from "$lib/trpc/shared";
 
   type Gif = RouterOutputs["mood"]["gif"]["getTrending"][number];
 

@@ -2,7 +2,6 @@
   import { onDestroy } from "svelte";
   import { page } from "$app/stores";
   import {
-    joinChat,
     onMessage,
     onDeleteMessage,
     unsubscribeFromMessages,
@@ -17,13 +16,7 @@
 
   $: data = $page.data as PageData;
 
-  $: {
-    chats.set(data.chats);
-
-    $chats.forEach((chat) => {
-      joinChat(chat.id);
-    });
-  }
+  $: chats.set(data.chats);
 
   onMessage(async (message) => {
     const decryptedMessage = await decryptMessage(message, message.chatId);

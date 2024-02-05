@@ -1,3 +1,5 @@
+import { env } from "$env/dynamic/public";
+
 export function getFileUrl(fileId: string): string {
-  return `http://localhost:5000/boble-files/${fileId}`;
+  return `${env.PUBLIC_S3_BUCKET_URL}/${fileId}`;
 }

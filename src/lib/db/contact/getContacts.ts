@@ -1,7 +1,7 @@
 import { eq, desc, and } from "drizzle-orm";
 import { db } from "$lib/db/db";
 import { block, contact, user } from "$lib/db/schema";
-import { alias } from "drizzle-orm/sqlite-core";
+import { alias } from "drizzle-orm/pg-core";
 
 export async function getContacts(userId: string) {
   const ownBlock = alias(block, "ownBlock");

@@ -1,12 +1,12 @@
 import { createTransport } from "nodemailer";
-import { SENDGRID_API_KEY, SENDER_ADDRESS, SENDER_NAME } from "$env/static/private";
+import { env } from "$env/dynamic/private";
 
 export const transport = createTransport({
   host: "smtp.sendgrid.net",
   port: 587,
   auth: {
     user: "apikey",
-    pass: SENDGRID_API_KEY,
+    pass: env.SENDGRID_API_KEY,
   },
 });
 
@@ -18,9 +18,9 @@ type SendEmailProps = {
 
 export function sendEmail({ to, subject, html }: SendEmailProps) {
   return transport.sendMail({
-    from: `${SENDER_NAME} <${SENDER_ADDRESS}>`,
+    from: `${env.SENDER_NAME} <${env.SENDER_ADDRESS}>`,
     to,
-    subject, 
+    subject,
     html
   });
 }

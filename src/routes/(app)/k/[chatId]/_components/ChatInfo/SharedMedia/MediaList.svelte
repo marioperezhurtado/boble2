@@ -1,6 +1,6 @@
 <script lang="ts">
   import { getFileUrl } from "$lib/utils/url";
-  import type { RouterOutputs } from "$lib/trpc/server/trpc";
+  import type { RouterOutputs } from "$lib/trpc/shared";
   import Image from "$lib/ui/Image.svelte";
 
   type Message = RouterOutputs["message"]["getMediaMessages"][number];
@@ -15,7 +15,7 @@
         <Image
           src={getFileUrl(message.source ?? "")}
           alt="sent in chat"
-          class="object-cover aspect-square"
+          class="object-cover aspect-square !rounded"
         />
       {:else if message.type === "video"}
         <!-- svelte-ignore a11y-media-has-caption -->

@@ -1,9 +1,13 @@
 import { goto } from '$app/navigation';
+import { joinChat } from '$lib/socket/client';
 import { deriveKey, decryptMessageField } from '$lib/utils/encryption';
 import type { LayoutLoad } from './$types';
 
-/* Retrieves or generates derived key for each chat
-/* and decrypts the last message 
+/* 
+ * "Joins" each chat to listen for updates
+ *
+ * Retrieves or generates derived key for each chat
+ * and decrypts the last message.
 */
 
 export const load: LayoutLoad = async ({ data }) => {
@@ -15,6 +19,8 @@ export const load: LayoutLoad = async ({ data }) => {
   }
 
   const decryptedChats = await Promise.all(data.chats.map(async (chat) => {
+    joinChat(chat.id);
+
     const storedDerivedKey = localStorage.getItem(`dk_${chat.id}`);
 
     const derivedKey = storedDerivedKey ||

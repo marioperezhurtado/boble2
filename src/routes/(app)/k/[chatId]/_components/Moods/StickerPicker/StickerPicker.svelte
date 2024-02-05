@@ -4,6 +4,7 @@
   import { isOpen } from "../store";
   import { replyingTo } from "$lib/stores/store";
   import { encryptMessageField } from "$lib/utils/encryption";
+  import { sendMessage } from "$lib/socket/client";
   import SearchStickers from "./SearchStickers.svelte";
   import StickersSkeleton from "./StickersSkeleton.svelte";
   import StickerList from "./StickerList.svelte";
@@ -29,10 +30,20 @@
       $page.params.chatId,
     );
 
-    $sendSticker.mutate({
+    const newMessage = await $sendSticker.mutateAsync({
       sticker: encryptedSticker,
       chatId: $page.params.chatId,
       replyToId: $replyingTo?.id,
+    });
+
+    sendMessage({
+      ...newMessage,
+      createdAt: new Date(newMessage.createdAt),
+      imageInfo: null,
+      videoInfo: null,
+      linkPreview: null,
+      documentInfo: null,
+      audioInfo: null
     });
   }
 

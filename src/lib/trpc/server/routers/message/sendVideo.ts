@@ -1,6 +1,5 @@
 import { createMessage } from "$lib/db/message/createMessage";
 import { createVideoInfo } from "$lib/db/videoInfo/createVideoInfo";
-import { sendMessage } from "$lib/socket/client";
 import { protectedProcedure } from "$lib/trpc/server/trpc";
 import { checkCanSendMessage } from "./shared";
 import { z } from "zod";
@@ -39,12 +38,8 @@ export const sendVideo = protectedProcedure
       duration: input.duration,
     });
 
-    sendMessage({
+    return {
       ...newMessage,
       videoInfo,
-      imageInfo: null,
-      linkPreview: null,
-      documentInfo: null,
-      audioInfo: null,
-    });
+    };
   });

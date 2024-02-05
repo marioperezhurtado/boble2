@@ -4,6 +4,7 @@
   import { isOpen } from "../store";
   import { replyingTo } from "$lib/stores/store";
   import { encryptMessageField } from "$lib/utils/encryption";
+  import { sendMessage } from "$lib/socket/client";
   import SearchGifs from "./SearchGifs.svelte";
   import GifsSkeleton from "./GifsSkeleton.svelte";
   import GifList from "./GifList.svelte";
@@ -26,10 +27,20 @@
   async function handleSendGif(gif: string) {
     const encryptedGif = await encryptMessageField(gif, $page.params.chatId);
 
-    $sendGif.mutate({
+    const newMessage = await $sendGif.mutateAsync({
       gif: encryptedGif,
       chatId: $page.params.chatId,
       replyToId: $replyingTo?.id,
+    });
+
+    sendMessage({
+      ...newMessage,
+      createdAt: new Date(newMessage.createdAt),
+      imageInfo: null,
+      videoInfo: null,
+      linkPreview: null,
+      documentInfo: null,
+      audioInfo: null
     });
   }
 

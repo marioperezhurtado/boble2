@@ -1,7 +1,7 @@
 import { and, eq } from "drizzle-orm";
 import { db } from "$lib/db/db";
 import { chat, participant } from "$lib/db/schema";
-import { alias } from "drizzle-orm/sqlite-core";
+import { alias } from "drizzle-orm/pg-core";
 
 export async function getChatByParticipants(user1Id: string, user2Id: string) {
   const participant2 = alias(participant, 'participant2');

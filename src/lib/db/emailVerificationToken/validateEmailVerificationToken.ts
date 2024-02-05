@@ -4,12 +4,13 @@ import { emailVerificationToken } from "$lib/db/schema";
 import { isWithinExpirationDate } from "oslo";
 
 export async function validateEmailVerificationToken(token: string) {
-  const storedToken = db
+  const storedTokenResult = await db
     .select()
     .from(emailVerificationToken)
     .where(eq(emailVerificationToken.token, token))
     .limit(1)
-    .get();
+
+  const storedToken = storedTokenResult[0];
 
   if (!storedToken) {
     throw new Error('Invalid token');

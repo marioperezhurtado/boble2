@@ -4,12 +4,13 @@ import { passwordResetToken } from "$lib/db/schema";
 import { isWithinExpirationDate } from "oslo";
 
 export async function validatePasswordResetToken(token: string) {
-  const storedToken = db
+  const storedTokenResult = await db
     .select()
     .from(passwordResetToken)
     .where(eq(passwordResetToken.token, token))
     .limit(1)
-    .get();
+
+  const storedToken = storedTokenResult[0];
   
   if (!storedToken) {
     throw new Error('Invalid token');

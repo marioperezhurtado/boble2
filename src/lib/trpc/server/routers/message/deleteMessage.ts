@@ -1,4 +1,3 @@
-import { removeMessage } from "$lib/socket/client";
 import { deleteMessage as deleteMessageDb } from "$lib/db/message/deleteMessage";
 import { protectedProcedure } from "$lib/trpc/server/trpc";
 import { deleteFile } from "$lib/file-upload/deleteFile";
@@ -31,7 +30,6 @@ export const deleteMessage = protectedProcedure
     }
 
     await deleteMessageDb(input.messageId);
-    removeMessage(input.messageId, message.chatId);
 
     const isMedia = MEDIA_TYPES.includes(message.type);
 

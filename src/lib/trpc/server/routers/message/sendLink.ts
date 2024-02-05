@@ -1,7 +1,5 @@
 import { createLinkPreview } from "$lib/db/linkPreview/createLinkPreview";
-import { createMessage } from "$lib/db/message/createMessage";
-import { sendMessage } from "$lib/socket/client";
-import { protectedProcedure } from "$lib/trpc/server/trpc";
+import { createMessage } from "$lib/db/message/createMessage"; import { protectedProcedure } from "$lib/trpc/server/trpc";
 import { checkCanSendMessage } from "./shared";
 import z from "zod";
 
@@ -35,17 +33,12 @@ export const sendLink = protectedProcedure
       type: "link",
     });
 
-    // Send message without link preview if not provided
+    // Return message without link preview if not provided
     if (!input.linkPreview) {
-      sendMessage({
+      return {
         ...newMessage,
-        imageInfo: null,
-        videoInfo: null,
         linkPreview: null,
-        documentInfo: null,
-        audioInfo: null
-      });
-      return;
+      };
     }
 
     const linkPreview = await createLinkPreview({
@@ -53,13 +46,8 @@ export const sendLink = protectedProcedure
       messageId: newMessage.id,
     });
 
-    // Send message with link preview
-    sendMessage({
+    return {
       ...newMessage,
       linkPreview,
-      imageInfo: null,
-      videoInfo: null,
-      documentInfo: null,
-      audioInfo: null
-    });
+    };
   });

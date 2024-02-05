@@ -12,28 +12,28 @@ export const presignedPostRouter = createTRPCRouter({
     protectedProcedure
       .mutation(() => createPresignedPost({
         key: `img_${nanoid(24)}`,
-        contentType: "image/",
+        contentType: "image",
         sizeLimit: IMAGE_UPLOAD_MAX_FILE_SIZE
       })),
   video:
     protectedProcedure
       .mutation(() => createPresignedPost({
         key: `vid_${nanoid(24)}`,
-        contentType: "video/",
+        contentType: "video",
         sizeLimit: VIDEO_UPLOAD_MAX_FILE_SIZE
       })),
   audio:
     protectedProcedure
       .mutation(() => createPresignedPost({
         key: `aud_${nanoid(24)}`,
-        contentType: "audio/",
+        contentType: "audio",
         sizeLimit: AUDIO_UPLOAD_MAX_FILE_SIZE
       })),
   document:
     protectedProcedure
       .mutation(() => createPresignedPost({
         key: `doc_${nanoid(24)}`,
-        contentType: "*/",
+        contentType: "*",
         sizeLimit: DOCUMENT_UPLOAD_MAX_FILE_SIZE
       }))
 });

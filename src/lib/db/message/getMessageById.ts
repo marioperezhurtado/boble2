@@ -3,7 +3,7 @@ import { db } from "$lib/db/db";
 import { message } from "$lib/db/schema";
 
 export async function getMessageById(messageId: string) {
-  return db
+  const messageResult = await db
     .select({
       id: message.id,
       chatId: message.chatId,
@@ -14,5 +14,6 @@ export async function getMessageById(messageId: string) {
     .from(message)
     .where(eq(message.id, messageId))
     .limit(1)
-    .get();
+
+  return messageResult[0];
 }
