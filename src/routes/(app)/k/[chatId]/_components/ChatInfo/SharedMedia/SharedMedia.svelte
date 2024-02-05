@@ -71,7 +71,7 @@
 
 <div class="overflow-y-auto h-full">
   {#if $getMediaMessages.isLoading}
-    <Spinner class="mx-auto mt-8 w-8 h-8 border-cyan-700" />
+    <Spinner class="mt-6 ml-5 w-7 h-7 border-cyan-700" />
   {:else if !filteredMessages?.length}
     <p class="p-2 text-sm font-medium text-zinc-500">No messages found.</p>
   {:else if selectedTab.title === "Media"}

@@ -20,6 +20,14 @@
     content="Real-time web chat. Chat with your friends and family from any device."
   />
   <meta name="author" content="Mario Pérez Hurtado" />
+  <meta property="og:title" content="Boble Web Chat" />
+  <meta
+    property="og:description"
+    content="Real-time web chat. Chat with your friends and family from any device."
+  />
+  <meta property="og:image" content="/social-image.webp" />
+  <meta property="og:url" content="https://boble.chat" />
+  <meta property="og:type" content="website" />
 </svelte:head>
 
 <QueryClientProvider client={queryClient}>
