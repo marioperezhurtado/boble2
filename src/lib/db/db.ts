@@ -1,6 +1,11 @@
-import { drizzle, type BetterSQLite3Database } from "drizzle-orm/better-sqlite3";
-import Database from "better-sqlite3";
+import { env } from "$env/dynamic/private";
+import { drizzle } from "drizzle-orm/node-postgres";
+import pg from "pg";
 
-export const sqliteDatabase = new Database("sqlite.db");
+const client = new pg.Client({
+  connectionString: env.DATABASE_URL,
+});
 
-export const db: BetterSQLite3Database = drizzle(sqliteDatabase);
+await client.connect();
+
+export const db = drizzle(client);

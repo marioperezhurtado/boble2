@@ -1,16 +1,16 @@
-import { integer, text, sqliteTable, primaryKey } from "drizzle-orm/sqlite-core";
+import { integer, text, pgTable, primaryKey, timestamp, boolean } from "drizzle-orm/pg-core";
 import { nanoid } from "./nanoid";
 
-export const chat = sqliteTable("chat", {
+export const chat = pgTable("chat", {
   id: text("id").primaryKey().$defaultFn(() => `c_${nanoid(12)}`),
-  createdAt: integer("created_at", { mode: "timestamp" }),
+  createdAt: timestamp("created_at").notNull(),
 });
 
-export const participant = sqliteTable("participant", {
+export const participant = pgTable("participant", {
   chatId: text("chat_id").references(() => chat.id, { onDelete: "cascade" }).notNull(),
   userId: text("user_id").references(() => user.id, { onDelete: "cascade" }).notNull(),
-  joinedAt: integer("joined_at", { mode: "timestamp" }),
-  lastReadAt: integer("last_read_at", { mode: "timestamp" }),
+  joinedAt: timestamp("joined_at", { withTimezone: true }).notNull(),
+  lastReadAt: timestamp("last_read_at", { withTimezone: true }),
 }, (p) => ({
   pk: primaryKey({ columns: [p.chatId, p.userId] }),
 }));
@@ -28,7 +28,7 @@ export const VALID_MESSAGE_TYPES = [
 
 export const MEDIA_TYPES = ["image", "video", "audio", "document"];
 
-export const message = sqliteTable("message", {
+export const message = pgTable("message", {
   id: text("id").primaryKey().$defaultFn(() => `msg_${nanoid(16)}`),
   chatId: text("chat_id")
     .references(() => chat.id, { onDelete: "cascade" })
@@ -40,10 +40,10 @@ export const message = sqliteTable("message", {
   text: text("text"),
   source: text("source"),
   type: text("type", { enum: VALID_MESSAGE_TYPES }).notNull(),
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+  createdAt: timestamp("created_at").notNull(),
 });
 
-export const contact = sqliteTable("contact", {
+export const contact = pgTable("contact", {
   userId: text("user_id")
     .references(() => user.id, { onDelete: "cascade" })
     .notNull(),
@@ -51,26 +51,24 @@ export const contact = sqliteTable("contact", {
     .references(() => user.id, { onDelete: "cascade" })
     .notNull(),
   alias: text("alias").notNull(),
-  createdAt: integer("created_at", { mode: "timestamp" })
-    .notNull(),
+  createdAt: timestamp("created_at").notNull(),
 }, (p) => ({
   pk: primaryKey({ columns: [p.userId, p.contactId] }),
 }));
 
-export const block = sqliteTable("block", {
+export const block = pgTable("block", {
   userId: text("user_id")
     .references(() => user.id, { onDelete: "cascade" })
     .notNull(),
   blockedUserId: text("blocked_user_id")
     .references(() => user.id, { onDelete: "cascade" })
     .notNull(),
-  createdAt: integer("created_at", { mode: "timestamp" })
-    .notNull(),
+  createdAt: timestamp("created_at").notNull(),
 }, (p) => ({
   pk: primaryKey({ columns: [p.userId, p.blockedUserId] }),
 }));
 
-export const emailVerificationToken = sqliteTable("email_verification_token", {
+export const emailVerificationToken = pgTable("email_verification_token", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => `evtk_${nanoid(16)}`),
@@ -80,11 +78,10 @@ export const emailVerificationToken = sqliteTable("email_verification_token", {
   token: text("token")
     .unique()
     .notNull(),
-  expires: integer("expires", { mode: "timestamp" })
-    .notNull()
+  expires: timestamp("expires").notNull()
 });
 
-export const passwordResetToken = sqliteTable("password_reset_token", {
+export const passwordResetToken = pgTable("password_reset_token", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => `prtk_${nanoid(16)}`),
@@ -92,13 +89,12 @@ export const passwordResetToken = sqliteTable("password_reset_token", {
     .references(() => user.id, { onDelete: "cascade" })
     .notNull(),
   token: text("token").notNull(),
-  expires: integer("expires", { mode: "timestamp" })
-    .notNull()
+  expires: timestamp("expires").notNull()
 });
 
 // Media message info tables
 
-export const imageInfo = sqliteTable("image_info", {
+export const imageInfo = pgTable("image_info", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => `imginfo_${nanoid(16)}`),
@@ -109,7 +105,7 @@ export const imageInfo = sqliteTable("image_info", {
   height: integer("height").notNull(),
 });
 
-export const videoInfo = sqliteTable("video_info", {
+export const videoInfo = pgTable("video_info", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => `vidinfo_${nanoid(16)}`),
@@ -121,7 +117,7 @@ export const videoInfo = sqliteTable("video_info", {
   duration: integer("duration").notNull(),
 });
 
-export const linkPreview = sqliteTable("link_preview", {
+export const linkPreview = pgTable("link_preview", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => `lp_${nanoid(16)}`),
@@ -134,7 +130,7 @@ export const linkPreview = sqliteTable("link_preview", {
   siteName: text("site_name"),
 });
 
-export const documentInfo = sqliteTable("document_info", {
+export const documentInfo = pgTable("document_info", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => `docinfo_${nanoid(16)}`),
@@ -145,7 +141,7 @@ export const documentInfo = sqliteTable("document_info", {
   size: integer("size").notNull(),
 });
 
-export const audioInfo = sqliteTable("audio_info", {
+export const audioInfo = pgTable("audio_info", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => `audinfo_${nanoid(16)}`),
@@ -158,7 +154,7 @@ export const audioInfo = sqliteTable("audio_info", {
 
 // Auth tables (lucia)
 
-export const user = sqliteTable("user", {
+export const user = pgTable("user", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => `u_${nanoid(12)}`)
@@ -166,7 +162,7 @@ export const user = sqliteTable("user", {
   email: text("email")
     .unique()
     .notNull(),
-  emailVerified: integer("emailVerified", { mode: "boolean" })
+  emailVerified: boolean("emailVerified")
     .notNull(),
   name: text("name").notNull(),
   image: text("image"),
@@ -178,10 +174,10 @@ export const user = sqliteTable("user", {
   hashedPassword: text("hashed_password").notNull(),
 });
 
-export const session = sqliteTable("user_session", {
+export const session = pgTable("user_session", {
   id: text("id").primaryKey(),
   userId: text("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
-  expiresAt: integer("expires_at").notNull(),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
 });

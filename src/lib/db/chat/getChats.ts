@@ -1,5 +1,5 @@
 import { and, desc, eq, gt, ne, sql } from "drizzle-orm";
-import { alias } from "drizzle-orm/sqlite-core";
+import { alias } from "drizzle-orm/pg-core";
 import { db } from "$lib/db/db";
 import { chat, participant, message, user, contact, block, documentInfo, audioInfo } from "$lib/db/schema";
 
@@ -61,7 +61,6 @@ export async function getChats(userId: string) {
       ne(unreadMessage.senderId, userId),
       gt(unreadMessage.createdAt, participant.lastReadAt),
     ))
-    .groupBy(chat.id)
     .leftJoin(message, eq(message.id, db
       .select({ id: message.id })
       .from(message)
@@ -77,8 +76,10 @@ export async function getChats(userId: string) {
       eq(message.type, "audio"),
       eq(message.id, documentInfo.messageId)
     ))
-    .orderBy(desc(message.createdAt));
-
+    .orderBy(desc(message.createdAt))
+    // This fixes some weird postgres error `check_ungrouped_columns_walker`
+    .groupBy(chat.id, user.id, contact.alias, documentInfo.name, audioInfo.duration,
+      otherParticipant.joinedAt, otherParticipant.lastReadAt, block.blockedUserId, ownBlock.blockedUserId, message.id);
 
   // Hide user info if blocked
   return chats.map(chat => {
