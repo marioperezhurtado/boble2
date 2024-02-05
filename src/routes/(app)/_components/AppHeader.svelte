@@ -35,7 +35,7 @@
             <img
               src="/icons/profile.svg"
               alt="Profile"
-              class="w-4 h-4 xs:w-3.5 xs:h-3.5"
+              class="w-5 h-5 xs:w-4 xs:h-4"
             />
           </a>
         </li>
@@ -48,7 +48,7 @@
             <img
               src="/icons/logout.svg"
               alt="logout"
-              class="w-4 h-4 xs:w-3.5 xs:h-3.5"
+              class="w-5 h-5 xs:w-4 xs:h-4 translate-x-px"
             />
           </a>
         </li>

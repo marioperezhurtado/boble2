@@ -108,7 +108,5 @@
       on:click={() => (isOpen = false)}
       danger
     />
-  {:else}
-    <ContextMenuItem text="Report message" icon="/icons/report.svg" danger />
   {/if}
 </ContextMenu>

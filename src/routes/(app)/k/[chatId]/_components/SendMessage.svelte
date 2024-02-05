@@ -122,7 +122,11 @@
         aria-label="Send message"
         class="p-0.5 rounded-md min-w-fit focus:outline-cyan-600"
       >
-        <img src="/icons/send.svg" alt="Send message" class="w-7 h-7" />
+        <img
+          src="/icons/send.svg"
+          alt="Send message"
+          class="w-8 h-8 xs:w-7 xs:h-7"
+        />
       </button>
     {/if}
   </form>
@@ -135,7 +139,11 @@
       aria-label="Record audio"
       class="p-0.5 rounded-md min-w-fit focus:outline-cyan-600"
     >
-      <img src="/icons/microphone.svg" alt="Record audio" class="w-7 h-7" />
+      <img
+        src="/icons/microphone.svg"
+        alt="Record audio"
+        class="w-8 h-8 xs:w-7 xs:h-7"
+      />
     </button>
   {/if}
 </div>

@@ -113,7 +113,7 @@
     </video>
   {:else if replyTo?.type === "gif"}
     <video class="object-cover w-[46px] h-[46px]" muted>
-      <source src={replyTo.text} type="image/gif" />
+      <source src={replyTo.text} type="video/mp4" />
     </video>
   {:else if replyTo?.type === "sticker"}
     <img

@@ -27,7 +27,7 @@
     aria-label="Moods"
     class="p-0.5 rounded-md focus:outline-cyan-600"
   >
-    <img src="/icons/emoji.svg" alt="Moods" class="w-7 h-7" />
+    <img src="/icons/emoji.svg" alt="Moods" class="w-8 h-8 xs:w-7 xs:h-7"/>
   </button>
 
   {#if $isOpen}

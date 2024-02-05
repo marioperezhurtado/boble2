@@ -42,7 +42,6 @@
       loop
       autoplay
       playsinline
-      src={message.text}
       class="cursor-pointer bg-zinc-100"
     >
       <source
