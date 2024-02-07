@@ -7,7 +7,7 @@
 </script>
 
 <AppHeader />
-<main class="flex flex-col gap-10 px-4 pt-10 mx-auto lg:pt-16 w-fit">
+<main class="flex flex-col gap-10 py-8 px-4 mx-auto sm:py-10 lg:pt-16 w-fit">
   <EditProfile />
   <InviteMethods userId={data.user.id} />
 </main>

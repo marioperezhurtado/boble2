@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { page } from "$app/stores";
   import { trpc } from "$lib/trpc/client";
   import { goto } from "$app/navigation";
   import { decryptWithPassword } from "$lib/utils/encryption";
@@ -27,7 +28,11 @@
         }
       }
 
-      goto("/");
+      const redirectTo = decodeURIComponent(
+        $page.url.searchParams.get("redirectTo") || "/",
+      );
+
+      goto(redirectTo);
     },
   });
 

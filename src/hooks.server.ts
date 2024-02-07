@@ -7,6 +7,7 @@ const APP_ROUTES = [
   "/profile",
   "/contacts",
   "/settings",
+  "/invite",
 ]
 
 const AUTH_ROUTES = [
@@ -22,7 +23,7 @@ export const handle: Handle = async ({ event, resolve }) => {
     event.locals.user = null;
     event.locals.session = null;
 
-    checkAuth(event.url.pathname, null);
+    checkAuth(event.url, null);
 
     return resolve(event);
   }
@@ -52,33 +53,36 @@ export const handle: Handle = async ({ event, resolve }) => {
   event.locals.user = user;
   event.locals.session = session;
 
-  checkAuth(event.url.pathname, user);
+  checkAuth(event.url, user);
 
   return resolve(event);
 };
 
-function checkAuth(path: string, user: User | null) {
-  if (APP_ROUTES.some(route => path.startsWith(route))) {
+function checkAuth(url: URL, user: User | null) {
+
+  if (APP_ROUTES.some(route => url.pathname.startsWith(route))) {
     if (!user) {
-      redirect(302, "/login");
+      redirect(302, `/login?redirectTo=${url.pathname}`);
     }
     if (!user.emailVerified) {
-      redirect(302, "/email-verification");
+      redirect(302, `/email-verification?redirectTo=${url.pathname}`);
     }
     return;
   }
 
-  if (AUTH_ROUTES.some(route => path.startsWith(route))) {
+  if (AUTH_ROUTES.some(route => url.pathname.startsWith(route))) {
+    const redirectTo = decodeURIComponent(url.searchParams.get("redirectTo") || "/");
+
     if (user) {
       // If user is not verified, redirect to email verification page
       // (except if already on that page)
-      if (!user.emailVerified && !path.startsWith("/email-verification")) {
-        redirect(302, "/email-verification");
+      if (!user.emailVerified && !url.pathname.startsWith("/email-verification")) {
+        redirect(302, `/email-verification?redirectTo=${redirectTo}`);
       }
 
       // If user is already verified, redirect to home page
       if (user.emailVerified) {
-        redirect(302, "/");
+        redirect(302, `${redirectTo}`);
       }
     }
     return;

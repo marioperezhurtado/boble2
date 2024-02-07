@@ -20,8 +20,8 @@
 
 <AppHeader />
 
-<main class="px-5">
-  <div class="p-8 mx-auto mt-10 max-w-xl bg-white rounded-md border shadow-md">
+<main class="py-8 px-5 sm:py-10">
+  <div class="p-8 mx-auto max-w-xl bg-white rounded-md border shadow-md">
     <div class="flex flex-col gap-4 items-center text-center">
       <Avatar user={data.user} size="large" />
       <h1 class="mt-4 text-lg sm:text-xl text-balance">
