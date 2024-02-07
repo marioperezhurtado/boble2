@@ -13,7 +13,7 @@
   });
 
   function handleOpenChat() {
-    $openChat.mutate({ contactId: contact.id });
+    $openChat.mutate({ userId: contact.id });
   }
 </script>
 
@@ -21,7 +21,6 @@
   <ButtonLink
     href={$page.url.pathname + "?editContact=" + contact.id}
     intent="secondary"
-    size="small"
   >
     <img src="/icons/edit.svg" alt="Edit contact" class="w-4 h-4" />
     Edit contact
@@ -31,7 +30,6 @@
     on:click={handleOpenChat}
     isLoading={$openChat.isPending}
     intent="primary"
-    size="small"
   >
     <img src="/icons/chat-light.svg" alt="Open chat" class="w-4 h-4" />
     Open chat

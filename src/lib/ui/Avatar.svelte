@@ -15,7 +15,7 @@
   const SIZES = {
     small: "w-10 h-10",
     medium: "w-12 h-12",
-    large: "w-24 h-24",
+    large: "w-20 h-20",
   };
 
   $: imageSource = user.image ?? generateIdenticon(user.email);

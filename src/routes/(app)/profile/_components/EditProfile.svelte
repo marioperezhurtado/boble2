@@ -18,7 +18,7 @@
   $: untouched = name === data.user.name && status === (data.user.status ?? "");
 
   const updateProfile = trpc.user.edit.createMutation({
-    onSuccess: invalidateAll
+    onSuccess: invalidateAll,
   });
 
   function handleUpdateProfile() {
@@ -38,7 +38,7 @@
 <section
   class="flex flex-col justify-center p-6 w-full max-w-lg bg-white rounded-md border shadow-md"
 >
-  <h1 class="pb-3 text-xl font-bold">Profile</h1>
+  <h1 class="pb-3 text-xl font-bold">Your account</h1>
   <div class="flex flex-col gap-1 pb-8 text-sm text-zinc-500">
     <p>
       You are logged in as
@@ -47,9 +47,18 @@
     <p>Change your account settings and how other users see you.</p>
   </div>
 
+  {#if name}
+    <ProfilePreview
+      {name}
+      {status}
+      email={data.user.email}
+      image={data.user.image}
+    />
+  {/if}
+
   <form
     on:submit|preventDefault={handleUpdateProfile}
-    class="flex flex-col gap-3"
+    class="flex flex-col gap-3 mt-8"
   >
     <Label for="name">
       Name
@@ -81,15 +90,6 @@
     {/if}
     {#if $updateProfile.isSuccess && untouched}
       <FormSuccess message="Your profile has been updated." />
-    {/if}
-
-    {#if name}
-      <ProfilePreview
-        {name}
-        {status}
-        email={data.user.email}
-        image={data.user.image}
-      />
     {/if}
 
     {#if !untouched}

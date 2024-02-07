@@ -125,7 +125,7 @@
         <img
           src="/icons/send.svg"
           alt="Send message"
-          class="w-8 h-8 xs:w-7 xs:h-7"
+          class="w-7 h-7"
         />
       </button>
     {/if}
@@ -142,7 +142,7 @@
       <img
         src="/icons/microphone.svg"
         alt="Record audio"
-        class="w-8 h-8 xs:w-7 xs:h-7"
+        class="w-7 h-7"
       />
     </button>
   {/if}

@@ -9,7 +9,7 @@
   $: description = status?.length ? `~${status}` : email;
 </script>
 
-<div class="mt-5">
+<div>
   <hr class="mb-5" />
   <div class="flex gap-3 items-center">
     <Avatar user={{ name, email, image }} size="small" />
@@ -24,5 +24,6 @@
   <p class="pt-4 text-xs font-normal text-zinc-500">
     This is how other users will see you.
   </p>
+
   <hr class="mt-5" />
 </div>

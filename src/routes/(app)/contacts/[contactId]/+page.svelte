@@ -13,7 +13,7 @@
 </script>
 
 <section class="p-6 h-full bg-zinc-50">
-  <div class="flex flex-col flex-grow gap-6 mx-auto max-w-md h-full">
+  <div class="flex flex-col flex-grow gap-8 mx-auto max-w-md h-full">
     <div class="flex gap-4 items-center">
       <button on:click={() => (avatarExpanded = !avatarExpanded)}>
         <Avatar

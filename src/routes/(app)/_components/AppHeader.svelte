@@ -48,7 +48,7 @@
             <img
               src="/icons/logout.svg"
               alt="logout"
-              class="w-5 h-5 xs:w-4 xs:h-4 translate-x-px"
+              class="w-5 h-5 translate-x-px xs:w-4 xs:h-4"
             />
           </a>
         </li>
