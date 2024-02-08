@@ -4,7 +4,7 @@
   import { onMount } from "svelte";
   import { replyingTo } from "$lib/stores/store";
   import { encryptMessageField } from "$lib/utils/encryption";
-  import { uploadFileFromClient } from "$lib/utils/file";
+  import { uploadFileFromClient, getImageDimensions } from "$lib/utils/file";
   import { sendMessage } from "$lib/socket/client";
   import Button from "$lib/ui/Button.svelte";
   import Modal from "$lib/ui/Modal.svelte";
@@ -12,11 +12,6 @@
   import FormError from "$lib/ui/FormError.svelte";
 
   export let onClose: () => void;
-
-  type Dimensions = {
-    width: number;
-    height: number;
-  };
 
   let fileInput: HTMLInputElement;
   let selectedFile: File | null = null;
@@ -30,15 +25,6 @@
   });
 
   const createPresignedPost = trpc.createPresignedPost.image.createMutation();
-
-  function getImageDimensions(file: File) {
-    return new Promise<Dimensions>((resolve) => {
-      const img = new Image();
-
-      img.onload = () => resolve(img);
-      img.src = URL.createObjectURL(file);
-    });
-  }
 
   async function handleSendImage() {
     if (!selectedFile) return;

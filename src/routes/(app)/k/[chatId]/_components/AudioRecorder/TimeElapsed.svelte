@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import { formatMinuteSeconds } from "$lib/utils/date";
 
-  let timeElapsed = 0;
+  export let timeElapsed = 0;
 
   onMount(() => {
     const interval = setInterval(() => {

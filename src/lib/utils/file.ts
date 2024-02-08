@@ -66,3 +66,40 @@ export async function uploadFileFromClient({ file, presignedPostData }: UploadFi
     body: formData,
   });
 }
+
+// Get media info from file
+
+type Dimensions = {
+  width: number;
+  height: number;
+};
+
+export function getImageDimensions(file: File): Promise<Dimensions> {
+  return new Promise((resolve) => {
+    const img = new Image();
+
+    img.onload = () => resolve({
+      width: img.width,
+      height: img.height,
+    });
+    img.src = URL.createObjectURL(file);
+  });
+}
+
+type VideoInfo = Dimensions & {
+  duration: number;
+};
+
+export function getVideoInfo(file: File): Promise<VideoInfo> {
+  return new Promise((resolve) => {
+    const video = document.createElement("video");
+
+    video.onloadedmetadata = () =>
+      resolve({
+        width: video.videoWidth,
+        height: video.videoHeight,
+        duration: Math.floor(video.duration),
+      });
+    video.src = URL.createObjectURL(file);
+  });
+}

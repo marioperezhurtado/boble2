@@ -18,18 +18,16 @@
   let chunks: BlobPart[] = [];
   let mediaRecorder: MediaRecorder | null = null;
   let speechRecognition: SpeechRecognition | null = null;
-
   let audioBlob: Blob | null = null;
   let transcript: string | null = null;
-  let duration = 0;
 
   let volumeSpikes = new Array(VOLUME_SPIKE_COUNT).fill(0);
 
   let accessDenied = false;
   let deviceNotFound = false;
+  let timeElapsed = 0;
 
   function handleStop() {
-    if (duration < 1) return;
     speechRecognition?.stop();
     mediaRecorder?.stop();
   }
@@ -48,7 +46,7 @@
   async function handleSendAudio() {
     if (!audioBlob) return;
 
-    const audioFile = new File([audioBlob], "audio", { type: "audio/ogg" });
+    const audioFile = new File([audioBlob], "audio");
 
     const presignedPostData = await $createPresignedPost.mutateAsync();
 
@@ -63,22 +61,17 @@
       return;
     }
 
-    const encryptedAudioId = await encryptMessageField(
-      presignedPostData.fields.key,
-      $page.params.chatId,
-    );
-
-    const encryptedTranscript = await encryptMessageField(
-      transcript,
-      $page.params.chatId,
-    );
+    const [encryptedAudioId, encryptedTranscript] = await Promise.all([
+      encryptMessageField(presignedPostData.fields.key, $page.params.chatId),
+      encryptMessageField(transcript, $page.params.chatId),
+    ]);
 
     const newMessage = await $sendAudio.mutateAsync({
       audioId: encryptedAudioId,
       transcript: encryptedTranscript,
       chatId: $page.params.chatId,
       replyToId: $replyingTo?.id ?? "",
-      duration,
+      duration: timeElapsed,
       volumeSpikes: summarizeVolumeSpikes(
         volumeSpikes.slice(VOLUME_SPIKE_COUNT),
       ),
@@ -142,12 +135,9 @@
     setupRecorder();
     setupSpeechRecognition();
 
-    const durationInterval = setInterval(() => (duration += 0.5), 500);
-
     return () => {
       mediaRecorder?.stop();
       speechRecognition?.stop();
-      clearInterval(durationInterval);
     };
   });
 </script>
@@ -176,7 +166,7 @@
       />
     </button>
 
-    <TimeElapsed />
+    <TimeElapsed bind:timeElapsed />
 
     <VolumeMeter stream={mediaRecorder.stream} bind:volumeSpikes />
 

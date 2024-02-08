@@ -3,7 +3,7 @@
   import { trpc } from "$lib/trpc/client";
   import { onMount } from "svelte";
   import { replyingTo } from "$lib/stores/store";
-  import { uploadFileFromClient } from "$lib/utils/file";
+  import { uploadFileFromClient, getVideoInfo } from "$lib/utils/file";
   import { encryptMessageField } from "$lib/utils/encryption";
   import { sendMessage } from "$lib/socket/client";
   import Button from "$lib/ui/Button.svelte";
@@ -12,12 +12,6 @@
   import FormError from "$lib/ui/FormError.svelte";
 
   export let onClose: () => void;
-
-  type VideoInfo = {
-    width: number;
-    height: number;
-    duration: number;
-  };
 
   let fileInput: HTMLInputElement;
   let selectedFile: File | null = null;
@@ -31,20 +25,6 @@
   });
 
   const createPresignedPost = trpc.createPresignedPost.video.createMutation();
-
-  function getVideoInfo(file: File) {
-    return new Promise<VideoInfo>((resolve) => {
-      const video = document.createElement("video");
-
-      video.onloadedmetadata = () =>
-        resolve({
-          width: video.videoWidth,
-          height: video.videoHeight,
-          duration: video.duration,
-        });
-      video.src = URL.createObjectURL(file);
-    });
-  }
 
   async function handleSendVideo() {
     if (!selectedFile) return;
