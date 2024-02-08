@@ -1,10 +1,10 @@
 <script lang="ts">
   import { env } from "$env/dynamic/public";
-  import { Button, Hr, Text, Section, Link } from "svelte-email";
+  import { Hr, Text, Section, Link } from "svelte-email";
   import EmailLayout from "./EmailLayout.svelte";
 
   export let name: string;
-  export let verificationUrl: string;
+  export let verificationCode: string;
 
   const text = {
     fontSize: "15px",
@@ -13,17 +13,14 @@
     lineHeight: "26px",
   };
 
-  const button = {
-    backgroundColor: "#0891b2",
-    borderRadius: "4px",
-    color: "#fff",
-    fontSize: "15px",
-    textDecoration: "none",
-    textAlign: "center",
+  const code = {
+    fontSize: "20px",
     fontWeight: "600",
-    display: "block",
-    width: "210px",
-    padding: "14px 7px",
+    color: "#4b5563",
+    lineHeight: "26px",
+    backgroundColor: "#f3f4f6",
+    borderRadius: "6px",
+    padding: "10px 15px",
   };
 
   const hr = {
@@ -37,15 +34,21 @@
   };
 </script>
 
-<EmailLayout preview="Boble Web Chat - Verify your account" title="Verify your account">
+<EmailLayout
+  preview="Boble Web Chat - Verify your account"
+  title="Verify your account"
+>
   <Section>
     <Text style={text}>Hi, {name}!</Text>
     <Text style={text}>
       We&apos;re excited to have you on board. First, you need to confirm your
-      email address. Just press the button below.
+      email address. Your verification code is:
     </Text>
-    <Button style={button} href={verificationUrl}>Verify email address</Button>
+
+    <Text style={code}>{verificationCode}</Text>
+
     <Hr style={hr} />
+
     <Text style={text}>
       If you didn&apos;t request this, just ignore and delete this message.
     </Text>

@@ -1,6 +1,6 @@
 import { auth } from "$lib/auth/auth";
-import { generateEmailVerificationToken } from "$lib/db/emailVerificationToken/generateEmailVerificationToken";
-import { sendEmailVerificationLink } from "$lib/email/sendEmailVerificationLink";
+import { generateEmailVerificationCode } from "$lib/db/emailVerificationCode/generateEmailVerificationCode";
+import { sendEmailVerificationCode } from "$lib/email/sendEmailVerificationCode";
 import { publicProcedure } from "$lib/trpc/server/trpc";
 import { TRPCError } from "@trpc/server";
 import { Argon2id } from "oslo/password";
@@ -52,18 +52,17 @@ export const createAccount = publicProcedure
       // Set session cookie
       const sessionCookie = auth.createSessionCookie(session.id);
 
-
       ctx.cookies.set(sessionCookie.name, sessionCookie.value, {
         path: ".",
         ...sessionCookie.attributes,
       });
 
-      const token = await generateEmailVerificationToken(user.id);
+      const verificationCode = await generateEmailVerificationCode(user.id);
 
-      await sendEmailVerificationLink({
+      await sendEmailVerificationCode({
         name: input.name,
         email: input.email,
-        token
+        code: verificationCode
       });
     } catch (e) {
       // Db error, email taken, etc

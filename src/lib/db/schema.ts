@@ -9,8 +9,8 @@ export const chat = pgTable("chat", {
 export const participant = pgTable("participant", {
   chatId: text("chat_id").references(() => chat.id, { onDelete: "cascade" }).notNull(),
   userId: text("user_id").references(() => user.id, { onDelete: "cascade" }).notNull(),
-  joinedAt: timestamp("joined_at", { withTimezone: true }).notNull(),
-  lastReadAt: timestamp("last_read_at", { withTimezone: true }),
+  joinedAt: timestamp("joined_at").notNull(),
+  lastReadAt: timestamp("last_read_at"),
 }, (p) => ({
   pk: primaryKey({ columns: [p.chatId, p.userId] }),
 }));
@@ -68,15 +68,15 @@ export const block = pgTable("block", {
   pk: primaryKey({ columns: [p.userId, p.blockedUserId] }),
 }));
 
-export const emailVerificationToken = pgTable("email_verification_token", {
+export const emailVerificationCode = pgTable("email_verification_code", {
   id: text("id")
     .primaryKey()
-    .$defaultFn(() => `evtk_${nanoid(16)}`),
+    .$defaultFn(() => `evc_${nanoid(16)}`),
   userId: text("user_id")
     .references(() => user.id, { onDelete: "cascade" })
-    .notNull(),
-  token: text("token")
     .unique()
+    .notNull(),
+  code: text("token")
     .notNull(),
   expires: timestamp("expires").notNull()
 });

@@ -24,10 +24,3 @@ export function sendEmail({ to, subject, html }: SendEmailProps) {
     html
   });
 }
-
-export function isValidEmail(maybeEmail: unknown) {
-  if (typeof maybeEmail !== 'string') return false;
-  if (maybeEmail.length > 255) return false;
-  const emailRegexp = /^.+@.+$/; // [one or more character]@[one or more character]
-  return emailRegexp.test(maybeEmail);
-};

@@ -3,12 +3,12 @@ import { login } from "./login";
 import { createAccount } from "./createAccount";
 import { startPasswordReset } from "./startPasswordReset";
 import { resetPassword } from "./resetPassword";
-import { startEmailVerification } from "./startEmailVerification";
+import { verifyEmail } from "./verifyEmail";
 
 export const authRouter = createTRPCRouter({
   login,
   createAccount,
+  verifyEmail,
   startPasswordReset,
   resetPassword,
-  startEmailVerification
 })

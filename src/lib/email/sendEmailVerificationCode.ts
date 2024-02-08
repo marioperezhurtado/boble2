@@ -1,17 +1,14 @@
-import { env } from "$env/dynamic/public";
 import { sendEmail } from "$lib/email/email";
 import { render } from "svelte-email";
 import EmailVerification from "$lib/email/templates/EmailVerification.svelte";
 
-type SendEmailVerificationLinkProps = {
+type SendEmailVerificationCodeProps = {
   name: string;
   email: string;
-  token: string;
+  code: string;
 };
 
-export async function sendEmailVerificationLink({ name, email, token }: SendEmailVerificationLinkProps) {
-  const verificationUrl = `${env.PUBLIC_SITE_URL}/email-verification/${token}`;
-
+export async function sendEmailVerificationCode({ name, email, code }: SendEmailVerificationCodeProps) {
   return sendEmail({
     to: email,
     subject: "Verify your account",
@@ -19,7 +16,7 @@ export async function sendEmailVerificationLink({ name, email, token }: SendEmai
       template: EmailVerification,
       props: {
         name,
-        verificationUrl,
+        verificationCode: code,
       },
     }),
   });
