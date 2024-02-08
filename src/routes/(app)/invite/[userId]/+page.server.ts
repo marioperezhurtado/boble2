@@ -10,5 +10,7 @@ export const load: PageServerLoad = async ({ params: { userId } }) => {
     redirect(307, "/");
   }
 
-  return user;
+  return {
+    invitingUser: user
+  };
 }

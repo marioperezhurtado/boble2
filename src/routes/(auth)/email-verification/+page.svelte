@@ -57,7 +57,7 @@
     <FormSuccess message="Your email was successfully verified." />
   {/if}
 
-  <p class="text-sm text-zinc-500 mt-5">
+  <p class="mt-5 text-sm text-zinc-500">
     Didn't receive the code, or it expired?
     <Link href="?resend">Resend email</Link>
   </p>

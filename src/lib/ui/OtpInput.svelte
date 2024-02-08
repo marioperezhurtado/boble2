@@ -51,8 +51,7 @@
         value={value[i] ?? ""}
         on:paste|preventDefault={handlePaste}
         on:input={(e) => handleInput(e.currentTarget, i)}
-        class="block py-1.5 aspect-square w-full rounded-md border shadow-sm
-  font-bold text-xl placeholder:text-zinc-400 focus:outline-cyan-600 text-center"
+        class="block py-1.5 w-full text-xl font-bold text-center rounded-md border shadow-sm aspect-square placeholder:text-zinc-400 focus:outline-cyan-600"
       />
     </li>
   {/each}
