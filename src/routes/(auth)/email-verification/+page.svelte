@@ -1,6 +1,7 @@
 <script lang="ts">
   import { trpc } from "$lib/trpc/client";
   import { invalidateAll } from "$app/navigation";
+  import Head from "$lib/ui/Head.svelte";
   import Button from "$lib/ui/Button.svelte";
   import FormError from "$lib/ui/FormError.svelte";
   import FormSuccess from "$lib/ui/FormSuccess.svelte";
@@ -24,9 +25,11 @@
   $: error = $verifyEmail.error?.data?.error;
 </script>
 
-<svelte:head>
-  <title>Verify your email address | Boble Web Chat</title>
-</svelte:head>
+<Head
+  title="Verify your email address | Boble Web Chat"
+  description="Enter your verification code that was sent to your email address,
+  and start chatting with your friends in Boble."
+/>
 
 <h1 class="pb-3 text-xl font-bold">Verify your email</h1>
 <p class="text-sm text-zinc-500">

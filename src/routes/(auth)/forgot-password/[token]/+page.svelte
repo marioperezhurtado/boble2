@@ -2,6 +2,7 @@
   import { page } from "$app/stores";
   import { trpc } from "$lib/trpc/client";
   import { goto } from "$app/navigation";
+  import Head from "$lib/ui/Head.svelte";
   import PasswordInput from "$lib/ui/PasswordInput.svelte";
   import Label from "$lib/ui/Label.svelte";
   import Button from "$lib/ui/Button.svelte";
@@ -25,6 +26,11 @@
   $: validationErrors = $resetPassword.error?.data?.validationErrors;
   $: error = $resetPassword.error?.data?.error;
 </script>
+
+<Head
+  title="Change password | Boble Web Chat"
+  description="Change your password for Boble Web Chat. Don't forget to save it."
+/>
 
 <h1 class="pb-3 text-xl font-bold">Reset password</h1>
 <p class="text-sm text-zinc-500">

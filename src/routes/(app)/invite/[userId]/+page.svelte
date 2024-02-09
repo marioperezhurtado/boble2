@@ -1,6 +1,7 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { trpc } from "$lib/trpc/client";
+  import Head from "$lib/ui/Head.svelte";
   import AppHeader from "../../_components/AppHeader.svelte";
   import Avatar from "$lib/ui/Avatar.svelte";
   import Button from "$lib/ui/Button.svelte";
@@ -17,6 +18,11 @@
     $openChat.mutate({ userId: data.invitingUser.id });
   }
 </script>
+
+<Head
+  title="{data.invitingUser.name} has invited you to chat in Boble"
+  description="Start chatting with {data.invitingUser.name} in Boble, a real-time web chat application."
+/>
 
 <AppHeader />
 

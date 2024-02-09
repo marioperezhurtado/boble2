@@ -3,6 +3,7 @@
   import { trpc } from "$lib/trpc/client";
   import { goto } from "$app/navigation";
   import { decryptWithPassword } from "$lib/utils/encryption";
+  import Head from "$lib/ui/Head.svelte";
   import Link from "$lib/ui/Link.svelte";
   import Label from "$lib/ui/Label.svelte";
   import Input from "$lib/ui/Input.svelte";
@@ -44,9 +45,10 @@
   $: error = $login.error?.data?.error;
 </script>
 
-<svelte:head>
-  <title>Login | Boble Web Chat</title>
-</svelte:head>
+<Head
+  title="Login | Boble Web Chat"
+  description="Login to your account and start chatting with your friends."
+/>
 
 <h1 class="pb-3 text-xl font-bold">Login to your account</h1>
 <p class="text-sm text-zinc-500">

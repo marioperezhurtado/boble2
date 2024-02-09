@@ -1,6 +1,7 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import type { LayoutData } from "./$types";
+  import Head from "$lib/ui/Head.svelte";
   import AppHeader from "../_components/AppHeader.svelte";
   import ChatList from "./_components/ChatList.svelte";
   import Sidebar from "../_components/Sidebar.svelte";
@@ -11,6 +12,8 @@
     (chat) => chat.id === $page.url.searchParams.get("deleteChat"),
   );
 </script>
+
+<Head />
 
 <div class="flex flex-col h-dvh bg-zinc-200">
   <AppHeader />

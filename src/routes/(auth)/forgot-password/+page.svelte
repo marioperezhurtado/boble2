@@ -1,6 +1,7 @@
 <script lang="ts">
   import { trpc } from "$lib/trpc/client";
   import { invalidateAll } from "$app/navigation";
+  import Head from "$lib/ui/Head.svelte";
   import Link from "$lib/ui/Link.svelte";
   import Label from "$lib/ui/Label.svelte";
   import Input from "$lib/ui/Input.svelte";
@@ -25,9 +26,10 @@
   $: error = $startPasswordReset.error?.data?.error;
 </script>
 
-<svelte:head>
-  <title>Reset password | Boble Web Chat</title>
-</svelte:head>
+<Head
+  title="Reset password | Boble Web Chat"
+  description="Reset your password for Boble Web Chat."
+/>
 
 <h1 class="pb-3 text-xl font-bold">Reset your password</h1>
 <p class="text-sm text-zinc-500">

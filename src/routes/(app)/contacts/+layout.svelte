@@ -1,12 +1,13 @@
 <script lang="ts">
   import { page } from "$app/stores";
+  import type { LayoutServerData } from "./$types";
+  import Head from "$lib/ui/Head.svelte";
   import AppHeader from "../_components/AppHeader.svelte";
   import ContactList from "./_components/ContactList.svelte";
   import Sidebar from "../_components/Sidebar.svelte";
   import NewContact from "./_components/NewContact.svelte";
   import DeleteContactConfirm from "./_components/DeleteContactConfirm.svelte";
   import EditContact from "./_components/EditContact.svelte";
-  import type { LayoutServerData } from "./$types";
 
   $: data = $page.data as LayoutServerData;
   $: isCreating = $page.url.searchParams.has("createContact");
@@ -18,9 +19,10 @@
   );
 </script>
 
-<svelte:head>
-  <title>Boble Web Chat</title>
-</svelte:head>
+<Head
+  title="Contacts | Boble Web Chat"
+  description="Manage your contacts and start chatting with your friends."
+/>
 
 <div class="flex flex-col h-dvh bg-zinc-200">
   <AppHeader />
