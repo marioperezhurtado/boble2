@@ -7,6 +7,7 @@
   import Label from "$lib/ui/Label.svelte";
   import Input from "$lib/ui/Input.svelte";
   import PasswordInput from "$lib/ui/PasswordInput.svelte";
+  import PasswordRequirements from "$lib/ui/PasswordRequirements/PasswordRequirements.svelte";
   import Button from "$lib/ui/Button.svelte";
   import FormError from "$lib/ui/FormError.svelte";
 
@@ -90,7 +91,9 @@
       autocomplete="new-password"
       errors={validationErrors?.password}
     />
+    <PasswordRequirements {password} />
   </Label>
+
   <Label for="confirmPassword">
     Confirm password
     <PasswordInput

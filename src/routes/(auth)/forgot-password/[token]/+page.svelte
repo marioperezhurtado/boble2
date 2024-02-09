@@ -4,6 +4,7 @@
   import { goto } from "$app/navigation";
   import Head from "$lib/ui/Head.svelte";
   import PasswordInput from "$lib/ui/PasswordInput.svelte";
+  import PasswordRequirements from "$lib/ui/PasswordRequirements/PasswordRequirements.svelte";
   import Label from "$lib/ui/Label.svelte";
   import Button from "$lib/ui/Button.svelte";
   import FormError from "$lib/ui/FormError.svelte";
@@ -48,6 +49,7 @@
       name="newPassword"
       errors={validationErrors?.newPassword}
     />
+    <PasswordRequirements password={newPassword} />
   </Label>
   <Label for="confirmPassword">
     Confirm password
