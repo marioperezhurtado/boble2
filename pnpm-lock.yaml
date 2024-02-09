@@ -29,6 +29,9 @@ dependencies:
   '@tanstack/svelte-query':
     specifier: ^5.17.19
     version: 5.17.19(svelte@4.2.9)
+  '@trpc-limiter/memory':
+    specifier: ^0.0.3
+    version: 0.0.3(@trpc/client@10.45.0)(@trpc/server@10.45.0)
   '@trpc/client':
     specifier: ^10.45.0
     version: 10.45.0(@trpc/server@10.45.0)
@@ -2749,6 +2752,29 @@ packages:
     dependencies:
       '@tanstack/query-core': 5.17.19
       svelte: 4.2.9
+    dev: false
+
+  /@trpc-limiter/core@0.0.8(@trpc/client@10.45.0)(@trpc/server@10.45.0):
+    resolution: {integrity: sha512-ptwRvjmCHIUow4mVh6O5JpDMVcDLMn+k1tpaB55ZLO/2YGFo705gN1KMM4tBWZNzp07hMyGZS7PXzn0MUxbxSQ==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      '@trpc/client': ^10.0.0-proxy-beta.21
+      '@trpc/server': ^10.0.0-proxy-beta.21
+    dependencies:
+      '@trpc/client': 10.45.0(@trpc/server@10.45.0)
+      '@trpc/server': 10.45.0
+    dev: false
+
+  /@trpc-limiter/memory@0.0.3(@trpc/client@10.45.0)(@trpc/server@10.45.0):
+    resolution: {integrity: sha512-D0w81ofA6xF7Jd7mCLciZj47fJilhSUl1UKzqfGKkCq6NsxukCCkR3tOZ0OqgsmWIepo5WVt4FbtGknfjcnjLA==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      '@trpc/client': ^10.0.0-proxy-beta.21
+      '@trpc/server': ^10.0.0-proxy-beta.21
+    dependencies:
+      '@trpc-limiter/core': 0.0.8(@trpc/client@10.45.0)(@trpc/server@10.45.0)
+      '@trpc/client': 10.45.0(@trpc/server@10.45.0)
+      '@trpc/server': 10.45.0
     dev: false
 
   /@trpc/client@10.45.0(@trpc/server@10.45.0):

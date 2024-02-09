@@ -10,7 +10,6 @@ import { ZodError } from "zod";
  * We also parse ZodErrors so that you get typesafety on the frontend if your procedure
  * fails due to validation errors on the backend.
  */
-
 export const t = initTRPC.context<typeof createTRPCContext>().create({
   errorFormatter({ shape, error }) {
     return {
@@ -47,11 +46,21 @@ export const createTRPCRouter = t.router;
  * It does not guarantee that a user querying is authorized, but you can still access 
  * user session data if they are logged in.
  */
-export const publicProcedure = t.procedure;
+import { rateLimitDefault } from "$lib/trpc/server/middleware";
 
+export const publicProcedure = t.procedure.use(rateLimitDefault);
+
+/**
+ * Protected (authenticated) procedure
+ *
+ * If you want a query or mutation to ONLY be accessible to logged in users, use this.  
+ * It verifies the session is valid and guarantees `ctx.session.user` is not null.
+ *
+ * @see https://trpc.io/docs/procedures
+ */
 import { TRPCError } from "@trpc/server";
 
-const enforceIsAuthenticated = t.middleware(async ({ ctx, next }) => {
+export const enforceIsAuthenticated = t.middleware(async ({ ctx, next }) => {
   if (!ctx.session || !ctx.user || !ctx.user?.emailVerified) {
     throw new TRPCError({
       code: "UNAUTHORIZED", message: "You must be logged in to do that"
@@ -67,12 +76,4 @@ const enforceIsAuthenticated = t.middleware(async ({ ctx, next }) => {
   });
 });
 
-/**
- * Protected (authenticated) procedure
- *
- * If you want a query or mutation to ONLY be accessible to logged in users, use this.  
- * It verifies the session is valid and guarantees `ctx.session.user` is not null.
- *
- * @see https://trpc.io/docs/procedures
- */
-export const protectedProcedure = t.procedure.use(enforceIsAuthenticated);
+export const protectedProcedure = publicProcedure.use(enforceIsAuthenticated);

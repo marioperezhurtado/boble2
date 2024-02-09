@@ -29,6 +29,7 @@
     "@lucia-auth/adapter-drizzle": "^1.0.0",
     "@sveltejs/adapter-node": "^4.0.1",
     "@tanstack/svelte-query": "^5.17.19",
+    "@trpc-limiter/memory": "^0.0.3",
     "@trpc/client": "^10.45.0",
     "@trpc/server": "^10.45.0",
     "@types/pg": "^8.11.0",

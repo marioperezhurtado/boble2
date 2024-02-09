@@ -2,6 +2,7 @@ import { generatePasswordResetToken } from "$lib/db/passwordResetToken/generateP
 import { getUserByEmail } from "$lib/db/user/getUserByEmail";
 import { sendPasswordResetLink } from "$lib/email/sendPasswordResetLink";
 import { publicProcedure } from "$lib/trpc/server/trpc";
+import { rateLimitStrictest } from "$lib/trpc/server/middleware";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
@@ -10,6 +11,7 @@ const startPasswordResetSchema = z.object({
 });
 
 export const startPasswordReset = publicProcedure
+  .use(rateLimitStrictest)
   .input(startPasswordResetSchema)
   .mutation(async ({ input }) => {
     const storedUser = await getUserByEmail(input.email);

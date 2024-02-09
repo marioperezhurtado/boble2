@@ -14,7 +14,7 @@
   });
 
   function handleOpenChat() {
-    $openChat.mutate({ userId: data.user.id });
+    $openChat.mutate({ userId: data.invitingUser.id });
   }
 </script>
 
