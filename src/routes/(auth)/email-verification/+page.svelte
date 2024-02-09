@@ -17,8 +17,14 @@
     },
   });
 
+  const resendEmail = trpc.auth.resendEmailVerificationCode.createMutation();
+
   function handleVerifyEmail() {
     $verifyEmail.mutate({ code });
+  }
+
+  function handleResendEmail() {
+    $resendEmail.mutate();
   }
 
   $: validationErrors = $verifyEmail.error?.data?.validationErrors;
@@ -37,6 +43,10 @@
   address.
 </p>
 
+<p class="text-sm text-zinc-500 pt-3">
+  Unable to access your email account? <Link href="/logout">Start over.</Link>
+</p>
+
 <form
   on:submit|preventDefault={handleVerifyEmail}
   class="flex flex-col gap-3 pt-8"
@@ -50,6 +60,8 @@
     />
   </Label>
 
+  <Link href="/support" class="text-xs text-right">Need help?</Link>
+
   <Button isLoading={$verifyEmail.isPending} fullWidth>Continue</Button>
 
   {#if error}
@@ -60,8 +72,24 @@
     <FormSuccess message="Your email was successfully verified." />
   {/if}
 
-  <p class="mt-5 text-sm text-zinc-500">
-    Didn't receive the code, or it expired?
-    <Link href="?resend">Resend email</Link>
-  </p>
+  {#if !$resendEmail.isSuccess}
+    <p class="mt-5 text-sm text-zinc-500">
+      Didn't receive the code, or it expired?
+      <button on:click|preventDefault={handleResendEmail}>
+        <Link>
+          {#if $resendEmail.isPending}
+            Resending...
+          {:else}
+            Resend email
+          {/if}
+        </Link>
+      </button>
+    </p>
+  {:else}
+    <FormSuccess message="The verification code was resent to your email." />
+  {/if}
+
+  {#if $resendEmail.error?.data?.error}
+    <FormError message={$resendEmail.error?.data?.error} />
+  {/if}
 </form>

@@ -51,9 +51,7 @@
     />
   </Label>
 
-  <span class="text-xs font-medium text-right text-zinc-500">
-    <Link href="/support">Need help?</Link>
-  </span>
+  <Link href="/support" class="text-xs text-right">Need help?</Link>
 
   <Button isLoading={$startPasswordReset.isPending} type="submit" fullWidth>
     Send reset email

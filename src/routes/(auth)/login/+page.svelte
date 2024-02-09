@@ -90,7 +90,7 @@
       />
       <label for="remember">Remember me</label>
     </div>
-    <Link href="/forgot-password">Forgot password?</Link>
+    <Link href="/forgot-password" class="text-xs">Forgot password?</Link>
   </div>
 
   <Button isLoading={$login.isPending} type="submit" fullWidth>Login</Button>
