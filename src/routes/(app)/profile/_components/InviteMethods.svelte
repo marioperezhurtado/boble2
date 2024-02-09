@@ -1,8 +1,11 @@
 <script lang="ts">
   import { env } from "$env/dynamic/public";
   import CopyText from "$lib/ui/CopyText.svelte";
+  import QrCode from "$lib/ui/QrCode.svelte";
 
   export let userId: string;
+
+  const invitationLink = `${env.PUBLIC_SITE_URL}/invite/${userId}`;
 </script>
 
 <section
@@ -16,7 +19,11 @@
   <div class="flex flex-col gap-4 text-sm">
     <div>
       <p class="pb-1 font-medium">Invite link</p>
-      <CopyText text="{env.PUBLIC_SITE_URL}/invite/{userId}" />
+      <CopyText text={invitationLink} />
+    </div>
+    <div>
+      <p class="pb-1 font-medium">QR Code</p>
+      <QrCode text={invitationLink} />
     </div>
   </div>
 </section>
