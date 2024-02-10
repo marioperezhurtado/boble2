@@ -50,7 +50,7 @@
         <ButtonLink intent="secondary" href={$page.url.pathname} fullWidth>
         Got it
         </ButtonLink>
-        <ButtonLink href="security" fullWidth>More information</ButtonLink>
+        <ButtonLink href="/security" fullWidth>More information</ButtonLink>
       </div>
     </div>
   </Modal>

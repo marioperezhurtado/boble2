@@ -31,7 +31,6 @@ export async function decryptMessageField<T extends string | null | undefined>(
   }
 }
 
-
 function decryptMessageFieldIfDefined<T extends string | null | undefined>(
   field: T,
   chatId: string

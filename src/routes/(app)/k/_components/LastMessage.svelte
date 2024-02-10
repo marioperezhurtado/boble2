@@ -97,6 +97,14 @@
       >
         {chat.lastMessage.text}
       </span>
+    {:else if chat.lastMessage.type === "location"}
+      <img src="/icons/location.svg" alt="Location icon" class="mr-0.5 w-4 h-4" />
+      <span
+        class="break-all line-clamp-1 overflow-ellipsis"
+        title={chat.lastMessage.text ?? ""}
+      >
+        {chat.lastMessage.text || "Location"}
+      </span>
     {:else}
       <span
         class="break-all line-clamp-1 overflow-ellipsis"

@@ -90,6 +90,18 @@
           <p class="break-all max-w-[36ch] text-ellipsis line-clamp-1">
             {replyTo.text}
           </p>
+        {:else if replyTo.type === "location"}
+          <img
+            src={isOwn ? "/icons/location-light.svg" : "/icons/location.svg"}
+            alt="Location icon"
+            class="mr-0.5 w-3.5 h-3.5"
+          />
+          <span
+            class="break-all line-clamp-1 overflow-ellipsis"
+            title={replyTo.text ?? ""}
+          >
+            {replyTo.text || "Location"}
+          </span>
         {:else}
           <p class="break-all max-w-[36ch] text-ellipsis line-clamp-1">
             {replyTo.text}

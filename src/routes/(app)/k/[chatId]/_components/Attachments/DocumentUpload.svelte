@@ -43,18 +43,12 @@
       return;
     }
 
-    const encryptedDocumentId = await encryptMessageField(
-      presignedPostData.fields.key,
-      $page.params.chatId,
-    );
-    const encryptedCaption = await encryptMessageField(
-      caption,
-      $page.params.chatId,
-    );
-    const encryptedDocumentName = await encryptMessageField(
-      selectedFile.name,
-      $page.params.chatId,
-    );
+    const [encryptedDocumentId, encryptedCaption, encryptedDocumentName] =
+      await Promise.all([
+        encryptMessageField(presignedPostData.fields.key, $page.params.chatId),
+        encryptMessageField(caption, $page.params.chatId),
+        encryptMessageField(selectedFile.name, $page.params.chatId),
+      ]);
 
     const newDocument = await $sendDocument.mutateAsync({
       documentId: encryptedDocumentId,

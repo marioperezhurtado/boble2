@@ -5,6 +5,7 @@
   import ImageUpload from "./ImageUpload.svelte";
   import VideoUpload from "./VideoUpload.svelte";
   import DocumentUpload from "./DocumentUpload.svelte";
+  import ShareLocation from "./ShareLocation.svelte";
 
   let isOpen = false;
   let openAttachment:
@@ -18,6 +19,10 @@
   function handleOpenAttachment(attachment: typeof openAttachment) {
     openAttachment = attachment;
     isOpen = false;
+  }
+
+  function onClose() {
+    openAttachment = null;
   }
 </script>
 
@@ -71,10 +76,12 @@
   {/if}
 
   {#if openAttachment === "image"}
-    <ImageUpload onClose={() => (openAttachment = null)} />
+    <ImageUpload {onClose} />
   {:else if openAttachment === "video"}
-    <VideoUpload onClose={() => (openAttachment = null)} />
+    <VideoUpload {onClose} />
   {:else if openAttachment === "document"}
-    <DocumentUpload onClose={() => (openAttachment = null)} />
+    <DocumentUpload {onClose} />
+  {:else if openAttachment === "location"}
+    <ShareLocation {onClose} />
   {/if}
 </div>

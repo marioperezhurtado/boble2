@@ -22,7 +22,7 @@
       <CopyText text={invitationLink} />
     </div>
     <div>
-      <p class="pb-1 font-medium">QR Code</p>
+      <p class="pb-1 font-medium">QR code</p>
       <QrCode text={invitationLink} />
     </div>
   </div>

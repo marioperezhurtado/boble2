@@ -23,7 +23,8 @@ export const VALID_MESSAGE_TYPES = [
   "image",
   "video",
   "audio",
-  "document"
+  "document",
+  "location"
 ] as const;
 
 export const MEDIA_TYPES = ["image", "video", "audio", "document"];
