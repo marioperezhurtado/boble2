@@ -1,15 +1,15 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import type { LayoutServerData } from "./$types";
   import Head from "$lib/ui/Head.svelte";
-  import AppHeader from "../_components/AppHeader.svelte";
+  import AppHeader from "$lib/ui/AppHeader.svelte";
   import ContactList from "./_components/ContactList.svelte";
   import Sidebar from "../_components/Sidebar.svelte";
   import NewContact from "./_components/NewContact.svelte";
   import DeleteContactConfirm from "./_components/DeleteContactConfirm.svelte";
   import EditContact from "./_components/EditContact.svelte";
 
-  $: data = $page.data as LayoutServerData;
+  export let data;
+
   $: isCreating = $page.url.searchParams.has("createContact");
   $: deletingContact = data.contacts.find(
     (contact) => contact.id === $page.url.searchParams.get("deleteContact"),
@@ -25,7 +25,7 @@
 />
 
 <div class="flex flex-col h-dvh bg-zinc-200">
-  <AppHeader />
+  <AppHeader user={data.user} />
   <main
     class="flex flex-grow mx-auto w-full max-w-screen-xl md:overflow-hidden bg-zinc-200 border-x border-zinc-300"
   >

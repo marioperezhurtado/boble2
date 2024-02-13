@@ -1,4 +1,3 @@
-import { auth } from "$lib/auth/auth";
 import { redirect, type Handle } from "@sveltejs/kit";
 import type { User } from "lucia";
 
@@ -17,7 +16,21 @@ const AUTH_ROUTES = [
   "/forgot-password",
 ]
 
+const PRERENDERED_ROUTES = [
+  "/blog",
+]
+
 export const handle: Handle = async ({ event, resolve }) => {
+  if (PRERENDERED_ROUTES.some(route => event.url.pathname.startsWith(route))) {
+    return resolve(event);
+  }
+
+  /*
+   * `auth` is imported dynamically to avoid errors on prerendered routes
+   * (since auth imports `db`, which accesses a dynamic env variable)
+  */
+  const { auth } = await import("$lib/auth/auth");
+
   const sessionId = event.cookies.get(auth.sessionCookieName);
   if (!sessionId) {
     event.locals.user = null;
@@ -59,7 +72,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 };
 
 function checkAuth(url: URL, user: User | null) {
-
   if (APP_ROUTES.some(route => url.pathname.startsWith(route))) {
     if (!user) {
       redirect(302, `/login?redirectTo=${url.pathname}`);

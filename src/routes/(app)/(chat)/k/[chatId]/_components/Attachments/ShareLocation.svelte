@@ -24,7 +24,9 @@
 
   async function getLocation(): Promise<GeolocationPosition> {
     return new Promise((resolve) => {
-      navigator.geolocation.getCurrentPosition(resolve, onClose);
+      navigator.geolocation.getCurrentPosition(resolve, onClose, {
+        enableHighAccuracy: true,
+      });
     });
   }
 
@@ -60,21 +62,21 @@
     <p class="text-sm text-zinc-500">
       Please grant permission to access your location.
     </p>
-    <div class="w-full aspect-video border shadow-sm mt-5 bg-zinc-50" />
+    <div class="mt-5 w-full border shadow-sm aspect-video bg-zinc-50" />
   {:then { coords }}
     <p class="text-sm text-zinc-500">
       Your location will be shared in this chat.
     </p>
     <p class="text-sm text-zinc-500">
       Don't worry, no one else will see it.
-      <Link href="/security" class="text-cyan-600">Learn more</Link>
+      <Link href="/blog/security" class="text-cyan-600">Learn more</Link>
     </p>
 
     <Map
       title="Your current location"
       latitude={coords.latitude}
       longitude={coords.longitude}
-      class="w-full aspect-video border rounded-md shadow-sm mt-5"
+      class="mt-5 w-full rounded-md border shadow-sm aspect-video"
     />
 
     {#if error}

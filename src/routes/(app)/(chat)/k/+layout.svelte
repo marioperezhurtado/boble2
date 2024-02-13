@@ -1,13 +1,13 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import type { LayoutData } from "./$types";
   import Head from "$lib/ui/Head.svelte";
-  import AppHeader from "../_components/AppHeader.svelte";
+  import AppHeader from "$lib/ui/AppHeader.svelte";
   import ChatList from "./_components/ChatList.svelte";
   import Sidebar from "../_components/Sidebar.svelte";
   import DeleteChatConfirm from "./_components/DeleteChatConfirm.svelte";
 
-  $: data = $page.data as LayoutData;
+  export let data;
+
   $: deletingChat = data.chats.find(
     (chat) => chat.id === $page.url.searchParams.get("deleteChat"),
   );
@@ -16,7 +16,7 @@
 <Head />
 
 <div class="flex flex-col h-dvh bg-zinc-200">
-  <AppHeader />
+  <AppHeader user={data.user} />
   <main
     class="flex overflow-hidden flex-grow mx-auto w-full max-w-screen-xl bg-zinc-200 border-x border-zinc-300"
   >

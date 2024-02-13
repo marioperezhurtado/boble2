@@ -2,7 +2,7 @@
   import { goto } from "$app/navigation";
   import { trpc } from "$lib/trpc/client";
   import Head from "$lib/ui/Head.svelte";
-  import AppHeader from "../../_components/AppHeader.svelte";
+  import AppHeader from "$lib/ui/AppHeader.svelte";
   import Avatar from "$lib/ui/Avatar.svelte";
   import Button from "$lib/ui/Button.svelte";
   import Link from "$lib/ui/Link.svelte";
@@ -24,7 +24,7 @@
   description="Start chatting with {data.invitingUser.name} in Boble, a real-time web chat application."
 />
 
-<AppHeader />
+<AppHeader user={data.user} />
 
 <main class="py-8 px-5 sm:py-10">
   <div class="p-8 mx-auto max-w-xl bg-white rounded-md border shadow-md">
@@ -64,7 +64,7 @@
       <p>
         You can chat with your friends and family from any device. Boble
         implements end-to-end encryption to ensure your privacy and security.
-        <Link href="/security">Learn more</Link>
+        <Link href="/blog/security">Learn more</Link>
       </p>
     </div>
   </div>

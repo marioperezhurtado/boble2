@@ -43,7 +43,7 @@
   address.
 </p>
 
-<p class="text-sm text-zinc-500 pt-3">
+<p class="pt-3 text-sm text-zinc-500">
   Unable to access your email account? <Link href="/logout">Start over.</Link>
 </p>
 

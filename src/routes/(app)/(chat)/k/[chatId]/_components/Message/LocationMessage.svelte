@@ -18,7 +18,7 @@
       title="Location sent at {message.createdAt}"
       latitude={coords[0]}
       longitude={coords[1]}
-      class="w-full aspect-video rounded-md"
+      class="w-full rounded-md aspect-video"
     />
   {/if}
 
