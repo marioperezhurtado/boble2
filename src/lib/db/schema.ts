@@ -24,7 +24,8 @@ export const VALID_MESSAGE_TYPES = [
   "video",
   "audio",
   "document",
-  "location"
+  "location",
+  "contact",
 ] as const;
 
 export const MEDIA_TYPES = ["image", "video", "audio", "document"];

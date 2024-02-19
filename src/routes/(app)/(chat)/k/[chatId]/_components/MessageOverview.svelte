@@ -90,6 +90,18 @@
         >
           {message.text || "Location"}
         </span>
+      {:else if message.type === "contact"}
+        <img
+          src="/icons/contact.svg"
+          alt="Contact icon"
+          class="mr-0.5 w-3.5 h-3.5"
+        />
+        <span
+          class="break-all line-clamp-1 overflow-ellipsis"
+          title={message.text ?? ""}
+        >
+          {message.text || "Contact"}
+        </span>
       {:else}
         <p class="break-all max-w-[36ch] text-ellipsis line-clamp-1">
           {message.text}

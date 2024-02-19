@@ -53,14 +53,14 @@
 <main class="my-8 mx-auto max-w-prose sm:my-10">
   <a
     href="/blog"
-    class="block pb-4 underline text-cyan-700 font-medium"
+    class="block pb-4 font-medium text-cyan-700 underline"
   >
     ⬅ Back
   </a>
 
   <h1 class="pb-4 text-xl font-bold">{data.post.title}</h1>
   <p class="text-zinc-600">{data.post.description}</p>
-  <time class="text-xs text-zinc-500 pt-4 block" datetime={data.post.date.toISOString()}>
+  <time class="block pt-4 text-xs text-zinc-500" datetime={data.post.date.toISOString()}>
     {data.post.date.toLocaleDateString()}
   </time>
 

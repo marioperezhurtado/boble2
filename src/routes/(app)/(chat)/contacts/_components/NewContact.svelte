@@ -9,7 +9,7 @@
   import FormError from "$lib/ui/FormError.svelte";
 
   let newContactEmail = $page.url.searchParams.get("createContact") || "";
-  let alias = "";
+  let alias = $page.url.searchParams.get("name") || "";
 
   const addContact = trpc.contact.add.createMutation({
     onSuccess: async (newContactId) => {

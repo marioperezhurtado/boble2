@@ -52,7 +52,7 @@
               <img
                 src="/icons/logout.svg"
                 alt="logout"
-                class="w-[18px] h-[18px] translate-x-px"
+                class="translate-x-px w-[18px] h-[18px]"
               />
             </Button>
           </li>

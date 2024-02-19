@@ -9,8 +9,9 @@
   import DocumentMessage from "./DocumentMessage.svelte";
   import GifMessage from "./GifMessage.svelte";
   import StickerMessage from "./StickerMessage.svelte";
-  import LocationMessage from "./LocationMessage.svelte";
   import LinkMessage from "./LinkMessage.svelte";
+  import LocationMessage from "./LocationMessage.svelte";
+  import ContactMessage from "./ContactMessage.svelte";
   import MessageActions from "./MessageActions.svelte";
 
   export let message: Message;
@@ -64,6 +65,8 @@
       <LinkMessage {message} {lastReadAt} {isOwn} {isFirst} />
     {:else if message.type === "location"}
       <LocationMessage {message} {lastReadAt} {isOwn} {isFirst} />
+    {:else if message.type === "contact"}
+      <ContactMessage {message} {lastReadAt} {isOwn} {isFirst} />
     {:else}
       <TextMessage {message} {lastReadAt} {isOwn} {isFirst} />
     {/if}

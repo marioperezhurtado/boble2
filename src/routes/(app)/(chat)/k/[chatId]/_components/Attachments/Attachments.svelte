@@ -6,6 +6,7 @@
   import VideoUpload from "./VideoUpload.svelte";
   import DocumentUpload from "./DocumentUpload.svelte";
   import ShareLocation from "./ShareLocation.svelte";
+  import ShareContact from "./ShareContact.svelte";
 
   let isOpen = false;
   let openAttachment:
@@ -83,5 +84,7 @@
     <DocumentUpload {onClose} />
   {:else if openAttachment === "location"}
     <ShareLocation {onClose} />
+  {:else if openAttachment === "contact"}
+    <ShareContact {onClose} />
   {/if}
 </div>
