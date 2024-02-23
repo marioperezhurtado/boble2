@@ -1,7 +1,7 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import ToggleSwitch from "$lib/ui/ToggleSwitch.svelte";
-  import ChatInfoMenu from "./ChatInfoMenu.svelte";
+  import ChatSidebar from "../ChatSidebar.svelte";
   import SharedMedia from "./SharedMedia/SharedMedia.svelte";
 
   $: info = $page.url.searchParams.get("info");
@@ -52,7 +52,7 @@
 </div>
 
 {#if info === "media"}
-  <ChatInfoMenu title="Shared media" backTo={$page.url.pathname + "?info"}>
+  <ChatSidebar title="Shared media" backTo={$page.url.pathname + "?info"}>
     <SharedMedia />
-  </ChatInfoMenu>
+  </ChatSidebar>
 {/if}

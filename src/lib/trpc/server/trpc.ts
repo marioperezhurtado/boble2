@@ -84,8 +84,10 @@ export const enforceIsEmailVerificationPending = t.middleware(async ({ ctx, next
  */
 import { createTRPCStoreLimiter } from "@trpc-limiter/memory";
 
-// When we're testing, we don't want to rate limit ourselves.
-// So, we'll increase our rate limit thresholds.
+/*
+ * When we're testing, we don't want to rate limit ourselves.
+ * So, we'll increase our rate limit thresholds.
+*/
 
 const maxMultiple = process.env.TESTING ? 10_000 : 1;
 

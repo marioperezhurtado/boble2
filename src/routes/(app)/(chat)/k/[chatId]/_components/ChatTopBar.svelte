@@ -1,7 +1,9 @@
 <script lang="ts">
-  import ActionIconButton from "$lib/ui/ActionIconButton.svelte";
-  import Avatar from "$lib/ui/Avatar.svelte";
+  import { page } from "$app/stores";
   import type { Chat } from "$lib/db/chat/getChats";
+  import ActionIconButton from "$lib/ui/ActionIconButton.svelte";
+  import ActionIconLink from "$lib/ui/ActionIconLink.svelte";
+  import Avatar from "$lib/ui/Avatar.svelte";
 
   export let chat: Chat;
 </script>
@@ -25,7 +27,11 @@
   </a>
 
   <div class="flex gap-2">
-    <ActionIconButton title="Search messages" icon="/icons/search.svg" />
+    <ActionIconLink
+      href={$page.url.pathname + "?search"}
+      title="Search messages"
+      icon="/icons/search.svg"
+    />
     <ActionIconButton title="More options" icon="/icons/actions.svg" />
   </div>
 </div>

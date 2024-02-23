@@ -4,13 +4,25 @@
   import { fly } from "svelte/transition";
   import { clickOutside } from "$lib/actions/clickOutside";
   import ActionIconLink from "$lib/ui/ActionIconLink.svelte";
+    import { onMount } from "svelte";
 
   export let title: string;
   export let backTo: string;
+
+  let isMounted = false;
+
+  function handleClickOutside() {
+    console.log("click outside");
+    console.log(isMounted);
+    goto($page.url.pathname);
+  }
+
+  // Prevent clickOutside from firing on link clicks
+  onMount(() => setTimeout(() => (isMounted = true), 0));
 </script>
 
 <aside
-  use:clickOutside={() => goto($page.url.pathname)}
+  use:clickOutside={handleClickOutside}
   in:fly={{ x: 200, duration: 300 }}
   out:fly={{ x: 200, duration: 200 }}
   class="flex absolute top-0 right-0 z-20 flex-col w-screen h-full border-l xs:w-80 bg-zinc-50"

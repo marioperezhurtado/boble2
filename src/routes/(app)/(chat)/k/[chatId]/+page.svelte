@@ -9,12 +9,14 @@
   import AudioRecorder from "./_components/AudioRecorder/AudioRecorder.svelte";
   import ChatInfo from "./_components/ChatInfo/ChatInfo.svelte";
   import DeleteMessageConfirm from "./_components/DeleteMessageConfirm.svelte";
+  import SearchMessages from "./_components/SearchMessages.svelte";
 
   export let data;
 
   let isRecording = false;
 
   $: isInfoOpen = $page.url.searchParams.has("info");
+  $: isSearching = $page.url.searchParams.has("search");
   $: deletingMessage = $messages.find(
     (message) => message.id === $page.url.searchParams.get("deleteMessage"),
   );
@@ -55,6 +57,8 @@
 
   {#if isInfoOpen}
     <ChatInfo />
+  {:else if isSearching}
+    <SearchMessages />
   {/if}
 </section>
 

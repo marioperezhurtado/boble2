@@ -12,6 +12,7 @@
   font-medium
   placeholder:text-zinc-400 focus:outline-cyan-600 {$$restProps.class}"
   bind:value
+  on:keyup
 />
 
 {#if info}

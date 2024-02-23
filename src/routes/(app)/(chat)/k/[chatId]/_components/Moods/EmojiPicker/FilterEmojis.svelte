@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { EmojiData } from "./store";
+  import Input from "$lib/ui/Input.svelte";
 
   export let initialEmojis: EmojiData | null = null;
   export let filteredEmojis: EmojiData | null = null;
@@ -32,13 +33,11 @@
 
 <div class="px-2 pt-2">
   <!-- svelte-ignore a11y-autofocus -->
-  <input
+  <Input
     bind:value={search}
-    id="search"
     name="search"
     type="search"
     placeholder="Search emojis"
-    class="py-1.5 px-2 w-full text-sm rounded-md border shadow-sm placeholder:text-zinc-400 bg-zinc-50 focus:outline-cyan-600"
     autocomplete="off"
   />
 </div>

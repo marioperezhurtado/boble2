@@ -15,7 +15,7 @@
   import MessageActions from "./MessageActions.svelte";
 
   export let message: Message;
-  export let prevMessage: Message;
+  export let prevMessage: Message | undefined;
   export let lastReadAt: Date;
   export let isOwn: boolean;
 

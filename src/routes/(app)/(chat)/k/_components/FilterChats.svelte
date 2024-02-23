@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Chats } from "$lib/db/chat/getChats";
+  import Input from "$lib/ui/Input.svelte";
 
   export let initialChats: Chats;
   export let filteredChats: Chats;
@@ -19,13 +20,10 @@
 </script>
 
 <div class="p-2">
-  <input
+  <Input
     bind:value={search}
-    id="search"
-    name="search"
     type="search"
     placeholder="Search chats"
-    class="py-1.5 px-2 w-full text-sm rounded-md border shadow-sm placeholder:text-zinc-400 focus:outline-cyan-600"
     autocomplete="off"
   />
 </div>

@@ -1,4 +1,4 @@
-import { integer, text, pgTable, primaryKey, timestamp, boolean } from "drizzle-orm/pg-core";
+import { integer, text, pgTable, primaryKey, timestamp, boolean, index } from "drizzle-orm/pg-core";
 import { nanoid } from "./nanoid";
 
 export const chat = pgTable("chat", {
@@ -43,7 +43,9 @@ export const message = pgTable("message", {
   source: text("source"),
   type: text("type", { enum: VALID_MESSAGE_TYPES }).notNull(),
   createdAt: timestamp("created_at").notNull(),
-});
+}, (m) => ({
+  textIndex: index("text_index").on(m.text),
+}));
 
 export const contact = pgTable("contact", {
   userId: text("user_id")
@@ -54,8 +56,8 @@ export const contact = pgTable("contact", {
     .notNull(),
   alias: text("alias").notNull(),
   createdAt: timestamp("created_at").notNull(),
-}, (p) => ({
-  pk: primaryKey({ columns: [p.userId, p.contactId] }),
+}, (c) => ({
+  pk: primaryKey({ columns: [c.userId, c.contactId] }),
 }));
 
 export const block = pgTable("block", {
@@ -66,8 +68,8 @@ export const block = pgTable("block", {
     .references(() => user.id, { onDelete: "cascade" })
     .notNull(),
   createdAt: timestamp("created_at").notNull(),
-}, (p) => ({
-  pk: primaryKey({ columns: [p.userId, p.blockedUserId] }),
+}, (b) => ({
+  pk: primaryKey({ columns: [b.userId, b.blockedUserId] }),
 }));
 
 export const emailVerificationCode = pgTable("email_verification_code", {
@@ -164,14 +166,14 @@ export const user = pgTable("user", {
   email: text("email")
     .unique()
     .notNull(),
-  emailVerified: boolean("emailVerified")
+  emailVerified: boolean("email_verified")
     .notNull(),
   name: text("name").notNull(),
   image: text("image"),
   status: text("status"),
   // Used for end-to-end encryption
-  publicKey: text("publicKey").notNull(),
-  encryptedSecret: text("encryptedSecret").notNull(),
+  publicKey: text("public_key").notNull(),
+  encryptedSecret: text("encrypted_secret").notNull(),
   // Used for authentication
   hashedPassword: text("hashed_password").notNull(),
 });
